@@ -641,18 +641,30 @@ export default function ExamDataLoader() {
     })();
   }, []);
 
-  // Load exam catalog
+  // Load exam catalog from MongoDB API
   useEffect(() => {
     if (!category) { setExistingExams([]); return; }
     (async () => {
       try {
-        const res = await fetch("/examsdata/allexamnames.json");
+        const res = await fetch("/api/exams/catalog");
         const data = await res.json();
         const exams = data[category] || [];
         setExistingExams(exams);
       } catch { setExistingExams([]); }
     })();
   }, [category]);
+
+  // Count total exams from MongoDB documents
+  const [totalExamCount, setTotalExamCount] = useState(0);
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetch("/api/exams/count");
+        const data = await res.json();
+        setTotalExamCount(data.count || 0);
+      } catch { /* ignore */ }
+    })();
+  }, [existingExams]); // re-count when exams change (after add/delete)
 
   // Load existing exam JSON when selected
   useEffect(() => {
@@ -689,7 +701,8 @@ export default function ExamDataLoader() {
     setLoading(true);
     (async () => {
       try {
-        const res = await fetch(`/examsdata/${exam.linked_json_file}`);
+        const docId = exam.linked_json_file.replace(/\.json$/i, '').replace(/\//g, '__');
+        const res = await fetch(`/api/exams/${encodeURIComponent(docId)}`);
         const json = await res.json();
         const nextState = jsonToFormState(json);
         nextState.exam_code = nextState.exam_code || exam.exam_code || "";
@@ -744,22 +757,29 @@ export default function ExamDataLoader() {
     }
 
     try {
-      const res = await fetch("/__save-exam-json", {
+      const res = await fetch("/api/admin/save-exam", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ category, fileName: resolvedFileName, json: outputJson }),
+        headers: {
+          "Content-Type": "application/json",
+          "x-admin-key": import.meta.env.VITE_ADMIN_API_KEY || "",
+        },
+        body: JSON.stringify({
+          category,
+          fileName: resolvedFileName,
+          examData: outputJson,
+        }),
       });
 
       const data = await res.json();
 
       if (res.ok) {
-        setSnackMsg(`Saved to ${data.path}`);
+        setSnackMsg(`Saved to MongoDB: ${data.docId}`);
       } else {
         setSnackMsg(data.error || "Failed to save");
       }
     } catch (error) {
       console.error("Failed to save JSON:", error);
-      setSnackMsg("Failed to save JSON file");
+      setSnackMsg("Failed to save exam data");
     }
   };
 
@@ -768,6 +788,53 @@ export default function ExamDataLoader() {
       await navigator.clipboard.writeText(text);
       setSnackMsg(`${label} copied to clipboard!`);
     } catch { setSnackMsg("Copy failed"); }
+  };
+
+  const handleDeleteExam = async () => {
+    if (!category || !selectedExam || selectedExam === "__new__") {
+      setSnackMsg("Select an exam to delete");
+      return;
+    }
+
+    const exam = existingExams.find((e) => e.exam_code === selectedExam);
+    if (!exam) {
+      setSnackMsg("Exam not found");
+      return;
+    }
+
+    const confirmed = window.confirm(
+      `Are you sure you want to delete "${exam.exam_name}" from ${category}?\n\nThis will permanently remove:\n• The exam data from MongoDB\n• The catalog entry\n\nThis action cannot be undone.`
+    );
+    if (!confirmed) return;
+
+    try {
+      const res = await fetch("/api/admin/delete-exam", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-admin-key": import.meta.env.VITE_ADMIN_API_KEY || "",
+        },
+        body: JSON.stringify({
+          category,
+          examCode: exam.exam_code,
+          linkedJsonFile: exam.linked_json_file || "",
+        }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setSnackMsg(`Deleted "${exam.exam_name}" successfully`);
+        setSelectedExam("__new__");
+        // Refresh the exam list
+        setExistingExams((prev) => prev.filter((e) => e.exam_code !== exam.exam_code));
+      } else {
+        setSnackMsg(data.error || "Failed to delete");
+      }
+    } catch (error) {
+      console.error("Failed to delete exam:", error);
+      setSnackMsg("Failed to delete exam");
+    }
   };
 
   // Update single form field
@@ -815,8 +882,14 @@ export default function ExamDataLoader() {
         <div className="flex items-center gap-3 mb-3 max-w-400 mx-auto w-full shrink-0">
           <FileJson size={28} className="text-[#E4572E]" />
           <div>
-            <h1 className="text-xl font-bold text-[#FBF6EE]">Exam Data Loader</h1>
-            <p className="text-xs text-[rgba(232,216,195,0.6)]">Create or edit exam JSON files for eligibility checker</p>
+            <h1 className="text-xl font-bold text-[#FBF6EE]">Exam Data Loader
+              {totalExamCount > 0 && (
+                <span className="ml-2 bg-[#E4572E] text-white text-xs px-2 py-0.5 rounded-full font-normal align-middle">
+                  {totalExamCount} exams in DB
+                </span>
+              )}
+            </h1>
+            <p className="text-xs text-[rgba(232,216,195,0.6)]">Create, edit or delete exam JSON files for eligibility checker</p>
           </div>
         </div>
 
@@ -993,8 +1066,14 @@ export default function ExamDataLoader() {
                 </Button>
                 <Button size="small" variant="outlined" startIcon={<FolderPlus size={14} />} onClick={handleAddIntoFolder}
                   sx={{ borderColor: "#E4572E", color: "#E4572E", textTransform: "none", fontSize: "0.75rem", py: 0.5 }}>
-                  Add into folder
+                  Save to DB
                 </Button>
+                {selectedExam && selectedExam !== "__new__" && (
+                  <Button size="small" variant="outlined" startIcon={<Trash2 size={14} />} onClick={handleDeleteExam}
+                    sx={{ borderColor: "#ef4444", color: "#ef4444", textTransform: "none", fontSize: "0.75rem", py: 0.5, "&:hover": { borderColor: "#dc2626", bgcolor: "rgba(239,68,68,0.1)" } }}>
+                    Delete Exam
+                  </Button>
+                )}
                 <Button size="small" variant="outlined" startIcon={<Copy size={14} />} onClick={() => handleCopy(outputJson, "Exam JSON")}
                   sx={{ borderColor: "#E4572E", color: "#E4572E", textTransform: "none", fontSize: "0.75rem", py: 0.5 }}>
                   Copy JSON

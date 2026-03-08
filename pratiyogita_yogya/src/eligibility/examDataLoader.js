@@ -2,11 +2,8 @@
  * Exam Data Loader Utility
  * For PRATIYOGITA YOGYA - Exam Eligibility Tracker
  * 
- * This module loads exam catalog and exam payloads from local JSON files.
- * (Firebase/Firestore has been removed — re-add when ready.)
+ * This module loads exam catalog and exam payloads from MongoDB Atlas via API.
  */
-
-import { buildExamDataDocId } from './examDataDocId';
 
 let allExamNamesCache = null;
 let catalogLoadPromise = null;
@@ -33,7 +30,7 @@ export const ensureExamCatalogLoaded = async () => {
 
     catalogLoadPromise = (async () => {
         try {
-            const response = await fetch('/examsdata/allexamnames.json');
+            const response = await fetch('/api/exams/catalog');
             if (!response.ok) {
                 throw new Error(`Failed to load exam catalog (HTTP ${response.status})`);
             }
@@ -139,6 +136,16 @@ const chunkArray = (arr, size) => {
  * @param {string} linkedJsonFile - Path like "DEFENCE_EXAMS/cds.json"
  * @returns {Promise<Object|null>} - Exam data object or null
  */
+/**
+ * Convert a linked_json_file path to a MongoDB document ID
+ * e.g., "DEFENCE_EXAMS/cds.json" → "DEFENCE_EXAMS__cds"
+ */
+const pathToDocId = (linkedJsonFile) => {
+    return linkedJsonFile
+        .replace(/\.json$/i, '')
+        .replace(/\//g, '__');
+};
+
 export const loadExamData = async (linkedJsonFile) => {
     if (!linkedJsonFile) return null;
     
@@ -148,7 +155,8 @@ export const loadExamData = async (linkedJsonFile) => {
     }
     
     try {
-        const response = await fetch(`/examsdata/${linkedJsonFile}`);
+        const docId = pathToDocId(linkedJsonFile);
+        const response = await fetch(`/api/exams/${encodeURIComponent(docId)}`);
         if (!response.ok) {
             console.error(`Exam data not found for: ${linkedJsonFile}`);
             return null;

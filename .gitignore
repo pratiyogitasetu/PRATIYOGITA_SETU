@@ -262,3 +262,5 @@ credentials.json
 backend/.env*
 
 service-account.json
+.vercel
+.env*.local

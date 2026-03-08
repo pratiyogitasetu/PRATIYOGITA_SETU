@@ -214,7 +214,6 @@ const AboutUs = () => {
                       target="_blank"
                       rel="noopener noreferrer" 
                       className="w-8 h-10 rounded-full flex items-center justify-center hover:bg-[#E4572E]/20 transition-colors" style={{background: 'rgba(43,30,23,0.5)'}}>
-                    >
                       <img 
                         src={socialIcons[social.type]} 
                         alt={social.type} 
