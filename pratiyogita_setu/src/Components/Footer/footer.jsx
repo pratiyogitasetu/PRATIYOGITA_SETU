@@ -7,6 +7,7 @@ const Footer = () => {
   const isDark = theme === "dark";
   const currentYear = new Date().getFullYear();
 
+  const PRATIYOGITA_SETU_URL = import.meta.env.VITE_PRATIYOGITA_SETU_URL || "https://psetu.com/";
   const PRATIYOGITA_YOGYA_URL = import.meta.env.VITE_PRATIYOGITA_YOGYA_URL || "https://yogya.psetu.com/";
   const PRATIYOGITA_MARG_URL = import.meta.env.VITE_PRATIYOGITA_MARG_URL || "https://marg.psetu.com/";
   const PRATIYOGITA_GYAN_URL = import.meta.env.VITE_PRATIYOGITA_GYAN_URL || "https://gyan.psetu.com/";
@@ -28,13 +29,28 @@ const Footer = () => {
             </div>
 
             <div className="space-y-3">
-              {/* Pariksha Yogya */}
+              {/* Pratiyogita Setu */}
+              <div>
+                <a href={PRATIYOGITA_SETU_URL} className="flex items-center gap-2 mb-1.5">
+                  <div className="rounded-xl p-1.5" style={{ background: "rgba(43,30,23,0.7)", border: "1px solid rgba(228,87,46,0.30)" }}>
+                    <img src="/logos/ps.png" alt="Pratiyogita Setu" className="h-7 sm:h-8 w-auto object-contain" />
+                  </div>
+                  <span className="text-sm sm:text-base font-bold text-[#FBF6EE]">Pratiyogita Setu</span>
+                </a>
+                <p className="text-sm text-[#E8D8C3] leading-relaxed text-justify">
+                  {language === "en"
+                    ? "Main platform for aspirants with a unified entry point to all Pratiyogita tools, resources, and guided journeys."
+                    : "सभी प्रतियोगिता टूल्स, संसाधनों और मार्गदर्शित यात्राओं के लिए उम्मीदवारों का मुख्य एकीकृत मंच।"}
+                </p>
+              </div>
+
+              {/* Pratiyogita Yogya */}
               <div>
                 <a href={PRATIYOGITA_YOGYA_URL} className="flex items-center gap-2 mb-1.5">
                   <div className="rounded-xl p-1.5" style={{ background: "rgba(43,30,23,0.7)", border: "1px solid rgba(228,87,46,0.30)" }}>
-                    <img src="/logos/py.png" alt="Pariksha Yogya" className="h-7 sm:h-8 w-auto object-contain" />
+                    <img src="/logos/py.png" alt="Pratiyogita Yogya" className="h-7 sm:h-8 w-auto object-contain" />
                   </div>
-                  <span className="text-sm sm:text-base font-bold text-[#FBF6EE]">Pariksha Yogya</span>
+                  <span className="text-sm sm:text-base font-bold text-[#FBF6EE]">Pratiyogita Yogya</span>
                 </a>
                 <p className="text-sm text-[#E8D8C3] leading-relaxed text-justify">
                   {language === "en"
@@ -43,13 +59,13 @@ const Footer = () => {
                 </p>
               </div>
 
-              {/* Pariksha Marg */}
+              {/* Pratiyogita Marg */}
               <div>
                 <a href={PRATIYOGITA_MARG_URL} className="flex items-center gap-2 mb-1.5">
                   <div className="rounded-xl p-1.5" style={{ background: "rgba(43,30,23,0.7)", border: "1px solid rgba(228,87,46,0.30)" }}>
-                    <img src="/logos/pm.png" alt="Pariksha Marg" className="h-7 sm:h-8 w-auto object-contain" />
+                    <img src="/logos/pm.png" alt="Pratiyogita Marg" className="h-7 sm:h-8 w-auto object-contain" />
                   </div>
-                  <span className="text-sm sm:text-base font-bold text-[#FBF6EE]">Pariksha Marg</span>
+                  <span className="text-sm sm:text-base font-bold text-[#FBF6EE]">Pratiyogita Marg</span>
                 </a>
                 <p className="text-sm text-[#E8D8C3] leading-relaxed text-justify">
                   {language === "en"
@@ -58,13 +74,13 @@ const Footer = () => {
                 </p>
               </div>
 
-              {/* Pariksha Gyan */}
+              {/* Pratiyogita Gyan */}
               <div>
                 <a href={PRATIYOGITA_GYAN_URL} className="flex items-center gap-2 mb-1.5">
                   <div className="rounded-xl p-1.5" style={{ background: "rgba(43,30,23,0.7)", border: "1px solid rgba(228,87,46,0.30)" }}>
-                    <img src="/logos/pg.png" alt="Pariksha Gyan" className="h-7 sm:h-8 w-auto object-contain" />
+                    <img src="/logos/pg.png" alt="Pratiyogita Gyan" className="h-7 sm:h-8 w-auto object-contain" />
                   </div>
-                  <span className="text-sm sm:text-base font-bold text-[#FBF6EE]">Pariksha Gyan</span>
+                  <span className="text-sm sm:text-base font-bold text-[#FBF6EE]">Pratiyogita Gyan</span>
                 </a>
                 <p className="text-sm text-[#E8D8C3] leading-relaxed text-justify">
                   {language === "en"
@@ -143,6 +159,18 @@ const Footer = () => {
               <Link to="/" className="text-[#E8D8C3] hover:text-[#E4572E] hover:underline transition-colors">
                 {language === "en" ? "Home" : "होम"}
               </Link>
+              <a href={PRATIYOGITA_SETU_URL} className="text-[#E8D8C3] hover:text-[#E4572E] hover:underline transition-colors">
+                {language === "en" ? "Pratiyogita Setu" : "प्रतियोगिता सेतु"}
+              </a>
+              <a href={PRATIYOGITA_YOGYA_URL} className="text-[#E8D8C3] hover:text-[#E4572E] hover:underline transition-colors">
+                {language === "en" ? "Pratiyogita Yogya" : "प्रतियोगिता योग्य"}
+              </a>
+              <a href={PRATIYOGITA_MARG_URL} className="text-[#E8D8C3] hover:text-[#E4572E] hover:underline transition-colors">
+                {language === "en" ? "Pratiyogita Marg" : "प्रतियोगिता मार्ग"}
+              </a>
+              <a href={PRATIYOGITA_GYAN_URL} className="text-[#E8D8C3] hover:text-[#E4572E] hover:underline transition-colors">
+                {language === "en" ? "Pratiyogita Gyan" : "प्रतियोगिता ज्ञान"}
+              </a>
               <Link to="/about" className="text-[#E8D8C3] hover:text-[#E4572E] hover:underline transition-colors">
                 {language === "en" ? "About Us" : "हमारे बारे में"}
               </Link>

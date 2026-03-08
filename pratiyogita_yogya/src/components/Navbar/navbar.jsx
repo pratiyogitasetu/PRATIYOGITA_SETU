@@ -3,6 +3,10 @@ import { createPortal } from "react-dom";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { Link } from "react-router-dom";
 
+const PRATIYOGITA_SETU_URL =
+  import.meta.env.VITE_PRATIYOGITA_SETU_URL || "https://psetu.com/";
+const PRATIYOGITA_YOGYA_URL =
+  import.meta.env.VITE_PRATIYOGITA_YOGYA_URL || "https://yogya.psetu.com/";
 const PRATIYOGITA_GYAN_URL =
   import.meta.env.VITE_PRATIYOGITA_GYAN_URL || "https://gyan.psetu.com/";
 const PRATIYOGITA_MARG_URL =
@@ -73,6 +77,18 @@ const Navbar = () => {
               Home
             </a>
             <a
+              href={PRATIYOGITA_SETU_URL}
+              className="text-[#E8D8C3] hover:text-[#E4572E] font-semibold text-sm lg:text-base transition-colors"
+            >
+              Pratiyogita Setu
+            </a>
+            <a
+              href={PRATIYOGITA_YOGYA_URL}
+              className="text-[#E8D8C3] hover:text-[#E4572E] font-semibold text-sm lg:text-base transition-colors"
+            >
+              Pratiyogita Yogya
+            </a>
+            <a
               href={PRATIYOGITA_GYAN_URL}
               className="text-[#E8D8C3] hover:text-[#E4572E] font-semibold text-sm lg:text-base transition-colors"
             >
@@ -137,6 +153,8 @@ const Navbar = () => {
 
             <div className="space-y-1">
               <a href="/" onClick={() => setIsOpen(false)} className="block px-3 py-2 rounded-md text-[#FBF6EE] hover:bg-[#E4572E]/15 font-semibold transition-colors">Home</a>
+              <a href={PRATIYOGITA_SETU_URL} onClick={() => setIsOpen(false)} className="block px-3 py-2 rounded-md text-[#E8D8C3] hover:bg-[#E4572E]/15 hover:text-[#FBF6EE] font-semibold transition-colors">Pratiyogita Setu</a>
+              <a href={PRATIYOGITA_YOGYA_URL} onClick={() => setIsOpen(false)} className="block px-3 py-2 rounded-md text-[#E8D8C3] hover:bg-[#E4572E]/15 hover:text-[#FBF6EE] font-semibold transition-colors">Pratiyogita Yogya</a>
               <a href={PRATIYOGITA_GYAN_URL} onClick={() => setIsOpen(false)} className="block px-3 py-2 rounded-md text-[#E8D8C3] hover:bg-[#E4572E]/15 hover:text-[#FBF6EE] font-semibold transition-colors">Pratiyogita Gyan</a>
               <a href={PRATIYOGITA_MARG_URL} onClick={() => setIsOpen(false)} className="block px-3 py-2 rounded-md text-[#E8D8C3] hover:bg-[#E4572E]/15 hover:text-[#FBF6EE] font-semibold transition-colors">Pratiyogita Marg</a>
               <a href="/about" onClick={() => setIsOpen(false)} className="block px-3 py-2 rounded-md text-[#E8D8C3] hover:bg-[#E4572E]/15 hover:text-[#FBF6EE] font-semibold transition-colors">About Us</a>

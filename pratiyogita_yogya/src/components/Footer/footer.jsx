@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const PRATIYOGITA_SETU_URL = import.meta.env.VITE_PRATIYOGITA_SETU_URL || "https://psetu.com/";
+const PRATIYOGITA_YOGYA_URL = import.meta.env.VITE_PRATIYOGITA_YOGYA_URL || "https://yogya.psetu.com/";
 const PRATIYOGITA_MARG_URL = import.meta.env.VITE_PRATIYOGITA_MARG_URL || "https://marg.psetu.com/";
 const PRATIYOGITA_GYAN_URL = import.meta.env.VITE_PRATIYOGITA_GYAN_URL || "https://gyan.psetu.com/";
 
@@ -23,39 +24,52 @@ const Footer = () => {
             </div>
 
             <div className="space-y-5">
-              {/* Pariksha Yogya */}
+              {/* Pratiyogita Setu */}
               <div>
-                <a href="/" className="flex items-center gap-2 mb-1.5">
+                <a href={PRATIYOGITA_SETU_URL} className="flex items-center gap-2 mb-1.5">
                   <div className="rounded-xl p-1.5" style={{ background: "rgba(43,30,23,0.7)", border: "1px solid rgba(228,87,46,0.30)" }}>
-                    <img src="/logos/py.png" alt="Pariksha Yogya" className="h-10 sm:h-12 w-auto object-contain" />
+                    <img src="/logos/ps.png" alt="Pratiyogita Setu" className="h-10 sm:h-12 w-auto object-contain" />
                   </div>
-                  <span className="text-base sm:text-lg font-bold text-[#FBF6EE]">Pariksha Yogya</span>
+                  <span className="text-base sm:text-lg font-bold text-[#FBF6EE]">Pratiyogita Setu</span>
+                </a>
+                <p className="text-sm text-[#E8D8C3] leading-relaxed text-justify">
+                  Main platform for aspirants with a unified entry point to all Pratiyogita tools, resources, and guided journeys.
+                </p>
+              </div>
+
+              {/* Pratiyogita Yogya */}
+              <div>
+                <a href={PRATIYOGITA_YOGYA_URL} className="flex items-center gap-2 mb-1.5">
+                  <div className="rounded-xl p-1.5" style={{ background: "rgba(43,30,23,0.7)", border: "1px solid rgba(228,87,46,0.30)" }}>
+                    <img src="/logos/py.png" alt="Pratiyogita Yogya" className="h-10 sm:h-12 w-auto object-contain" />
+                  </div>
+                  <span className="text-base sm:text-lg font-bold text-[#FBF6EE]">Pratiyogita Yogya</span>
                 </a>
                 <p className="text-sm text-[#E8D8C3] leading-relaxed text-justify">
                   Exam eligibility and attempts calculator providing personalized insights based on age, education, and criteria for competitive exams.
                 </p>
               </div>
 
-              {/* Pariksha Marg */}
+              {/* Pratiyogita Marg */}
               <div>
                 <a href={PRATIYOGITA_MARG_URL} className="flex items-center gap-2 mb-1.5">
                   <div className="rounded-xl p-1.5" style={{ background: "rgba(43,30,23,0.7)", border: "1px solid rgba(228,87,46,0.30)" }}>
-                    <img src="/logos/pm.png" alt="Pariksha Marg" className="h-10 sm:h-12 w-auto object-contain" />
+                    <img src="/logos/pm.png" alt="Pratiyogita Marg" className="h-10 sm:h-12 w-auto object-contain" />
                   </div>
-                  <span className="text-base sm:text-lg font-bold text-[#FBF6EE]">Pariksha Marg</span>
+                  <span className="text-base sm:text-lg font-bold text-[#FBF6EE]">Pratiyogita Marg</span>
                 </a>
                 <p className="text-sm text-[#E8D8C3] leading-relaxed text-justify">
                   Guided path to competitive exam success with Subject - Expert roadmaps, best practices, and essential study materials.
                 </p>
               </div>
 
-              {/* Pariksha Gyan */}
+              {/* Pratiyogita Gyan */}
               <div>
                 <a href={PRATIYOGITA_GYAN_URL} className="flex items-center gap-2 mb-1.5">
                   <div className="rounded-xl p-1.5" style={{ background: "rgba(43,30,23,0.7)", border: "1px solid rgba(228,87,46,0.30)" }}>
-                    <img src="/logos/pg.png" alt="Pariksha Gyan" className="h-10 sm:h-12 w-auto object-contain" />
+                    <img src="/logos/pg.png" alt="Pratiyogita Gyan" className="h-10 sm:h-12 w-auto object-contain" />
                   </div>
-                  <span className="text-base sm:text-lg font-bold text-[#FBF6EE]">Pariksha Gyan</span>
+                  <span className="text-base sm:text-lg font-bold text-[#FBF6EE]">Pratiyogita Gyan</span>
                 </a>
                 <p className="text-sm text-[#E8D8C3] leading-relaxed text-justify">
                   AI-powered chatbot with all necessary books, references, and explanations for competitive exam preparation.
@@ -73,8 +87,8 @@ const Footer = () => {
             {/* Pariksha Setu logo + description */}
             <div className="mb-4">
               <a href={PRATIYOGITA_SETU_URL} className="flex items-center gap-2 mb-2">
-                <img src="/logos/ps.png" alt="Pariksha Setu" className="h-10 sm:h-12 w-auto object-contain" />
-                <span className="text-base sm:text-lg font-bold text-[#FBF6EE]">Pariksha Setu</span>
+                <img src="/logos/ps.png" alt="Pratiyogita Setu" className="h-10 sm:h-12 w-auto object-contain" />
+                <span className="text-base sm:text-lg font-bold text-[#FBF6EE]">Pratiyogita Setu</span>
               </a>
               <p className="text-sm text-[#E8D8C3] leading-relaxed text-justify">
                 One-stop platform for competitive exam aspirants, offering a personalized exam eligibility and attempts calculator, an AI-powered chatbot with essential books and explanations, and a structured roadmap with best practices and study resources.
@@ -122,6 +136,10 @@ const Footer = () => {
             {/* Nav Links */}
             <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
               <Link to="/" className="text-[#E8D8C3] hover:text-[#E4572E] hover:underline transition-colors">Home</Link>
+              <a href={PRATIYOGITA_SETU_URL} className="text-[#E8D8C3] hover:text-[#E4572E] hover:underline transition-colors">Pratiyogita Setu</a>
+              <a href={PRATIYOGITA_YOGYA_URL} className="text-[#E8D8C3] hover:text-[#E4572E] hover:underline transition-colors">Pratiyogita Yogya</a>
+              <a href={PRATIYOGITA_MARG_URL} className="text-[#E8D8C3] hover:text-[#E4572E] hover:underline transition-colors">Pratiyogita Marg</a>
+              <a href={PRATIYOGITA_GYAN_URL} className="text-[#E8D8C3] hover:text-[#E4572E] hover:underline transition-colors">Pratiyogita Gyan</a>
               <Link to="/about" className="text-[#E8D8C3] hover:text-[#E4572E] hover:underline transition-colors">About Us</Link>
               <Link to="/contact" className="text-[#E8D8C3] hover:text-[#E4572E] hover:underline transition-colors">Contact Us</Link>
               <Link to="/exam-data-loader" className="text-[#E8D8C3] hover:text-[#E4572E] hover:underline transition-colors">Exam Data Loader</Link>

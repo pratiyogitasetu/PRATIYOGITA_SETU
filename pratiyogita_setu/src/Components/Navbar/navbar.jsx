@@ -9,6 +9,8 @@ const PRATIYOGITA_MARG_URL =
   import.meta.env.VITE_PRATIYOGITA_MARG_URL || "http://localhost:8080";
 const PRATIYOGITA_GYAN_URL =
   import.meta.env.VITE_PRATIYOGITA_GYAN_URL || "http://localhost:3002";
+const PRATIYOGITA_SETU_URL =
+  import.meta.env.VITE_PRATIYOGITA_SETU_URL || "https://psetu.com";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -72,6 +74,12 @@ const Navbar = () => {
               <Link to="/" className="text-[#FBF6EE] hover:text-[#E4572E] font-semibold text-xs lg:text-sm xl:text-base transition-colors">
                 Home
               </Link>
+              <a
+                href={PRATIYOGITA_SETU_URL}
+                className="text-[#E8D8C3] hover:text-[#E4572E] font-semibold text-xs lg:text-sm xl:text-base transition-colors"
+              >
+                Pratiyogita Setu
+              </a>
               <a
                 href={`${PRATIYOGITA_YOGYA_URL}/check-eligibility`}
                 className="text-[#E8D8C3] hover:text-[#E4572E] font-semibold text-xs lg:text-sm xl:text-base transition-colors"
@@ -154,6 +162,13 @@ const Navbar = () => {
               >
                 Home
               </Link>
+              <a
+                href={PRATIYOGITA_SETU_URL}
+                onClick={() => setIsOpen(false)}
+                className="block px-3 py-2 rounded-md text-[#E8D8C3] hover:bg-[#E4572E]/15 hover:text-[#FBF6EE] font-semibold transition-colors"
+              >
+                Pratiyogita Setu
+              </a>
               <a
                 href={`${PRATIYOGITA_YOGYA_URL}/check-eligibility`}
                 onClick={() => setIsOpen(false)}
