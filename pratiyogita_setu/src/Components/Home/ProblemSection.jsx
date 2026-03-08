@@ -201,7 +201,7 @@ const ProblemSection = () => {
             <span className="inline-block text-xs font-bold uppercase tracking-[0.2em] text-[#E4572E] border border-[#E4572E]/40 rounded-full px-4 py-1 mb-4 bg-[#E4572E]/8">
               The Problem
             </span>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#2B1E17] leading-tight">
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[#2B1E17] leading-tight">
               10+ Million Aspirants.{" "}
               <span className="text-[#E4572E]">
                 <TypewriterHeadline active={isInView} />

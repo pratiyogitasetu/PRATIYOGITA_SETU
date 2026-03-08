@@ -49,7 +49,7 @@ const PRATIYOGITA_GYAN_URL =
 
 const HeroSection = () => {
   return (
-    <section className="relative overflow-hidden py-20 sm:py-28">
+    <section className="relative overflow-hidden py-14 sm:py-20">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 mb-4">
         <div className="max-w-3xl mx-auto text-center">
           <div className="flex flex-col items-center gap-2 mb-4">
@@ -64,7 +64,7 @@ const HeroSection = () => {
                       </motion.div>
           </div>
           <motion.h1
-            className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#FBF6EE] leading-tight"
+            className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#FBF6EE] leading-tight"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -77,7 +77,7 @@ const HeroSection = () => {
           {/* Tagline removed as requested */}
 
           <motion.div
-            className="mt-10 lg:mt-14 flex flex-row gap-2 sm:gap-10 justify-center"
+            className="mt-8 lg:mt-10 flex flex-row gap-2 sm:gap-6 justify-center"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
@@ -86,22 +86,22 @@ const HeroSection = () => {
               href={`${PRATIYOGITA_YOGYA_URL}/check-eligibility`}
               className="bubble-btn flex flex-col items-center gap-0.5 whitespace-nowrap"
             >
-              <span className="font-bold text-xs sm:text-base">Check Now</span>
-              <span className="text-[10px] sm:text-xs font-normal opacity-90">Know your Eligibility</span>
+              <span className="font-bold text-xs sm:text-sm">Check Now</span>
+              <span className="text-[10px] sm:text-[11px] font-normal opacity-90">Know your Eligibility</span>
             </a>
             <a
               href={`${PRATIYOGITA_MARG_URL}/explore`}
               className="bubble-btn bubble-btn-outline flex flex-col items-center gap-0.5 whitespace-nowrap"
             >
-              <span className="font-bold text-xs sm:text-base">Explore</span>
-              <span className="text-[10px] sm:text-xs font-normal opacity-90">Explore Mindmaps</span>
+              <span className="font-bold text-xs sm:text-sm">Explore</span>
+              <span className="text-[10px] sm:text-[11px] font-normal opacity-90">Explore Mindmaps</span>
             </a>
             <a
               href={PRATIYOGITA_GYAN_URL}
               className="bubble-btn bubble-btn-outline flex flex-col items-center gap-0.5 whitespace-nowrap"
             >
-              <span className="font-bold text-xs sm:text-base">Chat with AI</span>
-              <span className="text-[10px] sm:text-xs font-normal opacity-90">Chat with Gyan</span>
+              <span className="font-bold text-xs sm:text-sm">Chat with AI</span>
+              <span className="text-[10px] sm:text-[11px] font-normal opacity-90">Chat with Gyan</span>
             </a>
           </motion.div>
         </div>
@@ -132,14 +132,14 @@ const HeroSection = () => {
               <div className="absolute inset-0 rounded-2xl bg-[#2B1E17]/45" />
 
               {/* Content */}
-              <div className="relative z-10 flex flex-col items-center gap-1 py-5 px-3">
+              <div className="relative z-10 flex flex-col items-center gap-1 py-3 px-2">
                 <span
-                  className="text-3xl sm:text-4xl font-black tracking-tight leading-none"
+                  className="text-2xl sm:text-3xl font-black tracking-tight leading-none"
                   style={{ color: stat.textColor, fontVariantNumeric: "tabular-nums" }}
                 >
                   {stat.value}
                 </span>
-                <span className="text-[11px] sm:text-xs text-[#E8D8C3]/75 text-center leading-tight font-semibold uppercase tracking-wide mt-1">
+                <span className="text-[10px] sm:text-[11px] text-[#E8D8C3]/75 text-center leading-tight font-semibold uppercase tracking-wide mt-1">
                   {stat.label}
                 </span>
               </div>

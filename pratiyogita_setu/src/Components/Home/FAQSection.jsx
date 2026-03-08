@@ -14,7 +14,7 @@ const FAQItem = ({ question, answer, isOpen, onClick }) => {
         className={`flex w-full items-center justify-between p-3 sm:p-4 md:p-5 text-left font-medium text-[#FBF6EE]`}
         onClick={onClick}
       >
-        <span className="text-base sm:text-lg md:text-lg pr-2">{question}</span>
+        <span className="text-sm sm:text-base pr-2">{question}</span>
         <svg
           className={`h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0 transform transition-transform duration-300 ${
             isOpen ? "rotate-180" : ""
@@ -143,7 +143,7 @@ const FAQSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className={`text-2xl sm:text-3xl font-bold tracking-tight sm:text-4xl text-[#FBF6EE]`}
+            className={`text-xl sm:text-2xl font-bold tracking-tight sm:text-3xl text-[#FBF6EE]`}
           >
             {language === "en"
               ? "Frequently Asked Questions"

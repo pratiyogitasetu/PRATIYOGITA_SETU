@@ -127,7 +127,7 @@ function AudienceCard({ item, index, side }) {
 
 export default function WhoIsItFor() {
   return (
-    <section className="py-16 md:py-20 overflow-hidden">
+    <section className="py-10 md:py-14 overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         {/* Header */}
         <motion.div
@@ -147,7 +147,7 @@ export default function WhoIsItFor() {
             </span>
           </motion.div>
 
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#FBF6EE] mb-4">
+          <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#FBF6EE] mb-4">
             Who Is{" "}
             <span className="bg-gradient-to-r from-[#E4572E] to-[#cf4a23] bg-clip-text text-transparent">
               Pratiyogita Setu

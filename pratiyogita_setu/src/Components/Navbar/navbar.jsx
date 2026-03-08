@@ -51,13 +51,13 @@ const Navbar = () => {
             : "bg-transparent border border-transparent"
         }`}
       >
-        <div className="w-full flex items-center h-10 sm:h-12 relative">
+          <div className="w-full flex items-center h-8 sm:h-10 relative">
           {/* Logo */}
           <Link to="/" className="flex items-center flex-shrink-0">
             <img
               src="/logos/ps.png"
               alt="Pratiyogita Setu Logo"
-              className="h-10 w-auto sm:h-12 object-contain"
+              className="h-8 w-auto sm:h-10 object-contain"
               onError={(e) => {
                 e.target.onerror = null;
                 e.target.src =
@@ -102,12 +102,12 @@ const Navbar = () => {
 
           {/* Right - Desktop Auth Actions */}
           <div className="hidden md:flex items-center gap-3 ml-auto flex-shrink-0">
-            <Link to="/login" className="text-[#E8D8C3] hover:text-[#E4572E] font-semibold transition-colors">
+            <Link to="/login" className="text-[#E8D8C3] hover:text-[#E4572E] font-semibold text-sm transition-colors">
               Log In
             </Link>
             <Link
               to="/register"
-              className="bg-[#E4572E] text-[#FBF6EE] px-4 py-2 rounded-lg hover:bg-[#cf4a23] font-semibold transition-colors"
+              className="bg-[#E4572E] text-[#FBF6EE] px-3 py-1.5 rounded-lg hover:bg-[#cf4a23] font-semibold text-sm transition-colors"
             >
               Try for Free
             </Link>

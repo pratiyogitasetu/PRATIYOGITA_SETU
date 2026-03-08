@@ -109,11 +109,11 @@ const FeatureSection = () => {
   );
 
   return (
-    <section id="features" className="py-16 sm:py-24 overflow-hidden">
+    <section id="features" className="py-10 sm:py-16 overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* ── Header ── */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <div className="text-center max-w-3xl mx-auto mb-10">
           <motion.span
             className="inline-block text-xs font-bold uppercase tracking-[0.2em] text-[#E4572E] border border-[#E4572E]/40 rounded-full px-4 py-1 mb-4"
             style={{ backgroundColor: "rgba(228,87,46,0.08)" }}
@@ -125,7 +125,7 @@ const FeatureSection = () => {
             Solution
           </motion.span>
           <motion.h2
-            className="text-3xl md:text-4xl font-bold text-[#FBF6EE]"
+            className="text-2xl md:text-3xl font-bold text-[#FBF6EE]"
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}

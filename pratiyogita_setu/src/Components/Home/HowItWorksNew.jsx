@@ -37,7 +37,7 @@ const HowItWorksNew = () => {
   const inView = useInView(ref, { once: true, amount: 0.25 });
 
   return (
-    <section ref={ref} className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8">
+    <section ref={ref} className="py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
 
       {/* ── Header ── */}
       <div className="text-center mb-12 sm:mb-16">
@@ -63,7 +63,7 @@ const HowItWorksNew = () => {
           initial={{ opacity: 0, y: 16 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#FBF6EE]"
+          className="text-xl sm:text-2xl md:text-3xl font-bold text-[#FBF6EE]"
         >
           How It Works
         </motion.h2>

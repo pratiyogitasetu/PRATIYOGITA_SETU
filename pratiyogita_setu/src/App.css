@@ -375,14 +375,14 @@ button, [type="submit"] {
 /* ===== BUBBLE HERO BUTTONS ===== */
 .bubble-btn {
   position: relative;
-  padding: 10px 14px;
+  padding: 8px 12px;
   border-radius: 8px;
   border: none;
   color: #FBF6EE;
   cursor: pointer;
   background-color: #E4572E;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.875rem;
   transition: all 0.2s ease;
   text-decoration: none;
   display: inline-flex;
@@ -394,7 +394,7 @@ button, [type="submit"] {
 
 @media (min-width: 640px) {
   .bubble-btn {
-    padding: 12px 32px;
+    padding: 10px 24px;
   }
 }
 
