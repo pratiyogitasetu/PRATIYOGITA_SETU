@@ -1,0 +1,252 @@
+{
+  "exam_code": "CAT",
+  "exam_name": "Common Admission Test (CAT) 2025",
+  "full_form": "Common Admission Test",
+  "exam_level": "NATIONAL",
+  "exam_sector": "MANAGEMENT EDUCATION",
+  "exam_target": "POST GRADUATE PROGRAMMES (MBA/PGDM/FPM)",
+  "exam_frequency_year": "1",
+  "conducting_body": "INDIAN INSTITUTES OF MANAGEMENT (IIMs)",
+  "posts_classes_courses_departments_academies": "MBA / PGDM / FPM Admissions",
+
+  "academies": {
+    "MBA / PGDM / FPM Admissions": {
+      "post_name": "MBA / PGDM / FPM Admissions",
+      "post_code": "CAT_ADMISSIONS",
+      "group": "NOT APPLICABLE",
+      "ministry_department": "AUTONOMOUS INSTITUTES (IIMs)",
+      "exam_tiers": "SINGLE STAGE EXAM (CAT CBT) + INSTITUTE LEVEL SELECTION (WAT/PI)",
+      "exam_subjects": "VERBAL ABILITY & READING COMPREHENSION (VARC), DATA INTERPRETATION & LOGICAL REASONING (DILR), QUANTITATIVE APTITUDE (QA)",
+      "exam_pattern": "OBJECTIVE TYPE (MCQ + TITA)",
+      "exam_sections": "",
+      "mode_of_exam": "ONLINE (CBT)",
+      "exam_duration": "",
+      "total_marks": "",
+      "number_of_questions": "",
+      "marking_scheme": "",
+      "paper_medium": "ENGLISH ONLY",
+      "exam_date": "30-NOVEMBER-2025",
+      "maximum_attempts_allowed": "NO LIMIT",
+
+      "age_criteria_type": "NO_AGE_LIMIT",
+      "starting_age": "",
+      "ending_age": "",
+      "between_age": "",
+      "minimum_dob": "",
+      "maximum_dob": "",
+      "between_dob": {
+        "2026": "",
+        "2027": "",
+        "2028": "",
+        "2029": "",
+        "2030": ""
+      },
+      "no_age_limit": "YES",
+
+      "gender": "MALE, FEMALE, TRANSGENDER",
+      "special_gender_eligibility": "",
+      "marital_status": {
+        "MALE": ["MARRIED", "UNMARRIED"],
+        "FEMALE": ["MARRIED", "UNMARRIED"],
+        "TRANSGENDER": ["MARRIED", "UNMARRIED"]
+      },
+
+      "nationality": "ALL ELIGIBLE",
+      "domicile": "ALL STATES",
+      "caste_category": "GEN, OBC, EWS, SC, ST",
+
+      "pwd_status": {
+        "applicability": "APPLICABLE",
+        "marks_percentage_basis": {
+          "GEN": "50%",
+          "OBC": "45%",
+          "EWS": "50%",
+          "SC": "45%",
+          "ST": "45%"
+        },
+        "age_relaxation_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        }
+      },
+
+      "age_relaxation": {
+        "GEN": "",
+        "OBC": "",
+        "EWS": "",
+        "SC": "",
+        "ST": "",
+        "EX_SERVICEMEN": ""
+      },
+
+      "highest_education_qualification": "GRADUATION",
+      "education_levels": {
+        "post_doctorate": "",
+        "phd": "",
+        "post_graduation": "",
+        "graduation": {
+          "course": {
+            "options": ["ALL COURSES"],
+            "except_course": []
+          },
+          "subject": "ALL SUBJECTS",
+          "mandatory_subject": "",
+          "mandatory_subjects": [],
+          "status": "ALL STATUS",
+          "marks_percentage": {
+            "GEN": "50%",
+            "OBC": "45%",
+            "EWS": "50%",
+            "SC": "45%",
+            "ST": "45%"
+          },
+          "mandatory_subject_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subjects_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "completed_year": "",
+          "board_university": "ANY RECOGNISED UNIVERSITY/INSTITUTE",
+          "active_backlogs_allowed": "AS PER INSTITUTE RULES"
+        },
+        "diploma": "",
+        "12th_higher_secondary": {
+          "course": {
+            "options": ["ALL COURSES"]
+          },
+          "subject": "ALL SUBJECTS",
+          "mandatory_subject": "",
+          "mandatory_subjects": [],
+          "status": "ALL STATUS",
+          "marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subject_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subjects_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "completed_year": "",
+          "board_university": {
+            "options": ["CBSE", "ICSE", "STATE BOARD", "NIOS", "OTHER"]
+          }
+        },
+        "10th_secondary": {
+          "course_stream": {
+            "options": ["(10TH) SECONDARY"]
+          },
+          "subject": "ALL SUBJECTS",
+          "mandatory_subject": "",
+          "mandatory_subjects": [],
+          "status": "ALL STATUS",
+          "marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subject_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subjects_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "completed_year": "",
+          "board_university": {
+            "options": ["CBSE", "ICSE", "STATE BOARD", "NIOS", "OTHER"]
+          }
+        },
+        "CLASS_VI": "",
+        "CLASS_VIII": "",
+        "no_education": ""
+      },
+      "gap_years_allowed": "YES (NO LIMIT)",
+      "educational_stream_restriction": "NONE",
+
+      "ncc_wing": "",
+      "ncc_certificate": "",
+      "ncc_certificate_grade": "",
+
+      "ex_servicemen_status": "APPLICABLE",
+
+      "sports_quota_eligibility": "",
+      "cpl_holder": "",
+      "height_cm": "",
+      "weight_kg": "",
+      "vision_eyesight": "",
+      "language_proficiency": "",
+      "driving_license_type": "",
+      "current_employment_status": "",
+      "work_experience_required": "NO (WORK EXPERIENCE MAY CARRY WEIGHTAGE DURING SELECTION)",
+      "work_experience_years": ""
+    }
+  },
+
+  "official_website": "",
+  "notification_link": "",
+  "application_form_link": "",
+  "application_fee": {
+    "GEN": "",
+    "OBC": "",
+    "EWS": "",
+    "SC": "",
+    "ST": "",
+    "FEMALE": "",
+    "PWD": "",
+    "EX_SERVICEMEN": ""
+  },
+  "payment_mode": "",
+  "selection_process": [],
+  "training_duration": "",
+  "service_bond": "",
+  "probation_period": "",
+  "pay_scale": "",
+  "posting_locations": "",
+  "important_dates": {
+    "notification_date": "",
+    "application_start_date": "",
+    "application_end_date": "",
+    "exam_date": "",
+    "admit_card_date": "",
+    "result_date": ""
+  },
+  "helpline": {
+    "email": "",
+    "phone": ""
+  },
+  "remarks": ""
+}

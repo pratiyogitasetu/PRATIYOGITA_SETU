@@ -1,0 +1,1174 @@
+{
+    "exam_code": "UPSC_CSE",
+    "exam_name": "Civil Services Examination, 2026",
+    "full_form": "Union Public Service Commission Civil Services Examination",
+    "exam_level": "NATIONAL",
+    "exam_sector": "GOVERNMENT SERVICES",
+    "exam_target": "GROUP A & GROUP B SERVICES",
+    "exam_frequency_year": "1",
+    "conducting_body": "UNION PUBLIC SERVICE COMMISSION (UPSC)",
+    "posts_classes_courses_departments_academies": "INDIAN ADMINISTRATIVE SERVICE (IAS), INDIAN FOREIGN SERVICE (IFS), INDIAN POLICE SERVICE (IPS), CENTRAL CIVIL SERVICES (GROUP A), CENTRAL CIVIL SERVICES (GROUP B)",
+
+    "academies": {
+        "INDIAN_ADMINISTRATIVE_SERVICE (IAS)": {
+            "post_name": "Indian Administrative Service",
+            "post_code": "IAS",
+            "group": "GROUP A",
+            "ministry_department": "DEPARTMENT OF PERSONNEL & TRAINING (DoPT)",
+            "exam_tiers": "PRELIMS + MAINS + INTERVIEW",
+            "exam_subjects": "GS PAPER I, CSAT, ESSAY, GS I-IV, OPTIONAL SUBJECT",
+            "exam_pattern": "OBJECTIVE + DESCRIPTIVE",
+            "exam_sections": "",
+            "mode_of_exam": "OFFLINE (PEN & PAPER)",
+            "exam_duration": "",
+            "total_marks": "",
+            "number_of_questions": "",
+            "marking_scheme": "",
+            "paper_medium": "ENGLISH, HINDI",
+            "exam_date": "",
+            "maximum_attempts_allowed": {
+                "GEN": "6",
+                "OBC": "9",
+                "SC": "NO LIMIT",
+                "ST": "NO LIMIT",
+                "PwBD": "AS PER CATEGORY"
+            },
+
+            "age_criteria_type": "BETWEEN_DOB",
+            "starting_age": "",
+            "ending_age": "",
+            "between_age": "",
+            "minimum_dob": "",
+            "maximum_dob": "",
+            "between_dob": {
+                "2026": "02-08-1994 to 01-08-2005",
+                "2027": "02-08-1995 to 01-08-2006",
+                "2028": "02-08-1996 to 01-08-2007",
+                "2029": "02-08-1997 to 01-08-2008",
+                "2030": "02-08-1998 to 01-08-2009"
+            },
+            "no_age_limit": "",
+
+            "gender": "MALE, FEMALE, TRANSGENDER",
+            "special_gender_eligibility": "",
+            "marital_status": {
+                "MALE": ["MARRIED", "UNMARRIED"],
+                "FEMALE": ["MARRIED", "UNMARRIED"],
+                "TRANSGENDER": ["MARRIED", "UNMARRIED"]
+            },
+
+            "nationality": ["INDIAN"],
+            "domicile": "ALL STATES",
+            "caste_category": "GEN, OBC, EWS, SC, ST, PwBD",
+
+            "pwd_status": {
+                "applicability": "APPLICABLE",
+                "marks_percentage_basis": {
+                    "GEN": "",
+                    "OBC": "",
+                    "EWS": "",
+                    "SC": "",
+                    "ST": ""
+                },
+                "age_relaxation_basis": {
+                    "GEN": "10 YEARS",
+                    "OBC": "13 YEARS",
+                    "EWS": "",
+                    "SC": "15 YEARS",
+                    "ST": "15 YEARS"
+                }
+            },
+
+            "age_relaxation": {
+                "GEN": "0 YEARS",
+                "OBC": "3 YEARS",
+                "EWS": "",
+                "SC": "5 YEARS",
+                "ST": "5 YEARS",
+                "EX_SERVICEMEN": "5 YEARS"
+            },
+
+            "highest_education_qualification": "GRADUATION",
+            "education_levels": {
+                "post_doctorate": "",
+                "phd": "",
+                "post_graduation": "",
+                "graduation": {
+                    "course": {
+                        "options": ["ALL COURSES"],
+                        "except_course": []
+                    },
+                    "subject": "ALL SUBJECTS",
+                    "mandatory_subject": "",
+                    "mandatory_subjects": [],
+                    "status": ["PASSED", "FINAL YEAR APPEARING"],
+                    "marks_percentage": {
+                        "GEN": "PASS",
+                        "OBC": "PASS",
+                        "EWS": "PASS",
+                        "SC": "PASS",
+                        "ST": "PASS"
+                    },
+                    "mandatory_subject_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subjects_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "completed_year": "",
+                    "board_university": "RECOGNIZED UNIVERSITY",
+                    "active_backlogs_allowed": "FINAL YEAR ALLOWED"
+                },
+                "diploma": "",
+                "12th_higher_secondary": {
+                    "course": {
+                        "options": []
+                    },
+                    "subject": "",
+                    "mandatory_subject": "",
+                    "mandatory_subjects": [],
+                    "status": "",
+                    "marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subject_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subjects_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "completed_year": "",
+                    "board_university": {
+                        "options": []
+                    }
+                },
+                "10th_secondary": {
+                    "course_stream": {
+                        "options": []
+                    },
+                    "subject": "",
+                    "mandatory_subject": "",
+                    "mandatory_subjects": [],
+                    "status": "",
+                    "marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subject_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subjects_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "completed_year": "",
+                    "board_university": {
+                        "options": []
+                    }
+                },
+                "CLASS_VI": "",
+                "CLASS_VIII": "",
+                "no_education": ""
+            },
+            "gap_years_allowed": "NO LIMIT",
+            "educational_stream_restriction": "",
+
+            "ncc_wing": "",
+            "ncc_certificate": "",
+            "ncc_certificate_grade": "",
+
+            "ex_servicemen_status": "APPLICABLE",
+
+            "sports_quota_eligibility": "",
+            "cpl_holder": "",
+            "height_cm": "",
+            "weight_kg": "",
+            "vision_eyesight": "",
+            "language_proficiency": "",
+            "driving_license_type": "",
+            "current_employment_status": "",
+            "work_experience_required": "NO",
+            "work_experience_years": ""
+        },
+
+        "INDIAN_FOREIGN_SERVICE (IFS)": {
+            "post_name": "Indian Foreign Service",
+            "post_code": "IFS",
+            "group": "GROUP A",
+            "ministry_department": "MINISTRY OF EXTERNAL AFFAIRS",
+            "exam_tiers": "PRELIMS + MAINS + INTERVIEW",
+            "exam_subjects": "",
+            "exam_pattern": "",
+            "exam_sections": "",
+            "mode_of_exam": "",
+            "exam_duration": "",
+            "total_marks": "",
+            "number_of_questions": "",
+            "marking_scheme": "",
+            "paper_medium": "",
+            "exam_date": "",
+            "maximum_attempts_allowed": "SAME AS CSE",
+
+            "age_criteria_type": "",
+            "starting_age": "",
+            "ending_age": "",
+            "between_age": "21-32",
+            "minimum_dob": "",
+            "maximum_dob": "",
+            "between_dob": {
+                "2026": "",
+                "2027": "",
+                "2028": "",
+                "2029": "",
+                "2030": ""
+            },
+            "no_age_limit": "",
+
+            "gender": "MALE, FEMALE, TRANSGENDER",
+            "special_gender_eligibility": "",
+            "marital_status": {
+                "MALE": [],
+                "FEMALE": [],
+                "TRANSGENDER": []
+            },
+
+            "nationality": "INDIAN ONLY",
+            "domicile": "",
+            "caste_category": "",
+
+            "pwd_status": {
+                "applicability": "",
+                "marks_percentage_basis": {
+                    "GEN": "",
+                    "OBC": "",
+                    "EWS": "",
+                    "SC": "",
+                    "ST": ""
+                },
+                "age_relaxation_basis": {
+                    "GEN": "",
+                    "OBC": "",
+                    "EWS": "",
+                    "SC": "",
+                    "ST": ""
+                }
+            },
+
+            "age_relaxation": {
+                "GEN": "",
+                "OBC": "",
+                "EWS": "",
+                "SC": "",
+                "ST": "",
+                "EX_SERVICEMEN": ""
+            },
+
+            "highest_education_qualification": "GRADUATION",
+            "education_levels": {
+                "post_doctorate": "",
+                "phd": "",
+                "post_graduation": {
+                    "course": {
+                        "options": []
+                    },
+                    "subject": "",
+                    "mandatory_subject": "",
+                    "status": "",
+                    "marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subject_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "completed_year": "",
+                    "board_university": "",
+                    "active_backlogs_allowed": ""
+                },
+                "graduation": {
+                    "course": {
+                        "options": [],
+                        "except_course": []
+                    },
+                    "subject": "",
+                    "mandatory_subject": "",
+                    "mandatory_subjects": [],
+                    "status": "",
+                    "marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subject_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subjects_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "completed_year": "",
+                    "board_university": "",
+                    "active_backlogs_allowed": ""
+                },
+                "diploma": "",
+                "12th_higher_secondary": {
+                    "course": {
+                        "options": []
+                    },
+                    "subject": "",
+                    "mandatory_subject": "",
+                    "mandatory_subjects": [],
+                    "status": "",
+                    "marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subject_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subjects_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "completed_year": "",
+                    "board_university": {
+                        "options": []
+                    }
+                },
+                "10th_secondary": {
+                    "course_stream": {
+                        "options": []
+                    },
+                    "subject": "",
+                    "mandatory_subject": "",
+                    "mandatory_subjects": [],
+                    "status": "",
+                    "marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subject_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subjects_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "completed_year": "",
+                    "board_university": {
+                        "options": []
+                    }
+                },
+                "CLASS_VI": "",
+                "CLASS_VIII": "",
+                "no_education": ""
+            },
+            "gap_years_allowed": "",
+            "educational_stream_restriction": "MEDICALLY FIT FOR FOREIGN SERVICE",
+
+            "ncc_wing": "",
+            "ncc_certificate": "",
+            "ncc_certificate_grade": "",
+
+            "ex_servicemen_status": "",
+
+            "sports_quota_eligibility": "",
+            "cpl_holder": "",
+            "height_cm": "",
+            "weight_kg": "",
+            "vision_eyesight": "",
+            "language_proficiency": "",
+            "driving_license_type": "",
+            "current_employment_status": "",
+            "work_experience_required": "NO",
+            "work_experience_years": ""
+        },
+
+        "INDIAN_POLICE_SERVICE (IPS)": {
+            "post_name": "Indian Police Service",
+            "post_code": "IPS",
+            "group": "GROUP A",
+            "ministry_department": "MINISTRY OF HOME AFFAIRS",
+            "exam_tiers": "PRELIMS + MAINS + INTERVIEW + MEDICAL",
+            "exam_subjects": "",
+            "exam_pattern": "",
+            "exam_sections": "",
+            "mode_of_exam": "",
+            "exam_duration": "",
+            "total_marks": "",
+            "number_of_questions": "",
+            "marking_scheme": "",
+            "paper_medium": "",
+            "exam_date": "",
+            "maximum_attempts_allowed": "",
+
+            "age_criteria_type": "",
+            "starting_age": "",
+            "ending_age": "",
+            "between_age": "21-32",
+            "minimum_dob": "",
+            "maximum_dob": "",
+            "between_dob": {
+                "2026": "",
+                "2027": "",
+                "2028": "",
+                "2029": "",
+                "2030": ""
+            },
+            "no_age_limit": "",
+
+            "gender": "MALE, FEMALE, TRANSGENDER",
+            "special_gender_eligibility": "",
+            "marital_status": {
+                "MALE": [],
+                "FEMALE": [],
+                "TRANSGENDER": []
+            },
+
+            "nationality": "INDIAN ONLY",
+            "domicile": "",
+            "caste_category": "",
+
+            "pwd_status": {
+                "applicability": "",
+                "marks_percentage_basis": {
+                    "GEN": "",
+                    "OBC": "",
+                    "EWS": "",
+                    "SC": "",
+                    "ST": ""
+                },
+                "age_relaxation_basis": {
+                    "GEN": "",
+                    "OBC": "",
+                    "EWS": "",
+                    "SC": "",
+                    "ST": ""
+                }
+            },
+
+            "age_relaxation": {
+                "GEN": "",
+                "OBC": "",
+                "EWS": "",
+                "SC": "",
+                "ST": "",
+                "EX_SERVICEMEN": ""
+            },
+
+            "highest_education_qualification": "GRADUATION",
+            "education_levels": {
+                "post_doctorate": "",
+                "phd": "",
+                "post_graduation": {
+                    "course": {
+                        "options": []
+                    },
+                    "subject": "",
+                    "mandatory_subject": "",
+                    "status": "",
+                    "marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subject_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "completed_year": "",
+                    "board_university": "",
+                    "active_backlogs_allowed": ""
+                },
+                "graduation": {
+                    "course": {
+                        "options": [],
+                        "except_course": []
+                    },
+                    "subject": "",
+                    "mandatory_subject": "",
+                    "mandatory_subjects": [],
+                    "status": "",
+                    "marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subject_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subjects_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "completed_year": "",
+                    "board_university": "",
+                    "active_backlogs_allowed": ""
+                },
+                "diploma": "",
+                "12th_higher_secondary": {
+                    "course": {
+                        "options": []
+                    },
+                    "subject": "",
+                    "mandatory_subject": "",
+                    "mandatory_subjects": [],
+                    "status": "",
+                    "marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subject_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subjects_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "completed_year": "",
+                    "board_university": {
+                        "options": []
+                    }
+                },
+                "10th_secondary": {
+                    "course_stream": {
+                        "options": []
+                    },
+                    "subject": "",
+                    "mandatory_subject": "",
+                    "mandatory_subjects": [],
+                    "status": "",
+                    "marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subject_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subjects_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "completed_year": "",
+                    "board_university": {
+                        "options": []
+                    }
+                },
+                "CLASS_VI": "",
+                "CLASS_VIII": "",
+                "no_education": ""
+            },
+            "gap_years_allowed": "",
+            "educational_stream_restriction": "",
+
+            "ncc_wing": "",
+            "ncc_certificate": "",
+            "ncc_certificate_grade": "",
+
+            "ex_servicemen_status": "",
+
+            "sports_quota_eligibility": "",
+            "cpl_holder": "",
+            "height_cm": "",
+            "weight_kg": "",
+            "vision_eyesight": "",
+            "language_proficiency": "",
+            "driving_license_type": "",
+            "current_employment_status": "",
+            "work_experience_required": "NO",
+            "work_experience_years": ""
+        },
+
+        "CENTRAL_CIVIL_SERVICES_GROUP_A": {
+            "post_name": "Central Civil Services (Group A)",
+            "post_code": "CCS_GROUP_A",
+            "group": "GROUP A",
+            "ministry_department": "VARIOUS CENTRAL MINISTRIES",
+            "exam_tiers": "PRELIMS + MAINS + INTERVIEW",
+            "exam_subjects": "",
+            "exam_pattern": "",
+            "exam_sections": "",
+            "mode_of_exam": "",
+            "exam_duration": "",
+            "total_marks": "",
+            "number_of_questions": "",
+            "marking_scheme": "",
+            "paper_medium": "",
+            "exam_date": "",
+            "maximum_attempts_allowed": "",
+
+            "age_criteria_type": "",
+            "starting_age": "",
+            "ending_age": "",
+            "between_age": "21-32",
+            "minimum_dob": "",
+            "maximum_dob": "",
+            "between_dob": {
+                "2026": "",
+                "2027": "",
+                "2028": "",
+                "2029": "",
+                "2030": ""
+            },
+            "no_age_limit": "",
+
+            "gender": "",
+            "special_gender_eligibility": "",
+            "marital_status": {
+                "MALE": [],
+                "FEMALE": [],
+                "TRANSGENDER": []
+            },
+
+            "nationality": "INDIAN / ELIGIBLE PIO",
+            "domicile": "",
+            "caste_category": "",
+
+            "pwd_status": {
+                "applicability": "",
+                "marks_percentage_basis": {
+                    "GEN": "",
+                    "OBC": "",
+                    "EWS": "",
+                    "SC": "",
+                    "ST": ""
+                },
+                "age_relaxation_basis": {
+                    "GEN": "",
+                    "OBC": "",
+                    "EWS": "",
+                    "SC": "",
+                    "ST": ""
+                }
+            },
+
+            "age_relaxation": {
+                "GEN": "",
+                "OBC": "",
+                "EWS": "",
+                "SC": "",
+                "ST": "",
+                "EX_SERVICEMEN": ""
+            },
+
+            "highest_education_qualification": "GRADUATION",
+            "education_levels": {
+                "post_doctorate": "",
+                "phd": "",
+                "post_graduation": {
+                    "course": {
+                        "options": []
+                    },
+                    "subject": "",
+                    "mandatory_subject": "",
+                    "status": "",
+                    "marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subject_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "completed_year": "",
+                    "board_university": "",
+                    "active_backlogs_allowed": ""
+                },
+                "graduation": {
+                    "course": {
+                        "options": [],
+                        "except_course": []
+                    },
+                    "subject": "",
+                    "mandatory_subject": "",
+                    "mandatory_subjects": [],
+                    "status": "",
+                    "marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subject_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subjects_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "completed_year": "",
+                    "board_university": "",
+                    "active_backlogs_allowed": ""
+                },
+                "diploma": "",
+                "12th_higher_secondary": {
+                    "course": {
+                        "options": []
+                    },
+                    "subject": "",
+                    "mandatory_subject": "",
+                    "mandatory_subjects": [],
+                    "status": "",
+                    "marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subject_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subjects_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "completed_year": "",
+                    "board_university": {
+                        "options": []
+                    }
+                },
+                "10th_secondary": {
+                    "course_stream": {
+                        "options": []
+                    },
+                    "subject": "",
+                    "mandatory_subject": "",
+                    "mandatory_subjects": [],
+                    "status": "",
+                    "marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subject_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subjects_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "completed_year": "",
+                    "board_university": {
+                        "options": []
+                    }
+                },
+                "CLASS_VI": "",
+                "CLASS_VIII": "",
+                "no_education": ""
+            },
+            "gap_years_allowed": "",
+            "educational_stream_restriction": "",
+
+            "ncc_wing": "",
+            "ncc_certificate": "",
+            "ncc_certificate_grade": "",
+
+            "ex_servicemen_status": "",
+
+            "sports_quota_eligibility": "",
+            "cpl_holder": "",
+            "height_cm": "",
+            "weight_kg": "",
+            "vision_eyesight": "",
+            "language_proficiency": "",
+            "driving_license_type": "",
+            "current_employment_status": "",
+            "work_experience_required": "",
+            "work_experience_years": ""
+        },
+
+        "CENTRAL_CIVIL_SERVICES_GROUP_B": {
+            "post_name": "Central Civil Services (Group B)",
+            "post_code": "CCS_GROUP_B",
+            "group": "GROUP B",
+            "ministry_department": "VARIOUS CENTRAL MINISTRIES",
+            "exam_tiers": "PRELIMS + MAINS + INTERVIEW",
+            "exam_subjects": "",
+            "exam_pattern": "",
+            "exam_sections": "",
+            "mode_of_exam": "",
+            "exam_duration": "",
+            "total_marks": "",
+            "number_of_questions": "",
+            "marking_scheme": "",
+            "paper_medium": "",
+            "exam_date": "",
+            "maximum_attempts_allowed": "",
+
+            "age_criteria_type": "",
+            "starting_age": "",
+            "ending_age": "",
+            "between_age": "21-32",
+            "minimum_dob": "",
+            "maximum_dob": "",
+            "between_dob": {
+                "2026": "",
+                "2027": "",
+                "2028": "",
+                "2029": "",
+                "2030": ""
+            },
+            "no_age_limit": "",
+
+            "gender": "",
+            "special_gender_eligibility": "",
+            "marital_status": {
+                "MALE": [],
+                "FEMALE": [],
+                "TRANSGENDER": []
+            },
+
+            "nationality": "INDIAN / ELIGIBLE PIO",
+            "domicile": "",
+            "caste_category": "",
+
+            "pwd_status": {
+                "applicability": "",
+                "marks_percentage_basis": {
+                    "GEN": "",
+                    "OBC": "",
+                    "EWS": "",
+                    "SC": "",
+                    "ST": ""
+                },
+                "age_relaxation_basis": {
+                    "GEN": "",
+                    "OBC": "",
+                    "EWS": "",
+                    "SC": "",
+                    "ST": ""
+                }
+            },
+
+            "age_relaxation": {
+                "GEN": "",
+                "OBC": "",
+                "EWS": "",
+                "SC": "",
+                "ST": "",
+                "EX_SERVICEMEN": ""
+            },
+
+            "highest_education_qualification": "GRADUATION",
+            "education_levels": {
+                "post_doctorate": "",
+                "phd": "",
+                "post_graduation": {
+                    "course": {
+                        "options": []
+                    },
+                    "subject": "",
+                    "mandatory_subject": "",
+                    "status": "",
+                    "marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subject_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "completed_year": "",
+                    "board_university": "",
+                    "active_backlogs_allowed": ""
+                },
+                "graduation": {
+                    "course": {
+                        "options": [],
+                        "except_course": []
+                    },
+                    "subject": "",
+                    "mandatory_subject": "",
+                    "mandatory_subjects": [],
+                    "status": "",
+                    "marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subject_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subjects_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "completed_year": "",
+                    "board_university": "",
+                    "active_backlogs_allowed": ""
+                },
+                "diploma": "",
+                "12th_higher_secondary": {
+                    "course": {
+                        "options": []
+                    },
+                    "subject": "",
+                    "mandatory_subject": "",
+                    "mandatory_subjects": [],
+                    "status": "",
+                    "marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subject_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subjects_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "completed_year": "",
+                    "board_university": {
+                        "options": []
+                    }
+                },
+                "10th_secondary": {
+                    "course_stream": {
+                        "options": []
+                    },
+                    "subject": "",
+                    "mandatory_subject": "",
+                    "mandatory_subjects": [],
+                    "status": "",
+                    "marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subject_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subjects_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "completed_year": "",
+                    "board_university": {
+                        "options": []
+                    }
+                },
+                "CLASS_VI": "",
+                "CLASS_VIII": "",
+                "no_education": ""
+            },
+            "gap_years_allowed": "",
+            "educational_stream_restriction": "",
+
+            "ncc_wing": "",
+            "ncc_certificate": "",
+            "ncc_certificate_grade": "",
+
+            "ex_servicemen_status": "",
+
+            "sports_quota_eligibility": "",
+            "cpl_holder": "",
+            "height_cm": "",
+            "weight_kg": "",
+            "vision_eyesight": "",
+            "language_proficiency": "",
+            "driving_license_type": "",
+            "current_employment_status": "",
+            "work_experience_required": "",
+            "work_experience_years": ""
+        }
+    },
+
+    "official_website": "https://upsc.gov.in",
+    "notification_link": "",
+    "application_form_link": "",
+    "application_fee": {
+        "GEN": "",
+        "OBC": "",
+        "EWS": "",
+        "SC": "",
+        "ST": "",
+        "FEMALE": "",
+        "PWD": "",
+        "EX_SERVICEMEN": ""
+    },
+    "payment_mode": "",
+    "selection_process": [],
+    "training_duration": "",
+    "service_bond": "",
+    "probation_period": "",
+    "pay_scale": "",
+    "posting_locations": "",
+    "important_dates": {
+        "notification_date": "",
+        "application_start_date": "",
+        "application_end_date": "",
+        "exam_date": "",
+        "admit_card_date": "",
+        "result_date": ""
+    },
+    "helpline": {
+        "email": "",
+        "phone": ""
+    },
+    "remarks": ""
+}

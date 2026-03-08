@@ -1,0 +1,254 @@
+{
+    "exam_code": "JEE_MAIN",
+    "exam_name": "Joint Entrance Examination (Main) 2026",
+    "full_form": "Joint Entrance Examination (Main)",
+    "exam_level": "NATIONAL",
+    "exam_sector": "UNDER GRADUATION ADMISSION",
+    "exam_target": "ADMISSION (UG)",
+    "exam_frequency_year": "2",
+    "conducting_body": "NTA (National Testing Agency)",
+    "posts_classes_courses_departments_academies": "NITs, IIITs, GFTIs, OTHER PARTICIPATING INSTITUTES",
+
+    "post_name": "",
+    "post_code": "",
+    "group": "",
+    "ministry_department": "",
+    "exam_tiers": "SINGLE STAGE CBT",
+    "exam_subjects": "PHYSICS, CHEMISTRY, MATHEMATICS",
+    "exam_pattern": "OBJECTIVE TYPE (MCQ)",
+    "exam_sections": "PHYSICS, CHEMISTRY, MATHEMATICS",
+    "mode_of_exam": "ONLINE (CBT)",
+    "exam_duration": "3 HOURS",
+    "total_marks": "300",
+    "number_of_questions": "90",
+    "marking_scheme": "NEGATIVE MARKING",
+    "paper_medium": "ENGLISH, HINDI AND REGIONAL LANGUAGES",
+    "exam_date": "JANUARY & APRIL 2026",
+    "maximum_attempts_allowed": "3 CONSECUTIVE YEARS",
+
+    "age_criteria_type": "NO_AGE_LIMIT",
+    "starting_age": "",
+    "ending_age": "",
+    "between_age": "",
+    "minimum_dob": "",
+    "maximum_dob": "",
+    "between_dob": {
+        "2026": "",
+        "2027": "",
+        "2028": "",
+        "2029": "",
+        "2030": ""
+    },
+    "no_age_limit": "YES",
+
+    "gender": "MALE, FEMALE, TRANSGENDER",
+    "special_gender_eligibility": "",
+    "marital_status": {
+        "MALE": [
+            "UNMARRIED",
+            "MARRIED"
+        ],
+        "FEMALE": [
+            "UNMARRIED",
+            "MARRIED"
+        ],
+        "TRANSGENDER": [
+            "UNMARRIED",
+            "MARRIED"
+        ]
+    },
+
+    "nationality": ["INDIAN", "CITIZEN OF NEPAL", "CITIZEN OF BHUTAN", "OCI (OVERSEAS CITIZEN OF INDIA) FROM UNITED STATES", "OCI (OVERSEAS CITIZEN OF INDIA) FROM UNITED KINGDOM", "OCI (OVERSEAS CITIZEN OF INDIA) FROM CANADA", "OCI (OVERSEAS CITIZEN OF INDIA) FROM AUSTRALIA", "OCI (OVERSEAS CITIZEN OF INDIA) FROM NEW ZEALAND", "OCI (OVERSEAS CITIZEN OF INDIA) FROM GERMANY", "OCI (OVERSEAS CITIZEN OF INDIA) FROM FRANCE", "OCI (OVERSEAS CITIZEN OF INDIA) FROM ITALY", "OCI (OVERSEAS CITIZEN OF INDIA) FROM NETHERLANDS", "OCI (OVERSEAS CITIZEN OF INDIA) FROM JAPAN", "OCI (OVERSEAS CITIZEN OF INDIA) FROM SOUTH KOREA", "OCI (OVERSEAS CITIZEN OF INDIA) FROM UAE", "OCI (OVERSEAS CITIZEN OF INDIA) FROM SAUDI ARABIA", "OCI (OVERSEAS CITIZEN OF INDIA) FROM QATAR", "OCI (OVERSEAS CITIZEN OF INDIA) FROM KUWAIT", "OCI (OVERSEAS CITIZEN OF INDIA) FROM OMAN", "OCI (OVERSEAS CITIZEN OF INDIA) FROM BAHRAIN", "PERSON OF INDIAN ORIGIN (PIO) FROM PAKISTAN", "PERSON OF INDIAN ORIGIN (PIO) FROM BURMA/MYANMAR", "PERSON OF INDIAN ORIGIN (PIO) FROM BANGLADESH", "PERSON OF INDIAN ORIGIN (PIO) FROM SRI LANKA", "PERSON OF INDIAN ORIGIN (PIO) FROM NEPAL", "PERSON OF INDIAN ORIGIN (PIO) FROM BHUTAN", "PERSON OF INDIAN ORIGIN (PIO) FROM AFGHANISTAN", "PERSON OF INDIAN ORIGIN (PIO) FROM KENYA", "PERSON OF INDIAN ORIGIN (PIO) FROM UGANDA", "PERSON OF INDIAN ORIGIN (PIO) FROM TANZANIA", "PERSON OF INDIAN ORIGIN (PIO) FROM ZAMBIA", "PERSON OF INDIAN ORIGIN (PIO) FROM MALAWI", "PERSON OF INDIAN ORIGIN (PIO) FROM ZAIRE/DR CONGO", "PERSON OF INDIAN ORIGIN (PIO) FROM ETHIOPIA", "PERSON OF INDIAN ORIGIN (PIO) FROM SOUTH AFRICA", "PERSON OF INDIAN ORIGIN (PIO) FROM MAURITIUS", "PERSON OF INDIAN ORIGIN (PIO) FROM VIETNAM", "PERSON OF INDIAN ORIGIN (PIO) FROM MALAYSIA", "PERSON OF INDIAN ORIGIN (PIO) FROM SINGAPORE", "PERSON OF INDIAN ORIGIN (PIO) FROM INDONESIA", "PERSON OF INDIAN ORIGIN (PIO) FROM THAILAND", "PERSON OF INDIAN ORIGIN (PIO) FROM PHILIPPINES", "NRI (NON-RESIDENT INDIAN) IN UNITED STATES", "NRI (NON-RESIDENT INDIAN) IN UNITED KINGDOM", "NRI (NON-RESIDENT INDIAN) IN CANADA", "NRI (NON-RESIDENT INDIAN) IN AUSTRALIA", "NRI (NON-RESIDENT INDIAN) IN NEW ZEALAND", "NRI (NON-RESIDENT INDIAN) IN GERMANY", "NRI (NON-RESIDENT INDIAN) IN FRANCE", "NRI (NON-RESIDENT INDIAN) IN ITALY", "NRI (NON-RESIDENT INDIAN) IN NETHERLANDS", "NRI (NON-RESIDENT INDIAN) IN JAPAN", "NRI (NON-RESIDENT INDIAN) IN SINGAPORE", "NRI (NON-RESIDENT INDIAN) IN MALAYSIA", "NRI (NON-RESIDENT INDIAN) IN UAE", "NRI (NON-RESIDENT INDIAN) IN SAUDI ARABIA", "NRI (NON-RESIDENT INDIAN) IN QATAR", "NRI (NON-RESIDENT INDIAN) IN KUWAIT", "NRI (NON-RESIDENT INDIAN) IN OMAN", "NRI (NON-RESIDENT INDIAN) IN BAHRAIN", "NRI (NON-RESIDENT INDIAN) IN SOUTH AFRICA", "NRI (NON-RESIDENT INDIAN) IN MAURITIUS"],
+    "domicile": "ALL STATES",
+    "caste_category": "GEN, OBC, EWS, SC, ST",
+
+    "pwd_status": {
+        "applicability": "APPLICABLE",
+        "marks_percentage_basis": {
+            "GEN": "65%",
+            "OBC": "65%",
+            "EWS": "65%",
+            "SC": "55%",
+            "ST": "55%"
+        },
+        "age_relaxation_basis": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+        }
+    },
+
+    "age_relaxation": {
+        "GEN": "",
+        "OBC": "",
+        "EWS": "",
+        "SC": "",
+        "ST": "",
+        "EX_SERVICEMEN": ""
+    },
+
+    "highest_education_qualification": "(12TH) HIGHER SECONDARY",
+    "education_levels": {
+        "post_doctorate": "",
+        "phd": "",
+        "post_graduation": "",
+        "graduation": "",
+        "diploma": "",
+        "12th_higher_secondary": {
+            "course": {
+                "options": ["Science"]
+            },
+            "subject": {
+                "Science": [
+                    "Physics, Chemistry, Mathematics (PCM)",
+                    "Physics, Chemistry, Mathematics, Biology (PCMB)"
+                ]
+            },
+            "mandatory_subject": "",
+            "mandatory_subjects": [],
+            "status": {
+                "options": ["PASSED", "APPEARING"]
+            },
+            "marks_percentage": {
+                "GEN": "75%",
+                "OBC": "75%",
+                "EWS": "75%",
+                "SC": "65%",
+                "ST": "65%"
+            },
+            "mandatory_subject_marks_percentage": {
+                "GEN": "",
+                "OBC": "",
+                "EWS": "",
+                "SC": "",
+                "ST": ""
+            },
+            "mandatory_subjects_marks_percentage": {
+                "GEN": "",
+                "OBC": "",
+                "EWS": "",
+                "SC": "",
+                "ST": ""
+            },
+            "completed_year": {
+                "2026": {
+                    "passed": ["2024", "2025"],
+                    "appearing": "2026"
+                },
+                "2027": {
+                    "passed": ["2025", "2026"],
+                    "appearing": "2027"
+                },
+                "2028": {
+                    "passed": ["2026", "2027"],
+                    "appearing": "2028"
+                },
+                "2029": {
+                    "passed": ["2027", "2028"],
+                    "appearing": "2029"
+                },
+                "2030": {
+                    "passed": ["2028", "2029"],
+                    "appearing": "2030"
+                }
+            },
+            "board_university": {
+                "options": ["CBSE", "ICSE", "STATE BOARD", "NIOS", "OTHER"]
+            }
+        },
+        "10th_secondary": {
+            "course_stream": {
+                "options": ["(10TH) SECONDARY"]
+            },
+            "subject": "ALL SUBJECTS",
+            "mandatory_subject": "",
+            "mandatory_subjects": [],
+            "status": {
+                "options": ["PASSED"]
+            },
+            "marks_percentage": {
+                "GEN": "33%",
+                "OBC": "33%",
+                "EWS": "33%",
+                "SC": "33%",
+                "ST": "33%"
+            },
+            "mandatory_subject_marks_percentage": {
+                "GEN": "",
+                "OBC": "",
+                "EWS": "",
+                "SC": "",
+                "ST": ""
+            },
+            "mandatory_subjects_marks_percentage": {
+                "GEN": "",
+                "OBC": "",
+                "EWS": "",
+                "SC": "",
+                "ST": ""
+            },
+            "completed_year": "",
+            "board_university": {
+                "options": ["CBSE", "ICSE", "STATE BOARD", "NIOS", "OTHER"]
+            }
+        },
+        "CLASS_VI": "",
+        "CLASS_VIII": "",
+        "no_education": ""
+    },
+    "gap_years_allowed": "NO LIMIT",
+    "educational_stream_restriction": "SCIENCE STREAM WITH PCM",
+
+    "ncc_wing": "",
+    "ncc_certificate": "",
+    "ncc_certificate_grade": "",
+
+    "ex_servicemen_status": "",
+
+    "sports_quota_eligibility": "",
+    "cpl_holder": "",
+    "height_cm": "",
+    "weight_kg": "",
+    "vision_eyesight": "",
+    "language_proficiency": "",
+    "driving_license_type": "",
+    "current_employment_status": "",
+    "work_experience_required": "NO",
+    "work_experience_years": "",
+
+    "official_website": "https://jeemain.nta.nic.in",
+    "notification_link": "",
+    "application_form_link": "",
+    "application_fee": {
+        "GEN": "",
+        "OBC": "",
+        "EWS": "",
+        "SC": "",
+        "ST": "",
+        "FEMALE": "",
+        "PWD": "",
+        "EX_SERVICEMEN": ""
+    },
+    "payment_mode": "",
+    "selection_process": [],
+    "training_duration": "",
+    "service_bond": "",
+    "probation_period": "",
+    "pay_scale": "",
+    "posting_locations": "",
+    "important_dates": {
+        "notification_date": "",
+        "application_start_date": "",
+        "application_end_date": "",
+        "exam_date": "JANUARY & APRIL 2026",
+        "admit_card_date": "",
+        "result_date": ""
+    },
+    "helpline": {
+        "email": "",
+        "phone": ""
+    },
+    "remarks": ""
+}

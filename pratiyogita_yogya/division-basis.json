@@ -1,0 +1,306 @@
+{
+    "exam_code": "",
+    "exam_name": "",
+    "full_form": "",
+    "exam_level": "",
+    "exam_sector": "",
+    "exam_target": "",
+    "exam_frequency_year": "",
+    "conducting_body": "",
+    "posts_classes_courses_departments_academies": "",
+
+    "academies": {
+        "POST_1": {
+            "post_name": "",
+            "post_code": "",
+            "group": "",
+            "ministry_department": "",
+            "exam_tiers": "",
+            "exam_subjects": "",
+            "exam_pattern": "",
+            "exam_sections": "",
+            "mode_of_exam": "",
+            "exam_duration": "",
+            "total_marks": "",
+            "number_of_questions": "",
+            "marking_scheme": "",
+            "paper_medium": "",
+            "exam_date": "",
+            "maximum_attempts_allowed": "",
+
+            "age_criteria_type": "",
+            "starting_age": "",
+            "ending_age": "",
+            "between_age": "",
+            "minimum_dob": "",
+            "maximum_dob": "",
+            "between_dob": {
+                "GEN": {
+                    "2026": "",
+                    "2027": "",
+                    "2028": "",
+                    "2029": "",
+                    "2030": ""
+                },
+                "OBC": {
+                    "2026": "",
+                    "2027": "",
+                    "2028": "",
+                    "2029": "",
+                    "2030": ""
+                },
+                "EWS": {
+                    "2026": "",
+                    "2027": "",
+                    "2028": "",
+                    "2029": "",
+                    "2030": ""
+                },
+                "SC": {
+                    "2026": "",
+                    "2027": "",
+                    "2028": "",
+                    "2029": "",
+                    "2030": ""
+                },
+                "ST": {
+                    "2026": "",
+                    "2027": "",
+                    "2028": "",
+                    "2029": "",
+                    "2030": ""
+                }
+            },
+            "no_age_limit": "",
+
+            "gender": "",
+            "special_gender_eligibility": "",
+            "marital_status": {
+                "MALE": [],
+                "FEMALE": [],
+                "TRANSGENDER": []
+            },
+
+            "nationality": "",
+            "domicile": "",
+            "caste_category": "",
+
+            "pwd_status": {
+                "applicability": "",
+                "marks_percentage_basis": {
+                    "GEN": "",
+                    "OBC": "",
+                    "EWS": "",
+                    "SC": "",
+                    "ST": ""
+                },
+                "age_relaxation_basis": {
+                    "GEN": "",
+                    "OBC": "",
+                    "EWS": "",
+                    "SC": "",
+                    "ST": ""
+                }
+            },
+
+            "age_relaxation": {
+                "GEN": "",
+                "OBC": "",
+                "EWS": "",
+                "SC": "",
+                "ST": "",
+                "EX_SERVICEMEN": ""
+            },
+
+            "highest_education_qualification": "",
+            "education_levels": {
+                "post_doctorate": "",
+                "phd": "",
+                "post_graduation": {
+                    "course": {
+                        "options": []
+                    },
+                    "subject": "",
+                    "mandatory_subject": "",
+                    "status": "",
+                    "marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subject_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "completed_year": "",
+                    "board_university": "",
+                    "active_backlogs_allowed": ""
+                },
+                "graduation": {
+                    "course": {
+                        "options": [],
+                        "except_course": []
+                    },
+                    "subject": "",
+                    "mandatory_subject": "",
+                    "mandatory_subjects": [],
+                    "status": "",
+                    "marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subject_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subjects_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "completed_year": "",
+                    "board_university": "",
+                    "active_backlogs_allowed": ""
+                },
+                "diploma": "",
+                "12th_higher_secondary": {
+                    "course": {
+                        "options": []
+                    },
+                    "subject": "",
+                    "mandatory_subject": "",
+                    "mandatory_subjects": [],
+                    "status": "",
+                    "marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subject_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subjects_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "completed_year": "",
+                    "board_university": {
+                        "options": []
+                    }
+                },
+                "10th_secondary": {
+                    "course_stream": {
+                        "options": []
+                    },
+                    "subject": "",
+                    "mandatory_subject": "",
+                    "mandatory_subjects": [],
+                    "status": "",
+                    "marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subject_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subjects_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "completed_year": "",
+                    "board_university": {
+                        "options": []
+                    }
+                },
+                "CLASS_VI": "",
+                "CLASS_VIII": "",
+                "no_education": ""
+            },
+            "gap_years_allowed": "",
+            "educational_stream_restriction": "",
+
+            "ncc_wing": "",
+            "ncc_certificate": "",
+            "ncc_certificate_grade": "",
+
+            "ex_servicemen_status": "",
+
+            "sports_quota_eligibility": "",
+            "cpl_holder": "",
+            "height_cm": "",
+            "weight_kg": "",
+            "vision_eyesight": "",
+            "language_proficiency": "",
+            "driving_license_type": "",
+            "current_employment_status": "",
+            "work_experience_required": "",
+            "work_experience_years": ""
+        }
+    },
+
+    "official_website": "",
+    "notification_link": "",
+    "application_form_link": "",
+    "application_fee": {
+        "GEN": "",
+        "OBC": "",
+        "EWS": "",
+        "SC": "",
+        "ST": "",
+        "FEMALE": "",
+        "PWD": "",
+        "EX_SERVICEMEN": ""
+    },
+    "payment_mode": "",
+    "selection_process": [],
+    "training_duration": "",
+    "service_bond": "",
+    "probation_period": "",
+    "pay_scale": "",
+    "posting_locations": "",
+    "important_dates": {
+        "notification_date": "",
+        "application_start_date": "",
+        "application_end_date": "",
+        "exam_date": "",
+        "admit_card_date": "",
+        "result_date": ""
+    },
+    "helpline": {
+        "email": "",
+        "phone": ""
+    },
+    "remarks": ""
+}

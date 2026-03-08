@@ -1,0 +1,1669 @@
+{ 
+
+    "exam_level": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE",
+        "INTERNATIONAL",
+        "NATIONAL",
+        "STATE",
+        "REGIONAL",
+        "UNIVERSITY",
+        "INSTITUTIONAL",
+        "SCHOOL",
+        "OTHER"
+        
+    ],
+    "exam_sector": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE",
+        "GOVERNMENT",
+        "PUBLIC SECTOR UNDERTAKING (PSU)",
+        "PRIVATE SECTOR",
+        "DEFENCE",
+        "RAILWAYS",
+        "BANKING",
+        "INSURANCE",
+        "TELECOM",
+        "EDUCATION",
+        "HEALTHCARE",
+        "AGRICULTURE",
+        "MANUFACTURING",
+        "IT & SOFTWARE",
+        "RESEARCH",
+        "LAW ENFORCEMENT",
+        "JUDICIARY",
+        "OTHER"
+        
+    ],
+    "exam_target": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE",
+        "OFFICER / GROUP A",
+        "OFFICER / GROUP B",
+        "CLERICAL / GROUP C",
+        "GROUP D",
+        "PROBATIONARY OFFICER",
+        "MANAGEMENT TRAINEE",
+        "ASSISTANT",
+        "CLERK",
+        "JUNIOR ENGINEER",
+        "SENIOR ENGINEER",
+        "TECHNICIAN",
+        "CONSTABLE",
+        "SUB INSPECTOR",
+        "ASSISTANT COMMANDANT",
+        "COMMANDANT",
+        "LECTURER / PROFESSOR",
+        "TEACHER",
+        "MEDICAL OFFICER",
+        "STAFF NURSE",
+        "PHARMACIST",
+        "CADET / TRAINEE",
+        "SCIENTIST",
+        "RESEARCHER",
+        "JUDICIAL OFFICER",
+        "ADVOCATE",
+        "ADMISSION (UG)",
+        "ADMISSION (PG)",
+        "ADMISSION (PhD)",
+        "FELLOWSHIP",
+        "OTHER"
+    ],
+    "exam_frequency_year": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE",
+        "1",
+        "2",
+        "3",
+        "4",
+        "IRREGULAR"
+    ],
+    "conducting_body": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE"
+    ],
+    "posts_classes_courses_departments_academies": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE"
+    ],
+    "latest_updated_date": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE"
+    ],
+
+
+
+    "exam_tiers": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE",
+        "SINGLE STAGE CBT",
+        "TIER-I (PRELIMINARY)",
+        "TIER-II (MAINS)",
+        "TIER-III (DESCRIPTIVE)",
+        "TIER-IV (SKILL TEST)",
+        "PRELIMINARY EXAMINATION",
+        "MAINS EXAMINATION",
+        "INTERVIEW / PERSONALITY TEST",
+        "PRELIMS + MAINS",
+        "PRELIMS + MAINS + INTERVIEW",
+        "CBT + PHYSICAL TEST",
+        "CBT + SKILL TEST",
+        "CBT + TYPING TEST",
+        "WRITTEN + SSB INTERVIEW",
+        "WRITTEN + SSB INTERVIEW + MEDICAL",
+        "WRITTEN + PHYSICAL + MEDICAL",
+        "ONLINE CBT",
+        "OFFLINE (PEN AND PAPER)",
+        "COMPUTER BASED TEST (CBT)",
+        "DOCUMENT VERIFICATION",
+        "MEDICAL EXAMINATION",
+        "PHYSICAL EFFICIENCY TEST (PET)",
+        "PHYSICAL STANDARD TEST (PST)",
+        "TRADE TEST",
+        "TECHNICAL TEST",
+        "AFSB (Air Force Selection Board)",
+        "SSB (Services Selection Board)",
+        "OTHER"
+    ],
+
+    "exam_subjects": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE",
+        "ENGLISH",
+        "ENGLISH LANGUAGE",
+        "ENGLISH LANGUAGE & COMPREHENSION",
+        "HINDI",
+        "GENERAL KNOWLEDGE",
+        "GENERAL KNOWLEDGE / GENERAL AWARENESS",
+        "GENERAL AWARENESS",
+        "GENERAL AWARENESS / CURRENT AFFAIRS",
+        "CURRENT AFFAIRS",
+        "STATIC GK",
+        "MATHEMATICS",
+        "QUANTITATIVE APTITUDE",
+        "NUMERICAL ABILITY",
+        "QUANTITATIVE APTITUDE / MATHEMATICS",
+        "REASONING",
+        "LOGICAL REASONING",
+        "ANALYTICAL REASONING",
+        "GENERAL INTELLIGENCE",
+        "GENERAL INTELLIGENCE & REASONING",
+        "VERBAL REASONING",
+        "NON-VERBAL REASONING",
+        "DATA INTERPRETATION",
+        "DATA ANALYSIS & INTERPRETATION",
+        "COMPUTER KNOWLEDGE",
+        "COMPUTER AWARENESS",
+        "COMPUTER APTITUDE",
+        "GENERAL SCIENCE",
+        "PHYSICS",
+        "CHEMISTRY",
+        "BIOLOGY",
+        "HISTORY",
+        "GEOGRAPHY",
+        "POLITY",
+        "INDIAN POLITY",
+        "ECONOMICS",
+        "INDIAN ECONOMY",
+        "ENVIRONMENT & ECOLOGY",
+        "SCIENCE & TECHNOLOGY",
+        "CSAT (CIVIL SERVICES APTITUDE TEST)",
+        "ESSAY",
+        "ETHICS, INTEGRITY & APTITUDE",
+        "OPTIONAL SUBJECT",
+        "TECHNICAL SUBJECT",
+        "PROFESSIONAL KNOWLEDGE",
+        "ENGINEERING SUBJECTS",
+        "MEDICAL SUBJECTS",
+        "LAW",
+        "BANKING AWARENESS",
+        "FINANCIAL AWARENESS",
+        "INSURANCE AWARENESS",
+        "RAILWAY AWARENESS",
+        "AGRICULTURE",
+        "PEDAGOGY",
+        "CHILD DEVELOPMENT & PEDAGOGY",
+        "TEACHING APTITUDE",
+        "RESEARCH APTITUDE",
+        "ENGLISH, GENERAL KNOWLEDGE",
+        "ENGLISH, GENERAL KNOWLEDGE, MATHEMATICS",
+        "ENGLISH, GENERAL INTELLIGENCE, QUANTITATIVE APTITUDE, GENERAL AWARENESS",
+        "MCQ, MSQ, NAT",
+        "AS PER SUBJECT",
+        "COQP01 TO COQP22",
+        "LAQP01 TO LAQP41",
+        "SCQP01 TO SCQP30",
+        "HUQP01 TO HUQP26",
+        "MTQP01 TO MTQP12",
+        "OTHER"
+    ],
+
+    "exam_pattern": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE",
+        "OBJECTIVE TYPE",
+        "OBJECTIVE TYPE (MCQ)",
+        "OBJECTIVE TYPE (CBT)",
+        "OBJECTIVE TYPE WRITTEN EXAM",
+        "MULTIPLE CHOICE QUESTIONS (MCQ)",
+        "MCQ",
+        "MCQ, MSQ, NAT",
+        "MCQ + DESCRIPTIVE",
+        "DESCRIPTIVE TYPE",
+        "ESSAY TYPE",
+        "SUBJECTIVE",
+        "MIXED (OBJECTIVE + DESCRIPTIVE)",
+        "COMPUTER BASED TEST",
+        "PEN AND PAPER",
+        "ONLINE CBT",
+        "OFFLINE PBT",
+        "TYPING TEST",
+        "SKILL TEST",
+        "PRACTICAL TEST",
+        "INTERVIEW",
+        "PERSONALITY TEST",
+        "PHYSICAL TEST",
+        "AS PER TIER"
+    ],
+
+    "exam_sections": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE",
+        "SECTION A",
+        "SECTION B",
+        "SECTION C",
+        "SECTION A, B, C",
+        "PART A, PART B",
+        "PAPER I, PAPER II",
+        "PAPER I, PAPER II, PAPER III",
+        "ENGLISH, GK",
+        "ENGLISH, GK, MATHS",
+        "ENGLISH, MATHS, REASONING, GK",
+        "GENERAL INTELLIGENCE, ENGLISH, QUANTITATIVE APTITUDE, GENERAL AWARENESS",
+        "REASONING, ENGLISH, QUANTITATIVE, GENERAL AWARENESS",
+        "REASONING, ENGLISH, QUANT, GA, COMPUTER",
+        "GS, CSAT",
+        "GS-I, GS-II, GS-III, GS-IV, OPTIONAL, ESSAY",
+        "AS PER SUBJECT",
+        "AS PER SYLLABUS"
+    ],
+
+    "mode_of_exam": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE",
+        "ONLINE (COMPUTER BASED TEST)",
+        "OFFLINE (PEN AND PAPER)",
+        "OFFLINE (OMR BASED)",
+        "ONLINE + OFFLINE",
+        "CBT (COMPUTER BASED TEST)",
+        "PBT (PEN BASED TEST)",
+        "HYBRID",
+        "REMOTE PROCTORED"
+    ],
+
+    "exam_duration": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE",
+        "60 MINUTES",
+        "60 MINUTES (TIER-1)",
+        "90 MINUTES",
+        "2 HOURS",
+        "2 HOURS PER PAPER",
+        "2.5 HOURS",
+        "3 HOURS",
+        "3 HOURS PER PAPER",
+        "4 HOURS",
+        "AS PER TIER",
+        "AS PER PAPER",
+        "VARIES BY SECTION"
+    ],
+
+    "total_marks": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE",
+        "50", "100", "150", "200", "250", "300", "400", "500", "600", "700", "800", "1000", "1750", "2000", "2025",
+        "AS PER TIER",
+        "AS PER PAPER",
+        "VARIES"
+    ],
+
+    "number_of_questions": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE",
+        "25", "30", "40", "50", "60", "75", "100", "120", "150", "180", "200",
+        "VARIES",
+        "AS PER SECTION"
+    ],
+
+    "marking_scheme": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE",
+        "NO NEGATIVE MARKING",
+        "NEGATIVE MARKING",
+        "NEGATIVE MARKING 1/4",
+        "NEGATIVE MARKING 1/3",
+        "NEGATIVE MARKING 0.25 MARKS",
+        "NEGATIVE MARKING 0.50 MARKS",
+        "NEGATIVE MARKING FOR MCQ",
+        "NEGATIVE MARKING FOR WRONG ANSWERS",
+        "DIFFERENTIAL MARKING",
+        "1 MARK PER QUESTION",
+        "2 MARKS PER QUESTION",
+        "3 MARKS PER QUESTION",
+        "4 MARKS PER QUESTION",
+        "SECTION-WISE MARKING",
+        "AS PER EXAM RULES"
+    ],
+
+    "paper_medium": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE",
+        "ENGLISH",
+        "HINDI",
+        "ENGLISH, HINDI",
+        "ENGLISH AND HINDI",
+        "REGIONAL LANGUAGES",
+        "SPECIFIC LANGUAGE",
+        "BILINGUAL (ENGLISH/HINDI)",
+        "ENGLISH, HINDI AND REGIONAL LANGUAGES",
+        "TAMIL", "TELUGU", "KANNADA", "MALAYALAM", "MARATHI", "GUJARATI", "BENGALI", "PUNJABI", "ASSAMESE", "ODIA", "URDU", "KONKANI", "MANIPURI", "NEPALI", "SANSKRIT", "SINDHI", "KASHMIRI", "DOGRI", "BODO", "MAITHILI", "SANTHALI",
+        "AS PER STATE",
+        "AS PER EXAM RULES"
+    ],
+
+
+
+
+    "age_criteria_type": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE",
+        "STARTING_AGE",
+        "ENDING_AGE",
+        "BETWEEN_AGE",
+        "MINIMUM_DOB",
+        "MAXIMUM_DOB",
+        "BETWEEN_DOB",
+        "NO_AGE_LIMIT"
+    ],
+    "gender": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE",
+        "MALE",
+        "FEMALE",
+        "TRANSGENDER"
+    ],
+    "marital_status": [
+        
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE",
+        "UNMARRIED",
+        "MARRIED",
+        "WIDOW",
+        "WIDOWER",
+        "DIVORCEE",
+        "DIVORCED",
+        "SEPARATED"
+    ],
+    "nationality": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE",
+        "INDIAN",
+        "CITIZEN OF NEPAL",
+        "CITIZEN OF BHUTAN",
+        "TIBETAN REFUGEE (PRE-1962)",
+        "PERSON OF INDIAN ORIGIN (PIO) FROM PAKISTAN",
+        "PERSON OF INDIAN ORIGIN (PIO) FROM BURMA/MYANMAR",
+        "PERSON OF INDIAN ORIGIN (PIO) FROM BANGLADESH",
+        "PERSON OF INDIAN ORIGIN (PIO) FROM SRI LANKA",
+        "PERSON OF INDIAN ORIGIN (PIO) FROM NEPAL",
+        "PERSON OF INDIAN ORIGIN (PIO) FROM BHUTAN",
+        "PERSON OF INDIAN ORIGIN (PIO) FROM AFGHANISTAN",
+        "PERSON OF INDIAN ORIGIN (PIO) FROM KENYA",
+        "PERSON OF INDIAN ORIGIN (PIO) FROM UGANDA",
+        "PERSON OF INDIAN ORIGIN (PIO) FROM TANZANIA",
+        "PERSON OF INDIAN ORIGIN (PIO) FROM ZAMBIA",
+        "PERSON OF INDIAN ORIGIN (PIO) FROM MALAWI",
+        "PERSON OF INDIAN ORIGIN (PIO) FROM ZAIRE/DR CONGO",
+        "PERSON OF INDIAN ORIGIN (PIO) FROM ETHIOPIA",
+        "PERSON OF INDIAN ORIGIN (PIO) FROM SOUTH AFRICA",
+        "PERSON OF INDIAN ORIGIN (PIO) FROM MAURITIUS",
+        "PERSON OF INDIAN ORIGIN (PIO) FROM VIETNAM",
+        "PERSON OF INDIAN ORIGIN (PIO) FROM MALAYSIA",
+        "PERSON OF INDIAN ORIGIN (PIO) FROM SINGAPORE",
+        "PERSON OF INDIAN ORIGIN (PIO) FROM INDONESIA",
+        "PERSON OF INDIAN ORIGIN (PIO) FROM THAILAND",
+        "PERSON OF INDIAN ORIGIN (PIO) FROM PHILIPPINES",
+        "OCI (OVERSEAS CITIZEN OF INDIA) FROM UNITED STATES",
+        "OCI (OVERSEAS CITIZEN OF INDIA) FROM UNITED KINGDOM",
+        "OCI (OVERSEAS CITIZEN OF INDIA) FROM CANADA",
+        "OCI (OVERSEAS CITIZEN OF INDIA) FROM AUSTRALIA",
+        "OCI (OVERSEAS CITIZEN OF INDIA) FROM NEW ZEALAND",
+        "OCI (OVERSEAS CITIZEN OF INDIA) FROM GERMANY",
+        "OCI (OVERSEAS CITIZEN OF INDIA) FROM FRANCE",
+        "OCI (OVERSEAS CITIZEN OF INDIA) FROM ITALY",
+        "OCI (OVERSEAS CITIZEN OF INDIA) FROM NETHERLANDS",
+        "OCI (OVERSEAS CITIZEN OF INDIA) FROM JAPAN",
+        "OCI (OVERSEAS CITIZEN OF INDIA) FROM SOUTH KOREA",
+        "OCI (OVERSEAS CITIZEN OF INDIA) FROM UAE",
+        "OCI (OVERSEAS CITIZEN OF INDIA) FROM SAUDI ARABIA",
+        "OCI (OVERSEAS CITIZEN OF INDIA) FROM QATAR",
+        "OCI (OVERSEAS CITIZEN OF INDIA) FROM KUWAIT",
+        "OCI (OVERSEAS CITIZEN OF INDIA) FROM OMAN",
+        "OCI (OVERSEAS CITIZEN OF INDIA) FROM BAHRAIN",
+        "NRI (NON-RESIDENT INDIAN) IN UNITED STATES",
+        "NRI (NON-RESIDENT INDIAN) IN UNITED KINGDOM",
+        "NRI (NON-RESIDENT INDIAN) IN CANADA",
+        "NRI (NON-RESIDENT INDIAN) IN AUSTRALIA",
+        "NRI (NON-RESIDENT INDIAN) IN NEW ZEALAND",
+        "NRI (NON-RESIDENT INDIAN) IN GERMANY",
+        "NRI (NON-RESIDENT INDIAN) IN FRANCE",
+        "NRI (NON-RESIDENT INDIAN) IN ITALY",
+        "NRI (NON-RESIDENT INDIAN) IN NETHERLANDS",
+        "NRI (NON-RESIDENT INDIAN) IN JAPAN",
+        "NRI (NON-RESIDENT INDIAN) IN SINGAPORE",
+        "NRI (NON-RESIDENT INDIAN) IN MALAYSIA",
+        "NRI (NON-RESIDENT INDIAN) IN UAE",
+        "NRI (NON-RESIDENT INDIAN) IN SAUDI ARABIA",
+        "NRI (NON-RESIDENT INDIAN) IN QATAR",
+        "NRI (NON-RESIDENT INDIAN) IN KUWAIT",
+        "NRI (NON-RESIDENT INDIAN) IN OMAN",
+        "NRI (NON-RESIDENT INDIAN) IN BAHRAIN",
+        "NRI (NON-RESIDENT INDIAN) IN SOUTH AFRICA",
+        "NRI (NON-RESIDENT INDIAN) IN MAURITIUS",
+        "FOREIGN NATIONAL",
+        "FOREIGN NATIONAL WITH INDIAN DEGREE",
+        "FOREIGN NATIONAL WITH INDIAN ORIGIN"
+    ],
+    "domicile": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE",
+        "ANDHRA PRADESH",
+        "ARUNACHAL PRADESH",
+        "ASSAM",
+        "BIHAR",
+        "CHHATTISGARH",
+        "GOA",
+        "GUJARAT",
+        "HARYANA",
+        "HIMACHAL PRADESH",
+        "JHARKHAND",
+        "KARNATAKA",
+        "KERALA",
+        "MADHYA PRADESH",
+        "MAHARASHTRA",
+        "MANIPUR",
+        "MEGHALAYA",
+        "MIZORAM",
+        "NAGALAND",
+        "ODISHA",
+        "PUNJAB",
+        "RAJASTHAN",
+        "SIKKIM",
+        "TAMIL NADU",
+        "TELANGANA",
+        "TRIPURA",
+        "UTTAR PRADESH",
+        "UTTARAKHAND",
+        "WEST BENGAL",
+        "ANDAMAN AND NICOBAR ISLANDS",
+        "CHANDIGARH",
+        "DADRA AND NAGAR HAVELI AND DAMAN AND DIU",
+        "DELHI",
+        "JAMMU AND KASHMIR",
+        "LADAKH",
+        "LAKSHADWEEP",
+        "PUDUCHERRY"
+    ],
+    "caste_category": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE",
+        "GENERAL (UR/UNRESERVED)",
+        "SC (SCHEDULED CASTE)",
+        "ST (SCHEDULED TRIBE)",
+        "OBC (OTHER BACKWARD CLASS)",
+        "EWS (ECONOMICALLY WEAKER SECTION)",
+        "MINORITY"
+    ],
+    "pwd_status": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE",
+        "APPLICABLE",
+        "ORTHOPEDICALLY HANDICAPPED (OH/PH-1)",
+        "VISUALLY HANDICAPPED (VH/PH-2)",
+        "HEARING HANDICAPPED (HH/PH-3)",
+        "INTELLECTUAL DISABILITY",
+        "MULTIPLE DISABILITIES",
+        "LOCOMOTOR DISABILITY",
+        "CEREBRAL PALSY",
+        "LEPROSY CURED",
+        "DWARFISM",
+        "ACID ATTACK VICTIMS",
+        "MUSCULAR DYSTROPHY",
+        "AUTISM SPECTRUM DISORDER",
+        "SPECIFIC LEARNING DISABILITY",
+        "MENTAL ILLNESS",
+        "BLINDNESS",
+        "LOW VISION",
+        "DEAF",
+        "HARD OF HEARING",
+        "SPEECH AND LANGUAGE DISABILITY",
+        "40% OR MORE DISABILITY",
+        "BENCHMARK DISABILITY (40%+)"
+    ],
+    "education_levels": [
+        {
+            "post_doctorate": {
+                "course": {
+                    "options": [
+                        "Post Doctoral Fellowship"
+                    ]
+                },
+                "subject": {
+                    "Post Doctoral Fellowship": [
+                        "Engineering Research",
+                        "Medical Research",
+                        "Science Research",
+                        "Social Science Research",
+                        "Humanities Research",
+                        "Management Research",
+                        "Law Research",
+                        "Economic Research",
+                        "Scientific Research",
+                        "Environmental Research",
+                        "Technological Research",
+                        "OTHER"
+                    ]
+                },
+                "status": {
+                    "Post Doctoral Fellowship": [
+                        "PASSED",
+                        "(5TH YEAR) ",
+                        "10th Sem"
+                    ]
+                },
+                "marks_percentage": {
+                    "GEN": "33%",
+                    "OBC": "33%",
+                    "EWS": "33%",
+                    "SC": "33%",
+                    "ST": "33%"
+                },
+                "completed_year": "",
+                "board_university": "",
+                "active_backlogs_allowed": ""
+            },
+            "phd": {
+                "course": {
+                    "options": [
+                        "PhD"
+                    ]
+                },
+                "subject": {
+                    "PhD": [
+                        "Engineering",
+                        "Science",
+                        "Medical Sciences",
+                        "Management",
+                        "Law",
+                        "Arts & Humanities",
+                        "Social Sciences",
+                        "Commerce",
+                        "Education",
+                        "Biotechnology",
+                        "Psychology",
+                        "Economics",
+                        "Architecture",
+                        "Fine Arts",
+                        "Public Policy",
+                        "Environmental Studies",
+                        "OTHER"
+                    ]
+                },
+                "status": {
+                    "PhD": [
+                        "PASSED",
+                        "(5TH YEAR) ",
+                        "10th Sem"
+                    ]
+                },
+                "marks_percentage": {
+                    "GEN": "33%",
+                    "OBC": "33%",
+                    "EWS": "33%",
+                    "SC": "33%",
+                    "ST": "33%"
+                },
+                "completed_year": "",
+                "board_university": "",
+                "active_backlogs_allowed": ""
+            },
+            "post_graduation": {
+                "course": {
+                    "options": [
+                        "MTech",
+                        "MBA",
+                        "MSc",
+                        "MA",
+                        "MCom",
+                        "MD",
+                        "MS (Medical)",
+                        "LLM",
+                        "MCA",
+                        "MPharm",
+                        "MArch",
+                        "OTHER"
+                    ]
+                },
+                "subject": {
+                    "MTech": [
+                        "Computer Science & Engineering",
+                        "Information Technology",
+                        "Artificial Intelligence",
+                        "Machine Learning",
+                        "Data Science",
+                        "Cyber Security",
+                        "Mechanical Engineering",
+                        "Civil Engineering",
+                        "Structural Engineering",
+                        "Electrical Engineering",
+                        "Power Systems",
+                        "Electronics & Communication",
+                        "VLSI Design",
+                        "Embedded Systems",
+                        "Thermal Engineering",
+                        "Automobile Engineering",
+                        "Aerospace Engineering",
+                        "Biotechnology",
+                        "Environmental Engineering",
+                        "Nanotechnology",
+                        "Robotics",
+                        "Software Engineering",
+                        "OTHER"
+                    ],
+                    "MBA": [
+                        "Finance",
+                        "Marketing",
+                        "Human Resource Management",
+                        "Operations Management",
+                        "International Business",
+                        "Business Analytics",
+                        "Supply Chain Management",
+                        "Hospital Management",
+                        "Rural Management",
+                        "Banking & Insurance",
+                        "Agri Business Management",
+                        "Entrepreneurship",
+                        "Digital Marketing",
+                        "FinTech",
+                        "Sustainability Management",
+                        "Event Management",
+                        "Retail Management",
+                        "OTHER"
+                    ],
+                    "MSc": [
+                        "Physics",
+                        "Chemistry",
+                        "Mathematics",
+                        "Statistics",
+                        "Computer Science",
+                        "Data Science",
+                        "Biotechnology",
+                        "Microbiology",
+                        "Environmental Science",
+                        "Zoology",
+                        "Botany",
+                        "Geology",
+                        "Psychology",
+                        "Food Science",
+                        "Forensic Science",
+                        "Genetics",
+                        "Bioinformatics",
+                        "Oceanography",
+                        "OTHER"
+                    ],
+                    "MA": [
+                        "Economics",
+                        "English",
+                        "History",
+                        "Political Science",
+                        "Public Administration",
+                        "Geography",
+                        "Psychology",
+                        "Sociology",
+                        "Philosophy",
+                        "Hindi",
+                        "International Relations",
+                        "Linguistics",
+                        "Fine Arts",
+                        "Journalism & Mass Communication",
+                        "Social Work",
+                        "Archaeology",
+                        "OTHER"
+                    ],
+                    "MCom": [
+                        "Accounting",
+                        "Finance",
+                        "Taxation",
+                        "Banking & Insurance",
+                        "Business Economics",
+                        "Auditing",
+                        "Costing",
+                        "Corporate Governance",
+                        "International Business",
+                        "OTHER"
+                    ],
+                    "MD": [
+                        "General Medicine",
+                        "Paediatrics",
+                        "Dermatology",
+                        "Radiology",
+                        "Anaesthesiology",
+                        "Psychiatry",
+                        "Pathology",
+                        "Microbiology",
+                        "Forensic Medicine",
+                        "Community Medicine",
+                        "Pharmacology",
+                        "Physiology",
+                        "Biochemistry",
+                        "OTHER"
+                    ],
+                    "MS (Medical)": [
+                        "General Surgery",
+                        "Orthopaedics",
+                        "ENT",
+                        "Ophthalmology",
+                        "Obstetrics & Gynaecology",
+                        "Otorhinolaryngology",
+                        "Traumatology",
+                        "OTHER"
+                    ],
+                    "LLM": [
+                        "Constitutional Law",
+                        "Criminal Law",
+                        "Corporate Law",
+                        "International Law",
+                        "Intellectual Property Law",
+                        "Labour Law",
+                        "Taxation Law",
+                        "Environmental Law",
+                        "Human Rights Law",
+                        "Family Law",
+                        "OTHER"
+                    ],
+                    "MCA": [
+                        "Computer Science",
+                        "Software Engineering",
+                        "Artificial Intelligence",
+                        "Machine Learning",
+                        "Data Analytics",
+                        "Cloud Computing",
+                        "Cyber Security",
+                        "Mobile Applications",
+                        "OTHER"
+                    ],
+                    "MPharm": [
+                        "Pharmaceutics",
+                        "Pharmacology",
+                        "Pharmaceutical Chemistry",
+                        "Pharmacognosy",
+                        "Quality Assurance",
+                        "Pharmacy Practice",
+                        "OTHER"
+                    ],
+                    "MArch": [
+                        "Urban Design",
+                        "Landscape Architecture",
+                        "Sustainable Architecture",
+                        "Architectural Conservation",
+                        "Housing",
+                        "OTHER"
+                    ],
+                    "OTHER": [
+                        "OTHER"
+                    ]
+                },
+                "status": {
+                    "MTech": [
+                        "PASSED",
+                        "(2ND YEAR) ",
+                        "4th Sem"
+                    ],
+                    "MBA": [
+                        "PASSED",
+                        "(2ND YEAR) ",
+                        "4th Sem"
+                    ],
+                    "MSc": [
+                        "PASSED",
+                        "(2ND YEAR) ",
+                        "4th Sem"
+                    ],
+                    "MA": [
+                        "PASSED",
+                        "(2ND YEAR) ",
+                        "4th Sem"
+                    ],
+                    "MCom": [
+                        "PASSED",
+                        "(2ND YEAR) ",
+                        "4th Sem"
+                    ],
+                    "MD": [
+                        "PASSED",
+                        "(3RD YEAR) ",
+                        "6th Sem"
+                    ],
+                    "MS (Medical)": [
+                        "PASSED",
+                        "(3RD YEAR) ",
+                        "6th Sem"
+                    ],
+                    "LLM": [
+                        "PASSED",
+                        "(2ND YEAR) ",
+                        "4th Sem"
+                    ],
+                    "MCA": [
+                        "PASSED",
+                        "(2ND YEAR) ",
+                        "4th Sem"
+                    ],
+                    "MPharm": [
+                        "PASSED",
+                        "(2ND YEAR) ",
+                        "4th Sem"
+                    ],
+                    "MArch": [
+                        "PASSED",
+                        "(2ND YEAR) ",
+                        "4th Sem"
+                    ],
+                    "OTHER": [
+                        "PASSED",
+                        "(2ND YEAR) ",
+                        "4th Sem"
+                    ]
+                },
+                "marks_percentage": {
+                    "GEN": "33%",
+                    "OBC": "33%",
+                    "EWS": "33%",
+                    "SC": "33%",
+                    "ST": "33%"
+                },
+                "completed_year": "",
+                "board_university": "",
+                "active_backlogs_allowed": ""
+            },
+            "graduation": {
+                "course": {
+                    "options": [
+                        "BTech",
+                        "BE",
+                        "BSc",
+                        "BA",
+                        "BCom",
+                        "MBBS",
+                        "BDS",
+                        "LLB",
+                        "BCA",
+                        "BBA",
+                        "BPharm",
+                        "BEd",
+                        "BArch",
+                        "BHM",
+                        "OTHER"
+                    ]
+                },
+                "subject": {
+                    "BTech": [
+                        "Computer Science & Engineering",
+                        "Information Technology",
+                        "Artificial Intelligence & ML",
+                        "Data Science",
+                        "Cyber Security",
+                        "Mechanical Engineering",
+                        "Civil Engineering",
+                        "Electrical Engineering",
+                        "Electronics & Communication",
+                        "Chemical Engineering",
+                        "Automobile Engineering",
+                        "Biomedical Engineering",
+                        "Aerospace Engineering",
+                        "Mining Engineering",
+                        "Petroleum Engineering",
+                        "Textile Engineering",
+                        "Production Engineering",
+                        "Instrumentation Engineering",
+                        "OTHER"
+                    ],
+                    "BE": [
+                        "Mechanical Engineering",
+                        "Civil Engineering",
+                        "Electrical Engineering",
+                        "Electronics Engineering",
+                        "Computer Engineering",
+                        "Telecommunication Engineering",
+                        "Industrial Engineering",
+                        "OTHER"
+                    ],
+                    "BSc": [
+                        "Physics",
+                        "Chemistry",
+                        "Mathematics",
+                        "Statistics",
+                        "Computer Science",
+                        "Biotechnology",
+                        "Microbiology",
+                        "Environmental Science",
+                        "Nursing",
+                        "Agriculture",
+                        "Horticulture",
+                        "Forestry",
+                        "Home Science",
+                        "Animation & Multimedia",
+                        "Fashion Design",
+                        "Interior Design",
+                        "OTHER"
+                    ],
+                    "BA": [
+                        "Economics",
+                        "English",
+                        "History",
+                        "Political Science",
+                        "Geography",
+                        "Psychology",
+                        "Sociology",
+                        "Public Administration",
+                        "Philosophy",
+                        "Linguistics",
+                        "Fine Arts",
+                        "Journalism",
+                        "Music",
+                        "Physical Education",
+                        "OTHER"
+                    ],
+                    "BCom": [
+                        "Accounting",
+                        "Finance",
+                        "Taxation",
+                        "Banking & Insurance",
+                        "Business Analytics",
+                        "Auditing",
+                        "E-Commerce",
+                        "Cost Accounting",
+                        "Corporate Secretaryship",
+                        "Marketing",
+                        "OTHER"
+                    ],
+                    "MBBS": [
+                        "General Medicine",
+                        "Anatomy",
+                        "Physiology",
+                        "Biochemistry",
+                        "Pharmacology",
+                        "Pathology",
+                        "OTHER"
+                    ],
+                    "BDS": [
+                        "Dental Surgery",
+                        "Oral Medicine",
+                        "Periodontics",
+                        "Orthodontics",
+                        "OTHER"
+                    ],
+                    "LLB": [
+                        "Corporate Law",
+                        "Criminal Law",
+                        "Civil Law",
+                        "Labour Law",
+                        "International Law",
+                        "Taxation Law",
+                        "Family Law",
+                        "Property Law",
+                        "OTHER"
+                    ],
+                    "BCA": [
+                        "Computer Applications",
+                        "Software Development",
+                        "Web Technologies",
+                        "Data Analytics",
+                        "Cloud Computing",
+                        "Database Management",
+                        "Networking",
+                        "OTHER"
+                    ],
+                    "BBA": [
+                        "Finance",
+                        "Marketing",
+                        "Human Resource Management",
+                        "International Business",
+                        "Operations Management",
+                        "Entrepreneurship",
+                        "Retail Management",
+                        "Tourism Management",
+                        "OTHER"
+                    ],
+                    "BPharm": [
+                        "Pharmaceutical Chemistry",
+                        "Pharmaceutics",
+                        "Pharmacology",
+                        "Pharmaceutical Analysis",
+                        "Pharmacognosy",
+                        "Biochemistry",
+                        "OTHER"
+                    ],
+                    "BEd": [
+                        "Education",
+                        "Childhood and Growing Up",
+                        "Learning and Teaching",
+                        "Pedagogy of School Subject",
+                        "OTHER"
+                    ],
+                    "BArch": [
+                        "Architecture",
+                        "Building Construction",
+                        "Architectural Drawing",
+                        "History of Architecture",
+                        "Urban Planning",
+                        "OTHER"
+                    ],
+                    "BHM": [
+                        "Food Production",
+                        "Front Office Operations",
+                        "Housekeeping",
+                        "Food & Beverage Service",
+                        "OTHER"
+                    ],
+                    "OTHER": [
+                        "OTHER"
+                    ]
+                },
+                "status": {
+                    "BTech": [
+                        "PASSED",
+                        "(4TH YEAR) ",
+                        "8th Sem"
+                    ],
+                    "BE": [
+                        "PASSED",
+                        "(4TH YEAR) ",
+                        "8th Sem"
+                    ],
+                    "BSc": [
+                        "PASSED",
+                        "(3RD YEAR) ",
+                        "6th Sem"
+                    ],
+                    "BA": [
+                        "PASSED",
+                        "(3RD YEAR) ",
+                        "6th Sem"
+                    ],
+                    "BCom": [
+                        "PASSED",
+                        "(3RD YEAR) ",
+                        "6th Sem"
+                    ],
+                    "MBBS": [
+                        "PASSED",
+                        "(5TH YEAR) ",
+                        "10th Sem"
+                    ],
+                    "BDS": [
+                        "PASSED",
+                        "(5TH YEAR) ",
+                        "10th Sem"
+                    ],
+                    "LLB": [
+                        "PASSED",
+                        "(5TH YEAR) ",
+                        "10th Sem"
+                    ],
+                    "BCA": [
+                        "PASSED",
+                        "(3RD YEAR) ",
+                        "6th Sem"
+                    ],
+                    "BBA": [
+                        "PASSED",
+                        "(3RD YEAR) ",
+                        "6th Sem"
+                    ],
+                    "BPharm": [
+                        "PASSED",
+                        "(4TH YEAR) ",
+                        "8th Sem"
+                    ],
+                    "BEd": [
+                        "PASSED",
+                        "(3RD YEAR) ",
+                        "6th Sem"
+                    ],
+                    "BArch": [
+                        "PASSED",
+                        "(4TH YEAR) ",
+                        "8th Sem"
+                    ],
+                    "BHM": [
+                        "PASSED",
+                        "(4TH YEAR) ",
+                        "8th Sem"
+                    ],
+                    "OTHER": [
+                        "PASSED",
+                        "(3RD YEAR) ",
+                        "6th Sem"
+                    ]
+                },
+                "marks_percentage": {
+                    "GEN": "33%",
+                    "OBC": "33%",
+                    "EWS": "33%",
+                    "SC": "33%",
+                    "ST": "33%"
+                },
+                "completed_year": "",
+                "board_university": "",
+                "active_backlogs_allowed": ""
+            },
+            "diploma": {
+                "course": {
+                    "options": [
+                        "Polytechnic Diploma",
+                        "ITI",
+                        "DPharm",
+                        "PGDCA",
+                        "OTHER"
+                    ]
+                },
+                "subject": {
+                    "Polytechnic Diploma": [
+                        "Mechanical Engineering",
+                        "Civil Engineering",
+                        "Electrical Engineering",
+                        "Electronics Engineering",
+                        "Computer Engineering",
+                        "Automobile Engineering",
+                        "Chemical Engineering",
+                        "Textile Technology",
+                        "Interior Decoration",
+                        "Fashion Design",
+                        "OTHER"
+                    ],
+                    "ITI": [
+                        "Fitter",
+                        "Turner",
+                        "Electrician",
+                        "Welder",
+                        "Mechanic Diesel",
+                        "Mechanic Motor Vehicle",
+                        "COPA",
+                        "Plumber",
+                        "Refrigeration & Air Conditioning",
+                        "Surveyor",
+                        "Draughtsman Civil",
+                        "Wireman",
+                        "Machinist",
+                        "Carpenter",
+                        "OTHER"
+                    ],
+                    "DPharm": [
+                        "Pharmacy",
+                        "Pharmaceutical Chemistry",
+                        "Pharmacognosy",
+                        "OTHER"
+                    ],
+                    "PGDCA": [
+                        "Computer Applications",
+                        "Programming in C",
+                        "Database Management",
+                        "OTHER"
+                    ],
+                    "OTHER": [
+                        "OTHER"
+                    ]
+                },
+                "status": {
+                    "Polytechnic Diploma": [
+                        "PASSED",
+                        "(3RD YEAR) ",
+                        "6th Sem"
+                    ],
+                    "ITI": [
+                        "PASSED",
+                        "(2ND YEAR) ",
+                        "4th Sem"
+                    ],
+                    "DPharm": [
+                        "PASSED",
+                        "(2ND YEAR) ",
+                        "4th Sem"
+                    ],
+                    "PGDCA": [
+                        "PASSED",
+                        "(2ND YEAR) ",
+                        "4th Sem"
+                    ],
+                    "OTHER": [
+                        "PASSED",
+                        "(2ND YEAR) ",
+                        "4th Sem"
+                    ]
+                },
+                "marks_percentage": {
+                    "GEN": "33%",
+                    "OBC": "33%",
+                    "EWS": "33%",
+                    "SC": "33%",
+                    "ST": "33%"
+                },
+                "completed_year": "",
+                "board_university": ""
+            },
+            "12th_higher_secondary": {
+                "course": {
+                    "options": [
+                        "Science",
+                        "Commerce",
+                        "Arts",
+                        "Vocational",
+                        "OTHER"
+                    ]
+                },
+                "subject": {
+                    "Science": [
+                        "Physics, Chemistry, Mathematics (PCM)",
+                        "Physics, Chemistry, Biology (PCB)",
+                        "Physics, Chemistry, Mathematics, Biology (PCMB)",
+                        "Physics, Chemistry, Mathematics, Computer Science (PCMC)",
+                        "OTHER"
+                    ],
+                    "Commerce": [
+                        "Accountancy, Business Studies, Economics",
+                        "Accountancy, Mathematics, Economics",
+                        "Accountancy, Economics, Informatics Practices",
+                        "Accountancy, Business Studies, Entrepreneurship",
+                        "OTHER"
+                    ],
+                    "Arts": [
+                        "History, Political Science, Geography",
+                        "Economics, Sociology, Psychology",
+                        "History, Economics, Public Administration",
+                        "Fine Arts, Music, Dance",
+                        "OTHER"
+                    ],
+                    "Vocational": [
+                        "IT & ITeS",
+                        "Retail Management",
+                        "Healthcare",
+                        "Tourism",
+                        "Automobile Technology",
+                        "Electronics Technology",
+                        "Beauty & Wellness",
+                        "Agriculture",
+                        "OTHER"
+                    ],
+                    "OTHER": [
+                        "OTHER"
+                    ]
+                },
+                "status": {
+                    "Science": [
+                        "PASSED",
+                        "APPEARING"
+                    ],
+                    "Commerce": [
+                        "PASSED",
+                        "APPEARING"
+                    ],
+                    "Arts": [
+                        "PASSED",
+                        "APPEARING"
+                    ],
+                    "Vocational": [
+                        "PASSED",
+                        "APPEARING"
+                    ],
+                    "OTHER": [
+                        "PASSED",
+                        "APPEARING"
+                    ]
+                },
+                "marks_percentage": {
+                    "GEN": "33%",
+                    "OBC": "33%",
+                    "EWS": "33%",
+                    "SC": "33%",
+                    "ST": "33%"
+                },
+                "completed_year": "",
+                "board_university": {
+                    "options": [
+                        "CBSE",
+                        "ICSE",
+                        "STATE BOARD",
+                        "NIOS",
+                        "OTHER"
+                    ]
+                }
+            },
+            "10th_secondary": {
+                "course_stream": {
+                    "options": [
+                        "(10TH) SECONDARY",
+                        "OTHER"
+                    ]
+                },
+                "subject": {
+                    "(10TH) SECONDARY": [
+                        "Science, Mathematics, Social Science, Languages",
+                        "OTHER"
+                    ]
+                },
+                "status": {
+                    "(10TH) SECONDARY": [
+                        "PASSED",
+                        "APPEARING"
+                    ],
+                    "OTHER": [
+                        "PASSED",
+                        "APPEARING"
+                    ]
+                },
+                "marks_percentage": {
+                    "GEN": "33%",
+                    "OBC": "33%",
+                    "EWS": "33%",
+                    "SC": "33%",
+                    "ST": "33%"
+                },
+                "completed_year": "",
+                "board_university": {
+                    "options": [
+                        "CBSE",
+                        "ICSE",
+                        "STATE BOARD",
+                        "NIOS",
+                        "OTHER",
+                        "DU"
+                    ]
+                },
+                "active_backlogs_allowed": ""
+            },
+            "below_10th": {},
+            "no_education": {}
+        }
+    ],
+    "active_backlogs_allowed": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE",
+        "APPLICABLE"
+    ],
+    "gap_years_allowed": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE",
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        ">5",
+        "NO LIMIT"
+    ],
+    "age_relaxation": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE",
+        "NO AGE RELAXATION",
+        "NO AGE LIMIT",
+        "SC/ST: +5 YEARS",
+        "OBC-NCL: +3 YEARS",
+        "PwBD (GEN): +10 YEARS",
+        "PwBD (OBC): +13 YEARS",
+        "PwBD (SC/ST): +15 YEARS",
+        "EX-SERVICEMEN: +3 YEARS",
+        "EX-SERVICEMEN: AS PER RULES (DEDUCTION OF MILITARY SERVICE + 3 YEARS)",
+        "DISABLED EX-SERVICEMEN: +3 YEARS + PwBD RELAXATION",
+        "GOVERNMENT SERVANT: +5 YEARS",
+        "CENTRAL GOVT EMPLOYEE: +5 YEARS (UP TO 40 YEARS)",
+        "STATE DOMICILE: +5 YEARS",
+        "WIDOW/DIVORCED WOMEN: +5 YEARS",
+        "WOMEN: +5 YEARS",
+        "J&K DOMICILE: +5 YEARS",
+        "CPL HOLDER: +2 YEARS",
+        "OBC: 3 years, SC/ST: 5 years, PwD: 10 years, Ex-Servicemen: 3 years after deduction of military service",
+        "AS PER GOVERNMENT RULES",
+        "AS PER UPSC RULES",
+        "AS PER SSC RULES",
+        "CUMULATIVE RELAXATION ALLOWED",
+        "NO AGE RELAXATION (CPL EXCEPTION)"
+    ],
+    "ncc_wing": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE",
+        "ARMY",
+        "NAVY",
+        "AIR FORCE"
+    ],
+    "ncc_certificate": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE",
+        "A Certificate",
+        "B Certificate",
+        "C Certificate"
+    ],
+    "ncc_certificate_grade": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE",
+        "A",
+        "B",
+        "C",
+        "D"
+    ],
+    "ex_servicemen_status": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE",
+        "EX-SERVICEMAN (ESM)",
+        "EX-SERVICEMEN",
+        "DISABLED EX-SERVICEMEN",
+        "DEPENDENT OF EX-SERVICEMEN",
+        "WIDOW OF EX-SERVICEMEN",
+        "WAR WIDOW",
+        "GALLANTRY AWARD WINNER",
+        "SERVING DEFENCE PERSONNEL",
+        "RELEASED/RETIRED FROM ARMED FORCES",
+        "PENSION BOOKLET HOLDER",
+        "SHORT SERVICE COMMISSION (COMPLETED)",
+        "EMERGENCY COMMISSIONED OFFICER (RELEASED)"
+    ],
+
+
+    
+
+
+    "sports_quota_eligibility": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE",
+        "DISTRICT LEVEL",
+        "INTER-UNIVERSITY",
+        "INTERNATIONAL (OLYMPICS, WORLD CHAMPIONSHIPS, ASIAN GAMES, COMMONWEALTH GAMES)",
+        "NATIONAL (SENIOR/JUNIOR NATIONALS, NATIONAL GAMES)",
+        "PARTICIPATION CERTIFICATE",
+        "SAI (SPORTS AUTHORITY OF INDIA) CERTIFICATION",
+        "SCHOOL/INTER-SCHOOL",
+        "STATE LEVEL"
+    ],
+
+    "cpl_holder": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE",
+        "YES",
+        "NO",
+        "NOT APPLICABLE",
+        "CPL (COMMERCIAL PILOT LICENSE)",
+        "PPL (PRIVATE PILOT LICENSE)",
+        "ATPL (AIRLINE TRANSPORT PILOT LICENSE)",
+        "FPL (FLIGHT PILOT LICENSE)",
+        "GLIDER PILOT LICENSE",
+        "CATEGORY A", 
+        "CATEGORY B"
+    ],
+
+    "height_cm": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE",
+        "152", "153", "154", "155", "156", "157", "158", "159", "160",
+        "161", "162", "163", "164", "165", "166", "167", "168", "169", "170",
+        "157 CM (MALE)", "152 CM (FEMALE)",
+        "163 CM (FLYING BRANCH)",
+        "162.5 CM (ARMY)",
+        "157 CM (NAVY)",
+        "AS PER DEFENCE STANDARDS",
+        "AS PER MEDICAL STANDARDS",
+        "PROPORTIONATE TO WEIGHT",
+        "REGIONAL RELAXATION APPLICABLE",
+        "NOT APPLICABLE"
+    ],
+
+    "weight_kg": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE",
+        "PROPORTIONATE TO HEIGHT",
+        "AS PER HEIGHT-WEIGHT CHART",
+        "AS PER DEFENCE STANDARDS",
+        "AS PER MEDICAL STANDARDS",
+        "BMI BASED",
+        "NOT APPLICABLE"
+    ],
+
+    "vision_eyesight": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE",
+        "6/6 (NORMAL VISION)",
+        "6/6 EACH EYE",
+        "6/9 EACH EYE",
+        "6/12 EACH EYE",
+        "6/6 OR 6/9",
+        "6/9 OR 6/12 CORRECTABLE TO 6/6",
+        "NORMAL (WITHOUT GLASSES)",
+        "CORRECTABLE WITH GLASSES",
+        "COLOR VISION NORMAL",
+        "NO COLOR BLINDNESS",
+        "DISTANT VISION UNAIDED",
+        "NEAR VISION NORMAL",
+        "AS PER DEFENCE STANDARDS",
+        "AS PER MEDICAL STANDARDS",
+        "LASIK/PRK ALLOWED",
+        "LASIK/PRK NOT ALLOWED",
+        "NOT APPLICABLE"
+    ],
+
+    "language_proficiency": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE",
+        "ENGLISH",
+        "HINDI",
+        "TAMIL", 
+        "TELUGU", 
+        "KANNADA", 
+        "MALAYALAM", 
+        "MARATHI", 
+        "GUJARATI", 
+        "BENGALI", 
+        "PUNJABI", 
+        "ASSAMESE", 
+        "ODIA", 
+        "URDU", 
+        "KONKANI", 
+        "MANIPURI", 
+        "NEPALI", 
+        "SANSKRIT"
+    ],
+
+    "driving_license_type": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE",
+      
+        "MCWG (MOTORCYCLE WITH GEAR)",
+        "MCWOG (MOTORCYCLE WITHOUT GEAR)",
+        "LMV (LIGHT MOTOR VEHICLE)",
+        "LMV-NT (LIGHT MOTOR VEHICLE NON-TRANSPORT)",
+        "LMV-TR (LIGHT MOTOR VEHICLE TRANSPORT)",
+        "HMV (HEAVY MOTOR VEHICLE)",
+        "HGMV (HEAVY GOODS MOTOR VEHICLE)",
+        "HPMV (HEAVY PASSENGER MOTOR VEHICLE)",
+        "TRANSPORT LICENSE",
+        "PSV BADGE (PUBLIC SERVICE VEHICLE)",
+      
+        "TWO-WHEELER",
+        "FOUR-WHEELER",
+        "BOTH TWO & FOUR WHEELER"
+    ],
+
+    "current_employment_status": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE",
+        "UNEMPLOYED",
+        "STUDENT",
+        "FRESHER",
+        "CENTRAL GOVERNMENT EMPLOYEE",
+        "STATE GOVERNMENT EMPLOYEE",
+        "PUBLIC SECTOR UNDERTAKING (PSU) EMPLOYEE",
+        "PRIVATE SECTOR EMPLOYEE",
+        "SELF-EMPLOYED",
+        "BUSINESS OWNER",
+        "CONTRACTUAL EMPLOYEE",
+        "TEMPORARY EMPLOYEE",
+        "PART-TIME EMPLOYEE",
+        "RETIRED",
+        "HOMEMAKER",
+        "DEFENCE PERSONNEL (SERVING)",
+        "DEFENCE PERSONNEL (RETIRED)",
+        "NOT APPLICABLE"
+    ],
+
+    "work_experience_required": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE",
+        "NO",
+        "YES",
+        "FRESHER",
+        "NO EXPERIENCE REQUIRED",
+        "EXPERIENCE PREFERRED",
+        "EXPERIENCE MANDATORY",
+        "AS PER POST"
+    ],
+
+    "work_experience_years": [
+        "",
+        "ALL APPLICABLE",
+        "NOT APPLICABLE",
+        "0",
+        "1", "2", "3", "4", "5",
+        "1-2 YEARS",
+        "2-3 YEARS",
+        "3-5 YEARS",
+        "5-7 YEARS",
+        "7-10 YEARS",
+        "10+ YEARS",
+        "MINIMUM 1 YEAR",
+        "MINIMUM 2 YEARS",
+        "MINIMUM 3 YEARS",
+        "MINIMUM 5 YEARS",
+        "AS PER POST REQUIREMENT",
+        "IN RELEVANT FIELD"
+    ]
+
+
+
+
+
+
+
+
+    
+
+
+}

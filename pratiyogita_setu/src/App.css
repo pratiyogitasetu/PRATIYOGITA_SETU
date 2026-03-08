@@ -1,0 +1,616 @@
+@import "tailwindcss";
+@source "../src";
+@source not "../dist";
+@source not "../public";
+
+/* ===== INDIA MAP SVG STYLING ===== */
+.india-map-container svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.india-map-container svg path {
+  fill: transparent;
+  stroke: #E4572E;
+  stroke-width: 0.8;
+  transition: fill 0.3s ease, stroke 0.3s ease;
+}
+
+.india-map-container svg path:hover {
+  fill: rgba(228, 87, 46, 0.12);
+  stroke: #E4572E;
+  stroke-width: 1.2;
+}
+
+/*
+Source - https://stackoverflow.com/q/79563214
+Posted by Berk
+Retrieved 2026-02-28, License - CC BY-SA 4.0
+*/
+.grainy-background-layer {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  filter: url(#grainy);
+  background: linear-gradient(135deg, #2B1E17 0%, #3d2419 40%, #4a2c1c 70%, #2B1E17 100%);
+  opacity: 1;
+}
+
+
+
+/* ── Pratiyogita Setu Brand Palette ──────────────────────────────────
+   #2B1E17  Dark Coffee  – background / dark surfaces
+   #E4572E  Burnt Orange – primary accent / CTA (replaces orange-500)
+   #E8D8C3  Muted Sand   – secondary text / card tint
+   #FBF6EE  Soft Ivory   – primary text / light surfaces
+──────────────────────────────────────────────────────────────────── */
+
+/* Theme CSS Variables */
+:root {
+  --color-primary: #E4572E;
+  --color-background: transparent;
+  --color-text: #FBF6EE;
+  --color-text-muted: #E8D8C3;
+  --color-border: #E4572E;
+  --color-card-bg: rgba(43, 30, 23, 0.55);
+  --color-card-border: rgba(228, 87, 46, 0.35);
+  --color-card-shadow: rgba(0, 0, 0, 0.45);
+  --transition-duration: 300ms;
+}
+
+.dark {
+  --color-primary: #E4572E;
+  --color-background: transparent;
+  --color-text: #FBF6EE;
+  --color-text-muted: #E8D8C3;
+  --color-border: #E4572E;
+  --color-card-bg: rgba(43, 30, 23, 0.55);
+  --color-card-border: rgba(228, 87, 46, 0.35);
+  --color-card-shadow: rgba(0, 0, 0, 0.45);
+}
+
+@layer base {
+  html {
+    @apply transition-colors duration-300;
+  }
+
+  body {
+    @apply transition-colors duration-300;
+    background-color: transparent;
+    color: var(--color-text);
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  /* Light and dark mode classes */
+  .light-mode {
+    @apply text-gray-800;
+    background-color: transparent;
+  }
+
+  .dark-mode {
+    @apply text-gray-200;
+    background-color: transparent;
+  }
+
+  /* All card elements */
+  .card {
+    background-color: var(--color-card-bg);
+    border-color: var(--color-border);
+    color: var(--color-text);
+    box-shadow: 0 4px 6px var(--color-card-shadow);
+    transition: all var(--transition-duration) ease;
+  }
+
+  /* All buttons */
+  button {
+    transition: all var(--transition-duration) ease;
+  }
+
+  /* All sections */
+  section {
+    background-color: transparent;
+    color: var(--color-text);
+    transition: all var(--transition-duration) ease;
+  }
+}
+
+.footer {
+  position: relative;
+  z-index: 0;
+  background-color: transparent;
+  color: var(--color-text);
+}
+
+/* ---- Crousel --- */
+
+.slick-slide > div {
+  margin: 0 40px;
+}
+
+.carousel-card {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  z-index: 1;
+  width: 18rem;
+  height: 45rem;
+  background-color: var(--color-card-bg);
+  color: var(--color-text);
+}
+
+.slick-slide {
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+}
+
+.slick-slide.highlighted {
+  opacity: 1;
+  transform: scale(0.8);
+}
+
+.slick-center {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+.slick-prev:before,
+.slick-next:before {
+  color: var(--color-text);
+}
+
+.slick-list {
+  overflow: visible;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: var(--color-card-bg);
+  color: var(--color-text);
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* ---- Crousel --- */
+
+/* ---  Booking   ---*/
+
+.booking-container {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: var(--color-card-bg);
+  color: var(--color-text);
+}
+
+.react-calendar__tile.available {
+  background-color: green !important;
+  color: white !important;
+}
+
+.react-calendar__tile.low {
+  background-color: yellow !important;
+}
+
+.react-calendar__tile.full {
+  background-color: darkred !important;
+  color: white !important;
+}
+
+/* --  Booking ---*/
+
+/* Add these styles to your App.css file */
+
+/* General Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Carousel Specific Styles */
+.carousel-container {
+  padding-bottom: 40px;
+  background-color: transparent;
+  color: var(--color-text);
+}
+
+.carousel-container .slick-slide {
+  transition: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+  padding: 10px;
+}
+
+.carousel-container .slick-center {
+  transform: scale(1.05);
+  z-index: 10;
+}
+
+.carousel-container .slick-dots {
+  bottom: -30px;
+}
+
+.carousel-container .slick-dots li button:before {
+  font-size: 10px;
+  color: #E4572E;
+  opacity: 0.4;
+  transition: all 0.3s ease;
+}
+
+.carousel-container .slick-dots li.slick-active button:before {
+  opacity: 0.8;
+  transform: scale(1.5);
+}
+
+.carousel-container .slick-prev,
+.carousel-container .slick-next {
+  width: 40px;
+  height: 40px;
+  background-color: var(--color-card-bg);
+  border-radius: 50%;
+  box-shadow: 0 4px 6px var(--color-card-shadow);
+  z-index: 20;
+  transition: all 0.3s ease;
+}
+
+.carousel-container .slick-prev {
+  left: -15px;
+}
+
+.carousel-container .slick-next {
+  right: -15px;
+}
+
+.carousel-container .slick-prev:hover,
+.carousel-container .slick-next:hover {
+  background-color: var(--color-card-bg);
+  box-shadow: 0 6px 10px var(--color-card-shadow);
+  transform: scale(1.1);
+}
+
+.carousel-container .slick-prev:before,
+.carousel-container .slick-next:before {
+  color: var(--color-primary);
+  font-size: 20px;
+  opacity: 0.8;
+}
+
+/* Light/Dark mode transitions */
+.transition-theme {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* ===== GLOBAL OVERRIDES: Soft Ivory text, Burnt Orange accents ===== */
+
+/* Force all body text to soft ivory */
+body {
+  color: #FBF6EE !important;
+  font-weight: 600;
+}
+
+/* Override Tailwind gray text utilities to ivory/sand */
+[class*="text-gray-900"],
+[class*="text-gray-800"],
+[class*="text-gray-700"],
+[class*="text-gray-600"],
+[class*="text-gray-500"] {
+  color: #FBF6EE !important;
+}
+
+[class*="text-gray-400"],
+[class*="text-gray-300"] {
+  color: #E8D8C3 !important;
+}
+
+/* Override border colors to burnt orange */
+[class*="border-gray-"],
+[class*="border-indigo-"],
+[class*="border-white"] {
+  border-color: rgba(228, 87, 46, 0.4) !important;
+}
+
+/* Semi-bold for all common text elements */
+p, span, a, li, h1, h2, h3, h4, h5, h6, label, blockquote {
+  font-weight: 600;
+}
+
+/* Keep button text readable */
+button, [type="submit"] {
+  font-weight: 600;
+}
+
+/* Burnt orange focus rings */
+*:focus {
+  --tw-ring-color: #E4572E;
+}
+
+/* ===== BUBBLE HERO BUTTONS ===== */
+.bubble-btn {
+  position: relative;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: none;
+  color: #FBF6EE;
+  cursor: pointer;
+  background-color: #E4572E;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+}
+
+
+@media (min-width: 640px) {
+  .bubble-btn {
+    padding: 12px 32px;
+  }
+}
+
+.bubble-btn:active {
+  transform: scale(0.96);
+}
+
+.bubble-btn-outline {
+  background-color: transparent;
+  border: 2px solid #E4572E;
+  color: #FBF6EE;
+}
+
+.bubble-btn-outline:hover {
+  background-color: rgba(228, 87, 46, 0.15);
+}
+
+.bubble-btn:before,
+.bubble-btn:after {
+  position: absolute;
+  content: "";
+  width: 150%;
+  left: 50%;
+  height: 100%;
+  transform: translateX(-50%);
+  z-index: -1000;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+.bubble-btn:hover:before {
+  top: -70%;
+  background-image:
+    radial-gradient(circle, #E4572E 20%, transparent 20%),
+    radial-gradient(circle, transparent 20%, #E4572E 20%, transparent 30%),
+    radial-gradient(circle, #E4572E 20%, transparent 20%),
+    radial-gradient(circle, #E4572E 20%, transparent 20%),
+    radial-gradient(circle, transparent 10%, #E4572E 15%, transparent 20%),
+    radial-gradient(circle, #E4572E 20%, transparent 20%),
+    radial-gradient(circle, #E4572E 20%, transparent 20%),
+    radial-gradient(circle, #E4572E 20%, transparent 20%),
+    radial-gradient(circle, #E4572E 20%, transparent 20%);
+  background-size: 10% 10%, 20% 20%, 15% 15%, 20% 20%, 18% 18%, 10% 10%, 15% 15%, 10% 10%, 18% 18%;
+  background-position: 50% 120%;
+  animation: bubbleTop 0.6s ease;
+}
+
+@keyframes bubbleTop {
+  0% {
+    background-position: 5% 90%, 10% 90%, 10% 90%, 15% 90%, 25% 90%, 25% 90%, 40% 90%, 55% 90%, 70% 90%;
+  }
+  50% {
+    background-position: 0% 80%, 0% 20%, 10% 40%, 20% 0%, 30% 30%, 22% 50%, 50% 50%, 65% 20%, 90% 30%;
+  }
+  100% {
+    background-position: 0% 70%, 0% 10%, 10% 30%, 20% -10%, 30% 20%, 22% 40%, 50% 40%, 65% 10%, 90% 20%;
+    background-size: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%;
+  }
+}
+
+.bubble-btn:hover::after {
+  bottom: -70%;
+  background-image:
+    radial-gradient(circle, #E4572E 20%, transparent 20%),
+    radial-gradient(circle, #E4572E 20%, transparent 20%),
+    radial-gradient(circle, transparent 10%, #E4572E 15%, transparent 20%),
+    radial-gradient(circle, #E4572E 20%, transparent 20%),
+    radial-gradient(circle, #E4572E 20%, transparent 20%),
+    radial-gradient(circle, #E4572E 20%, transparent 20%),
+    radial-gradient(circle, #E4572E 20%, transparent 20%);
+  background-size: 15% 15%, 20% 20%, 18% 18%, 20% 20%, 15% 15%, 20% 20%, 18% 18%;
+  background-position: 50% 0%;
+  animation: bubbleBottom 0.6s ease;
+}
+
+@keyframes bubbleBottom {
+  0% {
+    background-position: 10% -10%, 30% 10%, 55% -10%, 70% -10%, 85% -10%, 70% -10%, 70% 0%;
+  }
+  50% {
+    background-position: 0% 80%, 20% 80%, 45% 60%, 60% 100%, 75% 70%, 95% 60%, 105% 0%;
+  }
+  100% {
+    background-position: 0% 90%, 20% 90%, 45% 70%, 60% 110%, 75% 80%, 95% 70%, 110% 10%;
+    background-size: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   PRATIYOGITA SETU — MODERN DESIGN SYSTEM (Coffee × Burnt Orange palette)
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* ─── Accent glow line (top edge decoration for sections) ─── */
+.section-top-line {
+  position: relative;
+}
+.section-top-line::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6rem;
+  height: 2px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, transparent, #E4572E, transparent);
+}
+
+/* ─── PS Brand Card ─── */
+.ps-card {
+  background: rgba(43, 30, 23, 0.6);
+  border: 1px solid rgba(228, 87, 46, 0.28);
+  border-radius: 1rem;
+  transition: border-color 0.25s ease;
+}
+.ps-card:hover {
+  border-color: rgba(228, 87, 46, 0.55);
+}
+
+/* ─── PS Divider ─── */
+.ps-divider {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(228,87,46,0.45) 30%, rgba(232,216,195,0.3) 50%, rgba(228,87,46,0.45) 70%, transparent 100%);
+  margin: 0.1rem 0;
+}
+
+/* ─── Burnt-orange badge pill ─── */
+.ps-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem 0.85rem;
+  border-radius: 9999px;
+  background: rgba(228, 87, 46, 0.12);
+  border: 1px solid rgba(228, 87, 46, 0.38);
+  color: #E4572E;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* ─── Glowing burnt-orange heading underline ─── */
+.ps-heading-accent {
+  display: inline-block;
+  position: relative;
+}
+.ps-heading-accent::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #E4572E, rgba(228,87,46,0.3));
+}
+
+
+
+/* ─── Coffee surface (opaque dark card) ─── */
+.ps-surface {
+  background: rgba(43, 30, 23, 0.85);
+  border: 1px solid rgba(232, 216, 195, 0.12);
+  border-radius: 1rem;
+}
+
+/* ─── Burnt-orange primary button (sans bubble) ─── */
+.ps-btn-primary {
+  background: #E4572E;
+  color: #FBF6EE;
+  border: none;
+  border-radius: 0.6rem;
+  padding: 0.6rem 1.5rem;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+.ps-btn-primary:hover {
+  background: #cf4a23;
+}
+.ps-btn-primary:active {
+  transform: scale(0.97);
+}
+
+/* ─── Ghost outline button ─── */
+.ps-btn-outline {
+  background: transparent;
+  color: #E4572E;
+  border: 1.5px solid #E4572E;
+  border-radius: 0.6rem;
+  padding: 0.6rem 1.5rem;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.ps-btn-outline:hover {
+  background: rgba(228,87,46,0.12);
+  color: #FBF6EE;
+}
+
+/* ─── Burnt-orange horizontal rule ─── */
+hr, .ps-hr {
+  border: none;
+  height: 1px;
+  background: rgba(228,87,46,0.25);
+}
+
+/* ─── FAQ & accordion borders → burnt orange ─── */
+[class*="border-orange-500"] {
+  border-color: #E4572E !important;
+}
+
+/* ─── Scrollbar (webkit) in coffee theme ─── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #2B1E17;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(228,87,46,0.55);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #E4572E;
+}
+
+/* ─── Selection highlight ─── */
+::selection {
+  background: rgba(228,87,46,0.35);
+  color: #FBF6EE;
+}
+

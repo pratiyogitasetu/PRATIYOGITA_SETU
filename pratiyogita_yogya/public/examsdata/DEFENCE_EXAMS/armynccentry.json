@@ -1,0 +1,286 @@
+{
+    "exam_code": "ARMYNCC",
+    "exam_name": "Indian Army NCC Special Entry Scheme, 2026",
+    "full_form": "National Cadet Corps Special Entry Scheme",
+    "exam_level": "NATIONAL",
+    "exam_sector": "DEFENCE SERVICES",
+    "exam_target": "OFFICER / GROUP A",
+    "exam_frequency_year": "2",
+    "conducting_body": "INDIAN ARMY",
+    "posts_classes_courses_departments_academies": "",
+
+    "post_name": "",
+    "post_code": "",
+    "group": "",
+    "ministry_department": "",
+    "exam_tiers": "SSB INTERVIEW + MEDICAL",
+    "exam_subjects": "NO WRITTEN EXAM",
+    "exam_pattern": "DIRECT SSB",
+    "exam_sections": "INTERVIEW, PSYCHOLOGY, GTO",
+    "mode_of_exam": "OFFLINE",
+    "exam_duration": "5 DAYS (SSB)",
+    "total_marks": "",
+    "number_of_questions": "",
+    "marking_scheme": "QUALIFYING IN NATURE",
+    "paper_medium": "",
+    "exam_date": "AS PER SSB SCHEDULE",
+    "maximum_attempts_allowed": "TILL AGE LIMIT REACHED",
+
+    "age_criteria_type": "BETWEEN_DOB",
+    "starting_age": "",
+    "ending_age": "",
+    "between_age": "",
+    "minimum_dob": "",
+    "maximum_dob": "",
+    "between_dob": {
+        "2026-I": "02-07-2001 to 01-07-2007",
+        "2026-II": "02-01-2002 to 01-01-2008",
+        "2027-I": "02-07-2002 to 01-07-2008",
+        "2027-II": "02-01-2003 to 01-01-2009",
+        "2028-I": "02-07-2003 to 01-07-2009",
+        "2028-II": "02-01-2004 to 01-01-2010",
+        "2029-I": "02-07-2004 to 01-07-2010",
+        "2029-II": "02-01-2005 to 01-01-2011",
+        "2030-I": "02-07-2005 to 01-07-2011",
+        "2030-II": "02-01-2006 to 01-01-2012"
+    },
+    "no_age_limit": "",
+
+    "gender": "MALE, FEMALE",
+    "special_gender_eligibility": "",
+    "marital_status": {
+        "MALE": ["UNMARRIED"],
+        "FEMALE": ["UNMARRIED"],
+        "TRANSGENDER": ["UNMARRIED"]
+    },
+
+    "nationality": ["INDIAN"],
+    "domicile": "ALL STATES",
+    "caste_category": "GEN, OBC, EWS, SC, ST",
+
+    "pwd_status": {
+        "applicability": "NOT APPLICABLE",
+        "marks_percentage_basis": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+        },
+        "age_relaxation_basis": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+        }
+    },
+
+    "age_relaxation": {
+        "GEN": "",
+        "OBC": "",
+        "EWS": "",
+        "SC": "",
+        "ST": "",
+        "EX_SERVICEMEN": ""
+    },
+
+    "highest_education_qualification": "GRADUATION",
+    "education_levels": {
+        "post_doctorate": "",
+        "phd": "",
+        "post_graduation": {
+            "course": {
+                "options": []
+            },
+            "subject": "",
+            "mandatory_subject": "",
+            "status": "",
+            "marks_percentage": {
+                "GEN": "",
+                "OBC": "",
+                "EWS": "",
+                "SC": "",
+                "ST": ""
+            },
+            "mandatory_subject_marks_percentage": {
+                "GEN": "",
+                "OBC": "",
+                "EWS": "",
+                "SC": "",
+                "ST": ""
+            },
+            "completed_year": "",
+            "board_university": "",
+            "active_backlogs_allowed": ""
+        },
+        "graduation": {
+            "course": {
+                "options": ["ALL COURSES"],
+                "except_course": []
+            },
+            "subject": "ALL SUBJECTS",
+            "mandatory_subject": "",
+            "mandatory_subjects": [],
+            "status": {
+                "options": ["PASSED", ""]
+            },
+            "marks_percentage": {
+                "GEN": "50%",
+                "OBC": "50%",
+                "EWS": "50%",
+                "SC": "50%",
+                "ST": "50%"
+            },
+            "mandatory_subject_marks_percentage": {
+                "GEN": "",
+                "OBC": "",
+                "EWS": "",
+                "SC": "",
+                "ST": ""
+            },
+            "mandatory_subjects_marks_percentage": {
+                "GEN": "",
+                "OBC": "",
+                "EWS": "",
+                "SC": "",
+                "ST": ""
+            },
+            "completed_year": "",
+            "board_university": "",
+            "active_backlogs_allowed": "NOT APPLICABLE"
+        },
+        "diploma": "",
+        "12th_higher_secondary": {
+            "course": {
+                "options": ["ALL COURSES"]
+            },
+            "subject": "ALL SUBJECTS",
+            "mandatory_subject": "",
+            "mandatory_subjects": [],
+            "status": {
+                "options": ["PASSED"]
+            },
+            "marks_percentage": {
+                "GEN": "33%",
+                "OBC": "33%",
+                "EWS": "33%",
+                "SC": "33%",
+                "ST": "33%"
+            },
+            "mandatory_subject_marks_percentage": {
+                "GEN": "",
+                "OBC": "",
+                "EWS": "",
+                "SC": "",
+                "ST": ""
+            },
+            "mandatory_subjects_marks_percentage": {
+                "GEN": "",
+                "OBC": "",
+                "EWS": "",
+                "SC": "",
+                "ST": ""
+            },
+            "completed_year": "",
+            "board_university": {
+                "options": ["CBSE", "ICSE", "STATE BOARD", "NIOS", "OTHER"]
+            }
+        },
+        "10th_secondary": {
+            "course_stream": {
+                "options": ["(10TH) SECONDARY"]
+            },
+            "subject": "ALL SUBJECTS",
+            "mandatory_subject": "",
+            "mandatory_subjects": [],
+            "status": {
+                "options": ["PASSED"]
+            },
+            "marks_percentage": {
+                "GEN": "33%",
+                "OBC": "33%",
+                "EWS": "33%",
+                "SC": "33%",
+                "ST": "33%"
+            },
+            "mandatory_subject_marks_percentage": {
+                "GEN": "",
+                "OBC": "",
+                "EWS": "",
+                "SC": "",
+                "ST": ""
+            },
+            "mandatory_subjects_marks_percentage": {
+                "GEN": "",
+                "OBC": "",
+                "EWS": "",
+                "SC": "",
+                "ST": ""
+            },
+            "completed_year": "",
+            "board_university": {
+                "options": ["CBSE", "ICSE", "STATE BOARD", "NIOS", "OTHER"]
+            }
+        },
+        "CLASS_VI": "",
+        "CLASS_VIII": "",
+        "no_education": ""
+    },
+    "gap_years_allowed": "APPLICABLE",
+    "educational_stream_restriction": "",
+
+    "ncc_wing": "ARMY",
+    "ncc_certificate": "C CERTIFICATE",
+    "ncc_certificate_grade": "A, B",
+
+    "ex_servicemen_status": "",
+
+    "sports_quota_eligibility": "",
+    "cpl_holder": "",
+    "height_cm": {
+        "MALE": "157.5",
+        "FEMALE": "152"
+    },
+    "weight_kg": "AS PER BMI",
+    "vision_eyesight": "AS PER ARMY MEDICAL STANDARDS",
+    "language_proficiency": "ENGLISH, HINDI",
+    "driving_license_type": "",
+    "current_employment_status": "",
+    "work_experience_required": "NO",
+    "work_experience_years": "",
+
+    "official_website": "https://joinindianarmy.nic.in",
+    "notification_link": "",
+    "application_form_link": "",
+    "application_fee": {
+        "GEN": "",
+        "OBC": "",
+        "EWS": "",
+        "SC": "",
+        "ST": "",
+        "FEMALE": "",
+        "PWD": "",
+        "EX_SERVICEMEN": ""
+    },
+    "payment_mode": "",
+    "selection_process": ["SSB INTERVIEW", "MEDICAL EXAMINATION"],
+    "training_duration": "",
+    "service_bond": "",
+    "probation_period": "",
+    "pay_scale": "",
+    "posting_locations": "",
+    "important_dates": {
+        "notification_date": "",
+        "application_start_date": "",
+        "application_end_date": "",
+        "exam_date": "AS PER SSB SCHEDULE",
+        "admit_card_date": "",
+        "result_date": ""
+    },
+    "helpline": {
+        "email": "",
+        "phone": ""
+    },
+    "remarks": ""
+}

@@ -1,0 +1,1042 @@
+{
+    "exam_code": "CDS",
+    "exam_name": "Combined Defence Services Examination (I), 2026",
+    "full_form": "Combined Defence Services Examination",
+    "exam_level": "NATIONAL",
+    "exam_sector": "DEFENCE SERVICES",
+    "exam_target": "OFFICER / GROUP A",
+    "exam_frequency_year": "2",
+    "conducting_body": "UPSC (Union Public Service Commission)",
+    "posts_classes_courses_departments_academies": "IMA, INA, AFA, OTA",
+
+    "academies": {
+        "IMA": {
+            "post_name": "",
+            "post_code": "",
+            "group": "",
+            "ministry_department": "",
+            "exam_tiers": "WRITTEN + SSB INTERVIEW + MEDICAL",
+            "exam_subjects": "ENGLISH, GENERAL KNOWLEDGE, MATHEMATICS",
+            "exam_pattern": "OBJECTIVE TYPE (MCQ)",
+            "exam_sections": "ENGLISH, GK, MATHS",
+            "mode_of_exam": "OFFLINE (PEN AND PAPER)",
+            "exam_duration": "2 HOURS PER PAPER",
+            "total_marks": "300",
+            "number_of_questions": "120",
+            "marking_scheme": "NEGATIVE MARKING 1/3",
+            "paper_medium": "ENGLISH, HINDI",
+            "exam_date": "12 APRIL 2026",
+            "maximum_attempts_allowed": "",
+
+            "age_criteria_type": "BETWEEN_DOB",
+            "starting_age": "",
+            "ending_age": "",
+            "between_age": "",
+            "minimum_dob": "",
+            "maximum_dob": "",
+            "between_dob": {
+                "2026-I": "02-01-2003 to 01-01-2008",
+                "2026-II": "02-07-2003 to 01-07-2008",
+                "2027-I": "02-01-2004 to 01-01-2009",
+                "2027-II": "02-07-2004 to 01-07-2009",
+                "2028-I": "02-01-2005 to 01-01-2010",
+                "2028-II": "02-07-2005 to 01-07-2010",
+                "2029-I": "02-01-2006 to 01-01-2011",
+                "2029-II": "02-07-2006 to 01-07-2011",
+                "2030-I": "02-01-2007 to 01-01-2012",
+                "2030-II": "02-07-2007 to 01-07-2012"
+            },
+            "no_age_limit": "",
+
+            "gender": "MALE",
+            "special_gender_eligibility": "",
+            "marital_status": {
+                "MALE": ["UNMARRIED"],
+                "FEMALE": [],
+                "TRANSGENDER": []
+            },
+
+            "nationality": ["INDIAN", "CITIZEN OF NEPAL", "CITIZEN OF BHUTAN", "TIBETAN REFUGEE (PRE-1962)", "PERSON OF INDIAN ORIGIN (PIO) FROM PAKISTAN", "PERSON OF INDIAN ORIGIN (PIO) FROM BURMA/MYANMAR", "PERSON OF INDIAN ORIGIN (PIO) FROM SRI LANKA", "PERSON OF INDIAN ORIGIN (PIO) FROM KENYA", "PERSON OF INDIAN ORIGIN (PIO) FROM UGANDA", "PERSON OF INDIAN ORIGIN (PIO) FROM TANZANIA", "PERSON OF INDIAN ORIGIN (PIO) FROM ZAMBIA", "PERSON OF INDIAN ORIGIN (PIO) FROM MALAWI", "PERSON OF INDIAN ORIGIN (PIO) FROM ZAIRE/DR CONGO", "PERSON OF INDIAN ORIGIN (PIO) FROM ETHIOPIA", "PERSON OF INDIAN ORIGIN (PIO) FROM VIETNAM"],
+            "domicile": "ALL STATES",
+            "caste_category": "GEN, OBC, EWS, SC, ST",
+
+            "pwd_status": {
+                "applicability": "NOT APPLICABLE",
+                "marks_percentage_basis": {
+                    "GEN": "",
+                    "OBC": "",
+                    "EWS": "",
+                    "SC": "",
+                    "ST": ""
+                },
+                "age_relaxation_basis": {
+                    "GEN": "",
+                    "OBC": "",
+                    "EWS": "",
+                    "SC": "",
+                    "ST": ""
+                }
+            },
+
+            "age_relaxation": {
+                "GEN": "",
+                "OBC": "",
+                "EWS": "",
+                "SC": "",
+                "ST": "",
+                "EX_SERVICEMEN": ""
+            },
+
+            "highest_education_qualification": "GRADUATION",
+            "education_levels": {
+                "post_doctorate": "",
+                "phd": "",
+                "post_graduation": {
+                    "course": {
+                        "options": []
+                    },
+                    "subject": "",
+                    "mandatory_subject": "",
+                    "status": "",
+                    "marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subject_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "completed_year": "",
+                    "board_university": "",
+                    "active_backlogs_allowed": ""
+                },
+                "graduation": {
+                    "course": {
+                        "options": ["ALL COURSES"],
+                        "except_course": []
+                    },
+                    "subject": "ALL SUBJECTS",
+                    "mandatory_subject": "",
+                    "mandatory_subjects": [],
+                    "status": "ALL STATUS",
+                    "marks_percentage": {
+                        "GEN": "33%",
+                        "OBC": "33%",
+                        "EWS": "33%",
+                        "SC": "33%",
+                        "ST": "33%"
+                    },
+                    "mandatory_subject_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subjects_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "completed_year": "",
+                    "board_university": "",
+                    "active_backlogs_allowed": "NOT APPLICABLE"
+                },
+                "diploma": "",
+                "12th_higher_secondary": {
+                    "course": {
+                        "options": ["ALL COURSES"]
+                    },
+                    "subject": "ALL SUBJECTS",
+                    "mandatory_subject": "",
+                    "mandatory_subjects": [],
+                    "status": "ALL STATUS",
+                    "marks_percentage": {
+                        "GEN": "33%",
+                        "OBC": "33%",
+                        "EWS": "33%",
+                        "SC": "33%",
+                        "ST": "33%"
+                    },
+                    "mandatory_subject_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subjects_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "completed_year": "",
+                    "board_university": {
+                        "options": ["CBSE", "ICSE", "STATE BOARD", "NIOS", "OTHER"]
+                    }
+                },
+                "10th_secondary": {
+                    "course_stream": {
+                        "options": ["(10TH) SECONDARY"]
+                    },
+                    "subject": "ALL SUBJECTS",
+                    "mandatory_subject": "",
+                    "mandatory_subjects": [],
+                    "status": "ALL STATUS",
+                    "marks_percentage": {
+                        "GEN": "33%",
+                        "OBC": "33%",
+                        "EWS": "33%",
+                        "SC": "33%",
+                        "ST": "33%"
+                    },
+                    "mandatory_subject_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subjects_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "completed_year": "",
+                    "board_university": {
+                        "options": ["CBSE", "ICSE", "STATE BOARD", "NIOS", "OTHER"]
+                    }
+                },
+                "CLASS_VI": "",
+                "CLASS_VIII": "",
+                "no_education": ""
+            },
+            "gap_years_allowed": "APPLICABLE",
+            "educational_stream_restriction": "",
+
+            "ncc_wing": "",
+            "ncc_certificate": "",
+            "ncc_certificate_grade": "",
+
+            "ex_servicemen_status": "",
+
+            "sports_quota_eligibility": "",
+            "cpl_holder": "",
+            "height_cm": "",
+            "weight_kg": "",
+            "vision_eyesight": "",
+            "language_proficiency": "",
+            "driving_license_type": "",
+            "current_employment_status": "",
+            "work_experience_required": "NO",
+            "work_experience_years": ""
+        },
+        "INA": {
+            "post_name": "",
+            "post_code": "",
+            "group": "",
+            "ministry_department": "",
+            "exam_tiers": "WRITTEN + SSB INTERVIEW + MEDICAL",
+            "exam_subjects": "ENGLISH, GENERAL KNOWLEDGE, MATHEMATICS",
+            "exam_pattern": "OBJECTIVE TYPE (MCQ)",
+            "exam_sections": "ENGLISH, GK, MATHS",
+            "mode_of_exam": "OFFLINE (PEN AND PAPER)",
+            "exam_duration": "2 HOURS PER PAPER",
+            "total_marks": "300",
+            "number_of_questions": "120",
+            "marking_scheme": "NEGATIVE MARKING 1/3",
+            "paper_medium": "ENGLISH, HINDI",
+            "exam_date": "12 APRIL 2026",
+            "maximum_attempts_allowed": "TILL AGE LIMIT REACHED",
+
+            "age_criteria_type": "BETWEEN_DOB",
+            "starting_age": "",
+            "ending_age": "",
+            "between_age": "",
+            "minimum_dob": "",
+            "maximum_dob": "",
+            "between_dob": {
+                "2026-I": "02-01-2003 to 01-01-2008",
+                "2026-II": "02-07-2003 to 01-07-2008",
+                "2027-I": "02-01-2004 to 01-01-2009",
+                "2027-II": "02-07-2004 to 01-07-2009",
+                "2028-I": "02-01-2005 to 01-01-2010",
+                "2028-II": "02-07-2005 to 01-07-2010",
+                "2029-I": "02-01-2006 to 01-01-2011",
+                "2029-II": "02-07-2006 to 01-07-2011",
+                "2030-I": "02-01-2007 to 01-01-2012",
+                "2030-II": "02-07-2007 to 01-07-2012"
+            },
+            "no_age_limit": "",
+
+            "gender": "MALE",
+            "special_gender_eligibility": "",
+            "marital_status": {
+                "MALE": ["UNMARRIED"],
+                "FEMALE": [],
+                "TRANSGENDER": []
+            },
+
+            "nationality": ["INDIAN", "CITIZEN OF NEPAL", "CITIZEN OF BHUTAN", "TIBETAN REFUGEE (PRE-1962)", "PERSON OF INDIAN ORIGIN (PIO) FROM PAKISTAN", "PERSON OF INDIAN ORIGIN (PIO) FROM BURMA/MYANMAR", "PERSON OF INDIAN ORIGIN (PIO) FROM SRI LANKA", "PERSON OF INDIAN ORIGIN (PIO) FROM KENYA", "PERSON OF INDIAN ORIGIN (PIO) FROM UGANDA", "PERSON OF INDIAN ORIGIN (PIO) FROM TANZANIA", "PERSON OF INDIAN ORIGIN (PIO) FROM ZAMBIA", "PERSON OF INDIAN ORIGIN (PIO) FROM MALAWI", "PERSON OF INDIAN ORIGIN (PIO) FROM ZAIRE/DR CONGO", "PERSON OF INDIAN ORIGIN (PIO) FROM ETHIOPIA", "PERSON OF INDIAN ORIGIN (PIO) FROM VIETNAM"],
+            "domicile": "ALL STATES",
+            "caste_category": "GEN, OBC, EWS, SC, ST",
+
+            "pwd_status": {
+                "applicability": "NOT APPLICABLE",
+                "marks_percentage_basis": {
+                    "GEN": "",
+                    "OBC": "",
+                    "EWS": "",
+                    "SC": "",
+                    "ST": ""
+                },
+                "age_relaxation_basis": {
+                    "GEN": "",
+                    "OBC": "",
+                    "EWS": "",
+                    "SC": "",
+                    "ST": ""
+                }
+            },
+
+            "age_relaxation": {
+                "GEN": "",
+                "OBC": "",
+                "EWS": "",
+                "SC": "",
+                "ST": "",
+                "EX_SERVICEMEN": ""
+            },
+
+            "highest_education_qualification": "GRADUATION",
+            "education_levels": {
+                "post_doctorate": "",
+                "phd": "",
+                "post_graduation": {
+                    "course": {
+                        "options": []
+                    },
+                    "subject": "",
+                    "mandatory_subject": "",
+                    "status": "",
+                    "marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subject_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "completed_year": "",
+                    "board_university": "",
+                    "active_backlogs_allowed": ""
+                },
+                "graduation": {
+                    "course": {
+                        "options": ["BTech", "BE"],
+                        "except_course": []
+                    },
+                    "subject": {
+                        "BTech": [
+                            "Computer Science & Engineering",
+                            "Information Technology",
+                            "Artificial Intelligence & ML",
+                            "Data Science",
+                            "Cyber Security",
+                            "Mechanical Engineering",
+                            "Civil Engineering",
+                            "Electrical Engineering",
+                            "Electronics & Communication",
+                            "Chemical Engineering",
+                            "Automobile Engineering",
+                            "Biomedical Engineering",
+                            "Aerospace Engineering",
+                            "Mining Engineering",
+                            "Petroleum Engineering",
+                            "Textile Engineering",
+                            "Production Engineering",
+                            "Instrumentation Engineering",
+                            "OTHER"
+                        ],
+                        "BE": [
+                            "Mechanical Engineering",
+                            "Civil Engineering",
+                            "Electrical Engineering",
+                            "Electronics Engineering",
+                            "Computer Engineering",
+                            "Telecommunication Engineering",
+                            "Industrial Engineering",
+                            "OTHER"
+                        ]
+                    },
+                    "mandatory_subject": "",
+                    "mandatory_subjects": [],
+                    "status": {
+                        "BTech": ["PASSED", "(4TH YEAR) ", "8th Sem"],
+                        "BE": ["PASSED", "(4TH YEAR) ", "8th Sem"]
+                    },
+                    "marks_percentage": {
+                        "GEN": "33%",
+                        "OBC": "33%",
+                        "EWS": "33%",
+                        "SC": "33%",
+                        "ST": "33%"
+                    },
+                    "mandatory_subject_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subjects_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "completed_year": "",
+                    "board_university": "",
+                    "active_backlogs_allowed": "APPLICABLE"
+                },
+                "diploma": "",
+                "12th_higher_secondary": {
+                    "course": {
+                        "options": ["Science", "Commerce", "Arts", "Vocational", "OTHER"]
+                    },
+                    "subject": {
+                        "Science": [
+                            "Physics, Chemistry, Mathematics (PCM)",
+                            "Physics, Chemistry, Biology (PCB)",
+                            "Physics, Chemistry, Mathematics, Biology (PCMB)",
+                            "Physics, Chemistry, Mathematics, Computer Science (PCMC)",
+                            "OTHER"
+                        ]
+                    },
+                    "mandatory_subject": "",
+                    "mandatory_subjects": [],
+                    "status": {
+                        "options": ["PASSED", "APPEARING", "FAILED", "NOT APPLICABLE"]
+                    },
+                    "marks_percentage": {
+                        "GEN": "33%",
+                        "OBC": "33%",
+                        "EWS": "33%",
+                        "SC": "33%",
+                        "ST": "33%"
+                    },
+                    "mandatory_subject_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subjects_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "completed_year": "",
+                    "board_university": {
+                        "options": ["CBSE", "ICSE", "STATE BOARD", "NIOS", "OTHER"]
+                    }
+                },
+                "10th_secondary": {
+                    "course_stream": {
+                        "options": ["(10TH) SECONDARY"]
+                    },
+                    "subject": {
+                        "options": ["Science, Mathematics, Social Science, Languages", "OTHER"]
+                    },
+                    "mandatory_subject": "",
+                    "mandatory_subjects": [],
+                    "status": {
+                        "options": ["PASSED", "APPEARING", "FAILED", "NOT APPLICABLE"]
+                    },
+                    "marks_percentage": {
+                        "GEN": "33%",
+                        "OBC": "33%",
+                        "EWS": "33%",
+                        "SC": "33%",
+                        "ST": "33%"
+                    },
+                    "mandatory_subject_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subjects_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "completed_year": "",
+                    "board_university": {
+                        "options": ["CBSE", "ICSE", "STATE BOARD", "NIOS", "OTHER", "DU"]
+                    }
+                },
+                "CLASS_VI": "",
+                "CLASS_VIII": "",
+                "no_education": ""
+            },
+            "gap_years_allowed": "NO LIMIT",
+            "educational_stream_restriction": "ENGINEERING ONLY",
+
+            "ncc_wing": "",
+            "ncc_certificate": "",
+            "ncc_certificate_grade": "",
+
+            "ex_servicemen_status": "",
+
+            "sports_quota_eligibility": "",
+            "cpl_holder": "",
+            "height_cm": "",
+            "weight_kg": "",
+            "vision_eyesight": "",
+            "language_proficiency": "ENGLISH, HINDI",
+            "driving_license_type": "",
+            "current_employment_status": "",
+            "work_experience_required": "NO",
+            "work_experience_years": ""
+        },
+        "AFA": {
+            "post_name": "",
+            "post_code": "",
+            "group": "",
+            "ministry_department": "",
+            "exam_tiers": "WRITTEN + SSB INTERVIEW + MEDICAL",
+            "exam_subjects": "ENGLISH, GENERAL KNOWLEDGE, MATHEMATICS",
+            "exam_pattern": "OBJECTIVE TYPE (MCQ)",
+            "exam_sections": "ENGLISH, GK, MATHS",
+            "mode_of_exam": "OFFLINE (PEN AND PAPER)",
+            "exam_duration": "2 HOURS PER PAPER",
+            "total_marks": "300",
+            "number_of_questions": "120",
+            "marking_scheme": "NEGATIVE MARKING 1/3",
+            "paper_medium": "ENGLISH, HINDI",
+            "exam_date": "12 APRIL 2026",
+            "maximum_attempts_allowed": "",
+
+            "age_criteria_type": "BETWEEN_DOB",
+            "starting_age": "",
+            "ending_age": "",
+            "between_age": "",
+            "minimum_dob": "",
+            "maximum_dob": "",
+            "between_dob": {
+                "2026-I": "02-01-2003 to 01-01-2007",
+                "2026-II": "02-07-2003 to 01-07-2007",
+                "2027-I": "02-01-2004 to 01-01-2008",
+                "2027-II": "02-07-2004 to 01-07-2008",
+                "2028-I": "02-01-2005 to 01-01-2009",
+                "2028-II": "02-07-2005 to 01-07-2009",
+                "2029-I": "02-01-2006 to 01-01-2010",
+                "2029-II": "02-07-2006 to 01-07-2010",
+                "2030-I": "02-01-2007 to 01-01-2011",
+                "2030-II": "02-07-2007 to 01-07-2011"
+            },
+            "no_age_limit": "",
+
+            "gender": "MALE",
+            "special_gender_eligibility": "",
+            "marital_status": {
+                "MALE": ["UNMARRIED"],
+                "FEMALE": ["UNMARRIED"],
+                "TRANSGENDER": []
+            },
+
+            "nationality": ["INDIAN", "CITIZEN OF NEPAL", "CITIZEN OF BHUTAN", "TIBETAN REFUGEE (PRE-1962)", "PERSON OF INDIAN ORIGIN (PIO) FROM PAKISTAN", "PERSON OF INDIAN ORIGIN (PIO) FROM BURMA/MYANMAR", "PERSON OF INDIAN ORIGIN (PIO) FROM SRI LANKA", "PERSON OF INDIAN ORIGIN (PIO) FROM KENYA", "PERSON OF INDIAN ORIGIN (PIO) FROM UGANDA", "PERSON OF INDIAN ORIGIN (PIO) FROM TANZANIA", "PERSON OF INDIAN ORIGIN (PIO) FROM ZAMBIA", "PERSON OF INDIAN ORIGIN (PIO) FROM MALAWI", "PERSON OF INDIAN ORIGIN (PIO) FROM ZAIRE/DR CONGO", "PERSON OF INDIAN ORIGIN (PIO) FROM ETHIOPIA", "PERSON OF INDIAN ORIGIN (PIO) FROM VIETNAM"],
+            "domicile": "ALL STATES",
+            "caste_category": "GEN, OBC, EWS, SC, ST",
+
+            "pwd_status": {
+                "applicability": "NOT APPLICABLE",
+                "marks_percentage_basis": {
+                    "GEN": "",
+                    "OBC": "",
+                    "EWS": "",
+                    "SC": "",
+                    "ST": ""
+                },
+                "age_relaxation_basis": {
+                    "GEN": "",
+                    "OBC": "",
+                    "EWS": "",
+                    "SC": "",
+                    "ST": ""
+                }
+            },
+
+            "age_relaxation": {
+                "GEN": "",
+                "OBC": "",
+                "EWS": "",
+                "SC": "",
+                "ST": "",
+                "EX_SERVICEMEN": ""
+            },
+
+            "highest_education_qualification": "GRADUATION",
+            "education_levels": {
+                "post_doctorate": "",
+                "phd": "",
+                "post_graduation": {
+                    "course": {
+                        "options": []
+                    },
+                    "subject": "",
+                    "mandatory_subject": "",
+                    "status": "",
+                    "marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subject_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "completed_year": "",
+                    "board_university": "",
+                    "active_backlogs_allowed": ""
+                },
+                "graduation": {
+                    "course": {
+                        "options": ["ALL COURSES"],
+                        "except_course": ["BTech", "BE"]
+                    },
+                    "subject": "ALL SUBJECTS",
+                    "mandatory_subject": "",
+                    "mandatory_subjects": [],
+                    "status": "ALL STATUS",
+                    "marks_percentage": {
+                        "GEN": "33%",
+                        "OBC": "33%",
+                        "EWS": "33%",
+                        "SC": "33%",
+                        "ST": "33%"
+                    },
+                    "mandatory_subject_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subjects_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "completed_year": "",
+                    "board_university": "",
+                    "active_backlogs_allowed": "NOT APPLICABLE"
+                },
+                "diploma": "",
+                "12th_higher_secondary": {
+                    "course": {
+                        "options": ["Science"]
+                    },
+                    "subject": {
+                        "Science": [
+                            "Physics, Chemistry, Mathematics (PCM)",
+                            "Physics, Chemistry, Mathematics, Biology (PCMB)",
+                            "Physics, Chemistry, Mathematics, Computer Science (PCMC)",
+                            "OTHER"
+                        ]
+                    },
+                    "mandatory_subject": "",
+                    "mandatory_subjects": ["Physics", "Mathematics"],
+                    "status": {
+                        "options": ["PASSED", "APPEARING", "FAILED", "NOT APPLICABLE"]
+                    },
+                    "marks_percentage": {
+                        "GEN": "33%",
+                        "OBC": "33%",
+                        "EWS": "33%",
+                        "SC": "33%",
+                        "ST": "33%"
+                    },
+                    "mandatory_subject_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subjects_marks_percentage": {
+                        "GEN": "50%",
+                        "OBC": "50%",
+                        "EWS": "50%",
+                        "SC": "50%",
+                        "ST": "50%"
+                    },
+                    "completed_year": "",
+                    "board_university": {
+                        "options": ["CBSE", "ICSE", "STATE BOARD", "NIOS", "OTHER"]
+                    }
+                },
+                "10th_secondary": {
+                    "course_stream": {
+                        "options": ["(10TH) SECONDARY"]
+                    },
+                    "subject": {
+                        "options": ["Science, Mathematics, Social Science, Languages", "OTHER"]
+                    },
+                    "mandatory_subject": "",
+                    "mandatory_subjects": [],
+                    "status": {
+                        "options": ["PASSED", "APPEARING", "FAILED", "NOT APPLICABLE"]
+                    },
+                    "marks_percentage": {
+                        "GEN": "33%",
+                        "OBC": "33%",
+                        "EWS": "33%",
+                        "SC": "33%",
+                        "ST": "33%"
+                    },
+                    "mandatory_subject_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subjects_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "completed_year": "",
+                    "board_university": {
+                        "options": ["CBSE", "ICSE", "STATE BOARD", "NIOS", "OTHER", "DU"]
+                    }
+                },
+                "CLASS_VI": "",
+                "CLASS_VIII": "",
+                "no_education": ""
+            },
+            "gap_years_allowed": "",
+            "educational_stream_restriction": "SCIENCE STREAM",
+
+            "ncc_wing": "",
+            "ncc_certificate": "",
+            "ncc_certificate_grade": "",
+
+            "ex_servicemen_status": "",
+
+            "sports_quota_eligibility": "",
+            "cpl_holder": "YES",
+            "height_cm": "",
+            "weight_kg": "",
+            "vision_eyesight": "",
+            "language_proficiency": "",
+            "driving_license_type": "",
+            "current_employment_status": "",
+            "work_experience_required": "NO",
+            "work_experience_years": ""
+        },
+        "OTA": {
+            "post_name": "",
+            "post_code": "",
+            "group": "",
+            "ministry_department": "",
+            "exam_tiers": "WRITTEN + SSB INTERVIEW + MEDICAL",
+            "exam_subjects": "ENGLISH, GENERAL KNOWLEDGE",
+            "exam_pattern": "OBJECTIVE TYPE (MCQ)",
+            "exam_sections": "ENGLISH, GK",
+            "mode_of_exam": "OFFLINE (PEN AND PAPER)",
+            "exam_duration": "2 HOURS PER PAPER",
+            "total_marks": "200",
+            "number_of_questions": "100",
+            "marking_scheme": "NEGATIVE MARKING 1/3",
+            "paper_medium": "ENGLISH, HINDI",
+            "exam_date": "12 APRIL 2026",
+            "maximum_attempts_allowed": "TILL AGE LIMIT REACHED",
+
+            "age_criteria_type": "BETWEEN_DOB",
+            "starting_age": "",
+            "ending_age": "",
+            "between_age": "",
+            "minimum_dob": "",
+            "maximum_dob": "",
+            "between_dob": {
+                "2026-I": "02-01-2002 to 01-01-2008",
+                "2026-II": "02-07-2002 to 01-07-2008",
+                "2027-I": "02-01-2003 to 01-01-2009",
+                "2027-II": "02-07-2003 to 01-07-2009",
+                "2028-I": "02-01-2004 to 01-01-2010",
+                "2028-II": "02-07-2004 to 01-07-2010",
+                "2029-I": "02-01-2005 to 01-01-2011",
+                "2029-II": "02-07-2005 to 01-07-2011",
+                "2030-I": "02-01-2006 to 01-01-2012",
+                "2030-II": "02-07-2006 to 01-07-2012"
+            },
+            "no_age_limit": "",
+
+            "gender": "MALE, FEMALE",
+            "special_gender_eligibility": "",
+            "marital_status": {
+                "MALE": ["UNMARRIED"],
+                "FEMALE": ["UNMARRIED", "SEPARATED", "DIVORCEE", "WIDOW"],
+                "TRANSGENDER": []
+            },
+
+            "nationality": ["INDIAN", "CITIZEN OF NEPAL", "CITIZEN OF BHUTAN", "TIBETAN REFUGEE (PRE-1962)", "PERSON OF INDIAN ORIGIN (PIO) FROM PAKISTAN", "PERSON OF INDIAN ORIGIN (PIO) FROM BURMA/MYANMAR", "PERSON OF INDIAN ORIGIN (PIO) FROM SRI LANKA", "PERSON OF INDIAN ORIGIN (PIO) FROM KENYA", "PERSON OF INDIAN ORIGIN (PIO) FROM UGANDA", "PERSON OF INDIAN ORIGIN (PIO) FROM TANZANIA", "PERSON OF INDIAN ORIGIN (PIO) FROM ZAMBIA", "PERSON OF INDIAN ORIGIN (PIO) FROM MALAWI", "PERSON OF INDIAN ORIGIN (PIO) FROM ZAIRE/DR CONGO", "PERSON OF INDIAN ORIGIN (PIO) FROM ETHIOPIA", "PERSON OF INDIAN ORIGIN (PIO) FROM VIETNAM"],
+            "domicile": "ALL STATES",
+            "caste_category": "GEN, OBC, EWS, SC, ST",
+
+            "pwd_status": {
+                "applicability": "NOT APPLICABLE",
+                "marks_percentage_basis": {
+                    "GEN": "",
+                    "OBC": "",
+                    "EWS": "",
+                    "SC": "",
+                    "ST": ""
+                },
+                "age_relaxation_basis": {
+                    "GEN": "",
+                    "OBC": "",
+                    "EWS": "",
+                    "SC": "",
+                    "ST": ""
+                }
+            },
+
+            "age_relaxation": {
+                "GEN": "",
+                "OBC": "",
+                "EWS": "",
+                "SC": "",
+                "ST": "",
+                "EX_SERVICEMEN": ""
+            },
+
+            "highest_education_qualification": "GRADUATION",
+            "education_levels": {
+                "post_doctorate": "",
+                "phd": "",
+                "post_graduation": {
+                    "course": {
+                        "options": []
+                    },
+                    "subject": "",
+                    "mandatory_subject": "",
+                    "status": "",
+                    "marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subject_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "completed_year": "",
+                    "board_university": "",
+                    "active_backlogs_allowed": ""
+                },
+                "graduation": {
+                    "course": {
+                        "options": ["ALL COURSES"],
+                        "except_course": []
+                    },
+                    "subject": "ALL SUBJECTS",
+                    "mandatory_subject": "",
+                    "mandatory_subjects": [],
+                    "status": "ALL STATUS",
+                    "marks_percentage": {
+                        "GEN": "33%",
+                        "OBC": "33%",
+                        "EWS": "33%",
+                        "SC": "33%",
+                        "ST": "33%"
+                    },
+                    "mandatory_subject_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subjects_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "completed_year": "",
+                    "board_university": "",
+                    "active_backlogs_allowed": "APPLICABLE"
+                },
+                "diploma": "",
+                "12th_higher_secondary": {
+                    "course": {
+                        "options": ["ALL COURSES"]
+                    },
+                    "subject": "ALL SUBJECTS",
+                    "mandatory_subject": "",
+                    "mandatory_subjects": [],
+                    "status": "ALL STATUS",
+                    "marks_percentage": {
+                        "GEN": "33%",
+                        "OBC": "33%",
+                        "EWS": "33%",
+                        "SC": "33%",
+                        "ST": "33%"
+                    },
+                    "mandatory_subject_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subjects_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "completed_year": "",
+                    "board_university": {
+                        "options": ["CBSE", "ICSE", "STATE BOARD", "NIOS", "OTHER"]
+                    }
+                },
+                "10th_secondary": {
+                    "course_stream": {
+                        "options": ["(10TH) SECONDARY"]
+                    },
+                    "subject": "ALL SUBJECTS",
+                    "mandatory_subject": "",
+                    "mandatory_subjects": [],
+                    "status": "ALL STATUS",
+                    "marks_percentage": {
+                        "GEN": "33%",
+                        "OBC": "33%",
+                        "EWS": "33%",
+                        "SC": "33%",
+                        "ST": "33%"
+                    },
+                    "mandatory_subject_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "mandatory_subjects_marks_percentage": {
+                        "GEN": "",
+                        "OBC": "",
+                        "EWS": "",
+                        "SC": "",
+                        "ST": ""
+                    },
+                    "completed_year": "",
+                    "board_university": {
+                        "options": ["CBSE", "ICSE", "STATE BOARD", "NIOS", "OTHER"]
+                    }
+                },
+                "CLASS_VI": "",
+                "CLASS_VIII": "",
+                "no_education": ""
+            },
+            "gap_years_allowed": "",
+            "educational_stream_restriction": "",
+
+            "ncc_wing": "",
+            "ncc_certificate": "",
+            "ncc_certificate_grade": "",
+
+            "ex_servicemen_status": "",
+
+            "sports_quota_eligibility": "",
+            "cpl_holder": "",
+            "height_cm": "",
+            "weight_kg": "",
+            "vision_eyesight": "",
+            "language_proficiency": "",
+            "driving_license_type": "",
+            "current_employment_status": "",
+            "work_experience_required": "NO",
+            "work_experience_years": ""
+        }
+    },
+
+    "official_website": "https://upsc.gov.in",
+    "notification_link": "",
+    "application_form_link": "",
+    "application_fee": {
+        "GEN": "",
+        "OBC": "",
+        "EWS": "",
+        "SC": "",
+        "ST": "",
+        "FEMALE": "",
+        "PWD": "",
+        "EX_SERVICEMEN": ""
+    },
+    "payment_mode": "",
+    "selection_process": ["WRITTEN EXAM", "SSB INTERVIEW", "MEDICAL EXAMINATION"],
+    "training_duration": "",
+    "service_bond": "",
+    "probation_period": "",
+    "pay_scale": "",
+    "posting_locations": "",
+    "important_dates": {
+        "notification_date": "",
+        "application_start_date": "",
+        "application_end_date": "",
+        "exam_date": "12 APRIL 2026",
+        "admit_card_date": "",
+        "result_date": ""
+    },
+    "helpline": {
+        "email": "",
+        "phone": ""
+    },
+    "remarks": ""
+}

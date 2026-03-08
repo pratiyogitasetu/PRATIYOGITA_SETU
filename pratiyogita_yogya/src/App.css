@@ -1,0 +1,27 @@
+#root {
+  text-align: center;
+  position: relative;
+}
+
+/* Grainy background layer matching Setu */
+.grainy-background-layer {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  filter: url(#grainy);
+  background: linear-gradient(135deg, #2B1E17 0%, #3d2419 40%, #4a2c1c 70%, #2B1E17 100%);
+  opacity: 1;
+}
+
+/* Rest of your existing CSS */
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+
+
+
+
