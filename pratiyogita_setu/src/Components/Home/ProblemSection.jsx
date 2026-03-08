@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { Highlighter } from "../../components/ui/highlighter";
+import { Highlighter } from "../../Components/ui/highlighter";
 
 // ─── Animated counter hook ────────────────────────────────────────────────────
 const useCountUp = (target, duration = 1800, active = false) => {
