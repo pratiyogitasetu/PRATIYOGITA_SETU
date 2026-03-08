@@ -95,13 +95,13 @@ const FeatureSection = () => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay }}
-      className="rounded-2xl flex flex-col items-center justify-center gap-3 p-5 w-[186px] h-[170px] xl:w-[218px] xl:h-[186px]"
+      className="rounded-2xl flex flex-col items-center justify-center gap-2 p-3 w-[150px] h-[140px] xl:w-[170px] xl:h-[150px]"
       style={{
         background: "rgba(43,30,23,0.6)",
         border: "1px solid rgba(228,87,46,0.20)",
       }}
     >
-      <img src={feat.logo} alt={feat.alt} className="object-contain" style={{ width: 90, height: 90 }} />
+      <img src={feat.logo} alt={feat.alt} className="object-contain" style={{ width: 60, height: 60 }} />
       <span className="text-[#E8D8C3]/70 text-[9px] xl:text-[10px] font-semibold text-center leading-tight">
         {feat.title.replace("Pratiyogita ", "")}
       </span>
@@ -208,7 +208,7 @@ const FeatureSection = () => {
                   }}
                 />
                 <div
-                  className="w-24 h-24 rounded-full flex items-center justify-center p-3"
+                  className="w-18 h-18 rounded-full flex items-center justify-center p-2"
                   style={{
                     background: "rgba(43,30,23,0.85)",
                     border: "2px solid rgba(228,87,46,0.35)",
@@ -237,7 +237,7 @@ const FeatureSection = () => {
                       initial={{ opacity: 0, scale: 0.8 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ duration: 0.3, delay: 0.2 + bi * 0.07 }}
-                      className="inline-block rounded-full px-4 py-1.5 text-sm font-medium"
+                      className="inline-block rounded-full px-3 py-1 text-xs font-medium"
                       style={{
                         background: "rgba(228,87,46,0.12)",
                         border: "1px solid rgba(228,87,46,0.30)",
@@ -254,7 +254,7 @@ const FeatureSection = () => {
                   href={f.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-7 py-2.5 rounded-full font-semibold text-sm transition-colors duration-200"
+                  className="inline-flex items-center gap-2 px-5 py-2 rounded-full font-semibold text-xs transition-colors duration-200"
                   style={{
                     background: "rgba(228,87,46,0.15)",
                     border: "1px solid rgba(228,87,46,0.35)",
@@ -283,7 +283,7 @@ const FeatureSection = () => {
                 <button
                   key={feat.id}
                   onClick={() => handleSelect(i)}
-                  className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs sm:text-sm font-semibold transition-all duration-200"
+                  className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] sm:text-xs font-semibold transition-all duration-200"
                   style={
                     active === i
                       ? { background: "#E4572E", color: "#FBF6EE", border: "1px solid #E4572E" }

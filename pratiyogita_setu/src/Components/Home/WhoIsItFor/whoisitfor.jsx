@@ -107,19 +107,19 @@ function AudienceCard({ item, index, side }) {
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true }}
-      className={`group flex items-start gap-3 p-3 rounded-xl bg-[#2B1E17]/55 border border-[#E4572E]/18 hover:border-[#E4572E]/50 hover:bg-[#2B1E17]/75 transition-all duration-300 ${
+      className={`group flex items-start gap-2 p-2.5 rounded-xl bg-[#2B1E17]/55 border border-[#E4572E]/18 hover:border-[#E4572E]/50 hover:bg-[#2B1E17]/75 transition-all duration-300 ${
         side === "right" ? "flex-row-reverse text-right" : ""
       }`}
     >
       <div
-        className="w-14 h-14 md:w-16 md:h-16 rounded-xl flex items-center justify-center shrink-0"
+        className="w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center shrink-0"
         style={{ backgroundColor: `${item.color}20`, border: `1px solid ${item.color}40` }}
       >
-        <Icon className="w-8 h-8 md:w-10 md:h-10" style={{ color: item.color }} />
+        <Icon className="w-5 h-5 md:w-6 md:h-6" style={{ color: item.color }} />
       </div>
       <div className="min-w-0">
-        <h4 className="text-base md:text-lg font-extrabold text-[#FBF6EE] leading-tight">{item.title}</h4>
-        <p className="text-sm md:text-base text-[#E8D8C3] mt-2 font-semibold leading-relaxed">{item.description}</p>
+        <h4 className="text-sm md:text-base font-extrabold text-[#FBF6EE] leading-tight">{item.title}</h4>
+        <p className="text-xs md:text-sm text-[#E8D8C3] mt-1 font-semibold leading-relaxed">{item.description}</p>
       </div>
     </motion.div>
   );
@@ -131,7 +131,7 @@ export default function WhoIsItFor() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         {/* Header */}
         <motion.div
-          className="text-center mb-10 md:mb-14"
+          className="text-center mb-6 md:mb-10"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -158,7 +158,7 @@ export default function WhoIsItFor() {
         </motion.div>
 
         {/* Desktop: 5 left + 5 right */}
-        <div className="hidden lg:grid lg:grid-cols-2 gap-5">
+        <div className="hidden lg:grid lg:grid-cols-2 gap-3">
           <div className="flex flex-col gap-3">
             {leftAudience.map((item, i) => (
               <AudienceCard key={item.title} item={item} index={i} side="left" />

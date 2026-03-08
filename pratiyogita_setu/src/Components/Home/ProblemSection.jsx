@@ -68,7 +68,7 @@ const ExamCarousel = () => (
                 key={`${copy}-${i}`}
                 src={logo.src}
                 alt={logo.alt}
-                className="w-20 h-20 sm:w-24 sm:h-24 object-contain opacity-70 hover:opacity-100 transition-opacity duration-300"
+                className="w-14 h-14 sm:w-18 sm:h-18 object-contain opacity-70 hover:opacity-100 transition-opacity duration-300"
                 loading="lazy"
               />
             ))}
@@ -118,10 +118,10 @@ const FloatCard = ({ value, suffix, label, delay, floatDelay, active, style }) =
         y:        { duration: 3.2, repeat: Infinity, ease: "easeInOut", delay: floatDelay },
       }}
     >
-      <span className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[#E4572E] leading-none tabular-nums">
+      <span className="text-base sm:text-lg lg:text-xl font-extrabold text-[#E4572E] leading-none tabular-nums">
         {count}{suffix}
       </span>
-      <span className="text-[10px] sm:text-xs font-semibold text-[#2B1E17]/65 mt-0.5 leading-tight">
+      <span className="text-[9px] sm:text-[10px] font-semibold text-[#2B1E17]/65 mt-0.5 leading-tight">
         {label}
       </span>
     </motion.div>
@@ -201,7 +201,7 @@ const ProblemSection = () => {
             <span className="inline-block text-xs font-bold uppercase tracking-[0.2em] text-[#E4572E] border border-[#E4572E]/40 rounded-full px-4 py-1 mb-4 bg-[#E4572E]/8">
               The Problem
             </span>
-            <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[#2B1E17] leading-tight">
+            <h2 className="text-lg sm:text-xl lg:text-2xl font-extrabold text-[#2B1E17] leading-tight">
               10+ Million Aspirants.{" "}
               <span className="text-[#E4572E]">
                 <TypewriterHeadline active={isInView} />
@@ -239,7 +239,7 @@ const ProblemSection = () => {
               {/* First paragraph with highlighter */}
               <motion.p
                 variants={paraVariant}
-                className="text-sm sm:text-base lg:text-lg leading-relaxed text-[#2B1E17] mb-3"
+                className="text-xs sm:text-sm lg:text-base leading-relaxed text-[#2B1E17] mb-3"
               >
                 Every year {" "}
                 <Highlighter action="highlight" color="#E8D8C3">10 million Indian aspirants</Highlighter>
@@ -253,7 +253,7 @@ const ProblemSection = () => {
                     variants={paraVariant}
                     className="my-4 rounded-xl border-l-4 border-[#E4572E] bg-[#E4572E]/8 px-5 py-4"
                   >
-                    <p className="text-sm sm:text-base lg:text-lg leading-relaxed text-[#2B1E17] font-semibold">
+                    <p className="text-xs sm:text-sm lg:text-base leading-relaxed text-[#2B1E17] font-semibold">
                       {p.text}
                     </p>
                   </motion.div>
@@ -261,7 +261,7 @@ const ProblemSection = () => {
                   <motion.p
                     key={i}
                     variants={paraVariant}
-                    className="text-sm sm:text-base lg:text-lg leading-relaxed text-[#2B1E17] mb-3"
+                    className="text-xs sm:text-sm lg:text-base leading-relaxed text-[#2B1E17] mb-3"
                   >
                     {p.text}
                   </motion.p>
