@@ -147,7 +147,7 @@ export default function WhoIsItFor() {
             </span>
           </motion.div>
 
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#FBF6EE] mb-4">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#FBF6EE] mb-4">
             Who Is{" "}
             <span className="bg-gradient-to-r from-[#E4572E] to-[#cf4a23] bg-clip-text text-transparent">
               Pratiyogita Setu

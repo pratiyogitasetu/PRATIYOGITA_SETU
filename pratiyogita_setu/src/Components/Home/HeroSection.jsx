@@ -64,7 +64,7 @@ const HeroSection = () => {
                       </motion.div>
           </div>
           <motion.h1
-            className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#FBF6EE] leading-tight"
+            className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#FBF6EE] leading-tight"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -134,7 +134,7 @@ const HeroSection = () => {
               {/* Content */}
               <div className="relative z-10 flex flex-col items-center gap-1 py-5 px-3">
                 <span
-                  className="text-4xl sm:text-5xl font-black tracking-tight leading-none"
+                  className="text-3xl sm:text-4xl font-black tracking-tight leading-none"
                   style={{ color: stat.textColor, fontVariantNumeric: "tabular-nums" }}
                 >
                   {stat.value}

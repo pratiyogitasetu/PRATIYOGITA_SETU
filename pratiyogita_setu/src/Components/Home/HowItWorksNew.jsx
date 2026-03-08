@@ -63,7 +63,7 @@ const HowItWorksNew = () => {
           initial={{ opacity: 0, y: 16 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#FBF6EE]"
+          className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#FBF6EE]"
         >
           How It Works
         </motion.h2>

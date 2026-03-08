@@ -20,7 +20,7 @@ const BackedBySection = () => {
             <img
               src="/microsoft.png"
               alt="Microsoft for Startups"
-              className="h-20 sm:h-44 w-auto object-contain"
+              className="h-14 sm:h-24 w-auto object-contain"
               style={{ filter: "brightness(0) invert(1)", opacity: 0.9 }}
             />
           </motion.div>
@@ -41,7 +41,7 @@ const BackedBySection = () => {
             <img
               src="/nxtwave.png"
               alt="NxtWave"
-              className="h-20 sm:h-44 w-auto object-contain"
+              className="h-14 sm:h-24 w-auto object-contain"
               style={{ filter: "brightness(0) invert(1)", opacity: 0.9 }}
             />
           </motion.div>

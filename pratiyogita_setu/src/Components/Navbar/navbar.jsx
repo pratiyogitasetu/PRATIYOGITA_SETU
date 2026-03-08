@@ -43,7 +43,7 @@ const Navbar = () => {
 
   return (
     <>
-    <div className="fixed top-3 left-1/2 -translate-x-1/2 w-[92%] md:w-[80%] lg:w-[70%] z-50">
+    <div className="fixed top-3 left-1/2 -translate-x-1/2 w-[92%] md:w-[90%] lg:w-[88%] xl:w-[78%] z-50">
       <nav
         className={`w-full px-3 sm:px-4 md:px-6 py-1.5 rounded-2xl transition-all duration-150 flex items-center ${
           isScrolled
@@ -68,33 +68,33 @@ const Navbar = () => {
 
           {/* Center - Desktop Menu */}
           <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center">
-            <div className="flex items-center space-x-3 lg:space-x-6 whitespace-nowrap">
-              <Link to="/" className="text-[#FBF6EE] hover:text-[#E4572E] font-semibold text-sm lg:text-base transition-colors">
+            <div className="flex items-center space-x-2 lg:space-x-3 xl:space-x-5 whitespace-nowrap">
+              <Link to="/" className="text-[#FBF6EE] hover:text-[#E4572E] font-semibold text-xs lg:text-sm xl:text-base transition-colors">
                 Home
               </Link>
               <a
                 href={`${PRATIYOGITA_YOGYA_URL}/check-eligibility`}
-                className="text-[#E8D8C3] hover:text-[#E4572E] font-semibold text-sm lg:text-base transition-colors"
+                className="text-[#E8D8C3] hover:text-[#E4572E] font-semibold text-xs lg:text-sm xl:text-base transition-colors"
               >
                 Pratiyogita Yogya
               </a>
               <a
                 href={`${PRATIYOGITA_MARG_URL}/explore`}
-                className="text-[#E8D8C3] hover:text-[#E4572E] font-semibold text-sm lg:text-base transition-colors"
+                className="text-[#E8D8C3] hover:text-[#E4572E] font-semibold text-xs lg:text-sm xl:text-base transition-colors"
               >
                 Pratiyogita Marg
               </a>
               <a
                 href={PRATIYOGITA_GYAN_URL}
-                className="text-[#E8D8C3] hover:text-[#E4572E] font-semibold text-sm lg:text-base transition-colors"
+                className="text-[#E8D8C3] hover:text-[#E4572E] font-semibold text-xs lg:text-sm xl:text-base transition-colors"
               >
                 Pratiyogita Gyan
               </a>
-              <Link to="/gyan-posters" className="relative text-[#E8D8C3] hover:text-[#E4572E] font-semibold text-sm lg:text-base transition-colors">
+              <Link to="/gyan-posters" className="relative text-[#E8D8C3] hover:text-[#E4572E] font-semibold text-xs lg:text-sm xl:text-base transition-colors">
                 Gyan Posters
                 <span className="absolute -top-2.5 -right-7 bg-[#E4572E] text-[#FBF6EE] text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none animate-pulse">NEW</span>
               </Link>
-              <Link to="/about" className="text-[#E8D8C3] hover:text-[#E4572E] font-semibold text-sm lg:text-base transition-colors">
+              <Link to="/about" className="text-[#E8D8C3] hover:text-[#E4572E] font-semibold text-xs lg:text-sm xl:text-base transition-colors">
                 About Us
               </Link>
             </div>
