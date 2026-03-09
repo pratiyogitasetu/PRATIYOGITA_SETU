@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 const PRATIYOGITA_YOGYA_URL =
-  import.meta.env.VITE_PRATIYOGITA_YOGYA_URL || "http://localhost:5173";
+  import.meta.env.VITE_PRATIYOGITA_YOGYA_URL || "https://yogya.psetu.com";
 const PRATIYOGITA_MARG_URL =
-  import.meta.env.VITE_PRATIYOGITA_MARG_URL || "http://localhost:8080";
+  import.meta.env.VITE_PRATIYOGITA_MARG_URL || "https://marg.psetu.com";
 const PRATIYOGITA_GYAN_URL =
-  import.meta.env.VITE_PRATIYOGITA_GYAN_URL || "http://localhost:3002";
+  import.meta.env.VITE_PRATIYOGITA_GYAN_URL || "https://gyan.psetu.com";
 const PRATIYOGITA_SETU_URL =
   import.meta.env.VITE_PRATIYOGITA_SETU_URL || "https://psetu.com";
 
@@ -74,30 +74,31 @@ const Navbar = () => {
               <Link to="/" className="text-[#FBF6EE] hover:text-[#E4572E] font-semibold text-xs lg:text-sm xl:text-base transition-colors">
                 Home
               </Link>
-              <a
-                href={PRATIYOGITA_SETU_URL}
-                className="text-[#E8D8C3] hover:text-[#E4572E] font-semibold text-xs lg:text-sm xl:text-base transition-colors"
-              >
-                Pratiyogita Setu
-              </a>
-              <a
-                href={`${PRATIYOGITA_YOGYA_URL}/check-eligibility`}
-                className="text-[#E8D8C3] hover:text-[#E4572E] font-semibold text-xs lg:text-sm xl:text-base transition-colors"
-              >
-                Pratiyogita Yogya
-              </a>
-              <a
-                href={`${PRATIYOGITA_MARG_URL}/explore`}
-                className="text-[#E8D8C3] hover:text-[#E4572E] font-semibold text-xs lg:text-sm xl:text-base transition-colors"
-              >
-                Pratiyogita Marg
-              </a>
-              <a
-                href={PRATIYOGITA_GYAN_URL}
-                className="text-[#E8D8C3] hover:text-[#E4572E] font-semibold text-xs lg:text-sm xl:text-base transition-colors"
-              >
-                Pratiyogita Gyan
-              </a>
+              <div className="relative group">
+                <button
+                  type="button"
+                  className="flex items-center gap-1 text-[#E8D8C3] group-hover:text-[#E4572E] font-semibold text-xs lg:text-sm xl:text-base transition-colors"
+                >
+                  Platforms
+                  <ChevronDown size={16} className="transition-transform group-hover:rotate-180" />
+                </button>
+                <div className="absolute left-1/2 top-full z-20 hidden min-w-[220px] -translate-x-1/2 pt-3 group-hover:block">
+                  <div className="rounded-xl border border-[#E4572E]/40 bg-[#2B1E17]/95 p-2 shadow-2xl backdrop-blur-md">
+                    <a href={PRATIYOGITA_SETU_URL} className="block rounded-lg px-3 py-2 text-sm font-semibold text-[#E8D8C3] transition-colors hover:bg-[#E4572E]/15 hover:text-[#FBF6EE]">
+                      Pratiyogita Setu
+                    </a>
+                    <a href={`${PRATIYOGITA_YOGYA_URL}/check-eligibility`} className="block rounded-lg px-3 py-2 text-sm font-semibold text-[#E8D8C3] transition-colors hover:bg-[#E4572E]/15 hover:text-[#FBF6EE]">
+                      Pratiyogita Yogya
+                    </a>
+                    <a href={`${PRATIYOGITA_MARG_URL}/explore`} className="block rounded-lg px-3 py-2 text-sm font-semibold text-[#E8D8C3] transition-colors hover:bg-[#E4572E]/15 hover:text-[#FBF6EE]">
+                      Pratiyogita Marg
+                    </a>
+                    <a href={PRATIYOGITA_GYAN_URL} className="block rounded-lg px-3 py-2 text-sm font-semibold text-[#E8D8C3] transition-colors hover:bg-[#E4572E]/15 hover:text-[#FBF6EE]">
+                      Pratiyogita Gyan
+                    </a>
+                  </div>
+                </div>
+              </div>
               <Link to="/gyan-posters" className="relative text-[#E8D8C3] hover:text-[#E4572E] font-semibold text-xs lg:text-sm xl:text-base transition-colors">
                 Gyan Posters
                 <span className="absolute -top-2.5 -right-7 bg-[#E4572E] text-[#FBF6EE] text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none animate-pulse">NEW</span>
