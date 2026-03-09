@@ -118,37 +118,29 @@ export type FontWeight = 'light' | 'normal' | 'medium' | 'semibold' | 'bold' | '
 export type NodeContent = { title?: string; description?: string; links?: { label: string; url: string }[] };
 export type LegendPosition = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'left-top' | 'left-center' | 'left-bottom' | 'right-top' | 'right-center' | 'right-bottom';
 
-export type ExamCategory = 
-  | 'SSC_EXAMS'
-  | 'BANKING_EXAMS'
-  | 'CIVIL_SERVICES_EXAMS'
-  | 'DEFENCE_EXAMS'
-  | 'ENGINEERING_RECRUITING_EXAMS'
-  | 'INSURANCE_EXAMS'
-  | 'MBA_EXAMS'
-  | 'NURSUING_EXAMS'
-  | 'PG_EXAMS'
-  | 'POLICE_EXAMS'
-  | 'RAILWAY_EXAMS'
-  | 'SCHOOL_EXAMS'
-  | 'TEACHING_EXAMS'
-  | 'UG_EXAMS';
+export type ExamCategory = string;
 
-export const EXAM_CATEGORIES: ExamCategory[] = [
+// Legacy hardcoded list — categories are now fetched from /api/mindmap-catalog
+export const EXAM_CATEGORIES: string[] = [
   'SSC_EXAMS',
   'BANKING_EXAMS',
   'CIVIL_SERVICES_EXAMS',
-  'DEFENCE_EXAMS',
-  'ENGINEERING_RECRUITING_EXAMS',
-  'INSURANCE_EXAMS',
-  'MBA_EXAMS',
-  'NURSUING_EXAMS',
-  'PG_EXAMS',
-  'POLICE_EXAMS',
   'RAILWAY_EXAMS',
+  'DEFENCE_EXAMS',
+  'INSURANCES_ED',
+  'NURSING_ED',
+  'PG_EXAMS',
+  'CAMPUS_PLACEMENT_ED',
+  'MBA_EXAMS',
+  'ACCOUNTING_COMMERCE_ED',
+  'JUDICIARY_ED',
+  'Other_ED',
+  'UG_EXAMS',
+  'POLICE_EXAMS',
+  'OTHER_GOV_ED',
   'SCHOOL_EXAMS',
   'TEACHING_EXAMS',
-  'UG_EXAMS'
+  'ENGINEERING_RECRUITING_EXAMS',
 ];
 
 // Add a global declaration for the mindmapApi

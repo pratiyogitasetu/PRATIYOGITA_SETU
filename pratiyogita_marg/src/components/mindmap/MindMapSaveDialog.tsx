@@ -9,7 +9,6 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -18,8 +17,19 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { ExamCategory, EXAM_CATEGORIES } from "./types";
+import { ExamCategory } from "./types";
 import { useToast } from "@/hooks/use-toast";
+
+interface CatalogEntry {
+  mindmap_name: string;
+  exam_code: string;
+  linked_json_file: string;
+}
+
+type CatalogData = Record<string, CatalogEntry[]>;
+
+const formatName = (s: string) =>
+  s.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ');
 
 interface MindMapSaveDialogProps {
   open: boolean;
@@ -36,39 +46,49 @@ export function MindMapSaveDialog({
   currentName,
   isNewFlow = false,
 }: MindMapSaveDialogProps) {
-  const [name, setName] = useState(currentName);
-  const [examCategory, setExamCategory] = useState<ExamCategory | ''>('');
+  const [examCategory, setExamCategory] = useState<string>('');
+  const [examName, setExamName] = useState('');
+  const [catalog, setCatalog] = useState<CatalogData>({});
+  const [categories, setCategories] = useState<string[]>([]);
+  const [loadingCatalog, setLoadingCatalog] = useState(false);
 
   const { toast } = useToast();
 
+  // Fetch catalog once when dialog opens
+  useEffect(() => {
+    if (open && categories.length === 0) {
+      setLoadingCatalog(true);
+      fetch('/api/mindmap-catalog')
+        .then(r => r.ok ? r.json() : {})
+        .then((data: CatalogData) => {
+          setCatalog(data);
+          setCategories(Object.keys(data));
+        })
+        .catch(() => {})
+        .finally(() => setLoadingCatalog(false));
+    }
+  }, [open]);
+
   useEffect(() => {
     if (open) {
-      // For new flow, always start with blank name & category
-      setName(isNewFlow ? '' : currentName);
+      setExamName(isNewFlow ? '' : currentName);
       setExamCategory('');
     }
   }, [open, currentName, isNewFlow]);
 
+  // Exam names for selected category
+  const examNames = examCategory ? (catalog[examCategory] || []) : [];
+
   const handleSave = () => {
-    if (!name.trim()) {
-      toast({
-        title: "Error",
-        description: "Please enter a mind map name",
-        variant: "destructive",
-      });
-      return;
-    }
-
     if (!examCategory) {
-      toast({
-        title: "Error",
-        description: "Please select an exam category",
-        variant: "destructive",
-      });
+      toast({ title: "Error", description: "Please select an exam category", variant: "destructive" });
       return;
     }
-
-    onSave(name, examCategory as ExamCategory);
+    if (!examName) {
+      toast({ title: "Error", description: "Please select an exam name", variant: "destructive" });
+      return;
+    }
+    onSave(examName, examCategory as ExamCategory);
     onOpenChange(false);
   };
 
@@ -79,44 +99,57 @@ export function MindMapSaveDialog({
           <DialogTitle>{isNewFlow ? 'New Mind Map' : 'Save Mind Map'}</DialogTitle>
           <DialogDescription>
             {isNewFlow
-              ? 'Naye mind map ka naam aur exam category daalein'
-              : 'Enter the details to save your mind map'}
+              ? 'Select category and exam to create a mind map'
+              : 'Select category and exam to save your mind map'}
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              Name
-            </Label>
-            <Input
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="col-span-3"
-              placeholder="Enter mind map name"
-            />
-          </div>
+          {/* Category selector */}
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="examCategory" className="text-right">
-              Exam Category
+              Category
             </Label>
-            <Select value={examCategory} onValueChange={(value) => setExamCategory(value as ExamCategory)}>
+            <Select
+              value={examCategory}
+              onValueChange={(value) => { setExamCategory(value); setExamName(''); }}
+              disabled={loadingCatalog}
+            >
               <SelectTrigger id="examCategory" className="col-span-3">
-                <SelectValue placeholder="Select a category" />
+                <SelectValue placeholder={loadingCatalog ? "Loading..." : "Select a category"} />
               </SelectTrigger>
               <SelectContent className="max-h-[300px]">
-                {EXAM_CATEGORIES.map((category) => (
-                  <SelectItem key={category} value={category}>
-                    {category.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ')}
+                {categories.map((cat) => (
+                  <SelectItem key={cat} value={cat}>
+                    {formatName(cat)} ({(catalog[cat] || []).length})
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
           </div>
 
+          {/* Exam name selector (shown after category is selected) */}
+          {examCategory && (
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="examName" className="text-right">
+                Exam
+              </Label>
+              <Select value={examName} onValueChange={setExamName}>
+                <SelectTrigger id="examName" className="col-span-3">
+                  <SelectValue placeholder="Select an exam" />
+                </SelectTrigger>
+                <SelectContent className="max-h-[300px]">
+                  {examNames.map((exam) => (
+                    <SelectItem key={exam.mindmap_name} value={exam.mindmap_name}>
+                      {exam.mindmap_name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
         </div>
         <DialogFooter>
-          <Button type="submit" onClick={handleSave}>
+          <Button type="submit" onClick={handleSave} disabled={!examCategory || !examName}>
             Save
           </Button>
         </DialogFooter>

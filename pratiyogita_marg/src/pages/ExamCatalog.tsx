@@ -5,39 +5,78 @@ import Footer from '@/components/Footer';
 import { Search, BookOpen } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getAllMindMaps, MindMapListItem } from '@/utils/mindmapStorage';
-import { EXAM_CATEGORIES, ExamCategory } from '@/components/mindmap/types';
+
+interface CatalogEntry {
+  mindmap_name: string;
+  exam_code: string;
+  linked_json_file: string;
+}
+
+type CatalogData = Record<string, CatalogEntry[]>;
+
+const formatCategoryName = (cat: string) =>
+  cat.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ');
 
 const ExamCatalog = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<ExamCategory>(EXAM_CATEGORIES[0]);
+  const [catalog, setCatalog] = useState<CatalogData>({});
+  const [categories, setCategories] = useState<string[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [mindMaps, setMindMaps] = useState<MindMapListItem[]>([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const refreshMindMaps = async () => {
-    const maps = await getAllMindMaps();
-    setMindMaps(maps);
-  };
-
   useEffect(() => {
-    void refreshMindMaps();
+    const init = async () => {
+      try {
+        // Fetch catalog and saved mindmaps in parallel
+        const [catalogRes, maps] = await Promise.all([
+          fetch('/api/mindmap-catalog').then(r => r.ok ? r.json() : {}),
+          getAllMindMaps(),
+        ]);
+        const cats = Object.keys(catalogRes);
+        setCatalog(catalogRes);
+        setCategories(cats);
+        if (cats.length > 0) setSelectedCategory(cats[0]);
+        setMindMaps(maps);
+      } catch (err) {
+        console.error('Error loading catalog:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    void init();
   }, []);
 
-  const savedMapsForCategory = mindMaps.filter(
-    (mapItem) => mapItem.examCategory === selectedCategory
+  // Set of saved mindmap names for quick lookup
+  const savedNames = new Set(
+    mindMaps
+      .filter(m => m.examCategory === selectedCategory)
+      .map(m => m.name)
   );
 
-  const availableMindMaps = savedMapsForCategory.filter((mapItem) => {
+  // Exam entries for selected category
+  const categoryExams = catalog[selectedCategory] || [];
+
+  // Filter by search
+  const filteredExams = categoryExams.filter(exam => {
     if (!searchTerm) return true;
-    return mapItem.name.toLowerCase().includes(searchTerm.toLowerCase());
+    return exam.mindmap_name.toLowerCase().includes(searchTerm.toLowerCase());
   });
 
-  const handleExamClick = (mapName: string) => {
-    navigate(`/view?map=${encodeURIComponent(mapName)}`);
-  };
-
-  const filteredCategories = EXAM_CATEGORIES.filter(cat =>
-    cat.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredCategories = categories.filter(cat =>
+    cat.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (catalog[cat] || []).some(e => e.mindmap_name.toLowerCase().includes(searchTerm.toLowerCase()))
   );
+
+  const handleExamClick = (examName: string) => {
+    // If mindmap exists, view it; otherwise go to editor to create
+    if (savedNames.has(examName)) {
+      navigate(`/view?map=${encodeURIComponent(examName)}`);
+    } else {
+      navigate(`/editor?exam=${encodeURIComponent(examName)}&category=${encodeURIComponent(selectedCategory)}`);
+    }
+  };
 
   return (
     <div className="min-h-screen" style={{ background: 'transparent' }}>
@@ -61,7 +100,7 @@ const ExamCatalog = () => {
             </Link>
         </div>
 
-        {/* Search Bar - pure HTML, no shadcn */}
+        {/* Search Bar */}
         <div className="relative mb-4 sm:mb-6">
           <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/40 h-5 w-5 pointer-events-none" />
           <input
@@ -74,7 +113,10 @@ const ExamCatalog = () => {
           />
         </div>
 
-        {/* Two Panel Layout */}
+        {loading ? (
+          <div className="text-center py-20 text-white/50">Loading exam catalog...</div>
+        ) : (
+        /* Two Panel Layout */
         <div
           className="flex flex-col md:flex-row gap-0 rounded-xl overflow-hidden min-h-[600px] 2xl:min-h-[680px] backdrop-blur-sm"
           style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(249,115,22,0.4)' }}
@@ -95,43 +137,52 @@ const ExamCatalog = () => {
                   background: selectedCategory === category ? 'rgba(249,115,22,0.1)' : 'transparent',
                 }}
               >
-                {category.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ')}
+                {formatCategoryName(category)}
+                <span className="ml-2 text-xs text-white/30">({(catalog[category] || []).length})</span>
               </button>
             ))}
           </div>
 
-          {/* Right Panel - Sub Exams */}
-          <div className="flex-1 p-4 sm:p-6 2xl:p-8">
+          {/* Right Panel - Exam Names */}
+          <div className="flex-1 p-4 sm:p-6 2xl:p-8 overflow-y-auto">
             <h2 className="text-lg sm:text-xl 2xl:text-2xl font-bold text-white mb-4 sm:mb-6">
-              {selectedCategory.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ')}
+              {formatCategoryName(selectedCategory)}
+              <span className="ml-2 text-sm font-normal text-white/40">
+                ({filteredExams.length} exams)
+              </span>
             </h2>
 
-            {/* Available Mindmaps */}
-            <div className="mb-6">
-              <h3 className="text-base sm:text-lg font-semibold text-green-400 mb-3">Available Mindmaps</h3>
-              {availableMindMaps.length > 0 ? (
-                <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 2xl:gap-5">
-                  {availableMindMaps.map((mapItem) => (
-                      <button
-                        key={mapItem.name}
-                        onClick={() => handleExamClick(mapItem.name)}
-                        className="px-3 sm:px-4 2xl:px-5 py-2.5 sm:py-3 2xl:py-3.5 rounded-lg text-left text-xs sm:text-sm 2xl:text-base font-medium transition-all text-green-400 hover:shadow-lg"
-                        style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)' }}
-                      >
-                        {mapItem.name}
-                        <span className="ml-2 text-xs text-green-500">✓</span>
-                      </button>
-                    ))}
-                </div>
-              ) : (
-                <div className="text-center py-12 text-white/50">
-                  <BookOpen className="h-12 w-12 mx-auto mb-4 text-white/30" />
-                  <p className="text-sm sm:text-base">No mind maps available in this category yet.</p>
-                </div>
-              )}
-            </div>
+            {filteredExams.length > 0 ? (
+              <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 2xl:gap-5">
+                {filteredExams.map((exam) => {
+                  const hasMindmap = savedNames.has(exam.mindmap_name);
+                  return (
+                    <button
+                      key={exam.mindmap_name}
+                      onClick={() => handleExamClick(exam.mindmap_name)}
+                      className={`px-3 sm:px-4 2xl:px-5 py-2.5 sm:py-3 2xl:py-3.5 rounded-lg text-left text-xs sm:text-sm 2xl:text-base font-medium transition-all hover:shadow-lg ${
+                        hasMindmap ? 'text-green-400' : 'text-white/70 hover:text-white'
+                      }`}
+                      style={{
+                        background: hasMindmap ? 'rgba(34,197,94,0.1)' : 'rgba(255,255,255,0.03)',
+                        border: hasMindmap ? '1px solid rgba(34,197,94,0.3)' : '1px solid rgba(255,255,255,0.1)',
+                      }}
+                    >
+                      {exam.mindmap_name}
+                      {hasMindmap && <span className="ml-2 text-xs text-green-500">✓</span>}
+                    </button>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="text-center py-12 text-white/50">
+                <BookOpen className="h-12 w-12 mx-auto mb-4 text-white/30" />
+                <p className="text-sm sm:text-base">No exams found in this category.</p>
+              </div>
+            )}
           </div>
         </div>
+        )}
       </div>
 
       {/* Footer */}
