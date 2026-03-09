@@ -13,7 +13,20 @@ export default async function handler(req, res) {
 
   try {
     const { db } = await connectToDatabase();
-    const count = await db.collection('exam_data').countDocuments();
+
+    // Get category names from the catalog
+    const catalog = await db.collection('exam_catalog').findOne({ _id: 'master_catalog' });
+    const categories = catalog?.categories ? Object.keys(catalog.categories) : [];
+
+    // Count documents across all category collections
+    let count = 0;
+    await Promise.all(
+      categories.map(async (cat) => {
+        const n = await db.collection(cat).countDocuments();
+        count += n;
+      })
+    );
+
     return res.status(200).json({ count });
   } catch (err) {
     console.error('Error counting exams:', err);

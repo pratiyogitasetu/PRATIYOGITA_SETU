@@ -24,19 +24,6 @@ const Footer = () => {
             </div>
 
             <div className="space-y-5">
-              {/* Pratiyogita Setu */}
-              <div>
-                <a href={PRATIYOGITA_SETU_URL} className="flex items-center gap-2 mb-1.5">
-                  <div className="rounded-xl p-1.5" style={{ background: "rgba(43,30,23,0.7)", border: "1px solid rgba(228,87,46,0.30)" }}>
-                    <img src="/logos/ps.png" alt="Pratiyogita Setu" className="h-10 sm:h-12 w-auto object-contain" />
-                  </div>
-                  <span className="text-base sm:text-lg font-bold text-[#FBF6EE]">Pratiyogita Setu</span>
-                </a>
-                <p className="text-sm text-[#E8D8C3] leading-relaxed text-justify">
-                  Main platform for aspirants with a unified entry point to all Pratiyogita tools, resources, and guided journeys.
-                </p>
-              </div>
-
               {/* Pratiyogita Yogya */}
               <div>
                 <a href={PRATIYOGITA_YOGYA_URL} className="flex items-center gap-2 mb-1.5">

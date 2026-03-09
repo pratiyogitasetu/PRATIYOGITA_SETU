@@ -32,10 +32,13 @@ import {
   Copy,
   FileJson,
   FolderPlus,
+  Pencil,
+  Save,
+  X,
+  FolderOpen,
 } from "lucide-react";
 
 import {
-  CATEGORY_OPTIONS,
   EXAM_LEVEL_OPTIONS,
   EXAM_TARGET_OPTIONS,
   EXAM_FREQUENCY_OPTIONS,
@@ -593,6 +596,20 @@ export default function ExamDataLoader() {
   const [fileName, setFileName] = useState("");
   const [isFileNameManual, setIsFileNameManual] = useState(false);
   const [examLevelOptions, setExamLevelOptions] = useState(EXAM_LEVEL_OPTIONS);
+
+  // ============================================
+  // CATALOG & CATEGORY MANAGEMENT STATE
+  // ============================================
+  const [fullCatalog, setFullCatalog] = useState(null); // entire catalog from MongoDB
+  const [dynamicCategories, setDynamicCategories] = useState([]); // [{value, label}]
+  const [newCategoryName, setNewCategoryName] = useState("");
+  const [renamingCategory, setRenamingCategory] = useState(null); // category key being renamed
+  const [renameCategoryValue, setRenameCategoryValue] = useState("");
+  const [catalogEditorOpen, setCatalogEditorOpen] = useState(false);
+  const [editingEntry, setEditingEntry] = useState(null); // index of entry being edited
+  const [editEntryData, setEditEntryData] = useState({});
+  const [newEntryMode, setNewEntryMode] = useState(false);
+  const [newEntryData, setNewEntryData] = useState({ exam_name: "", exam_code: "", linked_json_file: "", has_divisions: false });
   const [examSectorOptions, setExamSectorOptions] = useState([]);
   const [examTargetOptions, setExamTargetOptions] = useState(EXAM_TARGET_OPTIONS);
   const [examFrequencyOptions, setExamFrequencyOptions] = useState(EXAM_FREQUENCY_OPTIONS);
@@ -641,18 +658,33 @@ export default function ExamDataLoader() {
     })();
   }, []);
 
-  // Load exam catalog from MongoDB API
+  // Load exam catalog from MongoDB API (full catalog + dynamic categories)
+  const loadFullCatalog = useCallback(async () => {
+    try {
+      const res = await fetch("/api/exams/catalog");
+      const data = await res.json();
+      setFullCatalog(data);
+      // Build dynamic category list from catalog keys
+      const cats = Object.keys(data).map((key) => ({
+        value: key,
+        label: key.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
+      }));
+      setDynamicCategories(cats);
+      return data;
+    } catch {
+      setFullCatalog({});
+      setDynamicCategories([]);
+      return {};
+    }
+  }, []);
+
+  useEffect(() => { loadFullCatalog(); }, [loadFullCatalog]);
+
+  // When category changes, update existingExams from fullCatalog
   useEffect(() => {
-    if (!category) { setExistingExams([]); return; }
-    (async () => {
-      try {
-        const res = await fetch("/api/exams/catalog");
-        const data = await res.json();
-        const exams = data[category] || [];
-        setExistingExams(exams);
-      } catch { setExistingExams([]); }
-    })();
-  }, [category]);
+    if (!category || !fullCatalog) { setExistingExams([]); return; }
+    setExistingExams(fullCatalog[category] || []);
+  }, [category, fullCatalog]);
 
   // Count total exams from MongoDB documents
   const [totalExamCount, setTotalExamCount] = useState(0);
@@ -665,6 +697,186 @@ export default function ExamDataLoader() {
       } catch { /* ignore */ }
     })();
   }, [existingExams]); // re-count when exams change (after add/delete)
+
+  // ============================================
+  // CATEGORY MANAGEMENT HANDLERS
+  // ============================================
+
+  const saveCatalogToDb = async (catalogObj) => {
+    const res = await fetch("/api/admin/save-catalog", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-admin-key": import.meta.env.VITE_ADMIN_API_KEY || "",
+      },
+      body: JSON.stringify({ categories: catalogObj }),
+    });
+    if (!res.ok) throw new Error("Failed to save catalog");
+    return true;
+  };
+
+  const handleAddCategory = async () => {
+    const key = newCategoryName.trim().toUpperCase().replace(/[^A-Z0-9_]/g, "_");
+    if (!key) { setSnackMsg("Enter a category name"); return; }
+    if (fullCatalog[key]) { setSnackMsg("Category already exists"); return; }
+
+    const updated = { ...fullCatalog, [key]: [] };
+    try {
+      await saveCatalogToDb(updated);
+      setFullCatalog(updated);
+      setDynamicCategories((prev) => [...prev, { value: key, label: key.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()) }]);
+      setNewCategoryName("");
+      setSnackMsg(`Category "${key}" added`);
+    } catch { setSnackMsg("Failed to add category"); }
+  };
+
+  const handleRenameCategory = async () => {
+    const newKey = renameCategoryValue.trim().toUpperCase().replace(/[^A-Z0-9_]/g, "_");
+    if (!newKey || !renamingCategory) { setSnackMsg("Enter a new name"); return; }
+    if (newKey === renamingCategory) { setRenamingCategory(null); return; }
+    if (fullCatalog[newKey]) { setSnackMsg("Category name already exists"); return; }
+
+    const updated = {};
+    for (const [k, v] of Object.entries(fullCatalog)) {
+      if (k === renamingCategory) {
+        // Update linked_json_file paths in each exam entry
+        updated[newKey] = v.map((exam) => ({
+          ...exam,
+          linked_json_file: exam.linked_json_file
+            ? exam.linked_json_file.replace(new RegExp(`^${renamingCategory}/`), `${newKey}/`)
+            : "",
+        }));
+      } else {
+        updated[k] = v;
+      }
+    }
+
+    try {
+      await saveCatalogToDb(updated);
+      setFullCatalog(updated);
+      setDynamicCategories(
+        Object.keys(updated).map((key) => ({
+          value: key,
+          label: key.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
+        }))
+      );
+      if (category === renamingCategory) setCategory(newKey);
+      setRenamingCategory(null);
+      setRenameCategoryValue("");
+      setSnackMsg(`Renamed "${renamingCategory}" → "${newKey}"`);
+    } catch { setSnackMsg("Failed to rename category"); }
+  };
+
+  const handleDeleteCategory = async (catKey) => {
+    const exams = fullCatalog[catKey] || [];
+    const linkedCount = exams.filter((e) => e.linked_json_file).length;
+    if (linkedCount > 0) {
+      const ok = window.confirm(
+        `"${catKey}" has ${exams.length} exam(s) (${linkedCount} with data).\n\nDeleting the category will remove it from the catalog.\nExam data documents in MongoDB will NOT be deleted.\n\nContinue?`
+      );
+      if (!ok) return;
+    } else if (exams.length > 0) {
+      if (!window.confirm(`"${catKey}" has ${exams.length} exam entry(s). Remove category?`)) return;
+    }
+
+    const updated = { ...fullCatalog };
+    delete updated[catKey];
+
+    try {
+      await saveCatalogToDb(updated);
+      setFullCatalog(updated);
+      setDynamicCategories(
+        Object.keys(updated).map((key) => ({
+          value: key,
+          label: key.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
+        }))
+      );
+      if (category === catKey) { setCategory(""); setSelectedExam("__new__"); }
+      setSnackMsg(`Category "${catKey}" deleted`);
+    } catch { setSnackMsg("Failed to delete category"); }
+  };
+
+  // ============================================
+  // CATALOG ENTRY EDITOR HANDLERS
+  // ============================================
+
+  const startEditEntry = (idx) => {
+    setEditingEntry(idx);
+    setEditEntryData({ ...existingExams[idx] });
+  };
+
+  const cancelEditEntry = () => {
+    setEditingEntry(null);
+    setEditEntryData({});
+  };
+
+  const saveEditEntry = async () => {
+    if (editingEntry === null || !category) return;
+    const updated = { ...fullCatalog };
+    updated[category] = [...(updated[category] || [])];
+    updated[category][editingEntry] = { ...editEntryData };
+
+    try {
+      await saveCatalogToDb(updated);
+      setFullCatalog(updated);
+      setExistingExams(updated[category]);
+      setEditingEntry(null);
+      setEditEntryData({});
+      setSnackMsg("Catalog entry updated");
+    } catch { setSnackMsg("Failed to update entry"); }
+  };
+
+  const deleteEntryFromCatalog = async (idx) => {
+    if (!category) return;
+    const entry = existingExams[idx];
+    if (!window.confirm(`Remove "${entry.exam_name || entry.exam_code}" from catalog?\n\nThis only removes the catalog entry. Exam data in MongoDB is not deleted.`)) return;
+
+    const updated = { ...fullCatalog };
+    updated[category] = (updated[category] || []).filter((_, i) => i !== idx);
+
+    try {
+      await saveCatalogToDb(updated);
+      setFullCatalog(updated);
+      setExistingExams(updated[category]);
+      if (selectedExam === entry.exam_code) setSelectedExam("__new__");
+      setSnackMsg(`Removed "${entry.exam_name || entry.exam_code}" from catalog`);
+    } catch { setSnackMsg("Failed to remove entry"); }
+  };
+
+  const addNewCatalogEntry = async () => {
+    if (!category) return;
+    if (!newEntryData.exam_name || !newEntryData.exam_code) {
+      setSnackMsg("Exam name and code are required");
+      return;
+    }
+
+    const updated = { ...fullCatalog };
+    const entries = [...(updated[category] || [])];
+
+    // Check for duplicate exam_code
+    if (entries.some((e) => e.exam_code === newEntryData.exam_code)) {
+      setSnackMsg("Exam code already exists in this category");
+      return;
+    }
+
+    entries.push({
+      exam_name: newEntryData.exam_name,
+      exam_code: newEntryData.exam_code,
+      exam_code_lower: newEntryData.exam_code.toLowerCase(),
+      linked_json_file: newEntryData.linked_json_file || "",
+      has_divisions: newEntryData.has_divisions || false,
+    });
+    updated[category] = entries;
+
+    try {
+      await saveCatalogToDb(updated);
+      setFullCatalog(updated);
+      setExistingExams(updated[category]);
+      setNewEntryMode(false);
+      setNewEntryData({ exam_name: "", exam_code: "", linked_json_file: "", has_divisions: false });
+      setSnackMsg(`Added "${newEntryData.exam_name}" to catalog`);
+    } catch { setSnackMsg("Failed to add entry"); }
+  };
 
   // Load existing exam JSON when selected
   useEffect(() => {
@@ -780,9 +992,7 @@ export default function ExamDataLoader() {
 
       // 2. Update the exam catalog so the eligibility checker can find this exam
       try {
-        const catalogRes = await fetch("/api/exams/catalog");
-        const currentCatalog = await catalogRes.json();
-
+        const currentCatalog = { ...fullCatalog };
         const newEntry = generateCatalogEntry(formData, category, resolvedFileName);
 
         // Ensure category array exists
@@ -795,27 +1005,16 @@ export default function ExamDataLoader() {
           (e) => e.exam_code === newEntry.exam_code
         );
         if (idx >= 0) {
+          currentCatalog[category] = [...currentCatalog[category]];
           currentCatalog[category][idx] = newEntry;
         } else {
-          currentCatalog[category].push(newEntry);
+          currentCatalog[category] = [...currentCatalog[category], newEntry];
         }
 
-        const saveCatRes = await fetch("/api/admin/save-catalog", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-admin-key": import.meta.env.VITE_ADMIN_API_KEY || "",
-          },
-          body: JSON.stringify({ categories: currentCatalog }),
-        });
-
-        if (saveCatRes.ok) {
-          setSnackMsg(`Saved to MongoDB: ${data.docId} (catalog updated)`);
-          // Refresh the local exam list so the dropdown reflects the change
-          setExistingExams(currentCatalog[category]);
-        } else {
-          setSnackMsg(`Exam data saved (${data.docId}) but catalog update failed`);
-        }
+        await saveCatalogToDb(currentCatalog);
+        setFullCatalog(currentCatalog);
+        setExistingExams(currentCatalog[category]);
+        setSnackMsg(`Saved to MongoDB: ${data.docId} (catalog updated)`);
       } catch (catErr) {
         console.error("Failed to update catalog:", catErr);
         setSnackMsg(`Exam data saved (${data.docId}) but catalog update failed`);
@@ -943,10 +1142,15 @@ export default function ExamDataLoader() {
         <div className="flex-1 min-w-0 overflow-y-auto pr-1" style={{ scrollbarWidth: "thin", scrollbarColor: "#E4572E rgba(43,30,23,0.5)" }}>
         <Section title="1. Select Category & Exam" defaultOpen={true}>
           <Row>
-            <TextField select label="Exam Category (Folder)" size="small" fullWidth value={category} onChange={(e) => { setCategory(e.target.value); setSelectedExam("__new__"); setFileName(""); setIsFileNameManual(false); }}>
+            <TextField select label="Exam Category" size="small" fullWidth value={category} onChange={(e) => { setCategory(e.target.value); setSelectedExam("__new__"); setFileName(""); setIsFileNameManual(false); setCatalogEditorOpen(false); }}>
               <MenuItem value=""><em>— Select Category —</em></MenuItem>
-              {CATEGORY_OPTIONS.map((c) => (
-                <MenuItem key={c.value} value={c.value}>{c.label}</MenuItem>
+              {dynamicCategories.map((c) => (
+                <MenuItem key={c.value} value={c.value}>
+                  {c.label}
+                  <span className="ml-auto text-xs text-[rgba(232,216,195,0.4)] pl-2">
+                    {(fullCatalog?.[c.value] || []).length}
+                  </span>
+                </MenuItem>
               ))}
             </TextField>
             <TextField select label="Exam" size="small" fullWidth value={selectedExam} onChange={(e) => setSelectedExam(e.target.value)} disabled={!category}>
@@ -963,8 +1167,149 @@ export default function ExamDataLoader() {
           <TextField label="Output File Name" size="small" fullWidth value={fileName}
             onChange={(e) => { setFileName(e.target.value); setIsFileNameManual(Boolean(e.target.value.trim())); }}
             placeholder={resolvedFileName}
-            helperText={`Will save as: examsdata/${category || "CATEGORY"}/${resolvedFileName}`} />
+            helperText={`Will save as: ${category || "CATEGORY"}/${resolvedFileName}`} />
         </Section>
+
+        {/* ========== CATEGORY MANAGEMENT ========== */}
+        <Section title="Manage Categories (Folders)" badge={dynamicCategories.length}>
+          {/* Add new category */}
+          <div className="flex gap-2 items-center mb-3">
+            <TextField label="New Category Name" size="small" fullWidth value={newCategoryName}
+              onChange={(e) => setNewCategoryName(e.target.value)}
+              placeholder="e.g. JUDICIARY_EXAMS"
+              onKeyDown={(e) => e.key === "Enter" && handleAddCategory()} />
+            <Button size="small" variant="contained" onClick={handleAddCategory} startIcon={<Plus size={14} />}
+              sx={{ bgcolor: "#E4572E", textTransform: "none", fontSize: "0.75rem", whiteSpace: "nowrap", "&:hover": { bgcolor: "#c9411f" } }}>
+              Add
+            </Button>
+          </div>
+
+          {/* Category list */}
+          <div className="space-y-1.5 max-h-48 overflow-y-auto" style={{ scrollbarWidth: "thin", scrollbarColor: "#E4572E rgba(43,30,23,0.5)" }}>
+            {dynamicCategories.map((cat) => (
+              <div key={cat.value} className="flex items-center gap-2 px-2 py-1.5 rounded-lg bg-[rgba(43,30,23,0.4)] border border-[rgba(228,87,46,0.15)] hover:border-[rgba(228,87,46,0.35)] transition-colors">
+                {renamingCategory === cat.value ? (
+                  <>
+                    <TextField size="small" fullWidth value={renameCategoryValue}
+                      onChange={(e) => setRenameCategoryValue(e.target.value)}
+                      onKeyDown={(e) => e.key === "Enter" && handleRenameCategory()}
+                      sx={{ "& .MuiInputBase-input": { fontSize: "0.8rem", py: 0.5 } }} />
+                    <Tooltip title="Save"><IconButton size="small" onClick={handleRenameCategory} sx={{ color: "#4ade80" }}><Save size={14} /></IconButton></Tooltip>
+                    <Tooltip title="Cancel"><IconButton size="small" onClick={() => setRenamingCategory(null)} sx={{ color: "#ef4444" }}><X size={14} /></IconButton></Tooltip>
+                  </>
+                ) : (
+                  <>
+                    <FolderOpen size={14} className="text-[#E4572E] shrink-0" />
+                    <span className="text-xs text-[#E8D8C3] flex-1 truncate font-mono">{cat.value}</span>
+                    <span className="text-xs text-[rgba(232,216,195,0.4)] px-1">{(fullCatalog?.[cat.value] || []).length} exams</span>
+                    <Tooltip title="Rename"><IconButton size="small" onClick={() => { setRenamingCategory(cat.value); setRenameCategoryValue(cat.value); }} sx={{ color: "rgba(232,216,195,0.5)" }}><Pencil size={12} /></IconButton></Tooltip>
+                    <Tooltip title="Delete category"><IconButton size="small" onClick={() => handleDeleteCategory(cat.value)} sx={{ color: "rgba(239,68,68,0.6)", "&:hover": { color: "#ef4444" } }}><Trash2 size={12} /></IconButton></Tooltip>
+                  </>
+                )}
+              </div>
+            ))}
+          </div>
+        </Section>
+
+        {/* ========== CATALOG ENTRY EDITOR (allexamnames) ========== */}
+        {category && (
+        <Section title={`Catalog Editor — ${category}`} badge={existingExams.length}>
+          <Typography variant="caption" sx={{ color: "rgba(232,216,195,0.5)", display: "block", mb: 1 }}>
+            Edit exam entries in the catalog (allexamnames). This controls which exams appear in the eligibility checker.
+          </Typography>
+
+          {/* Existing entries */}
+          <div className="space-y-2 mb-3 max-h-72 overflow-y-auto" style={{ scrollbarWidth: "thin", scrollbarColor: "#E4572E rgba(43,30,23,0.5)" }}>
+            {existingExams.map((entry, idx) => (
+              <div key={idx} className="rounded-lg border border-[rgba(228,87,46,0.2)] bg-[rgba(43,30,23,0.35)] p-2">
+                {editingEntry === idx ? (
+                  /* Edit mode */
+                  <div className="space-y-2">
+                    <Row>
+                      <TextField label="Exam Name" size="small" fullWidth value={editEntryData.exam_name || ""}
+                        onChange={(e) => setEditEntryData((p) => ({ ...p, exam_name: e.target.value }))} />
+                      <TextField label="Exam Code" size="small" fullWidth value={editEntryData.exam_code || ""}
+                        onChange={(e) => setEditEntryData((p) => ({ ...p, exam_code: e.target.value, exam_code_lower: e.target.value.toLowerCase() }))} />
+                    </Row>
+                    <Row>
+                      <TextField label="Linked JSON File" size="small" fullWidth value={editEntryData.linked_json_file || ""}
+                        onChange={(e) => setEditEntryData((p) => ({ ...p, linked_json_file: e.target.value }))}
+                        placeholder={`${category}/filename.json`} />
+                      <FormControlLabel
+                        control={<Switch size="small" checked={editEntryData.has_divisions || false}
+                          onChange={(e) => setEditEntryData((p) => ({ ...p, has_divisions: e.target.checked }))} />}
+                        label={<span className="text-xs text-[#E8D8C3]">Has Divisions</span>} />
+                    </Row>
+                    <div className="flex gap-1 justify-end">
+                      <Button size="small" onClick={saveEditEntry} startIcon={<Save size={12} />}
+                        sx={{ color: "#4ade80", textTransform: "none", fontSize: "0.7rem" }}>Save</Button>
+                      <Button size="small" onClick={cancelEditEntry} startIcon={<X size={12} />}
+                        sx={{ color: "#ef4444", textTransform: "none", fontSize: "0.7rem" }}>Cancel</Button>
+                    </div>
+                  </div>
+                ) : (
+                  /* View mode */
+                  <div className="flex items-center gap-2">
+                    <div className="flex-1 min-w-0">
+                      <div className="text-xs text-[#E8D8C3] font-medium truncate">{entry.exam_name || "(no name)"}</div>
+                      <div className="flex gap-2 mt-0.5 flex-wrap">
+                        <span className="text-[0.65rem] text-[rgba(232,216,195,0.5)] font-mono">{entry.exam_code}</span>
+                        {entry.linked_json_file && (
+                          <span className="text-[0.65rem] text-[rgba(78,173,80,0.7)] font-mono">{entry.linked_json_file}</span>
+                        )}
+                        {!entry.linked_json_file && (
+                          <span className="text-[0.65rem] text-[rgba(239,68,68,0.6)]">no JSON linked</span>
+                        )}
+                        {entry.has_divisions && (
+                          <span className="text-[0.65rem] bg-[rgba(228,87,46,0.2)] text-[#E4572E] px-1 rounded">divisions</span>
+                        )}
+                      </div>
+                    </div>
+                    <Tooltip title="Edit entry"><IconButton size="small" onClick={() => startEditEntry(idx)} sx={{ color: "rgba(232,216,195,0.5)" }}><Pencil size={12} /></IconButton></Tooltip>
+                    <Tooltip title="Remove from catalog"><IconButton size="small" onClick={() => deleteEntryFromCatalog(idx)} sx={{ color: "rgba(239,68,68,0.5)", "&:hover": { color: "#ef4444" } }}><Trash2 size={12} /></IconButton></Tooltip>
+                  </div>
+                )}
+              </div>
+            ))}
+            {existingExams.length === 0 && (
+              <div className="text-center py-4 text-xs text-[rgba(232,216,195,0.4)]">No exam entries in this category</div>
+            )}
+          </div>
+
+          {/* Add new entry */}
+          {newEntryMode ? (
+            <div className="rounded-lg border border-[rgba(78,173,80,0.3)] bg-[rgba(43,30,23,0.35)] p-2 space-y-2">
+              <Typography variant="caption" sx={{ color: "#4ade80", fontWeight: 600 }}>New Catalog Entry</Typography>
+              <Row>
+                <TextField label="Exam Name" size="small" fullWidth value={newEntryData.exam_name}
+                  onChange={(e) => setNewEntryData((p) => ({ ...p, exam_name: e.target.value }))} />
+                <TextField label="Exam Code" size="small" fullWidth value={newEntryData.exam_code}
+                  onChange={(e) => setNewEntryData((p) => ({ ...p, exam_code: e.target.value }))} />
+              </Row>
+              <Row>
+                <TextField label="Linked JSON File" size="small" fullWidth value={newEntryData.linked_json_file}
+                  onChange={(e) => setNewEntryData((p) => ({ ...p, linked_json_file: e.target.value }))}
+                  placeholder={`${category}/exam-name.json`} />
+                <FormControlLabel
+                  control={<Switch size="small" checked={newEntryData.has_divisions}
+                    onChange={(e) => setNewEntryData((p) => ({ ...p, has_divisions: e.target.checked }))} />}
+                  label={<span className="text-xs text-[#E8D8C3]">Has Divisions</span>} />
+              </Row>
+              <div className="flex gap-1 justify-end">
+                <Button size="small" onClick={addNewCatalogEntry} startIcon={<Save size={12} />}
+                  sx={{ color: "#4ade80", textTransform: "none", fontSize: "0.7rem" }}>Add to Catalog</Button>
+                <Button size="small" onClick={() => { setNewEntryMode(false); setNewEntryData({ exam_name: "", exam_code: "", linked_json_file: "", has_divisions: false }); }} startIcon={<X size={12} />}
+                  sx={{ color: "#ef4444", textTransform: "none", fontSize: "0.7rem" }}>Cancel</Button>
+              </div>
+            </div>
+          ) : (
+            <Button size="small" variant="outlined" onClick={() => setNewEntryMode(true)} startIcon={<Plus size={14} />}
+              sx={{ borderColor: "rgba(228,87,46,0.4)", color: "#E4572E", textTransform: "none", fontSize: "0.75rem", width: "100%" }}>
+              Add Catalog Entry
+            </Button>
+          )}
+        </Section>
+        )}
 
         {loading && (
           <div className="text-center py-8">
@@ -1130,7 +1475,7 @@ export default function ExamDataLoader() {
               {/* Save path hint */}
               <div className="px-4 py-1.5 border-b border-[rgba(228,87,46,0.1)]">
                 <Typography variant="caption" sx={{ color: "rgba(232,216,195,0.5)", fontSize: "0.7rem" }}>
-                  Save as: examsdata/{category || "CATEGORY"}/{resolvedFileName}
+                  Save as: {category || "CATEGORY"}/{resolvedFileName}
                 </Typography>
               </div>
 

@@ -28,24 +28,23 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Missing category, fileName, or examData' });
     }
 
-    // Build document ID: "DEFENCE_EXAMS__cds" from "DEFENCE_EXAMS" + "cds.json"
+    // Collection = category, doc ID = filename without .json
     const safeCategory = category.replace(/[^a-zA-Z0-9_]/g, '');
     const safeName = fileName.replace(/\.json$/i, '').replace(/[^a-zA-Z0-9_-]/g, '');
-    const docId = `${safeCategory}__${safeName}`;
-    const sourceFile = `${safeCategory}/${fileName.endsWith('.json') ? fileName : fileName + '.json'}`;
+    const docId = safeName;
+    const compositeId = `${safeCategory}__${safeName}`;
 
     const { db } = await connectToDatabase();
 
     // Parse examData if it's a string
     const data = typeof examData === 'string' ? JSON.parse(examData) : examData;
 
-    await db.collection('exam_data').updateOne(
+    // Save into the category-specific collection
+    await db.collection(safeCategory).updateOne(
       { _id: docId },
       {
         $set: {
           _id: docId,
-          category: safeCategory,
-          source_file: sourceFile,
           ...data,
           updated_at: new Date().toISOString()
         }
@@ -55,9 +54,8 @@ export default async function handler(req, res) {
 
     return res.status(200).json({
       ok: true,
-      docId,
-      path: sourceFile,
-      message: `Exam data saved: ${docId}`
+      docId: compositeId,
+      message: `Exam data saved: ${safeCategory} / ${docId}`
     });
   } catch (err) {
     console.error('Error saving exam data:', err);

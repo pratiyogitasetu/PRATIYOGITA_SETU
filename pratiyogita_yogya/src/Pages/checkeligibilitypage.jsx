@@ -40,7 +40,7 @@ import {
     checkExamBasisEligibility,
     getDisplayDetails
 } from "../eligibility/exambasis";
-import { ensureExamCatalogLoaded } from "../eligibility/examDataLoader";
+import { ensureExamCatalogLoaded, getAllCategories, formatCategoryName } from "../eligibility/examDataLoader";
 
 // Import eligibility basis logic
 import {
@@ -677,30 +677,16 @@ function CheckEligibilityPage() {
         // Filter by category
         let matchesCategory = true;
         if (examCategory !== 'ALL') {
-            // Extract category from exam name (e.g., SSC, UPSC, Railway, etc.)
-            const examLabel = option.label.toUpperCase();
-            matchesCategory = examLabel.includes(examCategory.toUpperCase());
+            matchesCategory = option.category === examCategory;
         }
         
         return matchesSearch && matchesCategory;
     });
 
-    // Extract unique categories from exam options
+    // Extract unique categories from catalog (real database categories)
     const examCategories = ['ALL', ...Array.from(new Set(
-        examOptions.map(option => {
-            const label = option.label.toUpperCase();
-            if (label.includes('SSC')) return 'SSC';
-            if (label.includes('UPSC') || label.includes('CIVIL')) return 'UPSC';
-            if (label.includes('RAILWAY') || label.includes('RRB')) return 'RAILWAY';
-            if (label.includes('BANKING') || label.includes('BANK')) return 'BANKING';
-            if (label.includes('DEFENCE') || label.includes('NDA') || label.includes('CDS')) return 'DEFENCE';
-            if (label.includes('STATE') || label.includes('PSC')) return 'STATE PSC';
-            if (label.includes('GATE') || label.includes('ENGINEERING')) return 'ENGINEERING';
-            if (label.includes('POLICE')) return 'POLICE';
-            if (label.includes('TEACHING') || label.includes('TET')) return 'TEACHING';
-            return 'OTHER';
-        })
-    )).filter(Boolean)];
+        examOptions.map(option => option.category).filter(Boolean)
+    ))];
 
     useEffect(() => {
         const loadEducationData = async () => {
@@ -2094,7 +2080,7 @@ function CheckEligibilityPage() {
                                                 >
                                                     {examCategories.map((cat) => (
                                                         <MenuItem key={cat} value={cat}>
-                                                            {cat}
+                                                            {cat === 'ALL' ? 'ALL' : formatCategoryName(cat)}
                                                         </MenuItem>
                                                     ))}
                                                 </TextField>

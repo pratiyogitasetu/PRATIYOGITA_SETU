@@ -21,18 +21,26 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Missing examId parameter' });
   }
 
+  // examId format: "CATEGORY__docname" e.g. "DEFENCE_EXAMS__cds"
+  const sepIndex = examId.indexOf('__');
+  if (sepIndex === -1) {
+    return res.status(400).json({ error: 'Invalid examId format. Expected CATEGORY__docname' });
+  }
+  const collectionName = examId.slice(0, sepIndex);
+  const docId = examId.slice(sepIndex + 2);
+
   try {
     const { db } = await connectToDatabase();
     const examDoc = await db
-      .collection('exam_data')
-      .findOne({ _id: examId });
+      .collection(collectionName)
+      .findOne({ _id: docId });
 
     if (!examDoc) {
       return res.status(404).json({ error: `Exam not found: ${examId}` });
     }
 
     // Remove internal fields before sending to client
-    const { _id, category, source_file, updated_at, ...examData } = examDoc;
+    const { _id, updated_at, ...examData } = examDoc;
     return res.status(200).json(examData);
   } catch (err) {
     console.error('Error fetching exam data:', err);

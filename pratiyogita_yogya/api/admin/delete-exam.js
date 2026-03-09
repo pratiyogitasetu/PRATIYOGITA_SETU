@@ -29,11 +29,14 @@ export default async function handler(req, res) {
 
     const { db } = await connectToDatabase();
 
-    // 1. Delete the exam data document if it has a linked JSON file
+    // 1. Delete the exam data document from category collection
     let examDeleted = false;
     if (linkedJsonFile) {
-      const docId = linkedJsonFile.replace(/\.json$/i, '').replace(/\//g, '__');
-      const result = await db.collection('exam_data').deleteOne({ _id: docId });
+      // linkedJsonFile is e.g. "DEFENCE_EXAMS/cds.json"
+      // collection = category, docId = filename without .json
+      const parts = linkedJsonFile.split('/');
+      const docId = parts[parts.length - 1].replace(/\.json$/i, '');
+      const result = await db.collection(category).deleteOne({ _id: docId });
       examDeleted = result.deletedCount > 0;
     }
 
