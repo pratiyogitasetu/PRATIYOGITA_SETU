@@ -757,6 +757,7 @@ export default function ExamDataLoader() {
     }
 
     try {
+      // 1. Save exam data to MongoDB
       const res = await fetch("/api/admin/save-exam", {
         method: "POST",
         headers: {
@@ -772,10 +773,52 @@ export default function ExamDataLoader() {
 
       const data = await res.json();
 
-      if (res.ok) {
-        setSnackMsg(`Saved to MongoDB: ${data.docId}`);
-      } else {
-        setSnackMsg(data.error || "Failed to save");
+      if (!res.ok) {
+        setSnackMsg(data.error || "Failed to save exam data");
+        return;
+      }
+
+      // 2. Update the exam catalog so the eligibility checker can find this exam
+      try {
+        const catalogRes = await fetch("/api/exams/catalog");
+        const currentCatalog = await catalogRes.json();
+
+        const newEntry = generateCatalogEntry(formData, category, resolvedFileName);
+
+        // Ensure category array exists
+        if (!currentCatalog[category]) {
+          currentCatalog[category] = [];
+        }
+
+        // Replace existing entry (by exam_code) or add new
+        const idx = currentCatalog[category].findIndex(
+          (e) => e.exam_code === newEntry.exam_code
+        );
+        if (idx >= 0) {
+          currentCatalog[category][idx] = newEntry;
+        } else {
+          currentCatalog[category].push(newEntry);
+        }
+
+        const saveCatRes = await fetch("/api/admin/save-catalog", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-admin-key": import.meta.env.VITE_ADMIN_API_KEY || "",
+          },
+          body: JSON.stringify({ categories: currentCatalog }),
+        });
+
+        if (saveCatRes.ok) {
+          setSnackMsg(`Saved to MongoDB: ${data.docId} (catalog updated)`);
+          // Refresh the local exam list so the dropdown reflects the change
+          setExistingExams(currentCatalog[category]);
+        } else {
+          setSnackMsg(`Exam data saved (${data.docId}) but catalog update failed`);
+        }
+      } catch (catErr) {
+        console.error("Failed to update catalog:", catErr);
+        setSnackMsg(`Exam data saved (${data.docId}) but catalog update failed`);
       }
     } catch (error) {
       console.error("Failed to save JSON:", error);
