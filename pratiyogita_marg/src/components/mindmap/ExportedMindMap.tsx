@@ -19,15 +19,7 @@ import { renderMindMap } from '@/utils/mindmapRenderer';
 import { useToast } from '@/hooks/use-toast';
 import { MindMapData, BaseNodeData } from './types';
 import { MindMapHeader, MindMapHeaderData } from './MindMapHeader';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Button } from '@/components/ui/button';
-import { getAllMindMaps } from '@/utils/mindmapStorage';
+
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { X, FileText, Link2, CheckSquare, StickyNote, Lightbulb, BookOpen } from 'lucide-react';
 import Navbar from '@/components/Navbar';
@@ -204,20 +196,11 @@ interface MindMapViewerProps {
 
 export const ExportedMindMap = ({ predefinedMindMap, containerHeight = "100vh" }: MindMapViewerProps) => {
   const [mindMapData, setMindMapData] = useState<MindMapData | null>(null);
-  const [selectedMap, setSelectedMap] = useState<string>('');
   const [selectedNode, setSelectedNode] = useState<BaseNodeData | null>(null);
+  const [loading, setLoading] = useState(false);
   const [searchParams] = useSearchParams();
   const { toast } = useToast();
-  const [mindMaps, setMindMaps] = useState<string[]>([]);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const loadMindMaps = async () => {
-      const maps = await getAllMindMaps();
-      setMindMaps(maps.map(m => m.name));
-    };
-    void loadMindMaps();
-  }, []);
 
   // Default header data
   const defaultHeaderData: MindMapHeaderData = {
@@ -230,7 +213,6 @@ export const ExportedMindMap = ({ predefinedMindMap, containerHeight = "100vh" }
   useEffect(() => {
     const mapName = searchParams.get('map');
     if (mapName) {
-      setSelectedMap(mapName);
       handleRenderMap(mapName);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -244,40 +226,22 @@ export const ExportedMindMap = ({ predefinedMindMap, containerHeight = "100vh" }
   }, [predefinedMindMap]);
 
   const handleRenderMap = async (mapName: string) => {
-    if (!mapName) {
-      toast({
-        title: "Error",
-        description: "Please select a mind map to view",
-        variant: "destructive",
-      });
-      return;
-    }
+    if (!mapName) return;
 
+    setLoading(true);
     const data = await renderMindMap(mapName);
+    setLoading(false);
+
     if (data) {
-      console.log('Mind map loaded for viewing:', data);
-      console.log('Number of nodes:', data.nodes?.length || 0);
-      console.log('Number of edges:', data.edges?.length || 0);
-      console.log('Edges data:', JSON.stringify(data.edges, null, 2));
-      
       setMindMapData(data);
-      
-      toast({
-        title: "Success",
-        description: `Loaded mind map: ${mapName} with ${data.edges?.length || 0} connections`,
-      });
     } else {
-      console.error('Failed to load mind map:', mapName);
       toast({
         title: "Error",
         description: `Failed to load mind map: ${mapName}`,
         variant: "destructive",
       });
+      navigate('/explore');
     }
-  };
-
-  const handleRender = () => {
-    handleRenderMap(selectedMap);
   };
 
   const handleNodeClick = (_: React.MouseEvent, node: any) => {
@@ -325,31 +289,23 @@ export const ExportedMindMap = ({ predefinedMindMap, containerHeight = "100vh" }
             </div>
           </div>
         ) : (
-          /* No map loaded yet — show select UI */
+          /* Loading or no map param — show loading or redirect */
           <div className="flex-1 flex items-center justify-center px-4">
-            <div className="bg-white rounded-xl p-10 flex flex-col items-center gap-6 shadow-xl w-full max-w-lg">
-              <div className="text-center">
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">Mind Map Viewer</h2>
-                <p className="text-gray-600 mb-6">Select a mind map to view in presentation mode</p>
+            {loading ? (
+              <div className="text-center text-white/60">
+                <p className="text-lg">Loading mind map...</p>
               </div>
-              <div className="flex gap-4 items-center">
-                <Select value={selectedMap} onValueChange={setSelectedMap}>
-                  <SelectTrigger className="w-[250px]">
-                    <SelectValue placeholder="Choose a mind map to view" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {mindMaps.map((name) => (
-                      <SelectItem key={name} value={name}>
-                        {name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <Button onClick={handleRender} disabled={!selectedMap}>
-                  View Mind Map
-                </Button>
+            ) : (
+              <div className="text-center text-white/60">
+                <p className="text-lg">No mind map selected</p>
+                <button
+                  onClick={() => navigate('/explore')}
+                  className="mt-4 px-6 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-colors"
+                >
+                  Browse Exams
+                </button>
               </div>
-            </div>
+            )}
           </div>
         )}
       </div>
