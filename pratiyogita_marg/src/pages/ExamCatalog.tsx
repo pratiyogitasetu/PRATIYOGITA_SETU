@@ -58,8 +58,9 @@ const ExamCatalog = () => {
   // Exam entries for selected category
   const categoryExams = catalog[selectedCategory] || [];
 
-  // Filter by search
+  // Only show exams that have a saved mindmap, filtered by search
   const filteredExams = categoryExams.filter(exam => {
+    if (!savedNames.has(exam.mindmap_name)) return false;
     if (!searchTerm) return true;
     return exam.mindmap_name.toLowerCase().includes(searchTerm.toLowerCase());
   });
@@ -138,7 +139,6 @@ const ExamCatalog = () => {
                 }}
               >
                 {formatCategoryName(category)}
-                <span className="ml-2 text-xs text-white/30">({(catalog[category] || []).length})</span>
               </button>
             ))}
           </div>
@@ -147,29 +147,23 @@ const ExamCatalog = () => {
           <div className="flex-1 p-4 sm:p-6 2xl:p-8 overflow-y-auto">
             <h2 className="text-lg sm:text-xl 2xl:text-2xl font-bold text-white mb-4 sm:mb-6">
               {formatCategoryName(selectedCategory)}
-              <span className="ml-2 text-sm font-normal text-white/40">
-                ({filteredExams.length} exams)
-              </span>
             </h2>
 
             {filteredExams.length > 0 ? (
               <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 2xl:gap-5">
                 {filteredExams.map((exam) => {
-                  const hasMindmap = savedNames.has(exam.mindmap_name);
                   return (
                     <button
                       key={exam.mindmap_name}
                       onClick={() => handleExamClick(exam.mindmap_name)}
-                      className={`px-3 sm:px-4 2xl:px-5 py-2.5 sm:py-3 2xl:py-3.5 rounded-lg text-left text-xs sm:text-sm 2xl:text-base font-medium transition-all hover:shadow-lg ${
-                        hasMindmap ? 'text-green-400' : 'text-white/70 hover:text-white'
-                      }`}
+                      className="px-3 sm:px-4 2xl:px-5 py-2.5 sm:py-3 2xl:py-3.5 rounded-lg text-left text-xs sm:text-sm 2xl:text-base font-medium transition-all hover:shadow-lg text-green-400"
                       style={{
-                        background: hasMindmap ? 'rgba(34,197,94,0.1)' : 'rgba(255,255,255,0.03)',
-                        border: hasMindmap ? '1px solid rgba(34,197,94,0.3)' : '1px solid rgba(255,255,255,0.1)',
+                        background: 'rgba(34,197,94,0.1)',
+                        border: '1px solid rgba(34,197,94,0.3)',
                       }}
                     >
                       {exam.mindmap_name}
-                      {hasMindmap && <span className="ml-2 text-xs text-green-500">✓</span>}
+                      <span className="ml-2 text-xs text-green-500">✓</span>
                     </button>
                   );
                 })}
@@ -177,7 +171,7 @@ const ExamCatalog = () => {
             ) : (
               <div className="text-center py-12 text-white/50">
                 <BookOpen className="h-12 w-12 mx-auto mb-4 text-white/30" />
-                <p className="text-sm sm:text-base">No exams found in this category.</p>
+                <p className="text-sm sm:text-base">No mindmaps available in this category yet.</p>
               </div>
             )}
           </div>
