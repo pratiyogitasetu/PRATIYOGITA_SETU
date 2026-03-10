@@ -48,10 +48,10 @@ const ExamCatalog = () => {
     void init();
   }, []);
 
-  // Set of saved mindmap names for quick lookup
+  // Set of saved mindmap names for quick lookup (only those with actual data)
   const savedNames = new Set(
     mindMaps
-      .filter(m => m.examCategory === selectedCategory)
+      .filter(m => m.examCategory === selectedCategory && m.savedAt)
       .map(m => m.name)
   );
 

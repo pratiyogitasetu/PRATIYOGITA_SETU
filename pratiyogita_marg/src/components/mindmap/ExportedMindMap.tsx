@@ -16,7 +16,6 @@ import { HorizontalLineNode } from './node-components/HorizontalLineNode';
 import { VerticalLineNode } from './node-components/VerticalLineNode';
 import { WorkspaceBoundaryNode } from './WorkspaceBoundary';
 import { renderMindMap } from '@/utils/mindmapRenderer';
-import { useToast } from '@/hooks/use-toast';
 import { MindMapData, BaseNodeData } from './types';
 import { MindMapHeader, MindMapHeaderData } from './MindMapHeader';
 
@@ -198,8 +197,8 @@ export const ExportedMindMap = ({ predefinedMindMap, containerHeight = "100vh" }
   const [mindMapData, setMindMapData] = useState<MindMapData | null>(null);
   const [selectedNode, setSelectedNode] = useState<BaseNodeData | null>(null);
   const [loading, setLoading] = useState(false);
+  const [loadError, setLoadError] = useState(false);
   const [searchParams] = useSearchParams();
-  const { toast } = useToast();
   const navigate = useNavigate();
 
   // Default header data
@@ -229,18 +228,14 @@ export const ExportedMindMap = ({ predefinedMindMap, containerHeight = "100vh" }
     if (!mapName) return;
 
     setLoading(true);
+    setLoadError(false);
     const data = await renderMindMap(mapName);
     setLoading(false);
 
     if (data) {
       setMindMapData(data);
     } else {
-      toast({
-        title: "Error",
-        description: `Failed to load mind map: ${mapName}`,
-        variant: "destructive",
-      });
-      navigate('/explore');
+      setLoadError(true);
     }
   };
 
@@ -289,11 +284,22 @@ export const ExportedMindMap = ({ predefinedMindMap, containerHeight = "100vh" }
             </div>
           </div>
         ) : (
-          /* Loading or no map param — show loading or redirect */
+          /* Loading / error / no map param */
           <div className="flex-1 flex items-center justify-center px-4">
             {loading ? (
               <div className="text-center text-white/60">
                 <p className="text-lg">Loading mind map...</p>
+              </div>
+            ) : loadError ? (
+              <div className="text-center text-white/60">
+                <p className="text-lg mb-2">Mind map not found</p>
+                <p className="text-sm text-white/40 mb-4">This mind map hasn't been created yet.</p>
+                <button
+                  onClick={() => navigate('/explore')}
+                  className="px-6 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-colors"
+                >
+                  Browse Exams
+                </button>
               </div>
             ) : (
               <div className="text-center text-white/60">
