@@ -16,7 +16,7 @@ const Footer = () => {
     <footer className="w-full relative overflow-hidden" style={{background: 'linear-gradient(to top, rgba(249,115,22,0.18) 60%, transparent 100%)'}}>
       <div className="max-w-5xl mx-auto px-4 py-4 sm:px-6 sm:py-6 md:py-8">
         {/* Two-column layout: Our Services | About Us */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-28">
 
           {/* Left Column - Our Services */}
           <div>
