@@ -25,13 +25,13 @@ export default async function handler(req, res) {
     }
 
     const safeCategory = data.examCategory.replace(/[^a-zA-Z0-9_]/g, '');
-    const safeName = data.name.replace(/[^a-zA-Z0-9_\-]/g, '');
     const { db } = await connectToDatabase();
     const savedAt = new Date().toISOString();
 
     // 1. Save mindmap data into the category-specific collection
+    // Use original name as _id (MongoDB supports any string)
     const doc = {
-      _id: safeName,
+      _id: data.name,
       name: data.name,
       examCategory: safeCategory,
       headerData: data.headerData || null,
@@ -41,7 +41,7 @@ export default async function handler(req, res) {
     };
 
     await db.collection(safeCategory).updateOne(
-      { _id: safeName },
+      { _id: data.name },
       { $set: doc },
       { upsert: true }
     );
@@ -55,7 +55,7 @@ export default async function handler(req, res) {
     if (!existingEntry) {
       categories[safeCategory].push({
         mindmap_name: data.name,
-        linked_json_file: `${safeCategory}/${safeName}.json`,
+        linked_json_file: `${safeCategory}/${data.name}.json`,
       });
     }
 
