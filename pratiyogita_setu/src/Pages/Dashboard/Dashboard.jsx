@@ -243,9 +243,9 @@ const CircularProgress = ({ percent, size = 80, strokeWidth = 3, color = C.orang
 // ─── Tab Definitions ──────────────────────────────────────────
 const TABS = [
   { key: "overview", label: "Overview", labelHi: "अवलोकन", icon: LayoutDashboard },
-  { key: "gyan", label: "Gyan (Chatbot)", labelHi: "ज्ञान (चैटबॉट)", icon: Brain },
   { key: "yogya", label: "Yogya (Eligibility)", labelHi: "योग्य (पात्रता)", icon: ClipboardCheck },
   { key: "marg", label: "Marg (Mind Maps)", labelHi: "मार्ग (माइंड मैप)", icon: Map },
+  { key: "gyan", label: "Gyan (Chatbot)", labelHi: "ज्ञान (चैटबॉट)", icon: Brain },
 ];
 
 // ═══════════════════════════════════════════════════════════════
