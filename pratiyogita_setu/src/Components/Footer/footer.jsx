@@ -157,6 +157,9 @@ const Footer = () => {
               <Link to="/contact" className="text-white/70 hover:text-orange-400 hover:underline transition-colors">
                 {language === "en" ? "Contact Us" : "संपर्क करें"}
               </Link>
+              <Link to="/dashboard" className="text-white/70 hover:text-orange-400 hover:underline transition-colors">
+                {language === "en" ? "Dashboard" : "डैशबोर्ड"}
+              </Link>
             </div>
           </div>
         </div>

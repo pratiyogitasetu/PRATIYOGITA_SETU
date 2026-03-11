@@ -5,6 +5,7 @@ import Footer from "./Components/Footer/footer.jsx";
 import HomePage from "./Pages/Home/HomePage.jsx";
 import AboutUs from "./Pages/About/AboutUs.jsx";
 import GyanPosters from "./Pages/GyanPosters/GyanPosters.jsx";
+import Dashboard from "./Pages/Dashboard/Dashboard.jsx";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import "./App.css";
 
@@ -46,6 +47,14 @@ function App() {
               element={
                 <>
                   <GyanPosters />
+                </>
+              }
+            />
+            <Route
+              path="/dashboard"
+              element={
+                <>
+                  <Dashboard />
                 </>
               }
             />
