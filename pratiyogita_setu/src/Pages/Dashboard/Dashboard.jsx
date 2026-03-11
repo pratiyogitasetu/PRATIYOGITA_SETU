@@ -653,14 +653,6 @@ const YogyaTab = ({ en }) => {
 
   return (
     <div className="space-y-5">
-      {/* Stat Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <StatCard title={en ? "Total Checks" : "कुल जाँच"} value={YOGYA_STATS.totalChecks} trend={`+4 ${en ? "from last month" : "पिछले महीने से"}`} icon={ClipboardCheck} color={C.orange} />
-        <StatCard title={en ? "Exams Eligible" : "पात्र परीक्षाएं"} value={YOGYA_STATS.eligible} subtitle={en ? "75% Success Rate" : "75% सफलता दर"} icon={CheckCircle} color={C.green} />
-        <StatCard title={en ? "Not Eligible" : "अपात्र"} value={YOGYA_STATS.notEligible} subtitle={en ? "Requires attention" : "ध्यान आवश्यक"} icon={XCircle} color={C.red} />
-        <StatCard title={en ? "Most Checked" : "सर्वाधिक जाँच"} value={YOGYA_STATS.mostChecked} subtitle="CDS, AFCAT, NDA" icon={Trophy} color={C.orange} large />
-      </div>
-
       {/* History + Profile */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
         {/* Eligibility History */}
@@ -730,38 +722,9 @@ const YogyaTab = ({ en }) => {
         </div>
       </div>
 
-      {/* Saved Reports + Category Breakdown */}
+      {/* Category Breakdown */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
-        {/* Saved Reports */}
-        <div className="lg:col-span-3">
-          <h3 className="text-sm font-semibold mb-3" style={{ color: C.ivory }}>{en ? "Saved Reports" : "सहेजी गई रिपोर्ट"}</h3>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            {YOGYA_REPORTS.map((r, i) => (
-              <div key={i} className="rounded-xl border p-3 flex flex-col" style={cardStyle}>
-                <div className="flex-1 flex items-center justify-center h-24 mb-2 rounded-lg" style={{ backgroundColor: "rgba(228,87,46,0.06)" }}>
-                  <FileText className="w-8 h-8" style={{ color: `${C.orange}66` }} />
-                </div>
-                <div className="flex items-center justify-between">
-                  <div className="min-w-0">
-                    <p className="text-[11px] font-medium truncate" style={{ color: C.ivory }}>{en ? r.title : r.titleHi}</p>
-                    <p className="text-[9px]" style={{ color: C.sandMuted }}>{r.date} · {r.size}</p>
-                  </div>
-                  <button className="shrink-0 p-1.5 rounded-md" style={{ backgroundColor: `${C.orange}20` }}>
-                    <Download className="w-3.5 h-3.5" style={{ color: C.orange }} />
-                  </button>
-                </div>
-              </div>
-            ))}
-            {/* Generate New */}
-            <div className="rounded-xl border-2 border-dashed p-3 flex flex-col items-center justify-center cursor-pointer transition-colors hover:bg-[rgba(228,87,46,0.08)]" style={{ borderColor: C.border }}>
-              <Plus className="w-8 h-8 mb-2" style={{ color: C.sandMuted }} />
-              <p className="text-[11px] font-medium" style={{ color: C.sandMuted }}>{en ? "Generate New Report" : "नई रिपोर्ट बनाएं"}</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Category Breakdown */}
-        <div className="lg:col-span-2 rounded-xl border p-4" style={cardStyle}>
+        <div className="lg:col-span-5 rounded-xl border p-4" style={cardStyle}>
           <h3 className="text-sm font-semibold mb-4 text-center" style={{ color: C.ivory }}>{en ? "Category Breakdown" : "श्रेणी विश्लेषण"}</h3>
           {/* Simple donut representation */}
           <div className="flex justify-center mb-4">
@@ -805,111 +768,33 @@ const YogyaTab = ({ en }) => {
 //  MARG TAB
 // ═══════════════════════════════════════════════════════════════
 const MargTab = ({ en }) => {
-  const editIcons = { edit: Pencil, file: FileText, trash: Trash2, download: Download, share: Share };
-
   return (
     <div className="space-y-5">
-      {/* Header */}
+      {/* My Recent Mind Maps */}
       <div>
-        <h2 className="text-xl font-bold" style={{ color: C.ivory }}>{en ? "Marg Analytics" : "मार्ग विश्लेषण"}</h2>
-        <p className="text-xs" style={{ color: C.sandMuted }}>{en ? "Track your learning architecture and knowledge retention progress." : "अपनी शिक्षण संरचना और ज्ञान प्रतिधारण प्रगति को ट्रैक करें।"}</p>
-      </div>
-
-      {/* Stat Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <StatCard title={en ? "Total Mind Maps" : "कुल माइंड मैप"} value={MARG_STATS.totalMaps} icon={Map} color={C.orange} />
-        <StatCard title={en ? "Nodes Created" : "नोड्स बनाए"} value={MARG_STATS.nodesCreated} icon={Share2} color={C.green} />
-        <StatCard title={en ? "Exports" : "निर्यात"} value={MARG_STATS.exports} icon={Download} color={C.yellow} />
-        <StatCard title={en ? "Last Edited" : "अंतिम संपादन"} value={MARG_STATS.lastEdited} icon={Clock} color={C.purple} />
-      </div>
-
-      {/* Mind Maps + Recent Edits */}
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
-        {/* My Recent Mind Maps */}
-        <div className="lg:col-span-3">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm font-semibold" style={{ color: C.ivory }}>{en ? "My Recent Mind Maps" : "मेरे हाल के माइंड मैप"}</h3>
-            <button className="text-xs font-medium" style={{ color: C.orange }}>{en ? "View All →" : "सभी देखें →"}</button>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {MARG_MINDMAPS.map((m, i) => (
-              <div key={i} className="rounded-xl border overflow-hidden" style={cardStyle}>
-                <div className="relative h-28 flex items-center justify-center" style={{ backgroundColor: "rgba(228,87,46,0.06)" }}>
-                  <span className="absolute top-2 left-2 text-[9px] font-bold uppercase px-1.5 py-0.5 rounded" style={{ backgroundColor: `${C.orange}25`, color: C.orange }}>{m.category}</span>
-                  <Map className="w-10 h-10" style={{ color: `${C.sand}40` }} />
-                </div>
-                <div className="p-3">
-                  <p className="text-sm font-semibold" style={{ color: C.ivory }}>{en ? m.title : m.titleHi}</p>
-                  <p className="text-[10px] mb-3" style={{ color: C.sandMuted }}>{m.nodes} Nodes · {en ? `Last edited ${m.edited}` : `अंतिम संपादन ${m.edited}`}</p>
-                  <div className="flex gap-2">
-                    <button className="flex-1 py-1.5 rounded-md text-[11px] font-semibold text-center transition-colors" style={{ backgroundColor: C.orange, color: "#fff" }}>
-                      {en ? "Open" : "खोलें"}
-                    </button>
-                    <button className="px-3 py-1.5 rounded-md text-[11px] font-semibold border transition-colors hover:bg-[rgba(228,87,46,0.1)]" style={{ borderColor: C.border, color: C.sand }}>
-                      {en ? "Edit" : "संपादन"}
-                    </button>
-                  </div>
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-sm font-semibold" style={{ color: C.ivory }}>{en ? "My Recent Mind Maps" : "मेरे हाल के माइंड मैप"}</h3>
+          <button className="text-xs font-medium" style={{ color: C.orange }}>{en ? "View All →" : "सभी देखें →"}</button>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {MARG_MINDMAPS.map((m, i) => (
+            <div key={i} className="rounded-xl border overflow-hidden" style={cardStyle}>
+              <div className="relative h-28 flex items-center justify-center" style={{ backgroundColor: "rgba(228,87,46,0.06)" }}>
+                <span className="absolute top-2 left-2 text-[9px] font-bold uppercase px-1.5 py-0.5 rounded" style={{ backgroundColor: `${C.orange}25`, color: C.orange }}>{m.category}</span>
+                <Map className="w-10 h-10" style={{ color: `${C.sand}40` }} />
+              </div>
+              <div className="p-3">
+                <p className="text-sm font-semibold" style={{ color: C.ivory }}>{en ? m.title : m.titleHi}</p>
+                <p className="text-[10px] mb-3" style={{ color: C.sandMuted }}>{m.nodes} Nodes · {en ? `Last edited ${m.edited}` : `अंतिम संपादन ${m.edited}`}</p>
+                <div className="flex gap-2">
+                  <button className="flex-1 py-1.5 rounded-md text-[11px] font-semibold text-center transition-colors" style={{ backgroundColor: C.orange, color: "#fff" }}>
+                    {en ? "Open" : "खोलें"}
+                  </button>
+                  <button className="px-3 py-1.5 rounded-md text-[11px] font-semibold border transition-colors hover:bg-[rgba(228,87,46,0.1)]" style={{ borderColor: C.border, color: C.sand }}>
+                    {en ? "Edit" : "संपादन"}
+                  </button>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Recent Edits */}
-        <div className="lg:col-span-2 rounded-xl border p-4" style={cardStyle}>
-          <h3 className="text-sm font-semibold mb-3" style={{ color: C.ivory }}>{en ? "Recent Edits" : "हाल के संपादन"}</h3>
-          <div className="space-y-3">
-            {MARG_RECENT_EDITS.map((e, i) => {
-              const IconComp = editIcons[e.icon] || Pencil;
-              return (
-                <div key={i} className="flex items-start gap-2.5">
-                  <div className="mt-0.5 p-1.5 rounded-full shrink-0" style={{ backgroundColor: `${C.orange}20` }}>
-                    <IconComp className="w-3.5 h-3.5" style={{ color: C.orange }} />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-xs font-medium" style={{ color: C.ivory }}>{en ? e.action : e.actionHi}</p>
-                    <p className="text-[10px]" style={{ color: C.sandMuted }}>{en ? e.map : e.map}</p>
-                  </div>
-                  <span className="text-[10px] shrink-0" style={{ color: C.sandMuted }}>{e.time}</span>
-                </div>
-              );
-            })}
-          </div>
-          <button className="w-full mt-3 py-2 rounded-lg text-xs font-medium border transition-colors hover:bg-[rgba(228,87,46,0.1)]" style={{ borderColor: C.border, color: C.sand }}>
-            {en ? "Full Activity Log" : "पूर्ण गतिविधि लॉग"}
-          </button>
-        </div>
-      </div>
-
-      {/* Activity by Category */}
-      <div className="rounded-xl border p-4" style={cardStyle}>
-        <h3 className="text-sm font-semibold mb-4" style={{ color: C.ivory }}>{en ? "Activity by Category" : "श्रेणी अनुसार गतिविधि"}</h3>
-        <div className="flex items-end gap-4 h-32 px-2">
-          {MARG_CATEGORY_ACTIVITY.map((c, i) => (
-            <div key={i} className="flex-1 flex flex-col items-center justify-end">
-              <div className="w-full rounded-t-md transition-all" style={{ height: `${c.value}%`, background: `linear-gradient(to top, ${C.orange}, ${C.orange}88)` }} />
-              <span className="text-[10px] mt-1.5 font-medium" style={{ color: C.sand }}>{c.name}</span>
-            </div>
-          ))}
-        </div>
-        <p className="text-[10px] mt-3" style={{ color: C.sandMuted }}>
-          {en ? `Total maps across categories: ${MARG_STATS.totalMaps}. Most active: UPSC (33%).` : `सभी श्रेणियों में कुल मैप: ${MARG_STATS.totalMaps}। सबसे सक्रिय: UPSC (33%)।`}
-        </p>
-      </div>
-
-      {/* Most Used Node Types */}
-      <div className="rounded-xl border p-4" style={cardStyle}>
-        <h3 className="text-sm font-semibold mb-4" style={{ color: C.ivory }}>{en ? "Most Used Node Types" : "सबसे अधिक उपयोग किए गए नोड प्रकार"}</h3>
-        <div className="space-y-3">
-          {MARG_NODE_TYPES.map((n, i) => (
-            <div key={i} className="flex items-center gap-3">
-              <div className="w-28 shrink-0">
-                <p className="text-xs font-medium" style={{ color: C.ivory }}>{en ? n.name : n.nameHi}</p>
-              </div>
-              <div className="flex-1 rounded-full h-3" style={{ backgroundColor: "rgba(228,87,46,0.12)" }}>
-                <div className="h-3 rounded-full" style={{ width: `${n.pct}%`, backgroundColor: C.orange }} />
-              </div>
-              <span className="text-xs font-bold w-10 text-right" style={{ color: C.ivory }}>{n.count}</span>
             </div>
           ))}
         </div>
