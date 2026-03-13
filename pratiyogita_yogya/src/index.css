@@ -18,6 +18,7 @@ html, body {
   overflow-x: hidden;
   position: relative;
   width: 100%;
+  font-size: 12px;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
   background-color: transparent;
