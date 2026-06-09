@@ -1,0 +1,30 @@
+# Production Requirements for Render/Railway Deployment
+# Optimized for fast cold starts and minimal memory usage
+# Compatible with Python 3.11-3.13
+
+# Core Framework
+flask==3.0.0
+flask-cors==4.0.0
+werkzeug==3.0.1
+
+# Environment & Config
+python-dotenv==1.0.0
+
+# AI & ML APIs
+openai>=1.40.0,<2.0.0
+groq==0.4.2
+pinecone>=5.0.0,<7.0.0
+
+# HTTP client (pinned for Groq compatibility)
+httpx<0.28
+
+# Embeddings - HuggingFace API mode (lightweight, no PyTorch)
+# Local models disabled to fit Heroku's 500MB slug limit
+# sentence-transformers requires PyTorch (~4GB with CUDA) which exceeds Heroku limits
+# Using HF Inference API instead - same quality, zero storage cost
+
+# Utilities
+huggingface_hub>=0.24.6
+
+# Production Server
+gunicorn==21.2.0
