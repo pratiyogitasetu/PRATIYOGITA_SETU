@@ -1,23 +1,15 @@
-"use client";
-
-import { motion, useAnimation } from "framer-motion";
-
-const DURATION = 0.25;
-
-const calculateDelay = (i) => {
-  return i === 0 ? 0.1 : i * DURATION + 0.1;
-};
+import { useState } from "react";
 
 const Network = ({
   width = 16,
   height = 16,
   strokeWidth = 2,
   stroke = "#000000",
-  compact = true, // when true removes internal padding so it matches other sidebar icons
+  compact = true,
   style = {},
   ...props
 }) => {
-  const controls = useAnimation();
+  const [hovered, setHovered] = useState(false);
 
   return (
     <div
@@ -31,8 +23,8 @@ const Network = ({
         lineHeight: 0,
         ...style,
       }}
-      onMouseEnter={() => controls.start("animate")}
-      onMouseLeave={() => controls.start("normal")}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -49,46 +41,22 @@ const Network = ({
         <rect x="16" y="16" width="6" height="6" rx="1" />
         <rect x="2" y="16" width="6" height="6" rx="1" />
         <rect x="9" y="2" width="6" height="6" rx="1" />
-        <motion.path
+        <path
           d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"
-          animate={controls}
-          transition={{
-            duration: DURATION,
-            delay: calculateDelay(0),
-            opacity: { delay: calculateDelay(0) },
-          }}
-          variants={{
-            normal: {
-              pathLength: 1,
-              pathOffset: 0,
-              opacity: 1,
-            },
-            animate: {
-              pathOffset: [1, 0],
-              pathLength: [0, 1],
-              opacity: [0, 1],
-            },
+          style={{
+            strokeDasharray: 100,
+            strokeDashoffset: hovered ? 0 : 0,
+            opacity: hovered ? 1 : 1,
+            transition: "all 0.25s ease 0.1s",
           }}
         />
-        <motion.path
+        <path
           d="M12 12V8"
-          animate={controls}
-          transition={{
-            duration: DURATION,
-            delay: calculateDelay(1),
-            opacity: { delay: calculateDelay(1) },
-          }}
-          variants={{
-            normal: {
-              pathLength: 1,
-              pathOffset: 0,
-              opacity: 1,
-            },
-            animate: {
-              pathOffset: [1, 0],
-              pathLength: [0, 1],
-              opacity: [0, 1],
-            },
+          style={{
+            strokeDasharray: 100,
+            strokeDashoffset: hovered ? 0 : 0,
+            opacity: hovered ? 1 : 1,
+            transition: "all 0.25s ease 0.35s",
           }}
         />
       </svg>

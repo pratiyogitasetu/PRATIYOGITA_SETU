@@ -1,12 +1,4 @@
-"use client";
-
-import { motion, useAnimation } from "framer-motion";
-
-const defaultTransition = {
-  type: "spring",
-  stiffness: 250,
-  damping: 25,
-};
+import { useState } from "react";
 
 const CircleHelp = ({
   width = 16,
@@ -17,7 +9,7 @@ const CircleHelp = ({
   style = {},
   ...props
 }) => {
-  const controls = useAnimation();
+  const [hovered, setHovered] = useState(false);
 
   return (
     <div
@@ -31,8 +23,8 @@ const CircleHelp = ({
         lineHeight: 0,
         ...style,
       }}
-      onMouseEnter={() => controls.start("animate")}
-      onMouseLeave={() => controls.start("normal")}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -47,18 +39,15 @@ const CircleHelp = ({
         {...props}
       >
         <circle cx="12" cy="12" r="10" />
-        <motion.g
-          variants={{
-            normal: { translateY: "0%" },
-            animate: { translateY: "-2px" },
+        <g
+          style={{
+            transform: hovered ? "translateY(-2px)" : "translateY(0)",
+            transition: "transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
           }}
-          transition={defaultTransition}
-          animate={controls}
-          initial="normal"
         >
           <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
           <path d="M12 17h.01" />
-        </motion.g>
+        </g>
       </svg>
     </div>
   );

@@ -53,14 +53,14 @@ class ErrorBoundary extends React.Component {
               </button>
             </div>
 
-            {process.env.NODE_ENV === 'development' && (
+            {import.meta.env.DEV && (
               <details className="mt-6 text-left">
                 <summary className="cursor-pointer text-sm text-gray-500 hover:text-gray-700">
                   Error Details (Development)
                 </summary>
                 <div className="mt-2 p-3 bg-gray-100 rounded text-xs text-gray-700 overflow-auto">
                   <pre>{this.state.error && this.state.error.toString()}</pre>
-                  <pre>{this.state.errorInfo.componentStack}</pre>
+                  <pre>{this.state.errorInfo ? this.state.errorInfo.componentStack : ''}</pre>
                 </div>
               </details>
             )}

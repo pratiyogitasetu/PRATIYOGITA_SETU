@@ -1,10 +1,4 @@
-import { motion, useAnimation } from "framer-motion";
-
-const defaultTransition = {
-  type: "spring",
-  stiffness: 250,
-  damping: 25,
-};
+import { useState } from "react";
 
 const ChevronFirst = ({
   width = 15,
@@ -13,7 +7,7 @@ const ChevronFirst = ({
   stroke = "#ffffff",
   ...props
 }) => {
-  const controls = useAnimation();
+  const [hovered, setHovered] = useState(false);
 
   return (
     <div
@@ -25,8 +19,8 @@ const ChevronFirst = ({
         alignItems: "center",
         justifyContent: "center",
       }}
-      onMouseEnter={() => controls.start("animate")}
-      onMouseLeave={() => controls.start("normal")}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -40,25 +34,19 @@ const ChevronFirst = ({
         strokeLinejoin="round"
         {...props}
       >
-        <motion.path
-          variants={{
-            normal: { translateX: "0%" },
-            animate: { translateX: "2px" },
-          }}
-          transition={defaultTransition}
-          animate={controls}
-          initial="normal"
+        <path
           d="m17 18-6-6 6-6"
-        />
-        <motion.path
-          variants={{
-            normal: { translateX: "0%" },
-            animate: { translateX: "-2px" },
+          style={{
+            transform: hovered ? "translateX(2px)" : "translateX(0)",
+            transition: "transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
           }}
-          transition={defaultTransition}
-          animate={controls}
-          initial="normal"
+        />
+        <path
           d="M7 6v12"
+          style={{
+            transform: hovered ? "translateX(-2px)" : "translateX(0)",
+            transition: "transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+          }}
         />
       </svg>
     </div>
