@@ -102,7 +102,7 @@ const HelpSupportModal = ({ isOpen, onClose }) => {
         
         <div className="sticky bottom-0 bg-gray-50 border-t border-gray-200 p-3 rounded-b-lg">
           <div className="flex items-center justify-between text-xs">
-            <span className="text-gray-600">Need help? support@pratiyogitagyan.com (include screenshot + query)</span>
+            <span className="text-gray-600">Need help? askpsetu@gmail.com (include screenshot + query)</span>
             <button
               onClick={onClose}
               className="bg-blue-600 text-white py-1 px-3 rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"

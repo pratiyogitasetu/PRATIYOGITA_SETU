@@ -52,7 +52,7 @@ const GDTopicsSection = () => {
   }
 
   return (
-    <div className={`flex-1 ${leftMargin} mr-0 md:mr-4 flex flex-col h-full overflow-hidden pl-2 pr-2 pb-2`}>
+    <div className={`flex-1 ${leftMargin} mr-0 md:mr-4 flex flex-col h-full overflow-hidden pl-2 pr-2 pb-2 transition-[margin-left] duration-300 ease-in-out`}>
       {/* Entire section with gradient background */}
       <div 
         className="flex-1 md:border md:border-gray-400 md:rounded-lg shadow-sm flex flex-col overflow-hidden"

@@ -12,10 +12,10 @@ export const useLayout = () => {
 
 export const LayoutProvider = ({ children }) => {
   const [sidebarVisible, setSidebarVisible] = useState(false)
-  const [pyqVisible, setPyqVisible] = useState(true)
+  const [pyqVisible, setPyqVisible] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
-  const [viewportWidth, setViewportWidth] = useState(() => window.innerWidth)
+  const [viewportWidth, setViewportWidth] = useState(() => typeof window !== 'undefined' ? window.innerWidth : 1200)
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(max-width: 767px)')
@@ -33,15 +33,10 @@ export const LayoutProvider = ({ children }) => {
 
   const contentOffsetLeft = (() => {
     if (isMobile) return 0
-
-    // Sidebar dimensions mirror Sidebar.jsx:
-    // expanded: 240px (tablet), 255px (desktop) with 4px left gap
-    // collapsed icon rail (desktop only): 40px with 4px left gap
     if (sidebarVisible) {
-      return viewportWidth >= 900 ? 259 : 244
+      return viewportWidth >= 900 ? 263 : 248
     }
-
-    return 44
+    return 48
   })()
 
   const toggleSidebar = () => {

@@ -10,24 +10,20 @@ export const useTheme = () => {
   return context
 }
 
-// Function to generate lighter and darker shades of a color
 const generateShades = (baseColor) => {
   const hex = baseColor.replace('#', '')
   const r = parseInt(hex.substr(0, 2), 16)
   const g = parseInt(hex.substr(2, 2), 16)
   const b = parseInt(hex.substr(4, 2), 16)
   
-  // Generate lighter shade (secondary)
   const lighterR = Math.min(255, Math.round(r + (255 - r) * 0.3))
   const lighterG = Math.min(255, Math.round(g + (255 - g) * 0.3))
   const lighterB = Math.min(255, Math.round(b + (255 - b) * 0.3))
   
-  // Generate darker shade
   const darkerR = Math.round(r * 0.7)
   const darkerG = Math.round(g * 0.7)
   const darkerB = Math.round(b * 0.7)
   
-  // Generate light shade
   const lightR = Math.min(255, Math.round(r + (255 - r) * 0.8))
   const lightG = Math.min(255, Math.round(g + (255 - g) * 0.8))
   const lightB = Math.min(255, Math.round(b + (255 - b) * 0.8))
@@ -40,28 +36,24 @@ const generateShades = (baseColor) => {
   }
 }
 
-// Function to determine if a color is light or dark
 const isLightColor = (color) => {
   const hex = color.replace('#', '')
   const r = parseInt(hex.substr(0, 2), 16)
   const g = parseInt(hex.substr(2, 2), 16)
   const b = parseInt(hex.substr(4, 2), 16)
-  
-  // Calculate brightness using standard formula
   const brightness = (r * 299 + g * 587 + b * 114) / 1000
   return brightness > 128
 }
 
 export const ThemeProvider = ({ children }) => {
-  const [currentColor, setCurrentColor] = useState('#E4572E') // Default saffron/orange
-  const mode = 'light' // Force light mode only
+  const [currentColor, setCurrentColor] = useState('#0E7490') // Premium Teal branding for Sawal Jawab
+  const mode = 'light'
   const [theme, setTheme] = useState({
-    colors: generateShades('#E4572E'),
+    colors: generateShades('#0E7490'),
     textColor: 'white',
     mode: 'light'
   })
 
-  // Update theme when color changes
   useEffect(() => {
     const colors = generateShades(currentColor)
     const textColor = isLightColor(currentColor) ? 'black' : 'white'
@@ -72,7 +64,6 @@ export const ThemeProvider = ({ children }) => {
       mode: 'light'
     })
 
-    // Update CSS custom properties
     const root = document.documentElement
     root.style.setProperty('--color-primary', colors.primary)
     root.style.setProperty('--color-secondary', colors.secondary)
@@ -80,7 +71,6 @@ export const ThemeProvider = ({ children }) => {
     root.style.setProperty('--color-light', colors.light)
     root.style.setProperty('--text-color', textColor)
     
-    // Set theme mode class on html element - always light mode
     root.classList.add('light-mode')
     root.classList.remove('dark-mode')
   }, [currentColor])

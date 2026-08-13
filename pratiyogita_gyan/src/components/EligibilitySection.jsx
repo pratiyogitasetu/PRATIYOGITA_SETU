@@ -117,7 +117,7 @@ const EligibilitySection = () => {
     : mockEligibilityData.filter(exam => exam.id === selectedExam)
 
   return (
-    <div className={`flex-1 ${leftMargin} mr-0 md:mr-4 flex flex-col h-full overflow-hidden pl-2 pr-2 pb-2`}>
+    <div className={`flex-1 ${leftMargin} mr-0 md:mr-4 flex flex-col h-full overflow-hidden pl-2 pr-2 pb-2 transition-[margin-left] duration-300 ease-in-out`}>
       {/* Main Container */}
       <div className="flex-1 bg-white border border-gray-400 rounded-lg shadow-sm flex flex-col overflow-hidden">
         

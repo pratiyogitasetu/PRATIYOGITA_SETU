@@ -425,7 +425,8 @@ const QuizSection = () => {
         className="flex-1 mr-0 flex flex-col h-full overflow-hidden pl-2 pr-2 pb-2"
         style={{
           marginLeft: `${contentOffsetLeft}px`,
-          width: `calc(100% - ${contentOffsetLeft + (isMobile ? 0 : 8)}px)`
+          width: `calc(100% - ${contentOffsetLeft + (isMobile ? 0 : 8)}px)`,
+          transition: 'margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
         }}
       >
         <div className="flex-1 bg-white border border-gray-400 rounded-lg shadow-sm flex flex-col overflow-hidden">
@@ -656,7 +657,8 @@ const QuizSection = () => {
         className="flex-1 mr-0 flex flex-col h-full overflow-hidden pl-2 pr-2 pb-2"
         style={{
           marginLeft: `${contentOffsetLeft}px`,
-          width: `calc(100% - ${contentOffsetLeft + (isMobile ? 0 : 8)}px)`
+          width: `calc(100% - ${contentOffsetLeft + (isMobile ? 0 : 8)}px)`,
+          transition: 'margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
         }}
       >
         <div className="flex-1 bg-white border border-gray-400 rounded-lg shadow-sm flex flex-col overflow-hidden">
@@ -820,7 +822,8 @@ const QuizSection = () => {
       className="flex-1 mr-0 flex flex-col h-full overflow-hidden pl-2 pr-2 pb-2"
       style={{
         marginLeft: `${contentOffsetLeft}px`,
-        width: `calc(100% - ${contentOffsetLeft + (isMobile ? 0 : 8)}px)`
+        width: `calc(100% - ${contentOffsetLeft + (isMobile ? 0 : 8)}px)`,
+        transition: 'margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
       }}
     >
       <div className="flex-1 bg-white border border-gray-400 rounded-lg shadow-sm flex flex-col overflow-hidden">

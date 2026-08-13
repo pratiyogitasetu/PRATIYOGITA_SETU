@@ -1272,6 +1272,80 @@ export function AuthProvider({ children }) {
     }
   }
 
+  // Migrate guest data (chats, messages, and starred PYQs) from localStorage to Firebase
+  async function migrateGuestDataToFirebase(user) {
+    if (!user) return;
+    const uid = user.uid;
+
+    // 1. Migrate Guest Chats and Messages
+    const guestChatsRaw = localStorage.getItem('guestChatHistory');
+    if (guestChatsRaw) {
+      try {
+        const guestChats = JSON.parse(guestChatsRaw);
+        if (Array.isArray(guestChats) && guestChats.length > 0) {
+          console.log(`⏳ Migrating ${guestChats.length} guest chats to Firebase...`);
+          for (const chat of guestChats) {
+            // Create chat document in 'chats' collection
+            const chatRef = await addDoc(collection(db, 'chats'), {
+              title: chat.title || 'New Chat',
+              userId: uid,
+              createdAt: chat.createdAt ? new Date(chat.createdAt) : serverTimestamp(),
+              lastUpdatedAt: chat.updatedAt ? new Date(chat.updatedAt) : serverTimestamp(),
+              messageCount: chat.messageCount || (chat.messages || []).length
+            });
+
+            // Create message documents in 'messages' collection
+            if (Array.isArray(chat.messages) && chat.messages.length > 0) {
+              for (const msg of chat.messages) {
+                await addDoc(collection(db, 'messages'), {
+                  chatId: chatRef.id,
+                  content: msg.content || '',
+                  type: msg.type || 'user', // 'user' or 'bot'
+                  senderId: msg.type === 'user' ? uid : 'bot',
+                  timestamp: msg.timestamp ? new Date(msg.timestamp) : serverTimestamp(),
+                  sources: msg.sources || []
+                });
+              }
+            }
+          }
+          // Clear guest chat history from localStorage
+          localStorage.removeItem('guestChatHistory');
+          console.log('✅ Guest chats successfully migrated to Firebase.');
+        }
+      } catch (error) {
+        console.error('❌ Error migrating guest chats to Firebase:', error);
+      }
+    }
+
+    // 2. Migrate Starred PYQs
+    const STARRED_PYQ_LOCAL_STORAGE_KEY = 'pyqPracticeStarredQuestions';
+    const guestStarredRaw = localStorage.getItem(STARRED_PYQ_LOCAL_STORAGE_KEY);
+    if (guestStarredRaw) {
+      try {
+        const guestStarred = JSON.parse(guestStarredRaw);
+        if (Array.isArray(guestStarred) && guestStarred.length > 0) {
+          console.log(`⏳ Migrating ${guestStarred.length} guest starred PYQs to Firebase...`);
+          for (const item of guestStarred) {
+            const resolvedId = String(item?.id || '').trim();
+            if (resolvedId) {
+              const starredDocRef = doc(db, 'users', uid, 'starredPyqs', resolvedId);
+              await setDoc(starredDocRef, {
+                ...item,
+                userId: uid,
+                updatedAt: serverTimestamp()
+              });
+            }
+          }
+          // Clear local starred PYQs
+          localStorage.removeItem(STARRED_PYQ_LOCAL_STORAGE_KEY);
+          console.log('✅ Guest starred PYQs successfully migrated to Firebase.');
+        }
+      } catch (error) {
+        console.error('❌ Error migrating guest starred PYQs to Firebase:', error);
+      }
+    }
+  }
+
   useEffect(() => {
     let unsubscribeSync = null;
 
@@ -1283,6 +1357,10 @@ export function AuthProvider({ children }) {
 
       setCurrentUser(user);
       setLoading(false);
+
+      if (user) {
+        migrateGuestDataToFirebase(user);
+      }
 
       if (!user) return;
 

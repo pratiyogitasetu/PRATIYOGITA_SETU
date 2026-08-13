@@ -148,10 +148,10 @@ const Navbar = ({ onViewChange, currentView }) => {
         backgroundColor: '#ffffff',
         border: '1px solid #808080',
         borderRadius: { xs: 0, md: 1 },
-        top: { xs: 0, md: 8 },
-        left: { xs: 0, md: 8 },
-        right: { xs: 0, md: 8 },
-        width: { xs: '100%', md: 'calc(100% - 16px)' },
+        top: { xs: 0, md: 4 },
+        left: { xs: 0, md: 4 },
+        right: { xs: 0, md: 4 },
+        width: { xs: '100%', md: 'calc(100% - 8px)' },
         height: 56,
         zIndex: (theme) => theme.zIndex.appBar + 10,
         overflow: 'hidden'
@@ -231,7 +231,7 @@ const Navbar = ({ onViewChange, currentView }) => {
 
             {/* Center - Navigation */}
             <Box sx={{ flex: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'center', minWidth: 0, overflow: 'hidden', height: '100%', alignItems: 'center' }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, backgroundColor: 'rgba(255,255,255,0.9)', px: { sm: 0.75, md: 1, lg: 1.5 }, py: 0, borderRadius: 2, boxShadow: 1, overflow: 'hidden', height: 40 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, backgroundColor: 'rgba(255,255,255,0.9)', px: { sm: 0.75, md: 1, lg: 1.5 }, py: 0, borderRadius: 2, overflow: 'hidden', height: 40 }}>
                 <Button onClick={() => onViewChange('chat')} startIcon={<Home size={14} />} sx={navButtonSx(currentView === 'chat')}>
                   <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>Home</Box>
                 </Button>

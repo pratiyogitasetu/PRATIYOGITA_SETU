@@ -43,7 +43,7 @@ const ContactModal = ({ isOpen, onClose }) => {
                   <Mail className="w-5 h-5 text-blue-600 flex-shrink-0" />
                   <div>
                     <p className="font-semibold text-gray-800">Email Support</p>
-                    <p className="text-sm text-gray-600">support@pratiyogitagyan.com</p>
+                    <p className="text-sm text-gray-600">askpsetu@gmail.com</p>
                   </div>
                 </div>
                 
@@ -51,7 +51,7 @@ const ContactModal = ({ isOpen, onClose }) => {
                   <Phone className="w-5 h-5 text-green-600 flex-shrink-0" />
                   <div>
                     <p className="font-semibold text-gray-800">Phone</p>
-                    <p className="text-sm text-gray-600">+91 9876543210</p>
+                    <p className="text-sm text-gray-600">+91 7500024959</p>
                   </div>
                 </div>
                 
@@ -67,7 +67,7 @@ const ContactModal = ({ isOpen, onClose }) => {
                   <Globe className="w-5 h-5 text-indigo-600 flex-shrink-0" />
                   <div>
                     <p className="font-semibold text-gray-800">Website</p>
-                    <p className="text-sm text-gray-600">www.pratiyogitagyan.com</p>
+                    <p className="text-sm text-gray-600">www.psetu.com</p>
                   </div>
                 </div>
               </div>

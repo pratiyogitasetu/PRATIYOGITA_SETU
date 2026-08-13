@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useMemo, useCallback, useLayoutEffect, Fragment, memo } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { User, ChevronUp, FileText, Hash } from 'lucide-react'
+import { User, ChevronUp, FileText, Hash, ChevronLeft, ChevronRight, MessageSquare, Sparkles, TrendingUp, Zap, GraduationCap, Book } from 'lucide-react'
 import { Box, Paper, Stack, Typography, Alert, Chip, Divider, Avatar, IconButton, Button } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 import PropTypes from 'prop-types'
@@ -21,11 +21,11 @@ const PENDING_CHAT_LOAD_STORAGE_KEY = 'pendingChatToLoad'
 const MAX_CHAT_TITLE_LENGTH = 32
 const MAX_CHAT_TITLE_WORDS = 4
 const CHAT_FONT_SIZES = {
-  body: { xs: '0.75rem', md: '0.875rem' },
-  h1: { xs: '1rem', md: '1.125rem' },
-  h2: { xs: '0.9rem', md: '1.025rem' },
-  h3: { xs: '0.85rem', md: '0.975rem' },
-  code: { xs: '0.72rem', md: '0.845rem' }
+  body: { xs: '0.7rem', md: '0.775rem' },
+  h1: { xs: '0.9rem', md: '1.0rem' },
+  h2: { xs: '0.8rem', md: '0.9rem' },
+  h3: { xs: '0.75rem', md: '0.825rem' },
+  code: { xs: '0.68rem', md: '0.775rem' }
 }
 const STOP_WORDS = new Set([
   'the', 'a', 'an', 'of', 'in', 'on', 'for', 'to', 'and', 'or', 'with', 'without',
@@ -300,7 +300,7 @@ const ChatMessageBubble = memo(({
   message,
   markdownComponents,
   typingText,
-  aiStatusText,
+  currentStepIndex,
   expandedSourceSet,
   onToggleSource,
   onRegisterUserRef
@@ -314,15 +314,19 @@ const ChatMessageBubble = memo(({
     <Box
       key={message.id}
       ref={message.type === 'user' ? userRef : null}
-      sx={{ display: 'flex', justifyContent: message.type === 'user' ? 'flex-end' : 'flex-start' }}
+      sx={{ 
+        display: 'flex', 
+        justifyContent: message.type === 'user' ? 'flex-end' : 'flex-start',
+        width: '100%'
+      }}
     >
       <Box
         sx={{
           display: 'flex',
           alignItems: 'flex-start',
           gap: 1,
-          width: { xs: '100%', md: 'auto' },
-          maxWidth: { xs: '100%', md: '80%' },
+          width: message.type === 'user' ? { xs: '100%', md: 'auto' } : '100%',
+          maxWidth: message.type === 'user' ? { xs: '100%', md: '80%' } : '100%',
           flexDirection: message.type === 'user' ? 'row-reverse' : 'row'
         }}
       >
@@ -343,32 +347,27 @@ const ChatMessageBubble = memo(({
         </Box>
 
         {/* Message content */}
-        <Paper
-          elevation={0}
-          sx={{
-            p: message.type === 'bot' ? 1.15 : 1.4,
-            width: { xs: '100%', md: 'auto' },
-            borderRadius: 2,
-            backgroundColor: message.type === 'user' ? 'primary.main' : 'background.paper',
-            color: message.type === 'user' ? 'primary.contrastText' : 'text.primary',
-            border: message.type === 'user' ? 'none' : (theme) => `1px solid ${theme.palette.divider}`
-          }}
-        >
-          {/* Loading Indicator - Only for bot messages when loading */}
-          {message.type === 'bot' && message.isLoading ? (
-            <Box>
-              <SearchProgressIndicator isVisible={true} />
-              {aiStatusText && (
-                <Typography variant="caption" sx={{ display: 'block', mt: 0.5, color: '#6b7280' }}>
-                  {aiStatusText}
-                </Typography>
-              )}
-            </Box>
-          ) : (
+        {message.type === 'bot' && message.isLoading ? (
+          <Box sx={{ p: 0 }}>
+            <SearchProgressIndicator currentStepIndex={currentStepIndex} />
+          </Box>
+        ) : (
+          <Paper
+            elevation={0}
+            sx={{
+              p: message.type === 'bot' ? 0.75 : 0.9,
+              width: message.type === 'user' ? { xs: '100%', md: 'auto' } : 'auto',
+              flexGrow: message.type === 'user' ? 0 : 1,
+              borderRadius: 2,
+              backgroundColor: message.type === 'user' ? 'primary.main' : 'background.paper',
+              color: message.type === 'user' ? 'primary.contrastText' : 'text.primary',
+              border: message.type === 'user' ? 'none' : (theme) => `1px solid ${theme.palette.divider}`
+            }}
+          >
             <Box
               sx={{
-                fontSize: '0.75rem',
-                lineHeight: message.type === 'bot' ? 1.34 : 1.5,
+                fontSize: '0.7rem',
+                lineHeight: message.type === 'bot' ? 1.3 : 1.4,
                 whiteSpace: 'normal',
                 '& h1 + p, & h2 + p, & h3 + p, & h4 + p, & h5 + p, & h6 + p': {
                   marginTop: '0.08rem'
@@ -382,7 +381,6 @@ const ChatMessageBubble = memo(({
                 {typingText ?? message.content}
               </ReactMarkdown>
             </Box>
-          )}
 
           {/* Sources Section - Only for bot messages with sources */}
           {message.type === 'bot' && message.sources && message.sources.length > 0 && (
@@ -396,7 +394,7 @@ const ChatMessageBubble = memo(({
                   </Typography>
                 </Box>
 
-                <Stack direction="row" spacing={0.5} flexWrap="wrap">
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                   {message.sources.map((source, index) => {
                     const sourceKey = `${message.id}-${index}`
                     const isExpanded = expandedSourceSet.has(index)
@@ -408,10 +406,12 @@ const ChatMessageBubble = memo(({
                         onClick={() => onToggleSource(sourceKey)}
                         sx={{
                           minWidth: 0,
-                          px: 1,
-                          py: 0.25,
+                          height: '20px',
+                          minHeight: '20px',
+                          px: 0.75,
+                          py: 0,
                           borderRadius: 999,
-                          fontSize: '0.7rem',
+                          fontSize: '0.62rem',
                           backgroundColor: (theme) =>
                             isExpanded
                               ? theme.palette.primary.main
@@ -433,7 +433,7 @@ const ChatMessageBubble = memo(({
                         }}
                       >
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                          <Hash className="w-2.5 h-2.5" />
+                          <Hash className="w-2 h-2" />
                           <span>{index + 1}</span>
                           {source.score && (
                             <span style={{ opacity: 0.75 }}>({(source.score * 100).toFixed(0)}%)</span>
@@ -442,7 +442,7 @@ const ChatMessageBubble = memo(({
                       </Button>
                     )
                   })}
-                </Stack>
+                </Box>
               </Box>
 
               {/* Individual Source Content - Only show the specific expanded source */}
@@ -453,46 +453,46 @@ const ChatMessageBubble = memo(({
                   <Paper
                     key={index}
                     elevation={0}
-                    sx={{ mt: 2, p: 1.5, borderRadius: 2, backgroundColor: '#f9f9f9', border: '1px solid #e0e0e0' }}
+                    sx={{ mt: 1, p: 1, borderRadius: 2, backgroundColor: '#f9f9f9', border: '1px solid #e0e0e0' }}
                   >
                     {/* Source Header */}
-                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 0.75 }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                        <Hash className="w-2.5 h-2.5" style={{ color: '#000000', opacity: 0.6 }} />
-                        <Typography variant="caption" sx={{ fontWeight: 600, color: '#000000' }}>
+                        <Hash className="w-2 h-2" style={{ color: '#000000', opacity: 0.6 }} />
+                        <Typography variant="caption" sx={{ fontWeight: 600, color: '#000000', fontSize: '0.68rem' }}>
                           Source {index + 1}
                         </Typography>
                         {source.score && (
                           <Chip
                             size="small"
                             label={`${(source.score * 100).toFixed(1)}%`}
-                            sx={{ backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.2), color: 'text.primary', fontSize: '0.7rem' }}
+                            sx={{ height: '18px', backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.2), color: 'text.primary', fontSize: '0.62rem', '& .MuiChip-label': { px: 0.75 } }}
                           />
                         )}
                       </Box>
-                      <IconButton onClick={() => onToggleSource(sourceKey)} size="small" sx={{ color: '#000000', opacity: 0.6 }}>
+                      <IconButton onClick={() => onToggleSource(sourceKey)} size="small" sx={{ color: '#000000', opacity: 0.6, p: 0.25 }}>
                         <ChevronUp className="w-2.5 h-2.5" />
                       </IconButton>
                     </Box>
 
                     {/* Source Details */}
-                    <Stack spacing={1}>
-                      <Stack direction="row" spacing={1} flexWrap="wrap">
+                    <Stack spacing={0.75}>
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                         {source.subject && (
-                          <Chip size="small" label={source.subject} sx={{ backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.18), color: 'text.primary', fontSize: '0.7rem' }} />
+                          <Chip size="small" label={source.subject} sx={{ height: '18px', backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.18), color: 'text.primary', fontSize: '0.62rem', '& .MuiChip-label': { px: 0.75 } }} />
                         )}
                         {source.class && (
-                          <Chip size="small" label={source.class} sx={{ backgroundColor: (theme) => alpha(theme.palette.text.primary, 0.08), color: 'text.primary', fontSize: '0.7rem' }} />
+                          <Chip size="small" label={source.class} sx={{ height: '18px', backgroundColor: (theme) => alpha(theme.palette.text.primary, 0.08), color: 'text.primary', fontSize: '0.62rem', '& .MuiChip-label': { px: 0.75 } }} />
                         )}
                         {(source.chapter || source.chapter_name) && (
-                          <Chip size="small" label={source.chapter_name || source.chapter} sx={{ backgroundColor: (theme) => alpha(theme.palette.text.primary, 0.08), color: 'text.primary', fontSize: '0.7rem' }} />
+                          <Chip size="small" label={source.chapter_name || source.chapter} sx={{ height: '18px', backgroundColor: (theme) => alpha(theme.palette.text.primary, 0.08), color: 'text.primary', fontSize: '0.62rem', '& .MuiChip-label': { px: 0.75 } }} />
                         )}
                         {source.topic && (
-                          <Chip size="small" label={source.topic} sx={{ backgroundColor: (theme) => alpha(theme.palette.text.primary, 0.08), color: 'text.primary', fontSize: '0.7rem' }} />
+                          <Chip size="small" label={source.topic} sx={{ height: '18px', backgroundColor: (theme) => alpha(theme.palette.text.primary, 0.08), color: 'text.primary', fontSize: '0.62rem', '& .MuiChip-label': { px: 0.75 } }} />
                         )}
-                      </Stack>
+                      </Box>
 
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, fontSize: '0.7rem', pt: 1, borderTop: '1px solid #e0e0e0', color: '#000000', opacity: 0.6 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, fontSize: '0.62rem', pt: 0.75, borderTop: '1px solid #e0e0e0', color: '#000000', opacity: 0.6 }}>
                         {source.chunk && (
                           <span><strong>Chunk:</strong> {source.chunk}</span>
                         )}
@@ -500,11 +500,11 @@ const ChatMessageBubble = memo(({
                       </Box>
 
                       {(source.content || source.text_preview || source.text || source.full_text) && (
-                        <Paper elevation={0} sx={{ p: 1.5, borderRadius: 2, backgroundColor: '#f5f5f5', border: '1px solid #e0e0e0', maxHeight: 256, overflowY: 'auto' }}>
-                          <Typography variant="caption" sx={{ fontWeight: 700, color: '#000000', display: 'block', mb: 1 }}>
+                        <Paper elevation={0} sx={{ p: 1, borderRadius: 2, backgroundColor: '#f5f5f5', border: '1px solid #e0e0e0', maxHeight: 180, overflowY: 'auto' }}>
+                          <Typography variant="caption" sx={{ fontWeight: 700, color: '#000000', display: 'block', mb: 0.5, fontSize: '0.68rem' }}>
                             Content:
                           </Typography>
-                          <Typography variant="body2" sx={{ fontSize: '0.75rem', lineHeight: 1.5, whiteSpace: 'pre-wrap', color: '#000000', opacity: 0.8 }}>
+                          <Typography variant="body2" sx={{ fontSize: '0.68rem', lineHeight: 1.45, whiteSpace: 'pre-wrap', color: '#000000', opacity: 0.8 }}>
                             {source.content || source.full_text || source.text_preview || source.text || 'No content available'}
                           </Typography>
                         </Paper>
@@ -528,7 +528,8 @@ const ChatMessageBubble = memo(({
               Error processing request
             </Typography>
           )}
-        </Paper>
+          </Paper>
+        )}
       </Box>
     </Box>
   )
@@ -546,7 +547,7 @@ ChatMessageBubble.propTypes = {
   }).isRequired,
   markdownComponents: PropTypes.object.isRequired,
   typingText: PropTypes.string,
-  aiStatusText: PropTypes.string,
+  currentStepIndex: PropTypes.number,
   expandedSourceSet: PropTypes.instanceOf(Set),
   onToggleSource: PropTypes.func.isRequired,
   onRegisterUserRef: PropTypes.func.isRequired
@@ -555,7 +556,7 @@ ChatMessageBubble.propTypes = {
 const ChatSection = () => {
   const { theme } = useTheme()
   const isDarkMode = theme?.mode === 'dark'
-  const { contentOffsetLeft, pyqVisible } = useLayout()
+  const { contentOffsetLeft, pyqVisible, togglePyq, isMobile } = useLayout()
   const { addToSearchHistory, addGuestChat, updateGuestChat, guestChatHistory } = useSearchHistory()
   const { currentUser, createNewChat, saveMessage, getChatMessages, updateChatTitle, updateChatMessageCount, getChatHistory } = useAuth()
   const { trackInteraction } = useDashboard()
@@ -570,7 +571,7 @@ const ChatSection = () => {
   const [currentChatTitle, setCurrentChatTitle] = useState('New Chat')
   const [rateLimitMessage] = useState('')
   const [expandedSources, setExpandedSources] = useState({}) // Track expanded sources for each message
-  const [aiStatusText, setAiStatusText] = useState('')
+  const [currentStepIndex, setCurrentStepIndex] = useState(0)
   const [typingVisible, setTypingVisible] = useState({})
   const typingTimersRef = useRef({})
   const typedMessageIdsRef = useRef(new Set())
@@ -623,23 +624,22 @@ const ChatSection = () => {
   // Progressive UI feedback during AI response (non-blocking)
   useEffect(() => {
     if (!isLoading) {
-      setAiStatusText('')
+      setCurrentStepIndex(0)
       return
     }
 
-    const steps = [
-      'Reformatting your question…',
-      'Querying AI model…',
-      'Fetching relevant information…',
-      'Preparing final response…'
-    ]
-
-    setAiStatusText(steps[0])
-    const timeouts = steps.slice(1).map((step, index) =>
+    setCurrentStepIndex(0)
+    const timeouts = [
       setTimeout(() => {
-        setAiStatusText(step)
-      }, (index + 1) * 900)
-    )
+        setCurrentStepIndex(1)
+      }, 900),
+      setTimeout(() => {
+        setCurrentStepIndex(2)
+      }, 1800),
+      setTimeout(() => {
+        setCurrentStepIndex(3)
+      }, 2700)
+    ]
 
     return () => {
       timeouts.forEach(clearTimeout)
@@ -1109,6 +1109,24 @@ const ChatSection = () => {
     createNewChat
   ])
 
+  useEffect(() => {
+    const handleSubmittion = (event) => {
+      const { query, options } = event.detail
+      sendMessage(query, options)
+    }
+    window.addEventListener('submitChatQuery', handleSubmittion)
+    return () => {
+      window.removeEventListener('submitChatQuery', handleSubmittion)
+    }
+  }, [sendMessage])
+
+  useEffect(() => {
+    const event = new CustomEvent('chatLoadingState', {
+      detail: { isLoading }
+    })
+    window.dispatchEvent(event)
+  }, [isLoading])
+
   const handleScroll = useCallback(() => {
     const container = scrollContainerRef.current
     if (!container) return
@@ -1118,24 +1136,14 @@ const ChatSection = () => {
   }, [])
 
   useLayoutEffect(() => {
-    const targetId = pendingScrollToIdRef.current
-    if (!targetId) return
-
     const container = scrollContainerRef.current
-    const targetNode = userMessageRefs.current.get(targetId)
-    if (!container || !targetNode) return
+    if (!container) return
 
-    const computed = window.getComputedStyle(container)
-    const paddingTop = Number.parseFloat(computed.paddingTop || '0') || 0
-    const nextTop = Math.max(0, targetNode.offsetTop - paddingTop)
-
-    container.scrollTop = nextTop
+    container.scrollTop = container.scrollHeight
     scrollStateRef.current.scrollTop = container.scrollTop
     scrollStateRef.current.scrollHeight = container.scrollHeight
     scrollStateRef.current.isAtTop = container.scrollTop <= 8
-
-    pendingScrollToIdRef.current = null
-  }, [messages.length])
+  }, [messages.length, typingVisible])
 
   const messagePairs = useMemo(() => {
     const pairs = []
@@ -1196,42 +1204,54 @@ const ChatSection = () => {
       message={message}
       markdownComponents={message.type === 'user' ? markdownComponentsByRole.user : markdownComponentsByRole.bot}
       typingText={typingVisible[message.id]}
-      aiStatusText={message.type === 'bot' && message.isLoading ? aiStatusText : ''}
+      currentStepIndex={message.type === 'bot' && message.isLoading ? currentStepIndex : 0}
       expandedSourceSet={expandedSourcesByMessage.get(String(message.id)) || EMPTY_EXPANDED_SOURCES}
       onToggleSource={toggleSources}
       onRegisterUserRef={registerUserMessageRef}
     />
   )
 
-  // Calculate dynamic margins based on visibility (match fixed panel sizes)
-  const leftMarginPx = contentOffsetLeft
-  const rightMarginPx = useMemo(() => (pyqVisible ? 428 : 48), [pyqVisible])
-
   return (
-    <Box
-      sx={{
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100%',
-        overflow: 'hidden',
-        pl: 1,
-        pr: 1,
-        pb: 1,
-        ml: { xs: 0, md: `${leftMarginPx}px` },
-        mr: { xs: 0, md: `${rightMarginPx}px` }
-      }}
-    >
-        {/* Main Chat Container with Theme-aware Background */}
-        <Paper
-          elevation={1}
-          className="flex-1 rounded-lg shadow-sm flex flex-col overflow-hidden transition-colors duration-300"
+    <>
+      {/* Full Chat Section */}
+      {pyqVisible && (
+        <Box
           sx={{
-            backgroundColor: { xs: 'transparent', md: '#ffffff' },
-            border: { xs: 'none', md: '1px solid #808080' },
-            position: 'relative'
+            position: 'fixed',
+            right: isMobile ? 0 : 4,
+            left: isMobile ? 0 : 'auto',
+            top: isMobile ? 56 : 64,
+            bottom: isMobile ? 0 : 4,
+            width: isMobile ? '100%' : 420,
+            zIndex: isMobile ? 1400 : 30,
+            borderRadius: isMobile ? 0 : 1,
+            backgroundColor: '#ffffff',
+            overflow: 'hidden',
+            display: 'flex',
+            flexDirection: 'column',
+            border: '1px solid #808080'
           }}
         >
+          {/* Main Chat Container with Theme-aware Background */}
+          <Paper
+            elevation={1}
+            className="flex-grow rounded-lg flex flex-col overflow-hidden transition-colors duration-300"
+            sx={{
+              backgroundColor: '#ffffff',
+              border: 'none',
+              position: 'relative',
+              height: '100%'
+            }}
+          >
+            {/* Toggle Button in Header */}
+            <Box sx={{ p: 0.5, display: 'flex', justifyContent: 'flex-start', alignItems: 'center', borderBottom: '1px solid #f1f5f9' }}>
+              <IconButton onClick={togglePyq} size="small" title="Hide Chat Panel" sx={{ color: '#000000' }}>
+                <ChevronRight className="w-4 h-4" />
+              </IconButton>
+              <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary', ml: 1, fontSize: '0.75rem' }}>
+                Chat Companion
+              </Typography>
+            </Box>
           {/* System Status Banner */}
           {!systemStatus.healthy && (
             <Box sx={{ mx: 2, mt: 1 }}>
@@ -1274,75 +1294,56 @@ const ChatSection = () => {
           <Box
             ref={scrollContainerRef}
             onScroll={handleScroll}
-            className="flex-1 overflow-y-auto px-3 pb-2 chat-messages-container relative"
+            className="flex-1 overflow-y-auto px-1.5 pb-2 chat-messages-container relative"
             style={{ overscrollBehavior: 'none' }}
             sx={{ pb: { xs: 8, md: 2 } }}
           >
-            {/* Grid background for empty welcome state - spans full chat width */}
-            {messages.length === 0 && (
-              <div
-                className="absolute inset-0 z-0 transition-opacity duration-300"
-                style={{
-                     backgroundImage: `linear-gradient(to right, rgba(58, 124, 165, 0.18) 1px, transparent 1px),
-                       linear-gradient(to bottom, rgba(58, 124, 165, 0.18) 1px, transparent 1px)`,
-                  backgroundSize: "20px 30px",
-                  WebkitMaskImage:
-                    "radial-gradient(ellipse 70% 60% at 50% 0%, #000 60%, transparent 100%)",
-                  maskImage:
-                    "radial-gradient(ellipse 70% 60% at 50% 0%, #000 60%, transparent 100%)",
-                }}
-              />
-            )}
 
-            <div className="w-full md:w-[90%] max-w-none md:mx-auto space-y-2 py-2 relative z-10">
-              {/* Welcome message when no messages exist */}
+
+            <div className="w-full space-y-1 py-1 relative z-10">
+              {/* Welcome message with Features when no messages exist */}
               {messages.length === 0 && (
-                <div className="text-center py-3 mt-1">
-                  <div className="max-w-3xl mx-auto">
+                <div className="text-center py-3 mt-1 w-full">
+                  <div className="w-full px-2">
                     {/* Logo and Welcome Header */}
                     <div className="mb-2">
                       <img 
                         src="/pg.png" 
                         alt="MG Logo" 
-                        className="w-40 h-40 mx-auto object-contain mb-3 mg-logo-shake transition-all duration-300"
+                        className="w-28 h-28 mx-auto object-contain mb-2 mg-logo-shake transition-all duration-300"
                       />
-                      <h3 
-                        className="text-lg font-semibold mb-2 transition-colors duration-300" 
-                        style={{ color: '#000000' }}
-                      >
-                        Welcome to PRATIYOGITA GYAN!
-                      </h3>
+
                       <p 
-                        className="mb-2 text-sm transition-colors duration-300" 
+                        className="mb-2 text-xs transition-colors duration-300 max-w-xs mx-auto" 
                         style={{ 
                           color: '#000000',
                           opacity: 0.7
                         }}
                       >
-                        Ask any question about your subjects and get comprehensive answers along with related previous year questions.
+                        Ask any question and get comprehensive answers along with related PYQs.
                       </p>
                     </div>
 
                     {/* Features Section */}
-                    <div className="mb-3 md:mb-6">
+                    <div className="mb-2">
                       <h3 
-                        className="text-lg font-semibold text-center mb-4 transition-colors duration-300" 
+                        className="text-sm font-semibold text-center mb-2 transition-colors duration-300" 
                         style={{ color: '#000000' }}
                       >
                         Features
                       </h3>
                       
                       {/* Feature Icons - Auto-scrolling with blurred edges */}
-                      <div className="relative w-full max-w-4xl mx-auto">
+                      <div className="relative w-full mx-auto">
                         {/* Gradient overlays for blurred/faded edges */}
                         <div 
-                          className="absolute left-0 top-0 bottom-0 w-16 z-10 pointer-events-none transition-all duration-300"
+                          className="absolute left-0 top-0 bottom-0 w-10 z-10 pointer-events-none transition-all duration-300"
                           style={{ 
                             background: 'linear-gradient(to right, #ffffff, rgba(255, 255, 255, 0.8), transparent)'
                           }}
                         ></div>
                         <div 
-                          className="absolute right-0 top-0 bottom-0 w-16 z-10 pointer-events-none transition-all duration-300"
+                          className="absolute right-0 top-0 bottom-0 w-10 z-10 pointer-events-none transition-all duration-300"
                           style={{ 
                             background: 'linear-gradient(to left, #ffffff, rgba(255, 255, 255, 0.8), transparent)'
                           }}
@@ -1352,139 +1353,89 @@ const ChatSection = () => {
                         <div 
                           className="features-scroll-container overflow-hidden"
                           style={{
-                            maskImage: 'linear-gradient(to right, transparent, black 60px, black calc(100% - 60px), transparent)',
-                            WebkitMaskImage: 'linear-gradient(to right, transparent, black 60px, black calc(100% - 60px), transparent)'
+                            maskImage: 'linear-gradient(to right, transparent, black 40px, black calc(100% - 40px), transparent)',
+                            WebkitMaskImage: 'linear-gradient(to right, transparent, black 40px, black calc(100% - 40px), transparent)'
                           }}
                         >
-                          <div className="features-scroll-content flex items-center gap-4 animate-scroll-features">
+                          <div className="features-scroll-content flex items-center gap-2.5 animate-scroll-features">
                             {/* Duplicate the feature items twice for seamless loop */}
                             {[1, 2].map((iteration) => (
                               <Fragment key={iteration}>
                                 {/* Subject Selection */}
-                                <div className={`p-5 rounded-[15px] group cursor-pointer transition-all duration-300 flex-shrink-0 min-w-[240px] ${
-                                  isDarkMode 
-                                    ? 'bg-gradient-to-br from-purple-100 to-purple-200 hover:from-purple-50 hover:to-purple-100 shadow-lg shadow-purple-200/20' 
-                                    : 'bg-gradient-to-br from-purple-50 to-purple-100 hover:from-purple-25 hover:to-purple-50 shadow-lg shadow-purple-200/30'
-                                }`}>
-                                  <div className="flex items-center gap-4">
-                                    <img 
-                                      src="/subject.svg" 
-                                      alt="Subject Selection" 
-                                      className="w-12 h-12 flex-shrink-0 transition-all duration-300"
-                                    />
+                                <div className="p-3 rounded-xl group cursor-pointer transition-all duration-300 flex-shrink-0 min-w-[160px] bg-gradient-to-br from-purple-50 to-purple-100 hover:from-purple-25 hover:to-purple-50 shadow-md shadow-purple-200/30">
+                                  <div className="flex items-center gap-2.5">
+                                    <GraduationCap className="w-7 h-7 flex-shrink-0 transition-all duration-300 text-purple-700" />
                                     <div className="flex-1">
-                                      <h4 className={`font-medium text-sm mb-2 transition-colors ${'text-purple-700'}`}>Subject</h4>
-                                      <div className="flex flex-wrap gap-1.5">
-                                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-300 text-red-800">History</span>
-                                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-300 text-yellow-800">Polity</span>
-                                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-300 text-green-800">Geography</span>
+                                      <h4 className="font-medium text-xs mb-1 text-purple-700">Subject</h4>
+                                      <div className="flex flex-wrap gap-1">
+                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-red-300 text-red-800">History</span>
+                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-yellow-300 text-yellow-800">Polity</span>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
 
                                 {/* NCERT Content */}
-                                <div className={`p-5 rounded-[15px] group cursor-pointer transition-all duration-300 flex-shrink-0 min-w-[220px] ${
-                                  isDarkMode 
-                                    ? 'bg-gradient-to-br from-emerald-100 to-emerald-200 hover:from-emerald-50 hover:to-emerald-100 shadow-lg shadow-emerald-200/20' 
-                                    : 'bg-gradient-to-br from-emerald-50 to-emerald-100 hover:from-emerald-25 hover:to-emerald-50 shadow-lg shadow-emerald-200/30'
-                                }`}>
-                                  <div className="flex items-center gap-4">
-                                    <img 
-                                      src="/book.svg" 
-                                      alt="NCERT Books" 
-                                      className="w-12 h-12 flex-shrink-0 transition-all duration-300"
-                                    />
+                                <div className="p-3 rounded-xl group cursor-pointer transition-all duration-300 flex-shrink-0 min-w-[140px] bg-gradient-to-br from-emerald-50 to-emerald-100 hover:from-emerald-25 hover:to-emerald-50 shadow-md shadow-emerald-200/30">
+                                  <div className="flex items-center gap-2.5">
+                                    <Book className="w-7 h-7 flex-shrink-0 transition-all duration-300 text-emerald-700" />
                                     <div className="flex-1">
-                                      <h4 className={`font-medium text-sm mb-2 transition-colors ${'text-emerald-700'}`}>NCERT</h4>
+                                      <h4 className="font-medium text-xs mb-1 text-emerald-700">NCERT</h4>
                                       <div className="flex justify-start">
-                                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-300 text-green-800">Class 6 - 12</span>
+                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-green-300 text-green-800">Class 6 - 12</span>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
 
                                 {/* Previous Year Questions */}
-                                <div className={`p-5 rounded-[15px] group cursor-pointer transition-all duration-300 flex-shrink-0 min-w-[260px] ${
-                                  isDarkMode 
-                                    ? 'bg-gradient-to-br from-blue-100 to-blue-200 hover:from-blue-50 hover:to-blue-100 shadow-lg shadow-blue-200/20' 
-                                    : 'bg-gradient-to-br from-blue-50 to-blue-100 hover:from-blue-25 hover:to-blue-50 shadow-lg shadow-blue-200/30'
-                                }`}>
-                                  <div className="flex items-center gap-4">
-                                    <img 
-                                      src="/pyq.svg" 
-                                      alt="PYQ Questions" 
-                                      className="w-12 h-12 flex-shrink-0 transition-all duration-300"
-                                    />
+                                <div className="p-3 rounded-xl group cursor-pointer transition-all duration-300 flex-shrink-0 min-w-[170px] bg-gradient-to-br from-blue-50 to-blue-100 hover:from-blue-25 hover:to-blue-50 shadow-md shadow-blue-200/30">
+                                  <div className="flex items-center gap-2.5">
+                                    <FileText className="w-7 h-7 flex-shrink-0 transition-all duration-300 text-blue-700" />
                                     <div className="flex-1">
-                                      <h4 className={`font-medium text-sm mb-2 transition-colors ${'text-blue-700'}`}>PYQ</h4>
-                                      <div className="flex flex-wrap gap-1.5">
-                                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-indigo-300 text-indigo-800">UPSC</span>
-                                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-violet-300 text-violet-800">CDS</span>
-                                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-pink-300 text-pink-800">SSC</span>
+                                      <h4 className="font-medium text-xs mb-1 text-blue-700">PYQ</h4>
+                                      <div className="flex flex-wrap gap-1">
+                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-indigo-300 text-indigo-800">UPSC</span>
+                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-violet-300 text-violet-800">CDS</span>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
 
                                 {/* AI Analysis */}
-                                <div className={`p-5 rounded-[15px] group cursor-pointer transition-all duration-300 flex-shrink-0 min-w-[220px] ${
-                                  isDarkMode 
-                                    ? 'bg-gradient-to-br from-orange-100 to-orange-200 hover:from-orange-50 hover:to-orange-100 shadow-lg shadow-orange-200/20' 
-                                    : 'bg-gradient-to-br from-orange-50 to-orange-100 hover:from-orange-25 hover:to-orange-50 shadow-lg shadow-orange-200/30'
-                                }`}>
-                                  <div className="flex items-center gap-4">
-                                    <img 
-                                      src="/AI.svg" 
-                                      alt="AI Analysis" 
-                                      className="w-12 h-12 flex-shrink-0 transition-all duration-300"
-                                    />
+                                <div className="p-3 rounded-xl group cursor-pointer transition-all duration-300 flex-shrink-0 min-w-[140px] bg-gradient-to-br from-orange-50 to-orange-100 hover:from-orange-25 hover:to-orange-50 shadow-md shadow-orange-200/30">
+                                  <div className="flex items-center gap-2.5">
+                                    <Sparkles className="w-7 h-7 flex-shrink-0 transition-all duration-300 text-orange-700" />
                                     <div className="flex-1">
-                                      <h4 className={`font-medium text-sm mb-2 transition-colors ${'text-orange-700'}`}>AI</h4>
+                                      <h4 className="font-medium text-xs mb-1 text-orange-700">AI</h4>
                                       <div className="flex justify-start">
-                                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-300 text-red-800">Accurate &amp; Precise</span>
+                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-red-300 text-red-800">Accurate</span>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
 
                                 {/* Comprehensive Learning */}
-                                <div className={`p-5 rounded-[15px] group cursor-pointer transition-all duration-300 flex-shrink-0 min-w-[220px] ${
-                                  isDarkMode 
-                                    ? 'bg-gradient-to-br from-teal-100 to-teal-200 hover:from-teal-50 hover:to-teal-100 shadow-lg shadow-teal-200/20' 
-                                    : 'bg-gradient-to-br from-teal-50 to-teal-100 hover:from-teal-25 hover:to-teal-50 shadow-lg shadow-teal-200/30'
-                                }`}>
-                                  <div className="flex items-center gap-4">
-                                    <img 
-                                      src="/Comprehensive.svg" 
-                                      alt="Comprehensive Learning" 
-                                      className="w-12 h-12 flex-shrink-0 transition-all duration-300"
-                                    />
+                                <div className="p-3 rounded-xl group cursor-pointer transition-all duration-300 flex-shrink-0 min-w-[140px] bg-gradient-to-br from-teal-50 to-teal-100 hover:from-teal-25 hover:to-teal-50 shadow-md shadow-teal-200/30">
+                                  <div className="flex items-center gap-2.5">
+                                    <TrendingUp className="w-7 h-7 flex-shrink-0 transition-all duration-300 text-teal-700" />
                                     <div className="flex-1">
-                                      <h4 className={`font-medium text-sm mb-2 transition-colors ${'text-teal-700'}`}>Learning</h4>
+                                      <h4 className="font-medium text-xs mb-1 text-teal-700">Learning</h4>
                                       <div className="flex justify-start">
-                                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-cyan-300 text-cyan-800">Great Learning</span>
+                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-cyan-300 text-cyan-800">Great</span>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
 
                                 {/* Quick Response */}
-                                <div className={`p-5 rounded-[15px] group cursor-pointer transition-all duration-300 flex-shrink-0 min-w-[220px] ${
-                                  isDarkMode 
-                                    ? 'bg-gradient-to-br from-rose-100 to-rose-200 hover:from-rose-50 hover:to-rose-100 shadow-lg shadow-rose-200/20' 
-                                    : 'bg-gradient-to-br from-rose-50 to-rose-100 hover:from-rose-25 hover:to-rose-50 shadow-lg shadow-rose-200/30'
-                                }`}>
-                                  <div className="flex items-center gap-4">
-                                    <img 
-                                      src="/quick.svg" 
-                                      alt="Quick Response" 
-                                      className="w-12 h-12 flex-shrink-0 transition-all duration-300"
-                                    />
+                                <div className="p-3 rounded-xl group cursor-pointer transition-all duration-300 flex-shrink-0 min-w-[140px] bg-gradient-to-br from-rose-50 to-rose-100 hover:from-rose-25 hover:to-rose-50 shadow-md shadow-rose-200/30">
+                                  <div className="flex items-center gap-2.5">
+                                    <Zap className="w-7 h-7 flex-shrink-0 transition-all duration-300 text-rose-700" />
                                     <div className="flex-1">
-                                      <h4 className={`font-medium text-sm mb-2 transition-colors ${'text-rose-700'}`}>Quick</h4>
+                                      <h4 className="font-medium text-xs mb-1 text-rose-700">Quick</h4>
                                       <div className="flex justify-start">
-                                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-300 text-yellow-800">Instant response</span>
+                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-yellow-300 text-yellow-800">Instant</span>
                                       </div>
                                     </div>
                                   </div>
@@ -1495,8 +1446,6 @@ const ChatSection = () => {
                         </div>
                       </div>
                     </div>
-
-                
                   </div>
                 </div>
               )}
@@ -1508,24 +1457,73 @@ const ChatSection = () => {
             </div>
           </Box>
 
-          {/* Embedded Search Bar at Bottom */}
-          <Divider sx={{ borderColor: '#e0e0e0', display: { xs: 'none', md: 'block' } }} />
-          <Box
-            sx={{
-              p: { xs: 0, md: 1 },
-              position: { xs: 'fixed', md: 'relative' },
-              left: { xs: 0, md: 'auto' },
-              right: { xs: 0, md: 'auto' },
-              bottom: { xs: 0, md: 'auto' },
-              zIndex: 120,
-              backgroundColor: '#ffffff',
-              borderTop: { xs: '1px solid #e0e0e0', md: 'none' }
-            }}
-          >
-            <EmbeddedSearchBar onSendMessage={sendMessage} isLoading={isLoading} />
-          </Box>
-        </Paper>
-    </Box>
+          </Paper>
+        </Box>
+      )}
+
+      {/* Collapsed Chat Section (Icon Bar) */}
+      {!pyqVisible && (
+        <>
+          {isMobile ? (
+            <Button
+              onClick={togglePyq}
+              variant="contained"
+              startIcon={<MessageSquare className="w-4 h-4" />}
+              sx={{
+                position: 'fixed',
+                right: 16,
+                bottom: 16,
+                zIndex: 40,
+                borderRadius: 999,
+                px: 2,
+                py: 1,
+                fontWeight: 700
+              }}
+            >
+              Chat
+            </Button>
+          ) : (
+            <Paper
+              elevation={3}
+              sx={{
+                position: 'fixed',
+                right: 4,
+                top: 64,
+                bottom: 4,
+                width: 40,
+                zIndex: 30,
+                borderRadius: 1,
+                border: '1px solid #808080',
+                backgroundColor: '#ffffff',
+                color: '#000000',
+                overflow: 'hidden',
+                display: 'flex',
+                flexDirection: 'column'
+              }}
+            >
+              {/* Toggle Button */}
+              <Box sx={{ p: 0.5, display: 'flex', justifyContent: 'center' }}>
+                <IconButton onClick={togglePyq} size="small" title="Show Chat Panel" sx={{ color: '#000000' }}>
+                  <ChevronLeft className="w-4 h-4" />
+                </IconButton>
+              </Box>
+
+              {/* Icon */}
+              <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <IconButton
+                  onClick={togglePyq}
+                  size="small"
+                  title="Show Chat Panel"
+                  sx={{ color: 'text.primary', '&:hover': { backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.12) } }}
+                >
+                  <MessageSquare className="w-4 h-4" />
+                </IconButton>
+              </Box>
+            </Paper>
+          )}
+        </>
+      )}
+    </>
   )
 }
 

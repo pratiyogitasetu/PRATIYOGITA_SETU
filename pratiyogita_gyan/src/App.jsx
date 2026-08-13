@@ -10,7 +10,6 @@ import { AuthProvider } from './contexts/AuthContext'
 import { DashboardProvider } from './contexts/DashboardContext'
 import ErrorBoundary from './components/ErrorBoundary'
 import Navbar from './components/Navbar'
-import ChatSection from './components/ChatSection'
 
 const Sidebar = lazy(() => import('./components/Sidebar'))
 const PYQSection = lazy(() => import('./components/PYQSection'))
@@ -20,43 +19,47 @@ const QuizSection = lazy(() => import('./components/QuizSection'))
 const EligibilitySection = lazy(() => import('./components/EligibilitySection'))
 const SyllabusSection = lazy(() => import('./components/SyllabusSection'))
 const GDTopicsSection = lazy(() => import('./components/GDTopicsSection'))
+const ChatSection = lazy(() => import('./components/ChatSection'))
 
 const muiTheme = createTheme({
   palette: {
     mode: 'light',
-    primary: { main: '#3A7CA5' },
-    secondary: { main: '#6B7C93' },
+    primary: { main: '#E4572E' },
+    secondary: { main: '#3D2817' },
     error: { main: '#D46A6A' },
     warning: { main: '#E2B93B' },
     success: { main: '#8DBE7F' },
-    background: { default: '#F6F7F9', paper: '#FFFFFF' },
-    text: { primary: '#1F2933', secondary: '#52616B' },
-    divider: '#E3E7ED'
+    background: { default: 'transparent', paper: '#FFFFFF' },
+    text: { primary: '#0B0A08', secondary: 'rgba(11, 10, 8, 0.6)' },
+    divider: 'rgba(11, 10, 8, 0.12)'
   },
   typography: {
-    fontFamily: "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
-    h1: { fontSize: '28px', lineHeight: '36px', fontWeight: 600 },
-    h2: { fontSize: '22px', lineHeight: '30px', fontWeight: 600 },
-    h3: { fontSize: '18px', lineHeight: '26px', fontWeight: 600 },
-    subtitle1: { fontSize: '16px', lineHeight: '24px', fontWeight: 500 },
-    body1: { fontSize: '15px', lineHeight: '24px', fontWeight: 400 },
-    body2: { fontSize: '13.5px', lineHeight: '22px', fontWeight: 400 },
-    caption: { fontSize: '12px', lineHeight: '18px', fontWeight: 400 },
-    button: { textTransform: 'none', fontWeight: 600, fontSize: '14px', lineHeight: '20px' }
+    fontFamily: "\"Sora\", -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif",
+    h1: { fontSize: '20px', lineHeight: '26px', fontWeight: 600, fontFamily: "\"Fredoka\", sans-serif" },
+    h2: { fontSize: '16px', lineHeight: '22px', fontWeight: 600, fontFamily: "\"Fredoka\", sans-serif" },
+    h3: { fontSize: '14px', lineHeight: '20px', fontWeight: 600, fontFamily: "\"Fredoka\", sans-serif" },
+    subtitle1: { fontSize: '13px', lineHeight: '18px', fontWeight: 500 },
+    body1: { fontSize: '12.5px', lineHeight: '18px', fontWeight: 400 },
+    body2: { fontSize: '11px', lineHeight: '16px', fontWeight: 400 },
+    caption: { fontSize: '10px', lineHeight: '14px', fontWeight: 400 },
+    button: { textTransform: 'none', fontWeight: 600, fontSize: '11px', lineHeight: '16px' }
   },
   shape: { borderRadius: 10 },
   components: {
     MuiPaper: {
       styleOverrides: {
-        root: { border: '1px solid #E3E7ED' }
+        root: { border: '1px solid rgba(11, 10, 8, 0.12)' }
       }
     },
     MuiDivider: {
       styleOverrides: {
-        root: { borderColor: '#E3E7ED' }
+        root: { borderColor: 'rgba(11, 10, 8, 0.12)' }
       }
     },
     MuiButton: {
+      defaultProps: {
+        disableElevation: true
+      },
       styleOverrides: {
         root: { borderRadius: 10, minHeight: 40 }
       }
@@ -105,7 +108,7 @@ function AppContent() {
     window.addEventListener('switchToQuiz', handleSwitchToQuiz)
     window.addEventListener('switchToGDTopics', handleSwitchToGDTopics)
     window.addEventListener('switchToChat', handleSwitchToChat)
-    
+
     return () => {
       window.removeEventListener('switchToPyqPractice', handleSwitchToPyqPractice)
       window.removeEventListener('switchToEligibility', handleSwitchToEligibility)
@@ -117,14 +120,23 @@ function AppContent() {
   }, [])
 
   return (
-    <div 
+    <div
       className="h-screen overflow-hidden transition-colors duration-300"
-      style={{ 
-        backgroundColor: '#f5f5f5'
+      style={{
+        backgroundColor: 'transparent'
       }}
     >
+      {/* Grainy background - matching Setu/Yogya */}
+      <svg className="hidden">
+        <filter id="grainy">
+          <feTurbulence type="fractalNoise" baseFrequency=".537" numOctaves="4" stitchTiles="stitch" />
+          <feColorMatrix type="saturate" values="0" />
+          <feBlend in="SourceGraphic" mode="multiply" />
+        </filter>
+      </svg>
+      <div className="grainy-background-layer" />
       <Navbar onViewChange={handleViewChange} currentView={currentView} />
-      <div className="flex flex-col md:flex-row h-full pt-14 md:pt-[72px]">
+      <div className="flex flex-col md:flex-row h-full pt-[56px] md:pt-[60px]">
         <Suspense
           fallback={
             <Box sx={{ width: 240, p: 2 }}>
@@ -207,10 +219,9 @@ function AppContent() {
           </Suspense>
         ) : (
           <>
-            <ChatSection />
             <Suspense
               fallback={
-                <Box sx={{ width: 450, p: 2 }}>
+                <Box sx={{ flex: 1, p: 2 }}>
                   <Skeleton variant="rounded" height={40} sx={{ mb: 2 }} />
                   <Skeleton variant="rounded" height={160} sx={{ mb: 2 }} />
                   <Skeleton variant="rounded" height={160} />
@@ -218,6 +229,17 @@ function AppContent() {
               }
             >
               <PYQSection />
+            </Suspense>
+            <Suspense
+              fallback={
+                <Box sx={{ flex: 1, p: 2 }}>
+                  <Skeleton variant="rounded" height={40} sx={{ mb: 2 }} />
+                  <Skeleton variant="rounded" height={160} sx={{ mb: 2 }} />
+                  <Skeleton variant="rounded" height={160} />
+                </Box>
+              }
+            >
+              <ChatSection />
             </Suspense>
           </>
         )}

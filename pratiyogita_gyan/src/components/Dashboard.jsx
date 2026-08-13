@@ -15,7 +15,6 @@ import {
   XCircle,
   Circle,
   TrendingDown,
-  Flame,
   AlertCircle,
   User,
 } from "lucide-react";
@@ -50,7 +49,6 @@ const Dashboard = () => {
     quizPerformance: true,
     subjectAnalysis: true,
     mcqBreakdown: false,
-    studyStreak: false,
     weakAreas: false,
     progressTrends: false,
   });
@@ -116,7 +114,8 @@ const Dashboard = () => {
         className="dashboard-page flex-1 transition-all duration-300 p-2 md:p-4 overflow-y-auto"
         style={{
           marginLeft: `${contentOffsetLeft}px`,
-          width: `calc(100% - ${contentOffsetLeft + (isMobile ? 0 : 8)}px)`
+          width: `calc(100% - ${contentOffsetLeft + (isMobile ? 0 : 8)}px)`,
+          transition: 'margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
         }}
       >
         <div className="max-w-none mx-0 md:max-w-7xl md:mx-auto">
@@ -138,7 +137,8 @@ const Dashboard = () => {
         className="dashboard-page flex-1 transition-all duration-300 p-2 md:p-4 overflow-y-auto"
         style={{
           marginLeft: `${contentOffsetLeft}px`,
-          width: `calc(100% - ${contentOffsetLeft + (isMobile ? 0 : 8)}px)`
+          width: `calc(100% - ${contentOffsetLeft + (isMobile ? 0 : 8)}px)`,
+          transition: 'margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
         }}
       >
         <div className="max-w-none mx-0 md:max-w-7xl md:mx-auto">
@@ -194,14 +194,6 @@ const Dashboard = () => {
   }
 
   // Calculate advanced metrics
-  const calculateStudyStreak = () => {
-    return {
-      currentStreak: stats.totalQuestions > 0 ? Math.min(Math.floor(stats.totalQuestions / 10), 30) : 0,
-      longestStreak: stats.totalQuestions > 0 ? Math.floor(stats.totalQuestions / 8) : 0,
-      lastActive: new Date()
-    }
-  }
-
   const identifyWeakAreas = () => {
     if (!subjectStats || subjectStats.length === 0) return []
     
@@ -229,7 +221,6 @@ const Dashboard = () => {
     }
   }
 
-  const studyStreak = calculateStudyStreak()
   const weakAreas = identifyWeakAreas()
   const quizTrends = calculateQuizTrends()
 
@@ -290,12 +281,6 @@ const Dashboard = () => {
       </div>
       <div className="space-y-1">
         <div>
-          <div className="text-lg font-bold" style={{ color: subject.color }}>
-            {subject.questions || 0}
-          </div>
-          <p className="text-xs text-gray-500">questions asked</p>
-        </div>
-        <div className="pt-1 border-t border-gray-100">
           <div className="text-sm font-semibold text-gray-700">
             {subject.mcqAttempted || 0}
           </div>
@@ -400,7 +385,8 @@ const Dashboard = () => {
       className="dashboard-page flex-1 mr-0 flex flex-col h-full overflow-hidden pl-2 pr-2 pb-2"
       style={{
         marginLeft: `${contentOffsetLeft}px`,
-        width: `calc(100% - ${contentOffsetLeft + (isMobile ? 0 : 8)}px)`
+        width: `calc(100% - ${contentOffsetLeft + (isMobile ? 0 : 8)}px)`,
+        transition: 'margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
       }}
     >
       {/* Main Dashboard Container */}
@@ -485,49 +471,7 @@ const Dashboard = () => {
               />
             </div>
 
-            {/* Study Streak Section */}
-            <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-              <SectionHeader 
-                title="Study Streak & Activity"
-                icon={Flame}
-                isExpanded={expandedSections.studyStreak}
-                onToggle={() => toggleSection('studyStreak')}
-                badge={`${studyStreak.currentStreak} days`}
-              />
-              {expandedSections.studyStreak && (
-                <div className="p-4 space-y-3">
-                  <div className="grid grid-cols-3 gap-3">
-                    <div className="text-center p-3 bg-orange-50 rounded-lg">
-                      <Flame className="w-6 h-6 text-orange-500 mx-auto mb-1" />
-                      <div className="text-2xl font-bold text-orange-600">{studyStreak.currentStreak}</div>
-                      <p className="text-xs text-gray-600">Current Streak</p>
-                    </div>
-                    <div className="text-center p-3 bg-blue-50 rounded-lg">
-                      <Trophy className="w-6 h-6 text-blue-500 mx-auto mb-1" />
-                      <div className="text-2xl font-bold text-blue-600">{studyStreak.longestStreak}</div>
-                      <p className="text-xs text-gray-600">Longest Streak</p>
-                    </div>
-                    <div className="text-center p-3 bg-green-50 rounded-lg">
-                      <Clock className="w-6 h-6 text-green-500 mx-auto mb-1" />
-                      <div className="text-2xl font-bold text-green-600">{stats.totalChats || 0}</div>
-                      <p className="text-xs text-gray-600">Sessions</p>
-                    </div>
-                  </div>
-                  <div className="bg-gray-50 rounded-lg p-3">
-                    <p className="text-sm text-gray-700 mb-2">Keep it up! Consistency is key to success.</p>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
-                      <div 
-                        className="bg-gradient-to-r from-orange-400 to-orange-600 h-2 rounded-full transition-all duration-500"
-                        style={{ width: `${Math.min((studyStreak.currentStreak / 30) * 100, 100)}%` }}
-                      />
-                    </div>
-                    <p className="text-xs text-gray-500 mt-1">
-                      {30 - studyStreak.currentStreak > 0 ? `${30 - studyStreak.currentStreak} days to reach 30-day streak!` : 'Amazing! You\'ve reached 30 days! 🎉'}
-                    </p>
-                  </div>
-                </div>
-              )}
-            </div>
+
 
             {/* Quiz Performance - Expandable */}
             {quizStats && quizStats.totalQuizzes > 0 && (

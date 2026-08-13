@@ -12,12 +12,14 @@ const EmbeddedSearchBar = ({ onSendMessage, isLoading }) => {
   const [availableClasses, setAvailableClasses] = useState([])
   const [selectedClass, setSelectedClass] = useState('All Classes')
   const [showClassDropdown, setShowClassDropdown] = useState(false)
+  const [showLengthDropdown, setShowLengthDropdown] = useState(false)
   const [isLoadingSubjects, setIsLoadingSubjects] = useState(true)
   const [isLoadingClasses, setIsLoadingClasses] = useState(true)
   const [inputValue, setInputValue] = useState('')
   const [answerLengthIndex, setAnswerLengthIndex] = useState(2)
   const subjectDropdownRef = useRef(null)
   const classDropdownRef = useRef(null)
+  const lengthDropdownRef = useRef(null)
   const textareaRef = useRef(null)
 
   const answerLengthModes = [
@@ -90,6 +92,9 @@ const EmbeddedSearchBar = ({ onSendMessage, isLoading }) => {
       if (classDropdownRef.current && !classDropdownRef.current.contains(event.target)) {
         setShowClassDropdown(false)
       }
+      if (lengthDropdownRef.current && !lengthDropdownRef.current.contains(event.target)) {
+        setShowLengthDropdown(false)
+      }
     }
 
     document.addEventListener('mousedown', handleClickOutside)
@@ -160,339 +165,181 @@ const EmbeddedSearchBar = ({ onSendMessage, isLoading }) => {
   }, [inputValue, adjustTextareaHeight])
 
   return (
-    <div className="w-full mx-auto px-2 md:px-4">
+    <div className="w-full mx-auto p-3 rounded-2xl border border-gray-200 bg-white shadow-xl flex flex-col gap-2">
+      {/* 3 Buttons Row at top, with orange BG */}
+      <div className="flex flex-wrap items-center gap-1.5 min-w-0 justify-start px-1">
+        {/* Subject Selector */}
+        <div className="relative" ref={subjectDropdownRef}>
+          <button
+            type="button"
+            onClick={() => setShowDropdown(!showDropdown)}
+            className="flex items-center justify-between space-x-1.5 px-3 py-1 rounded-full text-[10px] font-bold border transition-colors duration-200 hover:bg-[#d9522b]"
+            style={{
+              borderColor: '#E4572E',
+              backgroundColor: '#E4572E',
+              color: '#FFFFFF'
+            }}
+            disabled={isLoadingSubjects}
+          >
+            <span className="whitespace-nowrap truncate max-w-[80px]">
+              {isLoadingSubjects ? 'Loading...' : selectedSubject}
+            </span>
+            <ChevronDown className="w-3 h-3 flex-shrink-0 text-white" />
+          </button>
+
+          {showDropdown && !isLoadingSubjects && (
+            <div className="absolute bottom-full left-0 mb-1 w-40 rounded-lg shadow-lg border border-gray-200 bg-white z-[60]">
+              <div className="py-1 max-h-48 overflow-y-auto">
+                {availableSubjects.map((subject, index) => (
+                  <button
+                    key={index}
+                    type="button"
+                    onClick={() => handleSubjectSelect(subject)}
+                    className="w-full text-left px-2.5 py-1.5 text-xs hover:bg-gray-50 transition-colors"
+                    style={{
+                      color: '#1F2933',
+                      fontWeight: selectedSubject === subject ? '600' : '400',
+                      backgroundColor: selectedSubject === subject ? 'rgba(228, 87, 46, 0.08)' : 'transparent'
+                    }}
+                  >
+                    {subject}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Class Selector */}
+        <div className="relative" ref={classDropdownRef}>
+          <button
+            type="button"
+            onClick={() => setShowClassDropdown(!showClassDropdown)}
+            className="flex items-center justify-between space-x-1.5 px-3 py-1 rounded-full text-[10px] font-bold border transition-colors duration-200 hover:bg-[#d9522b]"
+            style={{
+              borderColor: '#E4572E',
+              backgroundColor: '#E4572E',
+              color: '#FFFFFF'
+            }}
+            disabled={isLoadingClasses}
+          >
+            <span className="whitespace-nowrap truncate max-w-[70px]">
+              {isLoadingClasses ? 'Loading...' : selectedClass}
+            </span>
+            <ChevronDown className="w-3 h-3 flex-shrink-0 text-white" />
+          </button>
+
+          {showClassDropdown && !isLoadingClasses && (
+            <div className="absolute bottom-full left-0 mb-1 w-36 rounded-lg shadow-lg border border-gray-200 bg-white z-[60]">
+              <div className="py-1 max-h-48 overflow-y-auto">
+                {availableClasses.map((classLabel, index) => (
+                  <button
+                    key={index}
+                    type="button"
+                    onClick={() => handleClassSelect(classLabel)}
+                    className="w-full text-left px-2.5 py-1.5 text-xs hover:bg-gray-50 transition-colors"
+                    style={{
+                      color: '#1F2933',
+                      fontWeight: selectedClass === classLabel ? '600' : '400',
+                      backgroundColor: selectedClass === classLabel ? 'rgba(228, 87, 46, 0.08)' : 'transparent'
+                    }}
+                  >
+                    {classLabel}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Answer Length Selector */}
+        <div className="relative" ref={lengthDropdownRef}>
+          <button
+            type="button"
+            onClick={() => setShowLengthDropdown(!showLengthDropdown)}
+            className="flex items-center justify-between space-x-1.5 px-3 py-1 rounded-full text-[10px] font-bold border transition-colors duration-200 hover:bg-[#d9522b]"
+            style={{
+              borderColor: '#E4572E',
+              backgroundColor: '#E4572E',
+              color: '#FFFFFF'
+            }}
+          >
+            <span className="whitespace-nowrap">
+              {answerLengthModes[answerLengthIndex]?.label} Length
+            </span>
+            <ChevronDown className="w-3 h-3 flex-shrink-0 text-white" />
+          </button>
+
+          {showLengthDropdown && (
+            <div className="absolute bottom-full left-0 mb-1 w-36 rounded-lg shadow-lg border border-gray-200 bg-white z-[60]">
+              <div className="py-1">
+                {answerLengthModes.map((mode, idx) => (
+                  <button
+                    key={mode.value}
+                    type="button"
+                    onClick={() => {
+                      setAnswerLengthIndex(idx)
+                      setShowLengthDropdown(false)
+                    }}
+                    className="w-full text-left px-2.5 py-1.5 text-xs hover:bg-gray-50 transition-colors"
+                    style={{
+                      color: '#1F2933',
+                      fontWeight: answerLengthIndex === idx ? '600' : '400',
+                      backgroundColor: answerLengthIndex === idx ? 'rgba(228, 87, 46, 0.08)' : 'transparent'
+                    }}
+                  >
+                    {mode.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* ChatGPT style search input row */}
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-[1280px] mx-auto rounded-2xl shadow-sm p-1.5"
+        className="w-full max-w-[768px] mx-auto rounded-xl border border-gray-200 p-1.5 pr-2 pl-3 flex items-center gap-2 transition-colors duration-200 focus-within:border-[#E4572E] focus-within:ring-1 focus-within:ring-[#E4572E]"
         style={{
-          backgroundColor: '#FFFFFF',
-          border: isMobile ? 'none' : '1px solid #E3E7ED'
+          backgroundColor: '#FFFFFF'
         }}
       >
-        {!isMobile ? (
-          <div className="px-2 pb-2">
-            <div className="grid grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-2 w-full">
-              <div className="flex items-center gap-2 min-w-0">
-                <span className="text-[11px] font-bold shrink-0" style={{ color: '#52616B' }}>
-                  Answer
-                </span>
-                <div className="flex items-center rounded-lg p-0.5 gap-1 flex-wrap min-w-0" style={{ backgroundColor: '#F4F6F8' }}>
-                  {answerLengthModes.map((mode, idx) => (
-                    <button
-                      key={mode.value}
-                      type="button"
-                      onClick={() => setAnswerLengthIndex(idx)}
-                      disabled={isLoading}
-                      className="rounded-md transition-all whitespace-nowrap text-[10px] px-2.5 py-1 font-semibold"
-                      style={{
-                        color: answerLengthIndex === idx ? '#1F2933' : '#6B7280',
-                        fontWeight: answerLengthIndex === idx ? 700 : 600,
-                        backgroundColor: answerLengthIndex === idx ? 'rgba(58, 124, 165, 0.18)' : 'transparent',
-                        border: answerLengthIndex === idx ? '1px solid rgba(58, 124, 165, 0.35)' : '1px solid transparent'
-                      }}
-                    >
-                      {mode.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="relative" ref={subjectDropdownRef}>
-                <button
-                  type="button"
-                  onClick={() => setShowDropdown(!showDropdown)}
-                  className="flex items-center justify-between space-x-1 px-2.5 py-1.5 rounded-md text-xs hover:opacity-90 transition-opacity min-w-[110px]"
-                  style={{ backgroundColor: '#3A7CA5', color: '#FFFFFF' }}
-                  disabled={isLoadingSubjects}
-                >
-                  <span className="whitespace-nowrap truncate text-xs font-bold">
-                    {isLoadingSubjects
-                      ? 'Loading...'
-                      : selectedSubject === 'All Subjects'
-                        ? 'Subject'
-                        : selectedSubject.length > 12
-                          ? selectedSubject.substring(0, 12) + '...'
-                          : selectedSubject}
-                  </span>
-                  <ChevronDown className={`w-3 h-3 flex-shrink-0 transition-transform duration-200 ${
-                    showDropdown ? 'rotate-180' : ''
-                  }`} />
-                </button>
-
-                {showDropdown && !isLoadingSubjects && (
-                  <div className="absolute bottom-full right-0 mb-1 w-44 rounded-md shadow-lg z-[60]" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E3E7ED' }}>
-                    <div className="py-1">
-                      {availableSubjects.map((subject, index) => (
-                        <button
-                          key={index}
-                          type="button"
-                          onClick={() => handleSubjectSelect(subject)}
-                          className="w-full text-left px-2 py-1.5 text-xs transition-colors"
-                          style={{
-                            backgroundColor: selectedSubject === subject ? 'rgba(58, 124, 165, 0.12)' : 'transparent',
-                            color: '#1F2933',
-                            fontWeight: selectedSubject === subject ? '600' : '400'
-                          }}
-                        >
-                          {subject}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <div className="relative" ref={classDropdownRef}>
-                <button
-                  type="button"
-                  onClick={() => setShowClassDropdown(!showClassDropdown)}
-                  className="flex items-center justify-between space-x-1 px-2.5 py-1.5 rounded-md text-xs hover:opacity-90 transition-opacity min-w-[110px]"
-                  style={{ backgroundColor: '#0E7490', color: '#FFFFFF' }}
-                  disabled={isLoadingClasses}
-                >
-                  <span className="whitespace-nowrap truncate text-xs font-bold">
-                    {isLoadingClasses ? 'Loading...' : selectedClass === 'All Classes' ? 'Class' : selectedClass.replace('Class ', 'C-')}
-                  </span>
-                  <ChevronDown className={`w-3 h-3 flex-shrink-0 transition-transform duration-200 ${
-                    showClassDropdown ? 'rotate-180' : ''
-                  }`} />
-                </button>
-
-                {showClassDropdown && !isLoadingClasses && (
-                  <div className="absolute bottom-full right-0 mb-1 w-36 rounded-md shadow-lg z-[60]" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E3E7ED' }}>
-                    <div className="py-1">
-                      {availableClasses.map((classLabel, index) => (
-                        <button
-                          key={index}
-                          type="button"
-                          onClick={() => handleClassSelect(classLabel)}
-                          className="w-full text-left px-2 py-1.5 text-xs transition-colors"
-                          style={{
-                            backgroundColor: selectedClass === classLabel ? 'rgba(14, 116, 144, 0.14)' : 'transparent',
-                            color: '#1F2933',
-                            fontWeight: selectedClass === classLabel ? '600' : '400'
-                          }}
-                        >
-                          {classLabel}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="px-2 pb-1.5">
-            <div className="w-full flex rounded-lg p-0.5 gap-0.5" style={{ backgroundColor: '#F4F6F8' }}>
-              {answerLengthModes.map((mode, idx) => (
-                <button
-                  key={mode.value}
-                  type="button"
-                  onClick={() => setAnswerLengthIndex(idx)}
-                  disabled={isLoading}
-                  className="flex-1 rounded-md transition-all text-[10px] px-1.5 py-1 whitespace-nowrap"
-                  style={{
-                    color: answerLengthIndex === idx ? '#1F2933' : '#6B7280',
-                    fontWeight: answerLengthIndex === idx ? 600 : 500,
-                    backgroundColor: answerLengthIndex === idx ? 'rgba(58, 124, 165, 0.18)' : 'transparent',
-                    border: answerLengthIndex === idx ? '1px solid rgba(58, 124, 165, 0.35)' : '1px solid transparent'
-                  }}
-                >
-                  {mode.label}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {!isMobile ? (
-          <div className="flex items-center gap-2 px-2 pb-1">
-            {/* Search Input - Takes remaining space */}
-            <div className="flex-1 relative">
-              <textarea
-                ref={textareaRef}
-                rows={1}
-                value={inputValue}
-                onChange={(e) => {
-                  setInputValue(e.target.value)
-                  requestAnimationFrame(adjustTextareaHeight)
-                }}
-                onKeyDown={handleKeyPress}
-                placeholder="Ask a question..."
-                className="w-full px-2 py-1.5 text-xs rounded-md focus:outline-none focus:ring-1 focus:border-transparent resize-none"
-                style={{
-                  backgroundColor: '#FAFBFC',
-                  border: '1px solid #E3E7ED',
-                  color: '#1F2933',
-                  caretColor: '#3A7CA5',
-                  minHeight: 32,
-                  maxHeight: '180px',
-                  transition: 'height 0.12s ease-out'
-                }}
-                disabled={isLoading}
-                autoComplete="off"
-              />
-            </div>
-
-            {/* Search Button - Compact (Desktop/Tablet) */}
-            <button 
-              type="submit"
-              disabled={isLoading || !inputValue.trim()}
-              className="flex-shrink-0 p-1.5 rounded-md transition-colors disabled:opacity-50"
-              style={{ 
-                backgroundColor: '#3A7CA5',
-                color: '#FFFFFF'
-              }}
-            >
-              <Search className="w-3 h-3" />
-            </button>
-          </div>
-        ) : (
-          <div className="flex flex-col gap-2">
-            {/* Top row: input */}
-            <div className="w-full">
-              <textarea
-                ref={textareaRef}
-                rows={1}
-                value={inputValue}
-                onChange={(e) => {
-                  setInputValue(e.target.value)
-                  requestAnimationFrame(adjustTextareaHeight)
-                }}
-                onKeyDown={handleKeyPress}
-                placeholder="Ask a question..."
-                className="w-full px-2 py-2 text-sm rounded-md focus:outline-none focus:ring-1 focus:border-transparent resize-none placeholder:text-gray-400"
-                style={{
-                  backgroundColor: '#FAFBFC',
-                  border: 'none',
-                  color: '#1F2933',
-                  caretColor: '#3A7CA5',
-                  minHeight: 40,
-                  maxHeight: '30vh',
-                  transition: 'height 0.12s ease-out'
-                }}
-                disabled={isLoading}
-                autoComplete="off"
-              />
-            </div>
-
-            {/* Bottom row: actions */}
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={toggleSidebar}
-                className="flex-shrink-0 p-2 rounded-md transition-colors"
-                style={{ backgroundColor: '#F6F7F9', border: '1px solid #E3E7ED', color: '#1F2933' }}
-                aria-label="Open sidebar"
-              >
-                <Menu className="w-4 h-4" />
-              </button>
-
-              <div className="relative flex-1" ref={subjectDropdownRef}>
-                <button
-                  type="button"
-                  onClick={() => setShowDropdown(!showDropdown)}
-                  className="flex w-full items-center justify-between space-x-1 px-2 py-2 rounded-md text-xs hover:opacity-90 transition-opacity"
-                  style={{ backgroundColor: '#3A7CA5', color: '#FFFFFF' }}
-                  disabled={isLoadingSubjects}
-                >
-                  <span className="whitespace-nowrap truncate text-xs">
-                    {isLoadingSubjects
-                      ? 'Loading...'
-                      : selectedSubject === 'All Subjects'
-                        ? 'Subject'
-                        : selectedSubject.length > 10
-                          ? selectedSubject.substring(0, 10) + '...'
-                          : selectedSubject}
-                  </span>
-                  <ChevronDown className={`w-3 h-3 flex-shrink-0 transition-transform duration-200 ${
-                    showDropdown ? 'rotate-180' : ''
-                  }`} />
-                </button>
-                {showDropdown && !isLoadingSubjects && (
-                  <div className="absolute bottom-full left-0 mb-1 w-40 rounded-md shadow-lg z-[60]" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E3E7ED' }}>
-                    <div className="py-1">
-                      {availableSubjects.map((subject, index) => (
-                        <button
-                          key={index}
-                          type="button"
-                          onClick={() => handleSubjectSelect(subject)}
-                          className="w-full text-left px-2 py-1.5 text-xs transition-colors"
-                          style={{
-                            backgroundColor: selectedSubject === subject ? 'rgba(58, 124, 165, 0.12)' : 'transparent',
-                            color: '#1F2933',
-                            fontWeight: selectedSubject === subject ? '600' : '400'
-                          }}
-                        >
-                          {subject}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <div className="relative flex-1" ref={classDropdownRef}>
-                <button
-                  type="button"
-                  onClick={() => setShowClassDropdown(!showClassDropdown)}
-                  className="flex w-full items-center justify-between space-x-1 px-2 py-2 rounded-md text-xs hover:opacity-90 transition-opacity"
-                  style={{ backgroundColor: '#0E7490', color: '#FFFFFF' }}
-                  disabled={isLoadingClasses}
-                >
-                  <span className="whitespace-nowrap truncate text-xs">
-                    {isLoadingClasses ? 'Loading...' : selectedClass === 'All Classes' ? 'Class' : selectedClass.replace('Class ', 'C-')}
-                  </span>
-                  <ChevronDown className={`w-3 h-3 flex-shrink-0 transition-transform duration-200 ${
-                    showClassDropdown ? 'rotate-180' : ''
-                  }`} />
-                </button>
-                {showClassDropdown && !isLoadingClasses && (
-                  <div className="absolute bottom-full right-0 mb-1 w-36 rounded-md shadow-lg z-[60]" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E3E7ED' }}>
-                    <div className="py-1">
-                      {availableClasses.map((classLabel, index) => (
-                        <button
-                          key={index}
-                          type="button"
-                          onClick={() => handleClassSelect(classLabel)}
-                          className="w-full text-left px-2 py-1.5 text-xs transition-colors"
-                          style={{
-                            backgroundColor: selectedClass === classLabel ? 'rgba(14, 116, 144, 0.14)' : 'transparent',
-                            color: '#1F2933',
-                            fontWeight: selectedClass === classLabel ? '600' : '400'
-                          }}
-                        >
-                          {classLabel}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <button
-                type="button"
-                onClick={togglePyq}
-                className="flex-shrink-0 p-2 rounded-md transition-colors"
-                style={{ backgroundColor: '#F6F7F9', border: '1px solid #E3E7ED', color: '#1F2933' }}
-                aria-label="Open PYQ"
-              >
-                <FileText className="w-4 h-4" />
-              </button>
-
-              <button
-                type="submit"
-                disabled={isLoading || !inputValue.trim()}
-                className="flex-shrink-0 p-2 rounded-md transition-colors disabled:opacity-50"
-                style={{ backgroundColor: '#3A7CA5', color: '#FFFFFF' }}
-                aria-label="Send"
-              >
-                <Send className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-        )}
+        <div className="flex-1 relative">
+          <textarea
+            ref={textareaRef}
+            rows={1}
+            value={inputValue}
+            onChange={(e) => {
+              setInputValue(e.target.value)
+              requestAnimationFrame(adjustTextareaHeight)
+            }}
+            onKeyDown={handleKeyPress}
+            placeholder="Ask a question..."
+            className="w-full py-1 text-xs rounded-md focus:outline-none resize-none bg-transparent"
+            style={{
+              color: '#1F2933',
+              caretColor: '#E4572E',
+              minHeight: 24,
+              maxHeight: '120px',
+              overflowY: 'auto',
+              transition: 'height 0.1s ease-out'
+            }}
+            disabled={isLoading}
+            autoComplete="off"
+          />
+        </div>
+        <button
+          type="submit"
+          disabled={isLoading || !inputValue.trim()}
+          className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 disabled:opacity-30 disabled:scale-95 hover:scale-105 active:scale-95"
+          style={{
+            backgroundColor: '#E4572E',
+            color: '#FFFFFF'
+          }}
+        >
+          <Send className="w-3.5 h-3.5" />
+        </button>
       </form>
     </div>
   )
