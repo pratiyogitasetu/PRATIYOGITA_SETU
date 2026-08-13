@@ -1,0 +1,125 @@
+{
+    "exam_code": "",
+    "exam_name": "",
+    "full_form": "",
+    "exam_level": "",
+    "exam_sector": "",
+    "exam_target": "",
+    "exam_frequency_year": "",
+    "conducting_body": "",
+    "posts_classes_courses_departments_academies": "",
+
+    "exam_tiers": "",
+    "gender": "",
+    "special_gender_eligibility": "",
+    "marital_status": {
+        "MALE": [],
+        "FEMALE": [],
+        "TRANSGENDER": []
+    },
+    "pwd_status": "",
+    "domicile": "",
+    "nationality": "",
+    "caste_category": "",
+
+    "age_criteria_type": "",
+    "starting_age": "",
+    "ending_age": "",
+    "between_age": "",
+    "minimum_dob": {
+        "EXAM-SESSION": ""
+    },
+    "maximum_dob": "",
+    "between_dob": "",
+    "no_age_limit": "",
+    "age_relaxation": "",
+
+    "maximum_attempts_allowed": "",
+
+    "highest_education_qualification": "",
+    "education_levels": {
+        "post_doctorate": "",
+        "phd": "",
+        "post_graduation": "",
+        "graduation": "",
+        "diploma": "",
+        "12th_higher_secondary": {
+            "course": {
+                "options": []
+            },
+            "subject": {},
+            "status": {
+                "options": []
+            },
+            "marks_percentage": {
+                "GEN": "",
+                "OBC": "",
+                "EWS": "",
+                "SC": "",
+                "ST": ""
+            },
+            "completed_year": "",
+            "board_university": {
+                "options": []
+            }
+        },
+        "10th_secondary": {
+            "course_stream": {
+                "options": []
+            },
+            "subject": {
+                "options": []
+            },
+            "status": {
+                "options": []
+            },
+            "marks_percentage": {
+                "GEN": "",
+                "OBC": "",
+                "EWS": "",
+                "SC": "",
+                "ST": ""
+            },
+            "completed_year": "",
+            "board_university": {
+                "options": []
+            }
+        },
+        "below_10th": "",
+        "no_education": ""
+    },
+    "active_backlogs_allowed": "",
+    "gap_years_allowed": "",
+
+    "exam_subjects": "",
+    "exam_pattern": "",
+    "exam_sections": "",
+    "mode_of_exam": "",
+    "exam_duration": "",
+    "total_marks": "",
+    "number_of_questions": "",
+    "marking_scheme": "",
+    "paper_medium": "",
+    "exam_date": "",
+
+    "educational_stream_restriction": "",
+
+    "ncc_wing": "",
+    "ncc_certificate": "",
+    "ncc_certificate_grade": "",
+
+    "sports_quota_eligibility": "",
+    "cpl_holder": "",
+
+    "height_cm": "",
+    "weight_kg": "",
+    "vision_eyesight": "",
+
+    "language_proficiency": "",
+    "driving_license_type": "",
+
+    "current_employment_status": "",
+    "work_experience_required": "",
+    "work_experience_years": "",
+    "ex_servicemen_status": ""
+}
