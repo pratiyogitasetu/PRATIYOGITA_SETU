@@ -14,7 +14,7 @@ const ChevronFirst = ({
       style={{
         cursor: "pointer",
         userSelect: "none",
-        padding: "8px",
+        padding: "2px",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -54,3 +54,4 @@ const ChevronFirst = ({
 };
 
 export { ChevronFirst };
+export default ChevronFirst;

@@ -7,6 +7,12 @@ Extracted from CM.ipynb - Text processing and indexing functionality
 
 # Import all required libraries
 import sys
+# Ensure UTF-8 output on Windows consoles
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+if hasattr(sys.stderr, 'reconfigure'):
+    sys.stderr.reconfigure(encoding='utf-8', errors='replace')
+
 from semantic_text_splitter import TextSplitter
 from tokenizers import Tokenizer
 import os
@@ -125,9 +131,15 @@ def normalize_class_label(class_value: str):
 
 def load_api_keys():
     """Load API keys from environment variables."""
-    # Load environment variables from .env file
-    env_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
-    load_dotenv(env_path)
+    # Load .env file from backend directory or parent directory
+    backend_env = os.path.join(os.path.dirname(__file__), '.env')
+    root_env = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
+    if os.path.exists(backend_env):
+        load_dotenv(backend_env, override=True)
+    elif os.path.exists(root_env):
+        load_dotenv(root_env, override=True)
+    else:
+        load_dotenv()
 
     pine_api_key = os.getenv('PINECONE_API_KEY')
     openai_api_key = os.getenv('OPENAI_API_KEY')

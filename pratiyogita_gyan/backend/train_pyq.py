@@ -6,14 +6,25 @@ Extracted from CM.ipynb - MCQ processing and indexing functionality
 """
 
 # Import all required libraries
+import sys
 import os
 import json
 import time
+import math
 import shutil
+
+# Ensure UTF-8 output on Windows consoles
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+if hasattr(sys.stderr, 'reconfigure'):
+    sys.stderr.reconfigure(encoding='utf-8', errors='replace')
+
 from pinecone import Pinecone
 from pinecone import ServerlessSpec
-from sentence_transformers import SentenceTransformer
 from tqdm import tqdm
+import httpx
+
+SentenceTransformer = None
 
 # Suppress HuggingFace warnings for cleaner output
 import warnings
@@ -24,10 +35,17 @@ os.environ['TOKENIZERS_PARALLELISM'] = 'false'
 # Load environment variables from .env file
 try:
     from dotenv import load_dotenv
-    # Look for .env file in the parent directory (chat root)
-    env_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
-    load_dotenv(env_path)
-    print(f"📋 Loaded environment variables from {env_path}")
+    # Load .env file from backend directory or parent directory
+    backend_env = os.path.join(os.path.dirname(__file__), '.env')
+    root_env = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
+    if os.path.exists(backend_env):
+        load_dotenv(backend_env, override=True)
+        print(f"📋 Loaded environment variables from {backend_env}")
+    elif os.path.exists(root_env):
+        load_dotenv(root_env, override=True)
+        print(f"📋 Loaded environment variables from {root_env}")
+    else:
+        load_dotenv()
 except ImportError:
     print("⚠️ python-dotenv not installed. Please set environment variables manually.")
 except Exception as e:
@@ -43,19 +61,88 @@ def load_api_keys():
     print("✅ Training API keys loaded successfully from environment variables")
     return pine_api_key
 
+class NvidiaTrainEmbedder:
+    """Lightweight NVIDIA Nemotron embedding client for training scripts."""
+
+    API_URL = "https://integrate.api.nvidia.com/v1/embeddings"
+
+    def __init__(self, api_key, model="nvidia/nemotron-3-embed-1b", target_dim=768):
+        self.api_key = api_key
+        self.model = model
+        self.target_dim = target_dim
+
+    @staticmethod
+    def _l2_normalize(vec):
+        norm = math.sqrt(sum(v * v for v in vec))
+        return [v / norm for v in vec] if norm else vec
+
+    def encode(self, text):
+        """Encode a single text string. Returns a list of floats."""
+        return self.encode_batch([text])[0]
+
+    def encode_batch(self, texts, input_type="passage"):
+        """Encode a batch of texts. Returns list of float-lists."""
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json",
+        }
+        payload = {
+            "input": texts,
+            "model": self.model,
+            "input_type": input_type,
+        }
+        for attempt in range(3):
+            try:
+                with httpx.Client(timeout=30.0) as client:
+                    resp = client.post(self.API_URL, headers=headers, json=payload)
+                    resp.raise_for_status()
+                    data = resp.json()
+                embeddings = [item["embedding"] for item in data["data"]]
+                if self.target_dim < 2048:
+                    embeddings = [
+                        self._l2_normalize(vec[:self.target_dim]) for vec in embeddings
+                    ]
+                return embeddings
+            except httpx.HTTPStatusError as e:
+                if e.response.status_code == 429:
+                    wait = 3.0 * (attempt + 1)
+                    print(f"⚠️  Rate limited (429). Waiting {wait}s...")
+                    time.sleep(wait)
+                else:
+                    raise
+            except Exception as e:
+                if attempt == 2:
+                    raise
+                time.sleep(1.0 * (attempt + 1))
+        raise RuntimeError("NVIDIA embedding failed after 3 retries")
+
+
+def generate_mcq_embedding(mcq_model, text):
+    """Generate embedding for a single MCQ text using either NVIDIA or local model."""
+    if isinstance(mcq_model, NvidiaTrainEmbedder):
+        return mcq_model.encode(text)
+    else:
+        return mcq_model.encode(text).tolist()
+
+
 def initialize_mcq_system(pine_api_key):
-    """Initialize Pinecone and embedding model for MCQ"""
+    """Initialize Pinecone and embedding model for MCQ.
+
+    Uses NVIDIA Nemotron-3-Embed-1B if NVIDIA_API_KEY is set,
+    otherwise falls back to local BGE-base.
+    """
     pc_mcq = Pinecone(api_key=pine_api_key)
-    mcq_index_name = 'pyq-bge-768'  # New index with BGE-base embeddings
+    mcq_index_name = os.getenv('MCQ_INDEX_NAME', 'pyq-bge-768')
+    dimension = int(os.getenv('NVIDIA_EMBED_DIMENSION', '768'))
     
     # Check if index exists
     existing_indexes = [index_info["name"] for index_info in pc_mcq.list_indexes()]
     
     if mcq_index_name not in existing_indexes:
-        print(f"Creating new MCQ index '{mcq_index_name}'...")
+        print(f"Creating new MCQ index '{mcq_index_name}' (dim={dimension})...")
         pc_mcq.create_index(
             mcq_index_name, 
-            dimension=768,  # BGE-base dimension
+            dimension=dimension,
             metric='dotproduct', 
             spec=ServerlessSpec(cloud='aws', region='us-east-1')
         )
@@ -67,8 +154,29 @@ def initialize_mcq_system(pine_api_key):
         print(f"✅ MCQ Index '{mcq_index_name}' already exists.")
     
     mcq_index = pc_mcq.Index(mcq_index_name)
-    # Use BGE-base to match RAG system for better quality and consistency
+
+    # Try NVIDIA Nemotron first, fallback to local BGE-base
+    nvidia_key = os.getenv('NVIDIA_API_KEY', '').strip()
+    nvidia_model = os.getenv('NVIDIA_EMBED_MODEL', 'nvidia/nemotron-3-embed-1b')
+    if nvidia_key and nvidia_key != 'your-nvidia-api-key-here':
+        try:
+            embedder = NvidiaTrainEmbedder(nvidia_key, nvidia_model, target_dim=dimension)
+            # Smoke test
+            test_vec = embedder.encode("test")
+            if len(test_vec) == dimension:
+                print(f"✅ Using NVIDIA Nemotron-3-Embed-1B ({dimension}d) for training")
+                return mcq_index, embedder
+            print(f"⚠️  NVIDIA returned {len(test_vec)}d, expected {dimension}d. Falling back to local.")
+        except Exception as e:
+            print(f"⚠️  NVIDIA embed failed: {e}. Falling back to local model.")
+    else:
+        print("ℹ️  NVIDIA_API_KEY not set. Using local BGE-base for training.")
+
+    global SentenceTransformer
+    if SentenceTransformer is None:
+        from sentence_transformers import SentenceTransformer
     mcq_model = SentenceTransformer('BAAI/bge-base-en-v1.5', device='cpu')
+    print(f"✅ Using local BGE-base-en-v1.5 ({dimension}d) for training")
     
     return mcq_index, mcq_model
 
@@ -235,7 +343,7 @@ def populate_mcq_index(mcq_dataset, index, mcq_model):
                 global_idx = batch_start + idx
                 
                 # Generate embedding for the MCQ text
-                text_embedding = mcq_model.encode(mcq['text']).tolist()
+                text_embedding = generate_mcq_embedding(mcq_model, mcq['text'])
                 
                 # Get the complete original JSON structure
                 full_json = mcq.get('full_json', {})
@@ -298,14 +406,17 @@ def populate_mcq_index_with_namespace(mcq_dataset, index, mcq_model, namespace):
             batch_end = min(batch_start + batch_size, len(mcq_dataset))
             batch = mcq_dataset[batch_start:batch_end]
             
-            # Prepare batch data for Pinecone
-            batch_vectors = []
+            # Batch generate embeddings
+            texts_to_embed = [mcq['text'] for mcq in batch]
+            if isinstance(mcq_model, NvidiaTrainEmbedder):
+                batch_embeddings = mcq_model.encode_batch(texts_to_embed, input_type="passage")
+            else:
+                batch_embeddings = [generate_mcq_embedding(mcq_model, t) for t in texts_to_embed]
             
+            batch_vectors = []
             for idx, mcq in enumerate(batch):
                 global_idx = f"{namespace}_{batch_start + idx}"
-                
-                # Generate embedding for the MCQ text
-                text_embedding = mcq_model.encode(mcq['text']).tolist()
+                text_embedding = batch_embeddings[idx]
                 
                 # Get the complete original JSON structure
                 full_json = mcq.get('full_json', {})
@@ -484,17 +595,29 @@ def train_pyq_data_all():
     print("🚀 STARTING PYQ TRAINING/INDEXING PROCESS")
     print("=" * 60)
     
-    # Read from PYQ/pyq_data directory
-    pyq_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "PYQ", "pyq_data")
+    # Find PYQ directory (check pyq, PYQ/pyq_data, PYQ)
+    project_root = os.path.dirname(os.path.dirname(__file__))
+    candidate_dirs = [
+        os.path.join(project_root, "pyq"),
+        os.path.join(project_root, "PYQ", "pyq_data"),
+        os.path.join(project_root, "PYQ"),
+    ]
     
-    if not os.path.exists(pyq_dir):
-        print(f"❌ PYQ data directory not found: {pyq_dir}")
+    pyq_dir = None
+    files = []
+    for d in candidate_dirs:
+        if os.path.exists(d):
+            found = [f for f in os.listdir(d) if f.endswith(".json") and os.path.isfile(os.path.join(d, f))]
+            if found:
+                pyq_dir = d
+                files = found
+                break
+    
+    if not pyq_dir or not files:
+        print(f"❌ No JSON files found in candidate PYQ directories: {candidate_dirs}")
         return
     
-    files = [f for f in os.listdir(pyq_dir) if f.endswith(".json") and os.path.isfile(os.path.join(pyq_dir, f))]
-    if not files:
-        print("❌ No JSON files found in PYQ/pyq_data directory.")
-        return
+    print(f"📁 Using PYQ directory: {pyq_dir} ({len(files)} JSON file(s) found)")
     
     # Load API keys and initialize system once
     pine_api_key = load_api_keys()

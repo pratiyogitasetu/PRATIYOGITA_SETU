@@ -4,17 +4,18 @@ import { Box, Skeleton } from '@mui/material'
 import { ThemeProvider as MuiThemeProvider, createTheme } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import { ThemeProvider, useTheme } from './contexts/ThemeContext'
-import { LayoutProvider } from './contexts/LayoutContext'
+import { LayoutProvider, useLayout } from './contexts/LayoutContext'
 import { SearchHistoryProvider } from './contexts/SearchHistoryContext'
 import { AuthProvider } from './contexts/AuthContext'
 import { DashboardProvider } from './contexts/DashboardContext'
 import ErrorBoundary from './components/ErrorBoundary'
 import Navbar from './components/Navbar'
+import MobileTabBar from './components/MobileTabBar'
+import EmbeddedSearchBar from './components/EmbeddedSearchBar'
 
 const Sidebar = lazy(() => import('./components/Sidebar'))
 const PYQSection = lazy(() => import('./components/PYQSection'))
 const Dashboard = lazy(() => import('./components/Dashboard'))
-const PYQPractice = lazy(() => import('./components/PYQPractice'))
 const QuizSection = lazy(() => import('./components/QuizSection'))
 const EligibilitySection = lazy(() => import('./components/EligibilitySection'))
 const SyllabusSection = lazy(() => import('./components/SyllabusSection'))
@@ -68,8 +69,27 @@ const muiTheme = createTheme({
 })
 
 function AppContent() {
-  const [currentView, setCurrentView] = useState('chat') // 'chat', 'dashboard', 'pyq-practice', 'eligibility', 'syllabus', 'quiz', 'gd-topics'
+  const [currentView, setCurrentView] = useState('chat') // 'chat', 'dashboard', 'eligibility', 'syllabus', 'quiz', 'gd-topics'
   const { theme } = useTheme()
+  const { isMobile } = useLayout()
+  const [isChatLoading, setIsChatLoading] = useState(false)
+
+  useEffect(() => {
+    const handleLoadingChange = (event) => {
+      setIsChatLoading(event.detail?.isLoading || false)
+    }
+    window.addEventListener('chatLoadingState', handleLoadingChange)
+    return () => {
+      window.removeEventListener('chatLoadingState', handleLoadingChange)
+    }
+  }, [])
+
+  const handleMobileSendMessage = (query, options) => {
+    const event = new CustomEvent('submitChatQuery', {
+      detail: { query, options }
+    })
+    window.dispatchEvent(event)
+  }
 
   // Function to handle view changes
   const handleViewChange = (view) => {
@@ -78,10 +98,6 @@ function AppContent() {
 
   // Listen for events from sidebar
   useEffect(() => {
-    const handleSwitchToPyqPractice = () => {
-      setCurrentView('pyq-practice')
-    }
-
     const handleSwitchToEligibility = () => {
       setCurrentView('eligibility')
     }
@@ -102,7 +118,6 @@ function AppContent() {
       setCurrentView('chat')
     }
 
-    window.addEventListener('switchToPyqPractice', handleSwitchToPyqPractice)
     window.addEventListener('switchToEligibility', handleSwitchToEligibility)
     window.addEventListener('switchToSyllabus', handleSwitchToSyllabus)
     window.addEventListener('switchToQuiz', handleSwitchToQuiz)
@@ -110,7 +125,6 @@ function AppContent() {
     window.addEventListener('switchToChat', handleSwitchToChat)
 
     return () => {
-      window.removeEventListener('switchToPyqPractice', handleSwitchToPyqPractice)
       window.removeEventListener('switchToEligibility', handleSwitchToEligibility)
       window.removeEventListener('switchToSyllabus', handleSwitchToSyllabus)
       window.removeEventListener('switchToQuiz', handleSwitchToQuiz)
@@ -121,7 +135,7 @@ function AppContent() {
 
   return (
     <div
-      className="h-screen overflow-hidden transition-colors duration-300"
+      className="fixed inset-0 h-[100dvh] w-screen overflow-hidden transition-colors duration-300 flex flex-col"
       style={{
         backgroundColor: 'transparent'
       }}
@@ -136,7 +150,8 @@ function AppContent() {
       </svg>
       <div className="grainy-background-layer" />
       <Navbar onViewChange={handleViewChange} currentView={currentView} />
-      <div className="flex flex-col md:flex-row h-full pt-[56px] md:pt-[60px]">
+      {currentView === 'chat' && <MobileTabBar />}
+      <div className="flex-1 min-h-0 relative flex flex-col md:flex-row w-full overflow-hidden">
         <Suspense
           fallback={
             <Box sx={{ width: 240, p: 2 }}>
@@ -161,17 +176,6 @@ function AppContent() {
             }
           >
             <Dashboard />
-          </Suspense>
-        ) : currentView === 'pyq-practice' ? (
-          <Suspense
-            fallback={
-              <Box sx={{ flex: 1, p: 2 }}>
-                <Skeleton variant="rounded" height={120} sx={{ mb: 2 }} />
-                <Skeleton variant="rounded" height={300} />
-              </Box>
-            }
-          >
-            <PYQPractice />
           </Suspense>
         ) : currentView === 'eligibility' ? (
           <Suspense
@@ -244,6 +248,22 @@ function AppContent() {
           </>
         )}
       </div>
+
+      {/* Mobile Sticky Single Search Bar - Shared across PYQ and Chat tabs */}
+      {isMobile && currentView === 'chat' && (
+        <Box
+          sx={{
+            position: 'fixed',
+            bottom: 8,
+            left: 8,
+            right: 8,
+            zIndex: 1000,
+            pointerEvents: 'auto'
+          }}
+        >
+          <EmbeddedSearchBar onSendMessage={handleMobileSendMessage} isLoading={isChatLoading} />
+        </Box>
+      )}
     </div>
   )
 }

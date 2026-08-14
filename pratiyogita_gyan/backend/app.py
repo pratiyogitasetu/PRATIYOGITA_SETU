@@ -4,6 +4,12 @@ Updated Flask Backend for React Frontend
 Flask API providing backend services for the React chat interface
 """
 
+import sys
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+if hasattr(sys.stderr, 'reconfigure'):
+    sys.stderr.reconfigure(encoding='utf-8', errors='replace')
+
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
@@ -60,7 +66,14 @@ RATE_LIMIT_WINDOW_SECONDS = int(os.getenv('RATE_LIMIT_WINDOW_SECONDS', '60'))  #
 # Optional dotenv - for local development only
 try:
     from dotenv import load_dotenv
-    load_dotenv()
+    _backend_env = os.path.join(os.path.dirname(__file__), '.env')
+    _root_env = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
+    if os.path.exists(_backend_env):
+        load_dotenv(_backend_env, override=True)
+    elif os.path.exists(_root_env):
+        load_dotenv(_root_env, override=True)
+    else:
+        load_dotenv()
 except ImportError:
     pass  # On production, env vars are set directly
 
@@ -396,13 +409,38 @@ def create_embedding_model():
 
 
 def create_mcq_embedding_model():
-    """Create MCQ embedding model (defaults aligned with older working PYQ setup)."""
+    """Create MCQ embedding model.
+
+    Provider priority:
+      1. nvidia  – Nemotron-3-Embed-1B via NVIDIA API (best quality)
+      2. hf      – HuggingFace Inference API
+      3. fastembed
+      4. local   – sentence-transformers on CPU (fallback)
+    """
     provider = os.getenv("MCQ_EMBEDDING_PROVIDER", os.getenv("EMBEDDING_PROVIDER", "local")).strip().lower()
     local_model = os.getenv("MCQ_EMBEDDING_MODEL", "BAAI/bge-small-en-v1.5")
     embedding_device = os.getenv("MCQ_EMBEDDING_DEVICE", os.getenv("EMBEDDING_DEVICE", "cpu"))
 
-    # Keep legacy-friendly order for better PYQ match quality:
-    # HF (optional) -> FastEmbed -> local sentence-transformers
+    # --- NVIDIA Nemotron-3-Embed-1B (primary for PYQ) ---
+    if provider == "nvidia":
+        nvidia_key = os.getenv("NVIDIA_API_KEY", "").strip()
+        nvidia_model = os.getenv("NVIDIA_EMBED_MODEL", "nvidia/nemotron-3-embed-1b")
+        nvidia_dim = int(os.getenv("NVIDIA_EMBED_DIMENSION", "768"))
+        if nvidia_key and nvidia_key != "your-nvidia-api-key-here":
+            try:
+                client = NvidiaEmbeddingClient(nvidia_key, nvidia_model, target_dim=nvidia_dim)
+                # Quick smoke test
+                test_vec = client.embed(["test"])
+                if test_vec and len(test_vec[0]) == nvidia_dim:
+                    return client, f"nvidia-nemotron-{nvidia_dim}d"
+                else:
+                    app.logger.warning(f"⚠️  NVIDIA embed smoke test returned dim {len(test_vec[0]) if test_vec else 'empty'}, expected {nvidia_dim}")
+            except Exception as e:
+                app.logger.warning(f"⚠️  NVIDIA Nemotron init failed, falling back to local: {e}")
+        else:
+            app.logger.warning("⚠️  MCQ_EMBEDDING_PROVIDER=nvidia but NVIDIA_API_KEY not set. Falling back to local.")
+
+    # --- HuggingFace Inference API ---
     use_hf = os.getenv("USE_HF_EMBEDDINGS", "0").lower() in {"1", "true", "yes"}
     if use_hf:
         hf_token = os.getenv("HF_API_KEY")
@@ -411,6 +449,7 @@ def create_mcq_embedding_model():
             raise RuntimeError("HF_API_KEY is required when USE_HF_EMBEDDINGS=1")
         return HFEmbeddingClient(hf_token, hf_model), "huggingface-mcq"
 
+    # --- FastEmbed ---
     use_fastembed = os.getenv("USE_FASTEMBED_FOR_MCQ", os.getenv("USE_FASTEMBED", "1")).lower() in {"1", "true", "yes"}
     if use_fastembed and TextEmbedding is not None:
         model_name = os.getenv("FASTEMBED_MCQ_MODEL", local_model)
@@ -420,19 +459,14 @@ def create_mcq_embedding_model():
             os.environ["FASTEMBED_CACHE_PATH"] = cache_path
             return TextEmbedding(model_name), "fastembed-mcq"
         except Exception as e:
-            if os.getenv('FLASK_ENV') == 'production':
-                app.logger.warning(f"⚠️  Fastembed MCQ model failed, falling back: {e}")
-            else:
-                app.logger.warning(f"⚠️  Fastembed MCQ model failed, falling back: {e}")
+            app.logger.warning(f"⚠️  Fastembed MCQ model failed, falling back: {e}")
 
-    if provider == "local":
-        try:
-            return create_sentence_transformer(local_model, device=embedding_device), "sentence-transformers-local-mcq"
-        except Exception as e:
-            if os.getenv('FLASK_ENV') == 'production':
-                app.logger.warning(f"⚠️  Local MCQ embedding model failed, trying fallbacks: {e}")
-            else:
-                app.logger.warning(f"⚠️  Local MCQ embedding model failed, trying fallbacks: {e}")
+    # --- Local sentence-transformers (final fallback) ---
+    fallback_model = "BAAI/bge-base-en-v1.5"
+    try:
+        return create_sentence_transformer(fallback_model, device=embedding_device), "sentence-transformers-local-mcq"
+    except Exception as e:
+        app.logger.warning(f"⚠️  Local MCQ embedding model failed: {e}")
 
     return create_sentence_transformer("BAAI/bge-small-en-v1.5", device=embedding_device), "sentence-transformers-mcq"
 
@@ -521,6 +555,103 @@ class HFEmbeddingClient:
         if isinstance(data, list) and data and isinstance(data[0], (float, int)):
             return [list(map(float, data))]
         return []
+
+import math
+
+class NvidiaEmbeddingClient:
+    """NVIDIA NIM API client for Nemotron-3-Embed-1B embeddings.
+
+    Calls the OpenAI-compatible endpoint at integrate.api.nvidia.com,
+    then slices the 2048-d output to *target_dim* and L2-normalizes.
+    """
+
+    API_URL = "https://integrate.api.nvidia.com/v1/embeddings"
+    MAX_RETRIES = 3
+
+    def __init__(self, api_key: str, model: str = "nvidia/nemotron-3-embed-1b",
+                 target_dim: int = 768):
+        self.api_key = api_key
+        self.model = model
+        self.target_dim = target_dim  # 512, 768, 1024, or 2048
+
+    # ---- internal helpers ------------------------------------------------
+
+    @staticmethod
+    def _l2_normalize(vec):
+        """L2-normalize a list of floats in pure Python."""
+        norm = math.sqrt(sum(v * v for v in vec))
+        if norm == 0:
+            return vec
+        return [v / norm for v in vec]
+
+    def _slice_and_normalize(self, full_vec):
+        """Slice full 2048-d vector to target_dim and re-normalize."""
+        sliced = full_vec[:self.target_dim]
+        return self._l2_normalize(sliced)
+
+    # ---- public API ------------------------------------------------------
+
+    def embed(self, texts, input_type="query"):
+        """Embed a list of texts.
+
+        Args:
+            texts: list of strings to embed.
+            input_type: 'query' for search queries, 'passage' for document
+                        indexing.  Nemotron uses this to optimise retrieval.
+
+        Returns:
+            list of float-lists, each of length *target_dim*.
+        """
+        if isinstance(texts, str):
+            texts = [texts]
+
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json",
+        }
+        payload = {
+            "input": texts,
+            "model": self.model,
+            "input_type": input_type,
+        }
+
+        last_error = None
+        for attempt in range(self.MAX_RETRIES):
+            try:
+                with httpx.Client(timeout=30.0) as client:
+                    resp = client.post(self.API_URL, headers=headers, json=payload)
+                    resp.raise_for_status()
+                    data = resp.json()
+
+                # OpenAI-compatible response: data.data[i].embedding
+                embeddings = [item["embedding"] for item in data["data"]]
+
+                # Slice to target dimension and re-normalize
+                if self.target_dim < 2048:
+                    embeddings = [self._slice_and_normalize(vec) for vec in embeddings]
+                else:
+                    # Full 2048-d – still ensure float list
+                    embeddings = [list(map(float, vec)) for vec in embeddings]
+
+                return embeddings
+
+            except httpx.HTTPStatusError as e:
+                last_error = e
+                if e.response.status_code == 429:
+                    # Rate limited – back off
+                    wait = 2.0 * (attempt + 1)
+                    app.logger.warning(f"⚠️  NVIDIA API rate limited (429). Retrying in {wait}s...")
+                    time.sleep(wait)
+                elif e.response.status_code >= 500:
+                    time.sleep(1.0 * (attempt + 1))
+                else:
+                    raise
+            except Exception as e:
+                last_error = e
+                time.sleep(1.0 * (attempt + 1))
+
+        raise RuntimeError(f"NVIDIA embedding API failed after {self.MAX_RETRIES} retries: {last_error}")
+
 
 def encode_texts(model, texts):
     """Encode texts to list of float vectors for either backend."""
@@ -1306,7 +1437,8 @@ def generate_with_model_routing(query: str, context: str, answer_profile: dict, 
             )
             content = (response.choices[0].message.content or "").strip()
             if content:
-                if _needs_answer_expansion(content, answer_profile):
+                enable_expansion = os.getenv("ENABLE_ANSWER_EXPANSION", "0").lower() in {"1", "true", "yes"}
+                if enable_expansion and _needs_answer_expansion(content, answer_profile):
                     try:
                         refine = openai_client.chat.completions.create(
                             model=search_components.get('openai_model', 'gpt-4o-mini'),
@@ -1344,7 +1476,8 @@ def generate_with_model_routing(query: str, context: str, answer_profile: dict, 
             )
             content = (response.choices[0].message.content or "").strip()
             if content:
-                if _needs_answer_expansion(content, answer_profile):
+                enable_expansion = os.getenv("ENABLE_ANSWER_EXPANSION", "0").lower() in {"1", "true", "yes"}
+                if enable_expansion and _needs_answer_expansion(content, answer_profile):
                     try:
                         refine = groq_client.chat.completions.create(
                             messages=[
@@ -1391,35 +1524,39 @@ def initialize_search_system():
                 rag_index = pc_rag.Index(rag_index_name)
                 rag_model, embedding_backend = create_embedding_model()
                 
-                # Initialize Pinecone for MCQ - use same BGE-base model for consistency and quality
+                # Initialize Pinecone for MCQ (may use NVIDIA Nemotron or local fallback)
                 pc_mcq = Pinecone(api_key=pine_api_key)
                 mcq_index_name = os.getenv('MCQ_INDEX_NAME', 'pyq-bge-768')
                 mcq_index = pc_mcq.Index(mcq_index_name)
-                # Use same model as RAG for unified architecture (BGE-base, 768-dim)
-                mcq_model = rag_model
+                mcq_model, mcq_backend = create_mcq_embedding_model()
                 
                 # Verify MCQ model dimension by encoding a test query
                 test_embedding = encode_query(mcq_model, "test")
                 mcq_actual_dim = len(test_embedding)
+                mcq_expected_dim = int(os.getenv("NVIDIA_EMBED_DIMENSION", "768"))
 
-                if is_production:
-                    app.logger.info(f"✅ RAG embedding backend: {embedding_backend}")
-                    app.logger.info(f"✅ MCQ embedding model: BGE-base (shared with RAG)")
-                    app.logger.info(f"✅ MCQ embedding dimension: {mcq_actual_dim} (expected: 768)")
-                    if mcq_actual_dim != 768:
-                        app.logger.error(f"❌ CRITICAL: MCQ dimension mismatch! Got {mcq_actual_dim}, expected 768")
-                else:
-                    print(f"✅ RAG embedding backend: {embedding_backend}")
-                    print(f"✅ MCQ embedding model: BGE-base (shared with RAG)")
-                    print(f"✅ MCQ embedding dimension: {mcq_actual_dim} (expected: 768)")
-                    if mcq_actual_dim != 768:
-                        print(f"❌ CRITICAL: MCQ dimension mismatch! Got {mcq_actual_dim}, expected 768")
+                def _log(msg):
+                    if is_production:
+                        app.logger.info(msg)
+                    else:
+                        print(msg)
+
+                _log(f"✅ RAG embedding backend: {embedding_backend}")
+                _log(f"✅ MCQ embedding backend: {mcq_backend}")
+                _log(f"✅ MCQ embedding dimension: {mcq_actual_dim} (expected: {mcq_expected_dim})")
+                if mcq_actual_dim != mcq_expected_dim:
+                    msg = f"⚠️  MCQ dimension mismatch! Got {mcq_actual_dim}, expected {mcq_expected_dim}. Pinecone queries may fail."
+                    if is_production:
+                        app.logger.warning(msg)
+                    else:
+                        print(msg)
                 
                 search_components['rag_index'] = rag_index
                 search_components['rag_model'] = rag_model
                 search_components['rag_index_name'] = rag_index_name
                 search_components['mcq_index'] = mcq_index
                 search_components['mcq_model'] = mcq_model
+                search_components['mcq_backend'] = mcq_backend
                 
                 if is_production:
                     app.logger.info("✅ Pinecone components initialized")
@@ -1822,40 +1959,79 @@ def search():
         # Set a timeout for the entire operation
         timeout_seconds = 30  # 30 second timeout
 
-        if pinecone_available:
-            # Precompute embedding once for RAG searches
-            rag_query_embedding = encode_query(search_components['rag_model'], query)
-        else:
-            rag_query_embedding = None
-
         resolved_class_filter = resolve_class_filter(selected_class, query)
         effective_namespace = resolve_subject_namespace(selected_subject, namespace)
         strict_subject_selected = bool(effective_namespace)
         strict_class_selected = bool(resolved_class_filter)
         decision_path.append(f"subject_ns:{effective_namespace or 'all'}")
         decision_path.append(f"class_filter:{resolved_class_filter or 'none'}")
-        decision_path.append(f"strict_subject:{strict_subject_selected}")
-        decision_path.append(f"strict_class:{strict_class_selected}")
 
-        min_source_score = float(os.getenv("MIN_RAG_SOURCE_SCORE", "0.45"))
-        min_top_score_strict = float(os.getenv("MIN_TOP_SOURCE_SCORE_STRICT", "0.52"))
         retrieval_disclaimer = None
         fallback_reason = None
 
-        def _run_retrieval(target_namespace, target_class_filter, target_chunks):
-            if not pinecone_available:
-                return "", []
-            context_value, sources_value = search_rag_with_class_filter(
-                pinecone_index=search_components['rag_index'],
-                query_embedding=rag_query_embedding,
-                n_chunks=target_chunks,
-                namespace=target_namespace,
-                class_filter=target_class_filter,
-            )
-            filtered = filter_sources_by_score(sources_value, min_source_score)
-            return context_value, filtered
+        disable_ncert = os.getenv("DISABLE_NCERT_SEARCH", "0").lower() in ("1", "true", "yes")
+        
+        if disable_ncert:
+            decision_path.append("ncert_search:disabled_by_config")
+            sources = []
+            context = ""
+            compact_context = ""
+            best_score = 0.0
+            source_metadata = None
+            
+            # Direct PYQ search using Nemotron embeddings
+            if pinecone_available and 'mcq_index' in search_components and 'mcq_model' in search_components:
+                mcq_results = query_mcq(
+                    search_components['mcq_index'],
+                    search_components['mcq_model'],
+                    query,
+                    similarity_threshold=0.05,
+                    top_k=max(mcq_limit, 5) if mcq_limit > 0 else 5
+                )
+            else:
+                mcq_results = []
+            
+            # If PYQs found, construct context for LLM answer
+            if mcq_results:
+                pyq_context_parts = []
+                for i, m in enumerate(mcq_results[:3], 1):
+                    q = m.get('question', '')
+                    opts = m.get('options', {})
+                    opt_str = " ".join([f"({k}) {v}" for k, v in opts.items()]) if isinstance(opts, dict) else str(opts)
+                    ans = m.get('answer', '') or m.get('correct_answer', '')
+                    exp = m.get('explanation', '')
+                    exam = m.get('exam_name', '')
+                    yr = m.get('exam_year', '')
+                    pyq_context_parts.append(f"PYQ Question #{i} ({exam} {yr}):\nQuestion: {q}\nOptions: {opt_str}\nCorrect Answer: {ans}\nExplanation: {exp}")
+                compact_context = "\n\n".join(pyq_context_parts)
+                decision_path.append(f"pyq_context_matches:{len(mcq_results)}")
+            else:
+                decision_path.append("pyq_context_matches:none")
 
-        if pinecone_available:
+        elif pinecone_available:
+            # Precompute embedding once for RAG searches
+            rag_query_embedding = encode_query(search_components['rag_model'], query)
+            decision_path.append(f"strict_subject:{strict_subject_selected}")
+            decision_path.append(f"strict_class:{strict_class_selected}")
+
+            min_source_score = float(os.getenv("MIN_RAG_SOURCE_SCORE", "0.45"))
+            min_top_score_strict = float(os.getenv("MIN_TOP_SOURCE_SCORE_STRICT", "0.52"))
+            retrieval_disclaimer = None
+            fallback_reason = None
+
+            def _run_retrieval(target_namespace, target_class_filter, target_chunks):
+                if not pinecone_available:
+                    return "", []
+                context_value, sources_value = search_rag_with_class_filter(
+                    pinecone_index=search_components['rag_index'],
+                    query_embedding=rag_query_embedding,
+                    n_chunks=target_chunks,
+                    namespace=target_namespace,
+                    class_filter=target_class_filter,
+                )
+                filtered = filter_sources_by_score(sources_value, min_source_score)
+                return context_value, filtered
+
             retrieval_steps = []
             if strict_subject_selected or strict_class_selected:
                 retrieval_steps.append((effective_namespace, resolved_class_filter, n_results, "strict"))
@@ -1923,39 +2099,30 @@ def search():
         if time.time() - start_time > timeout_seconds:
             return jsonify({"error": "Request timeout"}), 408
         
-        # Debug logging for context quality
-        if DEBUG_MODE:
-            print(f"DEBUG: Retrieved {len(sources)} sources for query: '{query[:50]}...'")
-            print(f"DEBUG: Context length: {len(context)} characters")
-            if sources:
-                print(f"DEBUG: Best match score: {sources[0]['score']}")
-                print(f"DEBUG: First source metadata: {sources[0].get('subject', 'N/A')}, {sources[0].get('class', 'N/A')}, {sources[0].get('chapter_name', 'N/A')}")
-        
-        compact_context = trim_context_from_sources(sources, max_chars=answer_profile['context_chars'])
-        
-        # Get best match score and metadata for prompt quality assessment
-        best_score = sources[0]['score'] if sources else 0.0
-        source_metadata = sources[0] if sources else None
-        overlap_count = query_source_overlap_count(query, source_metadata) if source_metadata else 0
+        if not disable_ncert:
+            compact_context = trim_context_from_sources(sources, max_chars=answer_profile['context_chars'])
+            best_score = sources[0]['score'] if sources else 0.0
+            source_metadata = sources[0] if sources else None
+            overlap_count = query_source_overlap_count(query, source_metadata) if source_metadata else 0
 
-        if sources and (best_score < min_top_score_strict or overlap_count == 0):
-            decision_path.append(f"strict_guard_drop:score={round(best_score,3)}:overlap={overlap_count}")
-            sources = []
-            context = ""
-            compact_context = ""
-            best_score = 0.0
-            source_metadata = None
-            fallback_reason = fallback_reason or "low_relevance_or_no_overlap"
-            retrieval_disclaimer = (
-                "I couldn't find a reliable match in indexed NCERT resources for this query. "
-                "The answer below is AI-generated guidance."
-            )
-        else:
-            decision_path.append(f"overlap_count:{overlap_count}")
+            if sources and (best_score < min_top_score_strict or overlap_count == 0):
+                decision_path.append(f"strict_guard_drop:score={round(best_score,3)}:overlap={overlap_count}")
+                sources = []
+                context = ""
+                compact_context = ""
+                best_score = 0.0
+                source_metadata = None
+                fallback_reason = fallback_reason or "low_relevance_or_no_overlap"
+                retrieval_disclaimer = (
+                    "I couldn't find a reliable match in indexed NCERT resources for this query. "
+                    "The answer below is AI-generated guidance."
+                )
+            else:
+                decision_path.append(f"overlap_count:{overlap_count}")
 
-        decision_path.append(f"best_score:{round(best_score, 3)}")
+            decision_path.append(f"best_score:{round(best_score, 3)}")
 
-        # Generate RAG response using provider routing
+        # Generate RAG/PYQ response using provider routing
         rag_response = None
         warning = None
         provider_used = None
@@ -1968,17 +2135,17 @@ def search():
             llm_top_p=llm_top_p,
             llm_max_tokens=llm_max_tokens,
             best_match_score=best_score,
-            source_metadata=source_metadata,
+            source_metadata=source_metadata if not disable_ncert else None,
         )
 
         if not rag_response:
             warning = route_error or "LLM unavailable"
-            rag_response = build_fallback_response(context, sources, query)
+            rag_response = build_fallback_response(compact_context, sources, query)
             decision_path.append("llm_fallback:context_builder")
         else:
             decision_path.append(f"llm_provider:{provider_used or 'unknown'}")
 
-        if not sources:
+        if not disable_ncert and not sources:
             retrieval_disclaimer = (
                 "Your query was not found in our indexed NCERT resources. "
                 "The answer below is AI-generated guidance and may be less reliable than textbook-backed answers."
@@ -1991,40 +2158,31 @@ def search():
         rag_response = prepend_disclaimer(rag_response, retrieval_disclaimer)
         rag_response = enforce_answer_length(rag_response, answer_profile)
         
-        # MCQ search for related questions (only if Pinecone is available)
-        # Use enhanced query based on retrieved context for better MCQ matching
-        mcq_query = query
-        if sources and len(sources) > 0:
-            # Extract key terms from best matching sources to improve MCQ search
-            # This helps when user has typos (e.g., "ganfa" -> should find "ganga" PYQs)
-            top_source = sources[0]
-            topic = top_source.get('topic', '')
-            chapter_name = top_source.get('chapter_name', '')
-            subject = top_source.get('subject', '')
-            
-            # Build enhanced query using metadata from best match
-            enhanced_terms = []
-            if topic and len(topic) > 3:
-                enhanced_terms.append(topic)
-            if chapter_name and len(chapter_name) > 3:
-                enhanced_terms.append(chapter_name)
-            
-            # If we have good metadata, enhance the query
-            if enhanced_terms:
-                mcq_query = f"{query} {' '.join(enhanced_terms[:2])}"  # Combine original + top 2 metadata terms
-                if DEBUG_MODE:
-                    print(f"DEBUG MCQ: Enhanced query from '{query}' to '{mcq_query}' based on source metadata")
-            
-        if pinecone_available and 'mcq_index' in search_components and 'mcq_model' in search_components:
-            mcq_results = query_mcq(
-                search_components['mcq_index'],
-                search_components['mcq_model'],
-                mcq_query,
-                mcq_threshold,
-                mcq_limit
-            )
-        else:
-            mcq_results = []
+        # In non-disabled mode, run MCQ search
+        if not disable_ncert:
+            mcq_query = query
+            if sources and len(sources) > 0:
+                top_source = sources[0]
+                topic = top_source.get('topic', '')
+                chapter_name = top_source.get('chapter_name', '')
+                enhanced_terms = []
+                if topic and len(topic) > 3:
+                    enhanced_terms.append(topic)
+                if chapter_name and len(chapter_name) > 3:
+                    enhanced_terms.append(chapter_name)
+                if enhanced_terms:
+                    mcq_query = f"{query} {' '.join(enhanced_terms[:2])}"
+                
+            if pinecone_available and 'mcq_index' in search_components and 'mcq_model' in search_components:
+                mcq_results = query_mcq(
+                    search_components['mcq_index'],
+                    search_components['mcq_model'],
+                    mcq_query,
+                    mcq_threshold,
+                    mcq_limit
+                )
+            else:
+                mcq_results = []
         
         response_payload = {
             "rag_response": rag_response,
@@ -2099,6 +2257,10 @@ def get_total_questions():
     """Get total number of questions in the MCQ database"""
     global search_components
     
+    cached = _get_cached_value('api_total_questions_resp')
+    if cached is not None:
+        return jsonify(cached), 200
+
     if not system_initialized:
         return jsonify({"error": "Search system not initialized"}), 500
     
@@ -2109,14 +2271,16 @@ def get_total_questions():
             return jsonify({"error": "MCQ index not available"}), 500
         
         # Get index stats to find total vector count
-        stats = _get_index_stats_cached(mcq_index, 'mcq_index_stats', ttl_seconds=60)
+        stats = _get_index_stats_cached(mcq_index, 'mcq_index_stats', ttl_seconds=600)
         total_questions = stats.get('total_vector_count', 0)
         
-        return jsonify({
+        res_data = {
             "total_questions": total_questions,
             "status": "success",
             "timestamp": time.time()
-        }), 200
+        }
+        _set_cached_value('api_total_questions_resp', res_data, ttl_seconds=600)
+        return jsonify(res_data), 200
         
     except Exception as e:
         app.logger.error(f"Error getting total questions: {str(e)}")
@@ -2164,6 +2328,10 @@ def get_stats():
     """Get system statistics"""
     global search_components
     
+    cached = _get_cached_value('api_stats_resp')
+    if cached is not None:
+        return jsonify(cached), 200
+
     if not system_initialized:
         return jsonify({"error": "Search system not initialized"}), 500
     
@@ -2176,25 +2344,27 @@ def get_stats():
         total_books = 0
         
         if mcq_index:
-            mcq_stats = _get_index_stats_cached(mcq_index, 'mcq_index_stats', ttl_seconds=60)
+            mcq_stats = _get_index_stats_cached(mcq_index, 'mcq_index_stats', ttl_seconds=600)
             total_questions = mcq_stats.get('total_vector_count', 0)
         
         if rag_index:
-            rag_stats = _get_index_stats_cached(rag_index, 'rag_index_stats', ttl_seconds=60)
+            rag_stats = _get_index_stats_cached(rag_index, 'rag_index_stats', ttl_seconds=600)
             # RAG index contains document chunks, approximate books by dividing by average chunks per book
             total_chunks = rag_stats.get('total_vector_count', 0)
             # Estimate books based on namespaces (5 main subjects)
             namespaces = rag_stats.get('namespaces', {})
             total_books = len(namespaces)
         
-        return jsonify({
+        res_data = {
             "total_questions": total_questions,
             "total_books": total_books,
             "total_users": 1,  # Single user system for now
             "avg_response_time": "1.2s",  # Typical response time
             "system_status": "operational",
             "timestamp": time.time()
-        }), 200
+        }
+        _set_cached_value('api_stats_resp', res_data, ttl_seconds=600)
+        return jsonify(res_data), 200
         
     except Exception as e:
         app.logger.error(f"Error getting stats: {str(e)}")
@@ -2445,6 +2615,10 @@ def get_books():
     """Get inserted books/subjects from Pinecone index statistics"""
     global search_components
     
+    cached = _get_cached_value('api_books_resp')
+    if cached is not None:
+        return jsonify(cached), 200
+
     if not system_initialized:
         return jsonify({"error": "Search system not initialized"}), 500
     
@@ -2455,7 +2629,7 @@ def get_books():
             return jsonify({"error": "RAG index not available"}), 500
         
         # Get index statistics to see what namespaces exist
-        stats = _get_index_stats_cached(rag_index, 'rag_index_stats', ttl_seconds=120)
+        stats = _get_index_stats_cached(rag_index, 'rag_index_stats', ttl_seconds=600)
         namespaces = stats.namespaces if stats.namespaces else {}
         
         books_list = []
@@ -2538,13 +2712,15 @@ def get_books():
                 }
                 books_list.append(book_data)
         
-        return jsonify({
+        res_data = {
             "books": books_list,
             "total": len(books_list),
             "indexed_count": len([b for b in books_list if b["total_chunks"] > 0]),
             "available_count": len([b for b in books_list if b["total_chunks"] == 0]),
             "timestamp": time.time()
-        }), 200
+        }
+        _set_cached_value('api_books_resp', res_data, ttl_seconds=600)
+        return jsonify(res_data), 200
         
     except Exception as e:
         app.logger.error(f"Error getting books: {str(e)}")
@@ -2787,7 +2963,7 @@ def query_mcq(mcq_index, mcq_model, query_text, similarity_threshold=0.2, top_k=
 
         normalized_top_k = int(top_k) if top_k is not None else 0
         unlimited_results = normalized_top_k <= 0
-        per_namespace_top_k = min(500, max(50, normalized_top_k * 2)) if not unlimited_results else 1000
+        per_namespace_top_k = min(20, max(5, normalized_top_k * 2)) if not unlimited_results else 20
 
         def _query_namespace(namespace):
             response = mcq_index.query(
@@ -3208,6 +3384,115 @@ def check_achievements():
     except Exception as e:
         app.logger.error(f"Error checking achievements: {str(e)}")
 
+def _fetch_pyq_questions(query='', exam_filter=None, subject_filter=None, year_filter=None, limit=50):
+    """Core helper to search/retrieve PYQ questions from Pinecone."""
+    mcq_index = search_components.get('mcq_index')
+    mcq_model = search_components.get('mcq_model')
+    
+    if not mcq_index or not mcq_model:
+        raise RuntimeError("MCQ system not available")
+    
+    # Get all available namespaces
+    stats = _get_index_stats_cached(mcq_index, 'mcq_index_stats', ttl_seconds=60)
+    namespaces = list(stats.namespaces.keys()) if stats.namespaces else []
+    
+    all_questions = []
+    
+    # Limit namespaces to query based on filters to speed up
+    target_namespaces = namespaces
+    if exam_filter and exam_filter != 'all':
+        target_namespaces = [ns for ns in namespaces if exam_filter.lower().replace('_', ' ') in ns.lower()]
+        if not target_namespaces:
+            target_namespaces = namespaces
+    
+    # Compute embedding
+    if query:
+        query_embedding = encode_query(mcq_model, query)
+    else:
+        query_embedding = encode_query(mcq_model, "general knowledge question")
+
+    for namespace in target_namespaces[:5]:
+        try:
+            results = safe_pinecone_query(
+                mcq_index,
+                query_embedding,
+                top_k=min(limit + 10, 100),
+                include_metadata=True,
+                namespace=namespace
+            )
+            
+            for match in results.get('matches', []):
+                metadata = match.get('metadata', {})
+                full_data = {}
+                if 'full_json_str' in metadata:
+                    try:
+                        full_data = json.loads(metadata['full_json_str'])
+                    except Exception:
+                        pass
+                
+                exam_name = full_data.get('exam_name', metadata.get('exam_name', ''))
+                exam_year = str(full_data.get('exam_year', metadata.get('exam_year', '')))
+                exam_term = full_data.get('exam_term', metadata.get('exam_term', ''))
+                subject = full_data.get('subject', metadata.get('subject', ''))
+                question_text = full_data.get('question', metadata.get('question', ''))
+                explanation = full_data.get('explanation', metadata.get('explanation', ''))
+                correct_option = full_data.get('correct_option', metadata.get('correct_option', ''))
+                
+                options_dict = full_data.get('options', {})
+                if not options_dict:
+                    options_dict = {}
+                    for opt_key in ['option_a', 'option_b', 'option_c', 'option_d']:
+                        if metadata.get(opt_key):
+                            options_dict[opt_key.replace('option_', '').upper()] = metadata.get(opt_key)
+                
+                options_list = []
+                for k in ['A', 'B', 'C', 'D']:
+                    opt_value = options_dict.get(k) or options_dict.get(k.lower())
+                    if opt_value:
+                        options_list.append(opt_value)
+                
+                correct_answer_index = None
+                if correct_option:
+                    option_map = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'a': 0, 'b': 1, 'c': 2, 'd': 3}
+                    correct_answer_index = option_map.get(correct_option)
+                
+                if exam_filter and exam_filter != 'all':
+                    exam_lower = exam_name.lower().replace(' ', '_').replace('/', '_')
+                    if exam_filter.lower() not in exam_lower:
+                        continue
+                
+                if subject_filter and subject_filter != 'all':
+                    subject_lower = subject.lower().replace(' ', '_')
+                    if subject_filter.lower() not in subject_lower:
+                        continue
+                
+                if year_filter and year_filter != 'all':
+                    if str(year_filter) != str(exam_year):
+                        continue
+                
+                question_obj = {
+                    'id': match['id'],
+                    'question': question_text,
+                    'options': options_list,
+                    'correct_answer': correct_answer_index,
+                    'correct_option': correct_option,
+                    'explanation': explanation,
+                    'exam_name': exam_name,
+                    'year': exam_year,
+                    'term': exam_term,
+                    'subject': subject,
+                    'namespace': namespace,
+                    'score': match.get('score', 0)
+                }
+                all_questions.append(question_obj)
+                
+        except Exception as e:
+            app.logger.warning(f"Error querying namespace {namespace}: {str(e)}")
+            continue
+    
+    all_questions.sort(key=lambda x: x['score'], reverse=True)
+    return all_questions[:limit]
+
 # ============================================
 # PYQ Practice API Endpoints
 # ============================================
@@ -3216,139 +3501,24 @@ def check_achievements():
 @rate_limit(max_requests=30, window_seconds=60)
 def search_pyq_questions():
     """Search and filter PYQ questions"""
-    global search_components
-    
     if not system_initialized:
         return jsonify({"error": "Search system not initialized"}), 500
     
     try:
-        data = request.get_json()
+        data = request.get_json() or {}
         query = data.get('query', '')
         exam_filter = data.get('exam', None)
         subject_filter = data.get('subject', None)
         year_filter = data.get('year', None)
         limit = data.get('limit', 50)
         
-        mcq_index = search_components.get('mcq_index')
-        mcq_model = search_components.get('mcq_model')
-        
-        if not mcq_index or not mcq_model:
-            return jsonify({"error": "MCQ system not available"}), 500
-        
-        # Get all available namespaces
-        stats = _get_index_stats_cached(mcq_index, 'mcq_index_stats', ttl_seconds=60)
-        namespaces = list(stats.namespaces.keys()) if stats.namespaces else []
-        
-        all_questions = []
-        
-        # Limit namespaces to query based on filters to speed up
-        target_namespaces = namespaces
-        if exam_filter and exam_filter != 'all':
-            # Try to match namespace to exam filter
-            target_namespaces = [ns for ns in namespaces if exam_filter.lower().replace('_', ' ') in ns.lower()]
-            if not target_namespaces:
-                target_namespaces = namespaces  # fallback to all if no match
-        
-        # Precompute embedding once for all namespaces
-        mcq_model = search_components.get('mcq_model')
-        if query:
-            query_embedding = encode_query(mcq_model, query)
-        else:
-            query_embedding = encode_query(mcq_model, "general knowledge question")
-
-        # Query each namespace (limited for performance)
-        for namespace in target_namespaces[:5]:  # Limit to first 5 namespaces for speed
-            try:
-                results = safe_pinecone_query(
-                    mcq_index,
-                    query_embedding,
-                    top_k=min(limit + 10, 100),  # Reduced from 500 to 100 for faster queries
-                    include_metadata=True,
-                    namespace=namespace
-                )
-                
-                for match in results['matches']:
-                    metadata = match.get('metadata', {})
-                    
-                    # Parse full_json_str if available
-                    full_data = {}
-                    if 'full_json_str' in metadata:
-                        try:
-                            full_data = json.loads(metadata['full_json_str'])
-                        except:
-                            pass
-                    
-                    # Extract fields
-                    exam_name = full_data.get('exam_name', metadata.get('exam_name', ''))
-                    exam_year = str(full_data.get('exam_year', metadata.get('exam_year', '')))
-                    exam_term = full_data.get('exam_term', metadata.get('exam_term', ''))
-                    subject = full_data.get('subject', metadata.get('subject', ''))
-                    question_text = full_data.get('question', metadata.get('question', ''))
-                    explanation = full_data.get('explanation', metadata.get('explanation', ''))
-                    correct_option = full_data.get('correct_option', metadata.get('correct_option', ''))
-                    
-                    # Get options
-                    options_dict = full_data.get('options', {})
-                    if not options_dict:
-                        options_dict = {}
-                        for opt_key in ['option_a', 'option_b', 'option_c', 'option_d']:
-                            if metadata.get(opt_key):
-                                options_dict[opt_key.replace('option_', '').upper()] = metadata.get(opt_key)
-                    
-                    # Extract options list - handle both uppercase and lowercase keys
-                    options_list = []
-                    for k in ['A', 'B', 'C', 'D']:
-                        # Try uppercase first, then lowercase
-                        opt_value = options_dict.get(k) or options_dict.get(k.lower())
-                        if opt_value:
-                            options_list.append(opt_value)
-                    
-                    # Map correct_option letter to index
-                    correct_answer_index = None
-                    if correct_option:
-                        option_map = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'a': 0, 'b': 1, 'c': 2, 'd': 3}
-                        correct_answer_index = option_map.get(correct_option)
-                    
-                    # Apply filters
-                    if exam_filter and exam_filter != 'all':
-                        exam_lower = exam_name.lower().replace(' ', '_').replace('/', '_')
-                        if exam_filter.lower() not in exam_lower:
-                            continue
-                    
-                    if subject_filter and subject_filter != 'all':
-                        subject_lower = subject.lower().replace(' ', '_')
-                        if subject_filter.lower() not in subject_lower:
-                            continue
-                    
-                    if year_filter and year_filter != 'all':
-                        if str(year_filter) != str(exam_year):
-                            continue
-                    
-                    # Build question object
-                    question_obj = {
-                        'id': match['id'],
-                        'question': question_text,
-                        'options': options_list,
-                        'correct_answer': correct_answer_index,
-                        'correct_option': correct_option,
-                        'explanation': explanation,
-                        'exam_name': exam_name,
-                        'year': exam_year,
-                        'term': exam_term,
-                        'subject': subject,
-                        'namespace': namespace,
-                        'score': match.get('score', 0)
-                    }
-                    
-                    all_questions.append(question_obj)
-                    
-            except Exception as e:
-                app.logger.warning(f"Error querying namespace {namespace}: {str(e)}")
-                continue
-        
-        # Sort by score and limit
-        all_questions.sort(key=lambda x: x['score'], reverse=True)
-        filtered_questions = all_questions[:limit]
+        filtered_questions = _fetch_pyq_questions(
+            query=query,
+            exam_filter=exam_filter,
+            subject_filter=subject_filter,
+            year_filter=year_filter,
+            limit=limit
+        )
         
         return jsonify({
             'questions': filtered_questions,
@@ -3454,46 +3624,33 @@ def get_pyq_filters():
 @rate_limit(max_requests=30, window_seconds=60)
 def get_random_pyq_questions():
     """Get random PYQ questions with optional filters"""
-    global search_components
-    
     if not system_initialized:
         return jsonify({"error": "Search system not initialized"}), 500
     
     try:
-        data = request.get_json()
+        data = request.get_json() or {}
         count = data.get('count', 10)
         exam_filter = data.get('exam', None)
         subject_filter = data.get('subject', None)
         year_filter = data.get('year', None)
         
-        # Use the search endpoint with a generic query
-        search_data = {
-            'query': '',
-            'exam': exam_filter,
-            'subject': subject_filter,
-            'year': year_filter,
-            'limit': count * 2  # Get more than needed for randomization
-        }
-        
-        # Call the search function internally
         import random
-        request._cached_json = search_data
-        response, status = search_pyq_questions()
+        questions = _fetch_pyq_questions(
+            query='',
+            exam_filter=exam_filter,
+            subject_filter=subject_filter,
+            year_filter=year_filter,
+            limit=count * 2
+        )
         
-        if status == 200:
-            result = response.get_json()
-            questions = result.get('questions', [])
-            
-            # Randomize and limit
-            random.shuffle(questions)
-            random_questions = questions[:count]
-            
-            return jsonify({
-                'questions': random_questions,
-                'status': 'success'
-            }), 200
-        else:
-            return response, status
+        # Randomize and limit
+        random.shuffle(questions)
+        random_questions = questions[:count]
+        
+        return jsonify({
+            'questions': random_questions,
+            'status': 'success'
+        }), 200
             
     except Exception as e:
         app.logger.error(f"Error getting random PYQ questions: {str(e)}")

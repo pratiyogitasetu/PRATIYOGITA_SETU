@@ -1,5 +1,5 @@
 import { useState, useEffect, lazy, Suspense } from 'react'
-import { LogIn, UserPlus, Home, BarChart3, Info, Phone, LogOut, Target, Menu, ChevronLeft, User } from 'lucide-react'
+import { LogIn, UserPlus, Home, BarChart3, Info, Phone, LogOut, Menu, ChevronLeft, User } from 'lucide-react'
 import { AppBar, Toolbar, Box, Typography, Button, Avatar, Stack, Container, Chip, IconButton, Divider } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 import PropTypes from 'prop-types'
@@ -10,10 +10,11 @@ const EditProfileModal = lazy(() => import('./EditProfileModal'))
 import { useAuth } from '../contexts/AuthContext'
 import { useLayout } from '../contexts/LayoutContext'
 import { CircleHelp } from './icons/CircleHelp'
+import ChevronFirst from './icons/ChevronFirst'
 
 const Navbar = ({ onViewChange, currentView }) => {
   const { currentUser, logout } = useAuth()
-  const { mobileMenuOpen, openMobileMenu, closeMobileMenu, closeAllOverlays } = useLayout()
+  const { mobileMenuOpen, openMobileMenu, closeMobileMenu, closeAllOverlays, toggleSidebar, sidebarVisible } = useLayout()
   const [showAuthModal, setShowAuthModal] = useState(false)
   const [authMode, setAuthMode] = useState('login')
   const [showAboutModal, setShowAboutModal] = useState(false)
@@ -169,7 +170,28 @@ const Navbar = ({ onViewChange, currentView }) => {
           }}
         >
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, width: '100%', minWidth: 0, height: '100%' }}>
-            {/* Left side - App name */}
+            {/* Mobile Left Sidebar Toggle */}
+            <IconButton
+              onClick={toggleSidebar}
+              size="small"
+              aria-label="Toggle left sidebar"
+              sx={{
+                display: { xs: 'flex', md: 'none' },
+                color: '#000000',
+                border: '1px solid #e5e7eb',
+                borderRadius: 2,
+                width: 34,
+                height: 34,
+                padding: '4px',
+                transform: sidebarVisible ? 'none' : 'scaleX(-1)',
+                transition: 'transform 0.2s ease',
+                flexShrink: 0
+              }}
+            >
+              <ChevronFirst width={15} height={15} strokeWidth={2} stroke="#000000" />
+            </IconButton>
+
+            {/* Brand Logo & Name (Centered on Mobile, Left-aligned on Desktop) */}
             <Box
               onClick={handleHomeClick}
               role="button"
@@ -177,24 +199,25 @@ const Navbar = ({ onViewChange, currentView }) => {
               sx={{
                 display: 'flex',
                 alignItems: 'center',
+                justifyContent: { xs: 'center', md: 'flex-start' },
                 gap: 0.75,
                 minWidth: 0,
                 height: '100%',
-                cursor: 'pointer'
+                cursor: 'pointer',
+                flex: { xs: 1, md: 'none' }
               }}
             >
               <img
                 src="/pg.png"
                 alt="GS Logo"
-                width={36}
-                height={36}
+                width={34}
+                height={34}
                 style={{
                   display: 'block',
-                  height: 36,
-                  width: 36,
+                  height: 34,
+                  width: 34,
                   margin: 'auto 0',
-                  objectFit: 'contain',
-                  
+                  objectFit: 'contain'
                 }}
               />
               <Typography
@@ -203,8 +226,8 @@ const Navbar = ({ onViewChange, currentView }) => {
                   fontWeight: 800,
                   letterSpacing: '0.02em',
                   textTransform: 'uppercase',
-                    color: 'primary.main',
-                  fontSize: { xs: '1rem', sm: '1.25rem', md: '1.5rem' },
+                  color: 'primary.main',
+                  fontSize: { xs: '0.92rem', sm: '1.15rem', md: '1.4rem' },
                   whiteSpace: 'nowrap',
                   display: 'flex',
                   alignItems: 'center',
@@ -216,18 +239,25 @@ const Navbar = ({ onViewChange, currentView }) => {
               </Typography>
             </Box>
 
-            {/* Mobile - Clock + Menu */}
-            <Stack direction="row" alignItems="center" spacing={1} sx={{ display: { xs: 'flex', md: 'none' }, ml: 'auto' }}>
-              {/* <Clock isMobile={true} /> */}
-              <IconButton
-                onClick={openMobileMenu}
-                size="small"
-                aria-label="Open menu"
-                sx={{ color: 'text.primary', border: '1px solid', borderColor: 'divider', borderRadius: 2, width: 34, height: 34 }}
-              >
-                <Menu size={18} />
-              </IconButton>
-            </Stack>
+            {/* Mobile Right Menu Toggle (Flipped ChevronFirst icon) */}
+            <IconButton
+              onClick={openMobileMenu}
+              size="small"
+              aria-label="Open right menu"
+              sx={{
+                display: { xs: 'flex', md: 'none' },
+                color: '#000000',
+                border: '1px solid #e5e7eb',
+                borderRadius: 2,
+                width: 34,
+                height: 34,
+                padding: '4px',
+                transform: 'scaleX(-1)',
+                flexShrink: 0
+              }}
+            >
+              <ChevronFirst width={15} height={15} strokeWidth={2} stroke="#000000" />
+            </IconButton>
 
             {/* Center - Navigation */}
             <Box sx={{ flex: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'center', minWidth: 0, overflow: 'hidden', height: '100%', alignItems: 'center' }}>
@@ -237,9 +267,6 @@ const Navbar = ({ onViewChange, currentView }) => {
                 </Button>
                 <Button onClick={() => onViewChange('dashboard')} startIcon={<BarChart3 size={14} />} sx={navButtonSx(currentView === 'dashboard')}>
                   <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>Dashboard</Box>
-                </Button>
-                <Button onClick={() => onViewChange('pyq-practice')} startIcon={<Target size={14} />} sx={navButtonSx(currentView === 'pyq-practice')}>
-                  <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>PYQ Practice</Box>
                 </Button>
                 <Button onClick={() => setShowAboutModal(true)} startIcon={<Info size={14} />} sx={navButtonSx(false)}>
                   <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>About Us</Box>
@@ -381,9 +408,6 @@ const Navbar = ({ onViewChange, currentView }) => {
               </Button>
               <Button onClick={() => handleMobileViewChange('dashboard')} startIcon={<BarChart3 size={16} />} variant="outlined" sx={{ justifyContent: 'flex-start' }}>
                 Dashboard
-              </Button>
-              <Button onClick={() => handleMobileViewChange('pyq-practice')} startIcon={<Target size={16} />} variant="outlined" sx={{ justifyContent: 'flex-start' }}>
-                PYQ Practice
               </Button>
               <Button onClick={() => handleMobileModalOpen(setShowAboutModal)} startIcon={<Info size={16} />} variant="outlined" sx={{ justifyContent: 'flex-start' }}>
                 About Us

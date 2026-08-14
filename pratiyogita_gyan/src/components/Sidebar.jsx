@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, lazy, Suspense, useMemo } from 'react'
-import { MessageCircle, Search, BookOpen, FileText, Trash2, Clock, Target, PenTool, Home, Plus } from 'lucide-react'
+import { MessageCircle, Search, BookOpen, FileText, Trash2, Clock, PenTool, Home, Plus } from 'lucide-react'
 import { Box, Paper, Stack, Typography, Button, IconButton, Divider } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 import { useLayout } from '../contexts/LayoutContext'
@@ -189,12 +189,6 @@ const Sidebar = () => {
     setShowHelpModal(true)
   }, [closeTransientOverlays, isMobile])
 
-  const handlePyqPracticeClick = () => {
-    if (isMobile) closeTransientOverlays()
-    // Emit event to switch to PYQ practice view
-    window.dispatchEvent(new CustomEvent('switchToPyqPractice'))
-  }
-
   const handleQuizClick = () => {
     if (isMobile) closeTransientOverlays()
     // Emit event to switch to quiz view
@@ -228,12 +222,10 @@ const Sidebar = () => {
       closeTransientOverlays()
     }
     window.addEventListener('switchToChat', handleNavigation)
-    window.addEventListener('switchToPyqPractice', handleNavigation)
     window.addEventListener('switchToQuiz', handleNavigation)
     window.addEventListener('switchToGDTopics', handleNavigation)
     return () => {
       window.removeEventListener('switchToChat', handleNavigation)
-      window.removeEventListener('switchToPyqPractice', handleNavigation)
       window.removeEventListener('switchToQuiz', handleNavigation)
       window.removeEventListener('switchToGDTopics', handleNavigation)
     }
@@ -276,7 +268,7 @@ const Sidebar = () => {
       {/* Mobile backdrop with smooth fade-in/fade-out */}
       {isMobile && (
         <div
-          className="md:hidden fixed top-14 left-0 right-0 bottom-0 bg-black/40 backdrop-blur-sm z-[150] transition-opacity duration-300"
+          className="md:hidden fixed top-14 left-0 right-0 bottom-0 bg-black/50 backdrop-blur-sm z-[1300] transition-opacity duration-300"
           style={{
             opacity: sidebarVisible ? 1 : 0,
             pointerEvents: sidebarVisible ? 'auto' : 'none'
@@ -287,24 +279,26 @@ const Sidebar = () => {
 
       {/* Unified Sidebar Container */}
       <Paper
-        elevation={0}
+        elevation={isMobile ? 12 : 0}
         sx={{
           position: 'fixed',
           left: isMobile ? (sidebarVisible ? 0 : '-100%') : 4,
           top: isMobile ? 56 : 64,
           bottom: isMobile ? 0 : 4,
           width: isMobile
-            ? '85vw'
+            ? { xs: '82vw', sm: 300 }
             : (sidebarVisible
               ? { xs: 220, sm: 240, md: 255 }
               : { xs: 0, md: 40 }
             ),
-          zIndex: isMobile ? 160 : 30,
-          borderRadius: isMobile ? 0 : 1,
+          maxWidth: isMobile ? 320 : 'none',
+          zIndex: isMobile ? 1400 : 30,
+          borderRadius: isMobile ? '0 12px 12px 0' : 1,
           border: isMobile && !sidebarVisible ? 'none' : '1px solid #808080',
           backgroundColor: '#ffffff',
           color: '#000000',
           overflow: 'hidden',
+          boxShadow: isMobile && sidebarVisible ? '4px 0 24px rgba(0,0,0,0.25)' : 'none',
           transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
         }}
       >
@@ -314,7 +308,7 @@ const Sidebar = () => {
             display: 'flex',
             flexDirection: 'column',
             height: '100%',
-            width: isMobile ? '85vw' : { xs: 220, sm: 240, md: 255 },
+            width: '100%',
             opacity: sidebarVisible ? 1 : 0,
             visibility: sidebarVisible ? 'visible' : 'hidden',
             transition: 'opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.25s',
@@ -326,9 +320,9 @@ const Sidebar = () => {
             right: 0
           }}
         >
-          <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', width: '100%' }}>
             {/* Toggle Button and Sign-in Notice */}
-            <Box sx={{ p: 0.5, display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 0.5, minWidth: 0, width: '100%' }}>
+            <Box sx={{ p: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 1, width: '100%', boxSizing: 'border-box' }}>
               {!currentUser ? (
                 <Typography
                   variant="caption"
@@ -341,7 +335,8 @@ const Sidebar = () => {
                     whiteSpace: 'nowrap',
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
-                    fontSize: '0.68rem'
+                    fontSize: '0.68rem',
+                    maxWidth: 'calc(100% - 36px)'
                   }}
                 >
                   sign in to sync your data
@@ -376,8 +371,22 @@ const Sidebar = () => {
                   </Typography>
                 </Box>
               )}
-              <IconButton onClick={toggleSidebar} size="small" title="Hide Sidebar" sx={{ color: '#000000', padding: '3px' }}>
-                <ChevronFirst width={15} height={15} strokeWidth={2} stroke={'#000000'} />
+              <IconButton
+                onClick={toggleSidebar}
+                size="small"
+                title="Hide Sidebar"
+                sx={{
+                  color: '#000000',
+                  padding: '4px',
+                  borderRadius: 1.5,
+                  border: '1px solid #e5e7eb',
+                  backgroundColor: 'rgba(0,0,0,0.03)',
+                  '&:hover': { backgroundColor: 'rgba(0,0,0,0.08)' },
+                  flexShrink: 0,
+                  ml: 'auto'
+                }}
+              >
+                <ChevronFirst width={15} height={15} strokeWidth={2} stroke="#000000" />
               </IconButton>
             </Box>
 
@@ -445,7 +454,7 @@ const Sidebar = () => {
                         onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(58, 124, 165, 0.12)'}
                         onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                       >
-                        <div className="flex items-start space-x-2" onClick={() => handleChatSelect(chat)}>
+                        <div className="flex items-start space-x-2 pr-6" onClick={() => handleChatSelect(chat)}>
                           <MessageCircle
                             className="w-3 h-3 mt-0.5 transition-colors"
                             style={{
@@ -549,7 +558,7 @@ const Sidebar = () => {
                         onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(58, 124, 165, 0.12)'}
                         onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                       >
-                        <div className="flex items-start space-x-2" onClick={() => handleChatSelect(chat)}>
+                        <div className="flex items-start space-x-2 pr-6" onClick={() => handleChatSelect(chat)}>
                           <MessageCircle
                             className="w-3 h-3 mt-0.5 transition-colors"
                             style={{ color: '#000000', opacity: 0.6 }}
@@ -600,9 +609,6 @@ const Sidebar = () => {
                   <Button onClick={() => { handleQuizClick(); toggleSidebar(); }} variant="contained" startIcon={<PenTool className="w-4 h-4" />} sx={{ backgroundColor: 'primary.main', color: 'primary.contrastText', py: 0.5, fontSize: '0.7rem', '&:hover': { backgroundColor: 'primary.dark' } }}>
                     Attempt Quiz
                   </Button>
-                  <Button onClick={() => { handlePyqPracticeClick(); toggleSidebar(); }} variant="contained" startIcon={<Target className="w-4 h-4" />} sx={{ backgroundColor: 'primary.main', color: 'primary.contrastText', py: 0.5, fontSize: '0.7rem', '&:hover': { backgroundColor: 'primary.dark' } }}>
-                    PYQ Practice
-                  </Button>
                   <Button
                     onClick={() => { handleHomeClick(); toggleSidebar(); }}
                     variant="contained"
@@ -622,9 +628,6 @@ const Sidebar = () => {
                 <Stack spacing={0.5}>
                   <Button onClick={handleQuizClick} variant="contained" startIcon={<PenTool className="w-4 h-4" />} sx={{ backgroundColor: 'primary.main', color: 'primary.contrastText', py: 0.4, minHeight: 26, fontSize: '0.68rem', '&:hover': { backgroundColor: 'primary.dark' } }}>
                     Attempt Quiz
-                  </Button>
-                  <Button onClick={handlePyqPracticeClick} variant="contained" startIcon={<Target className="w-4 h-4" />} sx={{ backgroundColor: 'primary.main', color: 'primary.contrastText', py: 0.4, minHeight: 26, fontSize: '0.68rem', '&:hover': { backgroundColor: 'primary.dark' } }}>
-                    PYQ Practice
                   </Button>
                   <Button onClick={handleHelpClick} variant="contained" startIcon={<CircleHelp width={16} height={16} strokeWidth={2} stroke="currentColor" />} sx={{ backgroundColor: 'primary.main', color: 'primary.contrastText', py: 0.4, minHeight: 26, fontSize: '0.68rem', '&:hover': { backgroundColor: 'primary.dark' } }}>
                     Help & Support
@@ -686,16 +689,6 @@ const Sidebar = () => {
                 title="Attempt Quiz"
               >
                 <PenTool className="w-4 h-4" />
-              </button>
-              <button
-                onClick={handlePyqPracticeClick}
-                className="p-1 rounded-lg transition-colors"
-                style={{ color: '#000000' }}
-                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(58, 124, 165, 0.12)'}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
-                title="PYQ Practice"
-              >
-                <Target className="w-4 h-4" />
               </button>
               <button
                 onClick={handleHelpClick}

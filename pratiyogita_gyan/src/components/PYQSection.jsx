@@ -45,7 +45,7 @@ const buildStarredQuestionPayload = (question, questionId) => ({
 })
 
 const PYQSection = () => {
-  const { pyqVisible, togglePyq, isMobile, contentOffsetLeft } = useLayout()
+  const { pyqVisible, togglePyq, isMobile, contentOffsetLeft, mobileActiveTab } = useLayout()
   const { trackInteraction } = useDashboard()
   const { theme } = useTheme()
   const isDarkMode = theme?.mode === 'dark'
@@ -706,19 +706,20 @@ const PYQSection = () => {
   return (
     <Box
       sx={{
-        position: { xs: 'static', md: 'fixed' },
-        top: { xs: 'auto', md: 64 },
-        bottom: { xs: 'auto', md: 4 },
+        position: 'fixed',
+        top: { xs: 104, md: 64 },
+        bottom: { xs: 0, md: 4 },
         left: { xs: 0, md: leftMarginPx },
         right: { xs: 0, md: rightMarginPx },
         display: 'flex',
         flexDirection: 'column',
-        height: { xs: 'calc(100vh - 56px)', md: 'auto' },
         overflow: 'hidden',
-        pl: 0.5,
-        pr: 0.5,
-        pb: 0.5,
-        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+        p: { xs: 0.5, md: 0.5 },
+        transform: isMobile ? (mobileActiveTab === 'pyq' ? 'translateX(0%)' : 'translateX(-100%)') : 'none',
+        opacity: isMobile ? (mobileActiveTab === 'pyq' ? 1 : 0) : 1,
+        pointerEvents: isMobile ? (mobileActiveTab === 'pyq' ? 'auto' : 'none') : 'auto',
+        visibility: isMobile ? (mobileActiveTab === 'pyq' ? 'visible' : 'hidden') : 'visible',
+        transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease, left 0.3s cubic-bezier(0.4, 0, 0.2, 1), right 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
       }}
     >
       <Paper
@@ -731,7 +732,8 @@ const PYQSection = () => {
         }}
       >
         <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-          {/* Toggle Button and Header */}
+          {/* Toggle Button and Header - Hidden on mobile until results are loaded */}
+          {(!isMobile || searchResults.length > 0) && (
           <Box sx={{ p: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 1 }}>
             <Stack direction="row" spacing={1.5} alignItems="center" flexWrap="wrap" sx={{ minWidth: 0, flex: 1 }}>
               <Typography variant="caption" sx={{ fontWeight: 600, color: '#000000', fontSize: '0.8rem', whiteSpace: 'nowrap' }}>
@@ -933,6 +935,7 @@ const PYQSection = () => {
               </IconButton>
             )}
           </Box>
+          )}
 
             {/* Content Area */}
             <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', m: 0.5, mt: 0, minHeight: 0, backgroundColor: '#ffffff', borderRadius: 2 }}>
@@ -975,7 +978,7 @@ const PYQSection = () => {
               )}
 
               {/* Scrollable Content */}
-              <Box ref={pyqScrollContainerRef} className="pyq-content" sx={{ flex: 1, overflowY: 'auto', p: 1, minHeight: 0, pb: 12 }}>
+              <Box ref={pyqScrollContainerRef} className="pyq-content" sx={{ flex: 1, overflowY: 'auto', p: 1, minHeight: 0, pb: { xs: 24, sm: 20, md: 16 } }}>
                 {/* Questions */}
                 <Stack spacing={1}>
                   {!lastSearchQuery && currentQuestions.length === 0 ? (
@@ -1371,19 +1374,21 @@ const PYQSection = () => {
                   ) : null}
                 </Stack>
             </Box>
-            {/* Floating Embedded Search Bar at Bottom */}
-            <Box
-              sx={{
-                position: 'absolute',
-                bottom: 12,
-                left: 12,
-                right: 12,
-                zIndex: 10,
-                backgroundColor: 'transparent'
-              }}
-            >
-              <EmbeddedSearchBar onSendMessage={handleSendMessage} isLoading={isChatLoading} />
-            </Box>
+            {/* Floating Embedded Search Bar at Bottom (Desktop only, mobile has unified sticky search bar) */}
+            {!isMobile && (
+              <Box
+                sx={{
+                  position: 'absolute',
+                  bottom: { xs: 8, sm: 12 },
+                  left: { xs: 8, sm: 12 },
+                  right: { xs: 8, sm: 12 },
+                  zIndex: 10,
+                  backgroundColor: 'transparent'
+                }}
+              >
+                <EmbeddedSearchBar onSendMessage={handleSendMessage} isLoading={isChatLoading} />
+              </Box>
+            )}
           </Box>
         </Box>
       </Paper>

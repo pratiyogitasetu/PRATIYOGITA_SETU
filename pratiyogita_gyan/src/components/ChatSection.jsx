@@ -13,6 +13,7 @@ import { useDashboard } from '../contexts/DashboardContext'
 import apiService from '../services/api'
 import SearchProgressIndicator from './SearchProgressIndicator'
 import EmbeddedSearchBar from './EmbeddedSearchBar'
+import ChevronFirst from './icons/ChevronFirst'
 import { SEARCH_SETTINGS } from '../config/searchSettings'
 import { validateSearchQuery } from '../utils/validation'
 
@@ -556,7 +557,7 @@ ChatMessageBubble.propTypes = {
 const ChatSection = () => {
   const { theme } = useTheme()
   const isDarkMode = theme?.mode === 'dark'
-  const { contentOffsetLeft, pyqVisible, togglePyq, isMobile } = useLayout()
+  const { contentOffsetLeft, pyqVisible, togglePyq, isMobile, mobileActiveTab } = useLayout()
   const { addToSearchHistory, addGuestChat, updateGuestChat, guestChatHistory } = useSearchHistory()
   const { currentUser, createNewChat, saveMessage, getChatMessages, updateChatTitle, updateChatMessageCount, getChatHistory } = useAuth()
   const { trackInteraction } = useDashboard()
@@ -1211,25 +1212,38 @@ const ChatSection = () => {
     />
   )
 
+  const handleSendMessage = useCallback((query, options) => {
+    // Dispatch submitChatQuery so PYQSection receives the query and search options simultaneously
+    const event = new CustomEvent('submitChatQuery', {
+      detail: { query, options }
+    })
+    window.dispatchEvent(event)
+  }, [])
+
   return (
     <>
       {/* Full Chat Section */}
-      {pyqVisible && (
+      {(isMobile || pyqVisible) && (
         <Box
           sx={{
             position: 'fixed',
             right: isMobile ? 0 : 4,
             left: isMobile ? 0 : 'auto',
-            top: isMobile ? 56 : 64,
+            top: isMobile ? 104 : 64,
             bottom: isMobile ? 0 : 4,
             width: isMobile ? '100%' : 420,
-            zIndex: isMobile ? 1400 : 30,
+            zIndex: isMobile ? 25 : 30,
             borderRadius: isMobile ? 0 : 1,
             backgroundColor: '#ffffff',
             overflow: 'hidden',
             display: 'flex',
             flexDirection: 'column',
-            border: '1px solid #808080'
+            border: isMobile ? 'none' : '1px solid #808080',
+            transform: isMobile ? (mobileActiveTab === 'chat' ? 'translateX(0%)' : 'translateX(100%)') : 'none',
+            opacity: isMobile ? (mobileActiveTab === 'chat' ? 1 : 0) : 1,
+            pointerEvents: isMobile ? (mobileActiveTab === 'chat' ? 'auto' : 'none') : 'auto',
+            visibility: isMobile ? (mobileActiveTab === 'chat' ? 'visible' : 'hidden') : 'visible',
+            transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease'
           }}
         >
           {/* Main Chat Container with Theme-aware Background */}
@@ -1243,15 +1257,24 @@ const ChatSection = () => {
               height: '100%'
             }}
           >
-            {/* Toggle Button in Header */}
-            <Box sx={{ p: 0.5, display: 'flex', justifyContent: 'flex-start', alignItems: 'center', borderBottom: '1px solid #f1f5f9' }}>
-              <IconButton onClick={togglePyq} size="small" title="Hide Chat Panel" sx={{ color: '#000000' }}>
-                <ChevronRight className="w-4 h-4" />
-              </IconButton>
-              <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary', ml: 1, fontSize: '0.75rem' }}>
-                Chat Companion
-              </Typography>
-            </Box>
+            {/* Toggle Button in Header (Desktop Only) */}
+            {!isMobile && (
+              <Box sx={{ p: 0.75, px: 1.5, display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #e5e7eb', backgroundColor: '#fafafa' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <IconButton
+                    onClick={togglePyq}
+                    size="small"
+                    title="Hide Chat Panel"
+                    sx={{ color: '#000000', padding: '3px' }}
+                  >
+                    <ChevronFirst width={15} height={15} strokeWidth={2} stroke="#000000" />
+                  </IconButton>
+                  <Typography variant="caption" sx={{ fontWeight: 700, color: '#1f2937', fontSize: '0.8rem' }}>
+                    Chat Companion
+                  </Typography>
+                </Box>
+              </Box>
+            )}
           {/* System Status Banner */}
           {!systemStatus.healthy && (
             <Box sx={{ mx: 2, mt: 1 }}>
@@ -1290,18 +1313,19 @@ const ChatSection = () => {
             </Box>
           )}
           
-          {/* Scrollable Messages Container */}
+          {/* Chat Messages */}
           <Box
             ref={scrollContainerRef}
-            onScroll={handleScroll}
-            className="flex-1 overflow-y-auto px-1.5 pb-2 chat-messages-container relative"
-            style={{ overscrollBehavior: 'none' }}
-            sx={{ pb: { xs: 8, md: 2 } }}
+            className="flex-grow p-4 overflow-y-auto space-y-4 text-xs"
+            sx={{
+              backgroundColor: '#ffffff',
+              color: '#000000',
+              overflowAnchor: 'none',
+              scrollBehavior: 'auto',
+              pb: { xs: 22, sm: 18, md: 4 }
+            }}
           >
-
-
             <div className="w-full space-y-1 py-1 relative z-10">
-              {/* Welcome message with Features when no messages exist */}
               {messages.length === 0 && (
                 <div className="text-center py-3 mt-1 w-full">
                   <div className="w-full px-2">
@@ -1461,67 +1485,50 @@ const ChatSection = () => {
         </Box>
       )}
 
-      {/* Collapsed Chat Section (Icon Bar) */}
-      {!pyqVisible && (
-        <>
-          {isMobile ? (
-            <Button
+      {/* Collapsed Chat Section (Desktop Icon Bar Only) */}
+      {!isMobile && !pyqVisible && (
+        <Paper
+          elevation={3}
+          sx={{
+            position: 'fixed',
+            right: 4,
+            top: 64,
+            bottom: 4,
+            width: 40,
+            zIndex: 30,
+            borderRadius: 1,
+            border: '1px solid #808080',
+            backgroundColor: '#ffffff',
+            color: '#000000',
+            overflow: 'hidden',
+            display: 'flex',
+            flexDirection: 'column'
+          }}
+        >
+          {/* Toggle Button */}
+          <Box sx={{ p: 0.5, display: 'flex', justifyContent: 'center' }}>
+            <IconButton
               onClick={togglePyq}
-              variant="contained"
-              startIcon={<MessageSquare className="w-4 h-4" />}
-              sx={{
-                position: 'fixed',
-                right: 16,
-                bottom: 16,
-                zIndex: 40,
-                borderRadius: 999,
-                px: 2,
-                py: 1,
-                fontWeight: 700
-              }}
+              size="small"
+              title="Show Chat Panel"
+              sx={{ color: '#000000', transform: 'scaleX(-1)', padding: '3px' }}
             >
-              Chat
-            </Button>
-          ) : (
-            <Paper
-              elevation={3}
-              sx={{
-                position: 'fixed',
-                right: 4,
-                top: 64,
-                bottom: 4,
-                width: 40,
-                zIndex: 30,
-                borderRadius: 1,
-                border: '1px solid #808080',
-                backgroundColor: '#ffffff',
-                color: '#000000',
-                overflow: 'hidden',
-                display: 'flex',
-                flexDirection: 'column'
-              }}
-            >
-              {/* Toggle Button */}
-              <Box sx={{ p: 0.5, display: 'flex', justifyContent: 'center' }}>
-                <IconButton onClick={togglePyq} size="small" title="Show Chat Panel" sx={{ color: '#000000' }}>
-                  <ChevronLeft className="w-4 h-4" />
-                </IconButton>
-              </Box>
+              <ChevronFirst width={15} height={15} strokeWidth={2} stroke="#000000" />
+            </IconButton>
+          </Box>
 
-              {/* Icon */}
-              <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <IconButton
-                  onClick={togglePyq}
-                  size="small"
-                  title="Show Chat Panel"
-                  sx={{ color: 'text.primary', '&:hover': { backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.12) } }}
-                >
-                  <MessageSquare className="w-4 h-4" />
-                </IconButton>
-              </Box>
-            </Paper>
-          )}
-        </>
+          {/* Icon */}
+          <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <IconButton
+              onClick={togglePyq}
+              size="small"
+              title="Show Chat Panel"
+              sx={{ color: 'text.primary', '&:hover': { backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.12) } }}
+            >
+              <MessageSquare className="w-4 h-4" />
+            </IconButton>
+          </Box>
+        </Paper>
       )}
     </>
   )

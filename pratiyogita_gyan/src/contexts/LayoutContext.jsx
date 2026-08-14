@@ -13,23 +13,36 @@ export const useLayout = () => {
 export const LayoutProvider = ({ children }) => {
   const [sidebarVisible, setSidebarVisible] = useState(false)
   const [pyqVisible, setPyqVisible] = useState(true)
+  const [mobileActiveTab, setMobileActiveTab] = useState('pyq') // 'pyq' | 'chat'
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
-  const [viewportWidth, setViewportWidth] = useState(() => window.innerWidth)
+  const [viewportWidth, setViewportWidth] = useState(() => (typeof window !== 'undefined' ? window.innerWidth : 1200))
+  const [isMobile, setIsMobile] = useState(() => (typeof window !== 'undefined' ? window.innerWidth < 768 : false))
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(max-width: 767px)')
-    const handleChange = () => setIsMobile(mediaQuery.matches)
-    handleChange()
-    mediaQuery.addEventListener('change', handleChange)
-    return () => mediaQuery.removeEventListener('change', handleChange)
-  }, [])
-
-  useEffect(() => {
-    const handleResize = () => setViewportWidth(window.innerWidth)
+    const handleResize = () => {
+      const width = window.innerWidth
+      setViewportWidth(width)
+      setIsMobile(width < 768)
+    }
+    handleResize()
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [])
+
+  useEffect(() => {
+    const handleSwitchToChat = () => {
+      if (isMobile) setMobileActiveTab('chat')
+    }
+    const handleSwitchToPyq = () => {
+      if (isMobile) setMobileActiveTab('pyq')
+    }
+    window.addEventListener('switchToChat', handleSwitchToChat)
+    window.addEventListener('switchToPyq', handleSwitchToPyq)
+    return () => {
+      window.removeEventListener('switchToChat', handleSwitchToChat)
+      window.removeEventListener('switchToPyq', handleSwitchToPyq)
+    }
+  }, [isMobile])
 
   const contentOffsetLeft = (() => {
     if (isMobile) return 0
@@ -48,7 +61,6 @@ export const LayoutProvider = ({ children }) => {
     setSidebarVisible((prev) => {
       const next = !prev
       if (isMobile && next) {
-        setPyqVisible(false)
         setMobileMenuOpen(false)
       }
       return next
@@ -56,21 +68,17 @@ export const LayoutProvider = ({ children }) => {
   }
 
   const togglePyq = () => {
-    setPyqVisible((prev) => {
-      const next = !prev
-      if (isMobile && next) {
-        setSidebarVisible(false)
-        setMobileMenuOpen(false)
-      }
-      return next
-    })
+    if (isMobile) {
+      setMobileActiveTab((prev) => (prev === 'pyq' ? 'chat' : 'pyq'))
+    } else {
+      setPyqVisible((prev) => !prev)
+    }
   }
 
   const openMobileMenu = () => {
     if (isMobile) {
       setMobileMenuOpen(true)
       setSidebarVisible(false)
-      setPyqVisible(false)
     }
   }
 
@@ -78,7 +86,6 @@ export const LayoutProvider = ({ children }) => {
 
   const closeAllOverlays = () => {
     setSidebarVisible(false)
-    setPyqVisible(false)
     setMobileMenuOpen(false)
   }
 
@@ -86,6 +93,8 @@ export const LayoutProvider = ({ children }) => {
     <LayoutContext.Provider value={{
       sidebarVisible,
       pyqVisible,
+      mobileActiveTab,
+      setMobileActiveTab,
       mobileMenuOpen,
       isMobile,
       contentOffsetLeft,
