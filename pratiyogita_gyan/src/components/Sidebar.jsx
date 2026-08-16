@@ -279,27 +279,33 @@ const Sidebar = () => {
 
       {/* Unified Sidebar Container */}
       <Paper
-        elevation={isMobile ? 12 : 0}
+        elevation={isMobile ? 16 : 0}
         sx={{
           position: 'fixed',
-          left: isMobile ? (sidebarVisible ? 0 : '-100%') : 4,
+          left: isMobile ? 0 : 4,
           top: isMobile ? 56 : 64,
           bottom: isMobile ? 0 : 4,
           width: isMobile
-            ? { xs: '82vw', sm: 300 }
+            ? { xs: '84vw', sm: 300 }
             : (sidebarVisible
               ? { xs: 220, sm: 240, md: 255 }
               : { xs: 0, md: 40 }
             ),
           maxWidth: isMobile ? 320 : 'none',
           zIndex: isMobile ? 1400 : 30,
-          borderRadius: isMobile ? '0 12px 12px 0' : 1,
-          border: isMobile && !sidebarVisible ? 'none' : '1px solid #808080',
+          borderRadius: isMobile ? '0 16px 16px 0' : 1,
+          border: isMobile && !sidebarVisible ? 'none' : '1px solid #e5e7eb',
           backgroundColor: '#ffffff',
           color: '#000000',
           overflow: 'hidden',
-          boxShadow: isMobile && sidebarVisible ? '4px 0 24px rgba(0,0,0,0.25)' : 'none',
-          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+          boxShadow: isMobile && sidebarVisible ? '8px 0 32px rgba(0,0,0,0.25)' : 'none',
+          transform: isMobile
+            ? (sidebarVisible ? 'translate3d(0, 0, 0)' : 'translate3d(-100%, 0, 0)')
+            : 'none',
+          willChange: isMobile ? 'transform' : 'auto',
+          transition: isMobile
+            ? 'transform 0.28s cubic-bezier(0.32, 0.72, 0, 1), box-shadow 0.28s ease'
+            : 'width 0.25s cubic-bezier(0.4, 0, 0.2, 1)'
         }}
       >
         {/* Full Expanded Sidebar Content */}

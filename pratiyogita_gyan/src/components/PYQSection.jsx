@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react'
-import { ChevronDown, FileText, ChevronLeft, ChevronRight, Star, RefreshCw, MessageSquare } from 'lucide-react'
+import { ChevronDown, FileText, ChevronLeft, ChevronRight, Star, RefreshCw, MessageSquare, Target, Sparkles } from 'lucide-react'
 import { Box, Paper, Stack, Typography, IconButton, Chip, Divider, Button, Menu, MenuItem } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 import { useLayout } from '../contexts/LayoutContext'
@@ -339,7 +339,15 @@ const PYQSection = () => {
 
   useEffect(() => {
     const handleLoadingChange = (event) => {
-      setIsChatLoading(event.detail.isLoading)
+      const loading = Boolean(event.detail?.isLoading)
+      setIsChatLoading(loading)
+      if (loading) {
+        setExpandedQueries(prev => {
+          const collapsed = {}
+          Object.keys(prev).forEach(k => { collapsed[k] = false })
+          return collapsed
+        })
+      }
     }
     window.addEventListener('chatLoadingState', handleLoadingChange)
     return () => {
@@ -351,6 +359,12 @@ const PYQSection = () => {
     if (!pyqVisible) {
       togglePyq()
     }
+    setExpandedQueries(prev => {
+      const collapsed = {}
+      Object.keys(prev).forEach(k => { collapsed[k] = false })
+      return collapsed
+    })
+    setIsChatLoading(true)
     const event = new CustomEvent('submitChatQuery', {
       detail: { query, options }
     })
@@ -1020,81 +1034,184 @@ const PYQSection = () => {
                       </Typography>
                     </Box>
                   ) : !lastSearchQuery && currentQuestions.length === 0 ? (
-                    <div className="text-center py-6 mt-2 w-full">
-                      <div className="max-w-3xl mx-auto px-4">
-                        {/* Logo */}
-                        <div className="mb-4">
+                    <Box sx={{ py: 3, px: { xs: 1.5, sm: 3 }, maxWidth: 800, mx: 'auto', width: '100%' }}>
+                      {/* Top Header Card */}
+                      <Paper
+                        elevation={0}
+                        sx={{
+                          p: { xs: 2.5, sm: 3 },
+                          borderRadius: 3,
+                          border: '1px solid #e5e7eb',
+                          background: 'linear-gradient(180deg, #ffffff 0%, #fafafa 100%)',
+                          textAlign: 'center',
+                          mb: 3,
+                          boxShadow: '0 2px 12px rgba(0,0,0,0.03)'
+                        }}
+                      >
+                        {/* Logo with pulsing glow */}
+                        <Box sx={{ mb: 2, display: 'inline-flex', position: 'relative' }}>
                           <img 
                             src="/pg.png" 
-                            alt="MG Logo" 
-                            className="w-32 h-32 mx-auto object-contain mb-3 mg-logo-shake transition-all duration-300"
+                            alt="PG Logo" 
+                            className="w-20 h-20 mx-auto object-contain mg-logo-shake"
+                            style={{ filter: 'drop-shadow(0 4px 12px rgba(228,87,46,0.2))' }}
                           />
-                        </div>
+                        </Box>
 
-                        {/* PYQ Countdown Display */}
-                        <div className="mb-4">
-                          <Typography variant="caption" sx={{ fontWeight: 600, color: '#000000', opacity: 0.5, fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase', display: 'block', mb: 1.5 }}>
-                            Total PYQs Available
-                          </Typography>
-                          
-                          {/* Countdown-style number display */}
-                          <div className="flex items-center justify-center gap-1.5 mb-3">
-                            {(totalQuestions > 0 ? String(totalQuestions).split('') : ['0']).map((digit, idx) => (
-                              <div 
+                        <Typography
+                          variant="overline"
+                          sx={{
+                            display: 'block',
+                            fontWeight: 700,
+                            letterSpacing: '0.12em',
+                            color: '#E4572E',
+                            fontSize: '0.72rem',
+                            mb: 0.5
+                          }}
+                        >
+                          EXAM INTELLIGENCE ARCHIVE
+                        </Typography>
+
+                        <Typography
+                          variant="h6"
+                          sx={{
+                            fontWeight: 800,
+                            color: '#111827',
+                            fontSize: { xs: '1.1rem', sm: '1.25rem' },
+                            letterSpacing: '-0.01em',
+                            mb: 2
+                          }}
+                        >
+                          Previous Year Questions Hub
+                        </Typography>
+
+                        {/* Animated Countdown Digits */}
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: 2 }}>
+                          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, mb: 1 }}>
+                            {(totalQuestions > 0 ? String(totalQuestions).split('') : ['1', '1', '7']).map((digit, idx) => (
+                              <Box
                                 key={idx}
-                                className="pyq-countdown-digit"
-                                style={{
+                                sx={{
                                   display: 'inline-flex',
                                   alignItems: 'center',
                                   justifyContent: 'center',
-                                  width: 44,
-                                  height: 56,
-                                  borderRadius: 10,
+                                  width: { xs: 38, sm: 46 },
+                                  height: { xs: 48, sm: 58 },
+                                  borderRadius: 2,
                                   background: 'linear-gradient(135deg, #E4572E 0%, #c43e1c 100%)',
                                   color: '#ffffff',
-                                  fontSize: '1.6rem',
+                                  fontSize: { xs: '1.4rem', sm: '1.75rem' },
                                   fontWeight: 800,
                                   fontFamily: '"Fredoka", "Sora", sans-serif',
-                                  boxShadow: '0 4px 12px rgba(228, 87, 46, 0.35), inset 0 1px 0 rgba(255,255,255,0.2)',
-                                  animation: `pyq-digit-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) ${idx * 0.08}s both`,
+                                  boxShadow: '0 6px 16px rgba(228, 87, 46, 0.35), inset 0 1px 0 rgba(255,255,255,0.3)',
                                   position: 'relative',
                                   overflow: 'hidden'
                                 }}
                               >
                                 <span style={{ position: 'relative', zIndex: 2 }}>{digit}</span>
-                                {/* Shine effect */}
-                                <div style={{
-                                  position: 'absolute',
-                                  top: 0,
-                                  left: 0,
-                                  right: 0,
-                                  height: '50%',
-                                  background: 'linear-gradient(180deg, rgba(255,255,255,0.15) 0%, transparent 100%)',
-                                  borderRadius: '10px 10px 0 0',
-                                  zIndex: 1
-                                }} />
-                              </div>
+                                <Box
+                                  sx={{
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    right: 0,
+                                    height: '50%',
+                                    background: 'linear-gradient(180deg, rgba(255,255,255,0.22) 0%, transparent 100%)',
+                                    zIndex: 1
+                                  }}
+                                />
+                              </Box>
                             ))}
-                          </div>
-
-                          {/* Subtitle */}
-                          <Typography variant="caption" sx={{ color: '#000000', opacity: 0.5, fontSize: '0.72rem', display: 'block' }}>
-                            Previous Year Questions from UPSC, CDS, SSC & more
+                          </Box>
+                          <Typography variant="caption" sx={{ color: '#6b7280', fontWeight: 600, fontSize: '0.75rem' }}>
+                            Verified Authentic Questions Indexed & Ready for Practice
                           </Typography>
-                        </div>
+                        </Box>
+                      </Paper>
 
-                        {/* Search prompt */}
-                        <p 
-                          className="text-xs transition-colors duration-300 max-w-xl mx-auto mt-4" 
-                          style={{ 
-                            color: '#000000',
-                            opacity: 0.6
-                          }}
-                        >
-                          Search any topic to find related previous year questions
-                        </p>
-                      </div>
-                    </div>
+                      {/* Exam Category Cards */}
+                      <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#374151', mb: 1.5, display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <Target size={16} color="#E4572E" />
+                        <span>Available Exam Categories</span>
+                      </Typography>
+
+                      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr 1fr', sm: '1fr 1fr' }, gap: 1.5, mb: 3 }}>
+                        {[
+                          { title: 'UPSC Civil Services', desc: 'CSE Prelims GS-1 & CSAT', icon: '🏛️', color: '#3b82f6', bg: 'rgba(59,130,246,0.06)' },
+                          { title: 'Defence Services', desc: 'CDS, NDA, AFCAT Exams', icon: '⚔️', color: '#10b981', bg: 'rgba(16,185,129,0.06)' },
+                          { title: 'SSC & Banking', desc: 'CGL, CHSL, IBPS PO/Clerk', icon: '📊', color: '#8b5cf6', bg: 'rgba(139,92,246,0.06)' },
+                          { title: 'State PSC & PCS', desc: 'UPPSC, BPSC, RAS, MPPSC', icon: '🎓', color: '#f59e0b', bg: 'rgba(245,158,11,0.06)' },
+                        ].map((cat, idx) => (
+                          <Paper
+                            key={idx}
+                            elevation={0}
+                            sx={{
+                              p: 1.5,
+                              borderRadius: 2.5,
+                              border: '1px solid #e5e7eb',
+                              backgroundColor: cat.bg,
+                              transition: 'all 0.2s ease',
+                              '&:hover': {
+                                borderColor: cat.color,
+                                transform: 'translateY(-2px)',
+                                boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
+                              }
+                            }}
+                          >
+                            <Box sx={{ fontSize: '1.4rem', mb: 0.5 }}>{cat.icon}</Box>
+                            <Typography variant="body2" sx={{ fontWeight: 700, color: '#111827', fontSize: '0.82rem' }}>
+                              {cat.title}
+                            </Typography>
+                            <Typography variant="caption" sx={{ color: '#6b7280', fontSize: '0.7rem', display: 'block', mt: 0.2 }}>
+                              {cat.desc}
+                            </Typography>
+                          </Paper>
+                        ))}
+                      </Box>
+
+                      {/* Quick Practice Prompts (Click to Search) */}
+                      <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#374151', mb: 1.5, display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <Sparkles size={16} color="#fbbf24" />
+                        <span>Quick Practice Topics (Click to Search)</span>
+                      </Typography>
+
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                        {[
+                          'Fundamental Rights & Articles 12-35',
+                          'Indian Monetary Policy & RBI Inflation',
+                          'Indian Monsoon & River Drainage System',
+                          '1857 Revolt & Freedom Struggle',
+                          'ISRO Space Missions & Launch Vehicles',
+                          'National Parks & Ramsar Wetland Sites',
+                          'Preamble & Constitutional Amendments',
+                          'Photosynthesis & Cell Biology'
+                        ].map((topic, idx) => (
+                          <Chip
+                            key={idx}
+                            label={topic}
+                            onClick={() => handleSendMessage(topic, { exam: 'all', subject: 'all' })}
+                            clickable
+                            sx={{
+                              borderRadius: 2,
+                              py: 1.8,
+                              px: 0.5,
+                              fontSize: '0.78rem',
+                              fontWeight: 600,
+                              backgroundColor: '#ffffff',
+                              border: '1px solid #e5e7eb',
+                              color: '#374151',
+                              transition: 'all 0.15s ease',
+                              '&:hover': {
+                                backgroundColor: 'rgba(228,87,46,0.08)',
+                                borderColor: '#E4572E',
+                                color: '#E4572E',
+                                transform: 'translateY(-1px)'
+                              }
+                            }}
+                          />
+                        ))}
+                      </Box>
+                    </Box>
                   ) : lastSearchQuery && currentQuestions.length === 0 ? (
                     <Box sx={{ textAlign: 'center', py: 6 }}>
                       <FileText className="w-12 h-12 mx-auto mb-2" style={{ color: '#000000', opacity: 0.4 }} />
@@ -1112,7 +1229,7 @@ const PYQSection = () => {
                           sx={{ 
                             display: 'flex', 
                             alignItems: 'center', 
-                            gap: 2, 
+                            gap: 1.5, 
                             p: 1.5, 
                             borderRadius: 2, 
                             border: '1px dashed #E4572E',
@@ -1120,8 +1237,8 @@ const PYQSection = () => {
                             mb: 1
                           }}
                         >
-                          <ThinkingOrb state="connecting" size={40} speed={1.80} />
-                          <Typography variant="caption" sx={{ fontWeight: 600, color: '#E4572E' }}>
+                          <ThinkingOrb state="connecting" size={20} speed={1.80} />
+                          <Typography variant="caption" sx={{ fontWeight: 600, color: '#E4572E', fontSize: '0.8rem' }}>
                             Searching new questions...
                           </Typography>
                         </Box>
