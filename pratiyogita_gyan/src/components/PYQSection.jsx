@@ -9,6 +9,7 @@ import { useAuth } from '../contexts/AuthContext'
 import apiService from '../services/api'
 import { ChevronFirst } from './icons/ChevronFirst'
 import EmbeddedSearchBar from './EmbeddedSearchBar'
+import { ThinkingOrb } from 'thinking-orbs'
 
 const PYQ_IMPORTANT_STORAGE_KEY = 'pyqImportantQuestionIds'
 const STARRED_PYQ_LOCAL_STORAGE_KEY = 'pyqPracticeStarredQuestions'
@@ -981,7 +982,44 @@ const PYQSection = () => {
               <Box ref={pyqScrollContainerRef} className="pyq-content" sx={{ flex: 1, overflowY: 'auto', p: 1, minHeight: 0, pb: { xs: 24, sm: 20, md: 16 } }}>
                 {/* Questions */}
                 <Stack spacing={1}>
-                  {!lastSearchQuery && currentQuestions.length === 0 ? (
+                  {isChatLoading && currentQuestions.length === 0 ? (
+                    <Box 
+                      sx={{ 
+                        display: 'flex', 
+                        flexDirection: 'column', 
+                        alignItems: 'center', 
+                        justifyContent: 'center', 
+                        py: 8,
+                        px: 2,
+                        textAlign: 'center'
+                      }}
+                    >
+                      <ThinkingOrb state="connecting" size={64} speed={1.80} />
+                      <Typography 
+                        variant="body2" 
+                        sx={{ 
+                          mt: 3, 
+                          fontWeight: 600, 
+                          color: '#000000',
+                          fontSize: '0.85rem',
+                          letterSpacing: '0.02em'
+                        }}
+                      >
+                        Finding relevant previous year questions...
+                      </Typography>
+                      <Typography 
+                        variant="caption" 
+                        sx={{ 
+                          mt: 0.5, 
+                          color: '#000000', 
+                          opacity: 0.5,
+                          fontSize: '0.75rem'
+                        }}
+                      >
+                        Searching questions across UPSC, CDS, SSC & more
+                      </Typography>
+                    </Box>
+                  ) : !lastSearchQuery && currentQuestions.length === 0 ? (
                     <div className="text-center py-6 mt-2 w-full">
                       <div className="max-w-3xl mx-auto px-4">
                         {/* Logo */}
@@ -1069,6 +1107,25 @@ const PYQSection = () => {
                     </Box>
                   ) : currentQuestions.length > 0 ? (
                     <Stack spacing={1.5}>
+                      {isChatLoading && (
+                        <Box 
+                          sx={{ 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            gap: 2, 
+                            p: 1.5, 
+                            borderRadius: 2, 
+                            border: '1px dashed #E4572E',
+                            backgroundColor: 'rgba(228, 87, 46, 0.05)',
+                            mb: 1
+                          }}
+                        >
+                          <ThinkingOrb state="connecting" size={40} speed={1.80} />
+                          <Typography variant="caption" sx={{ fontWeight: 600, color: '#E4572E' }}>
+                            Searching new questions...
+                          </Typography>
+                        </Box>
+                      )}
                       {Object.entries(groupedQuestions).map(([queryName, questions]) => {
                         const isExpanded = expandedQueries[queryName] !== undefined
                           ? expandedQueries[queryName]

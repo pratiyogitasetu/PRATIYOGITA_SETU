@@ -1518,11 +1518,29 @@ def initialize_search_system():
         # Initialize components only if API keys are available
         if pine_api_key:
             try:
-                # Initialize Pinecone for RAG
-                pc_rag = Pinecone(api_key=pine_api_key)
-                rag_index_name = os.getenv("RAG_INDEX_NAME", "ncert-local-bge-base")
-                rag_index = pc_rag.Index(rag_index_name)
-                rag_model, embedding_backend = create_embedding_model()
+                disable_ncert = os.getenv("DISABLE_NCERT_SEARCH", "0").lower() in {"1", "true", "yes"}
+
+                def _log(msg):
+                    if is_production:
+                        app.logger.info(msg)
+                    else:
+                        print(msg)
+
+                # Initialize Pinecone for RAG (NCERT) — skip if disabled
+                if not disable_ncert:
+                    try:
+                        pc_rag = Pinecone(api_key=pine_api_key)
+                        rag_index_name = os.getenv("RAG_INDEX_NAME", "ncert-local-bge-base")
+                        rag_index = pc_rag.Index(rag_index_name)
+                        rag_model, embedding_backend = create_embedding_model()
+                        search_components['rag_index'] = rag_index
+                        search_components['rag_model'] = rag_model
+                        search_components['rag_index_name'] = rag_index_name
+                        _log(f"✅ RAG embedding backend: {embedding_backend}")
+                    except Exception as e:
+                        _log(f"⚠️  Failed to initialize RAG/NCERT: {e}")
+                else:
+                    _log("ℹ️  NCERT search disabled (DISABLE_NCERT_SEARCH=1), skipping RAG model")
                 
                 # Initialize Pinecone for MCQ (may use NVIDIA Nemotron or local fallback)
                 pc_mcq = Pinecone(api_key=pine_api_key)
@@ -1535,13 +1553,6 @@ def initialize_search_system():
                 mcq_actual_dim = len(test_embedding)
                 mcq_expected_dim = int(os.getenv("NVIDIA_EMBED_DIMENSION", "768"))
 
-                def _log(msg):
-                    if is_production:
-                        app.logger.info(msg)
-                    else:
-                        print(msg)
-
-                _log(f"✅ RAG embedding backend: {embedding_backend}")
                 _log(f"✅ MCQ embedding backend: {mcq_backend}")
                 _log(f"✅ MCQ embedding dimension: {mcq_actual_dim} (expected: {mcq_expected_dim})")
                 if mcq_actual_dim != mcq_expected_dim:
@@ -1551,9 +1562,6 @@ def initialize_search_system():
                     else:
                         print(msg)
                 
-                search_components['rag_index'] = rag_index
-                search_components['rag_model'] = rag_model
-                search_components['rag_index_name'] = rag_index_name
                 search_components['mcq_index'] = mcq_index
                 search_components['mcq_model'] = mcq_model
                 search_components['mcq_backend'] = mcq_backend
@@ -1856,8 +1864,10 @@ def search():
             "message": "Backend is starting up or API keys are not configured. Please check server logs."
         }), 500
     
-    # Pinecone is optional for a best-effort response
-    pinecone_available = 'rag_index' in search_components and 'rag_model' in search_components
+    # Pinecone components availability
+    rag_available = 'rag_index' in search_components and 'rag_model' in search_components
+    mcq_available = 'mcq_index' in search_components and 'mcq_model' in search_components
+    pinecone_available = rag_available or mcq_available
     request_id = uuid.uuid4().hex[:12]
     start_time = time.time()
     
@@ -1980,12 +1990,12 @@ def search():
             source_metadata = None
             
             # Direct PYQ search using Nemotron embeddings
-            if pinecone_available and 'mcq_index' in search_components and 'mcq_model' in search_components:
+            if mcq_available:
                 mcq_results = query_mcq(
                     search_components['mcq_index'],
                     search_components['mcq_model'],
                     query,
-                    similarity_threshold=0.05,
+                    similarity_threshold=0.01,
                     top_k=max(mcq_limit, 5) if mcq_limit > 0 else 5
                 )
             else:
@@ -2008,7 +2018,7 @@ def search():
             else:
                 decision_path.append("pyq_context_matches:none")
 
-        elif pinecone_available:
+        elif rag_available:
             # Precompute embedding once for RAG searches
             rag_query_embedding = encode_query(search_components['rag_model'], query)
             decision_path.append(f"strict_subject:{strict_subject_selected}")
@@ -2020,7 +2030,7 @@ def search():
             fallback_reason = None
 
             def _run_retrieval(target_namespace, target_class_filter, target_chunks):
-                if not pinecone_available:
+                if not rag_available:
                     return "", []
                 context_value, sources_value = search_rag_with_class_filter(
                     pinecone_index=search_components['rag_index'],
@@ -2173,7 +2183,7 @@ def search():
                 if enhanced_terms:
                     mcq_query = f"{query} {' '.join(enhanced_terms[:2])}"
                 
-            if pinecone_available and 'mcq_index' in search_components and 'mcq_model' in search_components:
+            if mcq_available:
                 mcq_results = query_mcq(
                     search_components['mcq_index'],
                     search_components['mcq_model'],
@@ -2213,7 +2223,7 @@ def search():
             "request_id": request_id,
             "elapsed_ms": int((time.time() - start_time) * 1000),
         }
-        if not pinecone_available:
+        if not rag_available and not mcq_available:
             warning = (warning + " | " if warning else "") + "Pinecone unavailable; returning LLM-only response"
         if warning:
             response_payload["warning"] = warning

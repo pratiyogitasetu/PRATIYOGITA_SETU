@@ -13,7 +13,7 @@ import { useDashboard } from '../contexts/DashboardContext'
 import apiService from '../services/api'
 import SearchProgressIndicator from './SearchProgressIndicator'
 import EmbeddedSearchBar from './EmbeddedSearchBar'
-import ChevronFirst from './icons/ChevronFirst'
+import { ChevronFirst } from './icons/ChevronFirst'
 import { SEARCH_SETTINGS } from '../config/searchSettings'
 import { validateSearchQuery } from '../utils/validation'
 

@@ -54,3 +54,4 @@ const CircleHelp = ({
 };
 
 export { CircleHelp };
+export default CircleHelp;

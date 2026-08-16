@@ -10,7 +10,7 @@ const EditProfileModal = lazy(() => import('./EditProfileModal'))
 import { useAuth } from '../contexts/AuthContext'
 import { useLayout } from '../contexts/LayoutContext'
 import { CircleHelp } from './icons/CircleHelp'
-import ChevronFirst from './icons/ChevronFirst'
+import { ChevronFirst } from './icons/ChevronFirst'
 
 const Navbar = ({ onViewChange, currentView }) => {
   const { currentUser, logout } = useAuth()

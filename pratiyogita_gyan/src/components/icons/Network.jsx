@@ -65,3 +65,4 @@ const Network = ({
 };
 
 export { Network };
+export default Network;
