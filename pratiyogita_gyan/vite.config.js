@@ -10,7 +10,6 @@ export default defineConfig(({ mode }) => {
   // Validate required environment variables in production build
   if (mode === 'production') {
     const requiredEnvVars = [
-      'VITE_API_BASE_URL',
       'VITE_FIREBASE_API_KEY',
       'VITE_FIREBASE_AUTH_DOMAIN',
       'VITE_FIREBASE_PROJECT_ID',

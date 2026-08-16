@@ -4,21 +4,14 @@
 
 // Production-safe API URL configuration
 const getApiBaseUrl = () => {
-  // In production, VITE_API_BASE_URL is REQUIRED
-  if (import.meta.env.PROD && !import.meta.env.VITE_API_BASE_URL) {
-    throw new Error(
-      'VITE_API_BASE_URL must be set in production environment. ' +
-      'Please configure this in your Vercel deployment settings.'
-    );
+  // If an external backend URL is explicitly configured, use it
+  if (import.meta.env.VITE_API_BASE_URL) {
+    const raw = import.meta.env.VITE_API_BASE_URL.replace(/\/+$/, '');
+    return raw.endsWith('/api') ? raw : `${raw}/api`;
   }
 
-  // Development: use proxy
-  if (import.meta.env.DEV) {
-    return '/api';
-  }
-
-  // Production: use configured URL
-  return `${import.meta.env.VITE_API_BASE_URL}/api`;
+  // Same-origin default: works for local Vite proxy and full-stack Vercel serverless functions
+  return '/api';
 };
 
 const API_BASE_URL = getApiBaseUrl();
