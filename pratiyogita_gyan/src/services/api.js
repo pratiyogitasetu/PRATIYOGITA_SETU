@@ -4,10 +4,15 @@
 
 // Production-safe API URL configuration
 const getApiBaseUrl = () => {
-  // If an external backend URL is explicitly configured, use it
-  if (import.meta.env.VITE_API_BASE_URL) {
-    const raw = import.meta.env.VITE_API_BASE_URL.replace(/\/+$/, '');
-    return raw.endsWith('/api') ? raw : `${raw}/api`;
+  const envUrl = import.meta.env.VITE_API_BASE_URL;
+
+  // In production or when envUrl is localhost, use same-origin /api
+  if (envUrl && typeof envUrl === 'string') {
+    const isLocalhost = envUrl.includes('localhost') || envUrl.includes('127.0.0.1');
+    if (!isLocalhost) {
+      const raw = envUrl.replace(/\/+$/, '');
+      return raw.endsWith('/api') ? raw : `${raw}/api`;
+    }
   }
 
   // Same-origin default: works for local Vite proxy and full-stack Vercel serverless functions
