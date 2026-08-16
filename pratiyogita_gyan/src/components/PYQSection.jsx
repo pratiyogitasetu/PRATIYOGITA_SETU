@@ -1034,182 +1034,170 @@ const PYQSection = () => {
                       </Typography>
                     </Box>
                   ) : !lastSearchQuery && currentQuestions.length === 0 ? (
-                    <Box sx={{ py: 3, px: { xs: 1.5, sm: 3 }, maxWidth: 800, mx: 'auto', width: '100%' }}>
-                      {/* Top Header Card */}
+                    <Box sx={{ py: 1.5, px: { xs: 1, sm: 2 }, maxWidth: 760, mx: 'auto', width: '100%' }}>
+                      {/* Compact Top Header Card */}
                       <Paper
                         elevation={0}
                         sx={{
-                          p: { xs: 2.5, sm: 3 },
-                          borderRadius: 3,
+                          p: { xs: 1.5, sm: 2 },
+                          borderRadius: 2.5,
                           border: '1px solid #e5e7eb',
-                          background: 'linear-gradient(180deg, #ffffff 0%, #fafafa 100%)',
-                          textAlign: 'center',
-                          mb: 3,
-                          boxShadow: '0 2px 12px rgba(0,0,0,0.03)'
+                          background: 'linear-gradient(135deg, #ffffff 0%, #fafafa 100%)',
+                          mb: 1.25,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          flexWrap: 'wrap',
+                          gap: 1.25,
+                          boxShadow: '0 2px 8px rgba(0,0,0,0.03)'
                         }}
                       >
-                        {/* Logo with pulsing glow */}
-                        <Box sx={{ mb: 2, display: 'inline-flex', position: 'relative' }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25 }}>
                           <img 
                             src="/pg.png" 
                             alt="PG Logo" 
-                            className="w-20 h-20 mx-auto object-contain mg-logo-shake"
-                            style={{ filter: 'drop-shadow(0 4px 12px rgba(228,87,46,0.2))' }}
+                            className="w-10 h-10 object-contain mg-logo-shake"
+                            style={{ filter: 'drop-shadow(0 2px 8px rgba(228,87,46,0.25))' }}
                           />
+                          <Box>
+                            <Typography
+                              variant="caption"
+                              sx={{
+                                fontWeight: 700,
+                                letterSpacing: '0.08em',
+                                color: '#E4572E',
+                                fontSize: '0.68rem',
+                                textTransform: 'uppercase',
+                                display: 'block',
+                                lineHeight: 1
+                              }}
+                            >
+                              Exam Intelligence Archive
+                            </Typography>
+                            <Typography
+                              variant="subtitle1"
+                              sx={{
+                                fontWeight: 800,
+                                color: '#111827',
+                                fontSize: { xs: '0.92rem', sm: '1.02rem' },
+                                lineHeight: 1.25,
+                                mt: 0.2
+                              }}
+                            >
+                              Previous Year Questions
+                            </Typography>
+                            <Typography variant="caption" sx={{ color: '#6b7280', fontSize: '0.7rem', display: 'block' }}>
+                              Real exam MCQs indexed with instant solutions
+                            </Typography>
+                          </Box>
                         </Box>
 
-                        <Typography
-                          variant="overline"
-                          sx={{
-                            display: 'block',
-                            fontWeight: 700,
-                            letterSpacing: '0.12em',
-                            color: '#E4572E',
-                            fontSize: '0.72rem',
-                            mb: 0.5
-                          }}
-                        >
-                          EXAM INTELLIGENCE ARCHIVE
-                        </Typography>
-
-                        <Typography
-                          variant="h6"
-                          sx={{
-                            fontWeight: 800,
-                            color: '#111827',
-                            fontSize: { xs: '1.1rem', sm: '1.25rem' },
-                            letterSpacing: '-0.01em',
-                            mb: 2
-                          }}
-                        >
-                          Previous Year Questions Hub
-                        </Typography>
-
-                        {/* Animated Countdown Digits */}
-                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: 2 }}>
-                          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, mb: 1 }}>
-                            {(totalQuestions > 0 ? String(totalQuestions).split('') : ['1', '1', '7']).map((digit, idx) => (
-                              <Box
-                                key={idx}
-                                sx={{
-                                  display: 'inline-flex',
-                                  alignItems: 'center',
-                                  justifyContent: 'center',
-                                  width: { xs: 38, sm: 46 },
-                                  height: { xs: 48, sm: 58 },
-                                  borderRadius: 2,
-                                  background: 'linear-gradient(135deg, #E4572E 0%, #c43e1c 100%)',
-                                  color: '#ffffff',
-                                  fontSize: { xs: '1.4rem', sm: '1.75rem' },
-                                  fontWeight: 800,
-                                  fontFamily: '"Fredoka", "Sora", sans-serif',
-                                  boxShadow: '0 6px 16px rgba(228, 87, 46, 0.35), inset 0 1px 0 rgba(255,255,255,0.3)',
-                                  position: 'relative',
-                                  overflow: 'hidden'
-                                }}
-                              >
-                                <span style={{ position: 'relative', zIndex: 2 }}>{digit}</span>
-                                <Box
-                                  sx={{
-                                    position: 'absolute',
-                                    top: 0,
-                                    left: 0,
-                                    right: 0,
-                                    height: '50%',
-                                    background: 'linear-gradient(180deg, rgba(255,255,255,0.22) 0%, transparent 100%)',
-                                    zIndex: 1
-                                  }}
-                                />
-                              </Box>
-                            ))}
-                          </Box>
-                          <Typography variant="caption" sx={{ color: '#6b7280', fontWeight: 600, fontSize: '0.75rem' }}>
-                            Verified Authentic Questions Indexed & Ready for Practice
+                        {/* Compact Countdown Display */}
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, backgroundColor: 'rgba(228,87,46,0.06)', p: '5px 8px', borderRadius: 2, border: '1px solid rgba(228,87,46,0.15)' }}>
+                          {(totalQuestions > 0 ? String(totalQuestions).split('') : ['1', '1', '7']).map((digit, idx) => (
+                            <Box
+                              key={idx}
+                              sx={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                width: 24,
+                                height: 30,
+                                borderRadius: 1.2,
+                                background: 'linear-gradient(135deg, #E4572E 0%, #c43e1c 100%)',
+                                color: '#ffffff',
+                                fontSize: '0.95rem',
+                                fontWeight: 800,
+                                fontFamily: '"Fredoka", "Sora", sans-serif',
+                                boxShadow: '0 2px 6px rgba(228, 87, 46, 0.3)'
+                              }}
+                            >
+                              {digit}
+                            </Box>
+                          ))}
+                          <Typography variant="caption" sx={{ fontWeight: 700, color: '#E4572E', fontSize: '0.72rem', ml: 0.5 }}>
+                            PYQs Loaded
                           </Typography>
                         </Box>
                       </Paper>
 
-                      {/* Exam Category Cards */}
-                      <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#374151', mb: 1.5, display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <Target size={16} color="#E4572E" />
-                        <span>Available Exam Categories</span>
-                      </Typography>
-
-                      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr 1fr', sm: '1fr 1fr' }, gap: 1.5, mb: 3 }}>
+                      {/* Compact 4-Badge Category Row */}
+                      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: 'repeat(2, 1fr)', sm: 'repeat(4, 1fr)' }, gap: 1, mb: 1.25 }}>
                         {[
-                          { title: 'UPSC Civil Services', desc: 'CSE Prelims GS-1 & CSAT', icon: '🏛️', color: '#3b82f6', bg: 'rgba(59,130,246,0.06)' },
-                          { title: 'Defence Services', desc: 'CDS, NDA, AFCAT Exams', icon: '⚔️', color: '#10b981', bg: 'rgba(16,185,129,0.06)' },
-                          { title: 'SSC & Banking', desc: 'CGL, CHSL, IBPS PO/Clerk', icon: '📊', color: '#8b5cf6', bg: 'rgba(139,92,246,0.06)' },
-                          { title: 'State PSC & PCS', desc: 'UPPSC, BPSC, RAS, MPPSC', icon: '🎓', color: '#f59e0b', bg: 'rgba(245,158,11,0.06)' },
+                          { title: 'UPSC CSE', icon: '🏛️', bg: 'rgba(59,130,246,0.06)', border: '#bfdbfe' },
+                          { title: 'CDS / NDA', icon: '⚔️', bg: 'rgba(16,185,129,0.06)', border: '#bbf7d0' },
+                          { title: 'SSC CGL', icon: '📊', bg: 'rgba(139,92,246,0.06)', border: '#ddd6fe' },
+                          { title: 'State PCS', icon: '🎓', bg: 'rgba(245,158,11,0.06)', border: '#fde68a' },
                         ].map((cat, idx) => (
-                          <Paper
+                          <Box
                             key={idx}
-                            elevation={0}
                             sx={{
-                              p: 1.5,
-                              borderRadius: 2.5,
-                              border: '1px solid #e5e7eb',
+                              py: 0.7,
+                              px: 1,
+                              borderRadius: 2,
+                              border: '1px solid',
+                              borderColor: cat.border,
                               backgroundColor: cat.bg,
-                              transition: 'all 0.2s ease',
-                              '&:hover': {
-                                borderColor: cat.color,
-                                transform: 'translateY(-2px)',
-                                boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
-                              }
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              gap: 0.75,
+                              userSelect: 'none'
                             }}
                           >
-                            <Box sx={{ fontSize: '1.4rem', mb: 0.5 }}>{cat.icon}</Box>
-                            <Typography variant="body2" sx={{ fontWeight: 700, color: '#111827', fontSize: '0.82rem' }}>
+                            <span style={{ fontSize: '0.95rem' }}>{cat.icon}</span>
+                            <Typography variant="caption" sx={{ fontWeight: 700, color: '#1f2937', fontSize: '0.75rem', whiteSpace: 'nowrap' }}>
                               {cat.title}
                             </Typography>
-                            <Typography variant="caption" sx={{ color: '#6b7280', fontSize: '0.7rem', display: 'block', mt: 0.2 }}>
-                              {cat.desc}
-                            </Typography>
-                          </Paper>
+                          </Box>
                         ))}
                       </Box>
 
-                      {/* Quick Practice Prompts (Click to Search) */}
-                      <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#374151', mb: 1.5, display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <Sparkles size={16} color="#fbbf24" />
-                        <span>Quick Practice Topics (Click to Search)</span>
-                      </Typography>
-
-                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                        {[
-                          'Fundamental Rights & Articles 12-35',
-                          'Indian Monetary Policy & RBI Inflation',
-                          'Indian Monsoon & River Drainage System',
-                          '1857 Revolt & Freedom Struggle',
-                          'ISRO Space Missions & Launch Vehicles',
-                          'National Parks & Ramsar Wetland Sites',
-                          'Preamble & Constitutional Amendments',
-                          'Photosynthesis & Cell Biology'
-                        ].map((topic, idx) => (
-                          <Chip
-                            key={idx}
-                            label={topic}
-                            onClick={() => handleSendMessage(topic, { exam: 'all', subject: 'all' })}
-                            clickable
-                            sx={{
-                              borderRadius: 2,
-                              py: 1.8,
-                              px: 0.5,
-                              fontSize: '0.78rem',
-                              fontWeight: 600,
-                              backgroundColor: '#ffffff',
-                              border: '1px solid #e5e7eb',
-                              color: '#374151',
-                              transition: 'all 0.15s ease',
-                              '&:hover': {
-                                backgroundColor: 'rgba(228,87,46,0.08)',
-                                borderColor: '#E4572E',
-                                color: '#E4572E',
-                                transform: 'translateY(-1px)'
-                              }
-                            }}
-                          />
-                        ))}
+                      {/* Quick Practice Prompts (Compact 2-Column Grid) */}
+                      <Box sx={{ mb: 0.5 }}>
+                        <Typography variant="caption" sx={{ fontWeight: 700, color: '#4b5563', mb: 0.75, display: 'flex', alignItems: 'center', gap: 0.75, fontSize: '0.72rem' }}>
+                          <Sparkles size={13} color="#fbbf24" />
+                          <span>Quick Practice (Click to Search)</span>
+                        </Typography>
+                        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 0.75 }}>
+                          {[
+                            'Fundamental Rights (Articles 12-35)',
+                            'Indian Monetary Policy & Inflation',
+                            'Indian Monsoon & Drainage System',
+                            '1857 Revolt & Freedom Struggle',
+                            'ISRO Space Missions & Satellites',
+                            'National Parks & Ramsar Sites'
+                          ].map((topic, idx) => (
+                            <Button
+                              key={idx}
+                              onClick={() => handleSendMessage(topic, { exam: 'all', subject: 'all' })}
+                              variant="outlined"
+                              size="small"
+                              sx={{
+                                justifyContent: 'flex-start',
+                                textAlign: 'left',
+                                borderRadius: 1.8,
+                                py: 0.5,
+                                px: 1,
+                                fontSize: '0.74rem',
+                                fontWeight: 600,
+                                textTransform: 'none',
+                                color: '#374151',
+                                borderColor: '#e5e7eb',
+                                backgroundColor: '#ffffff',
+                                transition: 'all 0.15s ease',
+                                '&:hover': {
+                                  borderColor: '#E4572E',
+                                  backgroundColor: 'rgba(228,87,46,0.06)',
+                                  color: '#E4572E'
+                                }
+                              }}
+                            >
+                              <span style={{ color: '#E4572E', marginRight: 6 }}>•</span>
+                              {topic}
+                            </Button>
+                          ))}
+                        </Box>
                       </Box>
                     </Box>
                   ) : lastSearchQuery && currentQuestions.length === 0 ? (
