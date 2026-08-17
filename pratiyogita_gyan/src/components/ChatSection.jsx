@@ -1049,17 +1049,29 @@ const ChatSection = () => {
       }
       
       if (response.mcq_results && response.mcq_results.length > 0) {
-        setTimeout(() => {
-          window.dispatchEvent(new CustomEvent('newMcqResults', { 
-            detail: { 
-              mcqs: response.mcq_results,
-              query: query 
-            } 
-          }))
-        }, 100)
+        window.dispatchEvent(new CustomEvent('newMcqResults', { 
+          detail: { 
+            mcqs: response.mcq_results,
+            query: query 
+          } 
+        }))
+      } else {
+        window.dispatchEvent(new CustomEvent('newMcqResults', { 
+          detail: { 
+            mcqs: [],
+            query: query 
+          } 
+        }))
       }
     } catch (error) {
       console.error('API Error:', error)
+      
+      window.dispatchEvent(new CustomEvent('newMcqResults', { 
+        detail: { 
+          mcqs: [],
+          query: query 
+        } 
+      }))
       
       // Build friendly error message with suggestions
       let errorContent = "Sorry, I couldn't process your request. Could you please rephrase your question?"

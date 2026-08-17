@@ -337,6 +337,27 @@ const PYQSection = () => {
     }
   }, [])
 
+  // Listen for query submission from chat input or quick prompts
+  useEffect(() => {
+    const handleSubmitQuery = (event) => {
+      const query = event.detail?.query
+      if (query && typeof query === 'string' && query.trim()) {
+        const cleanQuery = query.trim()
+        setLastSearchQuery(cleanQuery)
+        setIsChatLoading(true)
+        setExpandedQueries(prev => {
+          const collapsed = {}
+          Object.keys(prev).forEach(k => { collapsed[k] = false })
+          return collapsed
+        })
+      }
+    }
+    window.addEventListener('submitChatQuery', handleSubmitQuery)
+    return () => {
+      window.removeEventListener('submitChatQuery', handleSubmitQuery)
+    }
+  }, [])
+
   useEffect(() => {
     const handleLoadingChange = (event) => {
       const loading = Boolean(event.detail?.isLoading)
@@ -359,6 +380,7 @@ const PYQSection = () => {
     if (!pyqVisible) {
       togglePyq()
     }
+    setLastSearchQuery(query)
     setExpandedQueries(prev => {
       const collapsed = {}
       Object.keys(prev).forEach(k => { collapsed[k] = false })
@@ -998,6 +1020,7 @@ const PYQSection = () => {
                 <Stack spacing={1}>
                   {isChatLoading && currentQuestions.length === 0 ? (
                     <Box 
+                      className="pyq-fade-slide"
                       sx={{ 
                         display: 'flex', 
                         flexDirection: 'column', 
@@ -1013,24 +1036,23 @@ const PYQSection = () => {
                         variant="body2" 
                         sx={{ 
                           mt: 3, 
-                          fontWeight: 600, 
-                          color: '#000000',
-                          fontSize: '0.85rem',
-                          letterSpacing: '0.02em'
+                          fontWeight: 700, 
+                          color: '#111827',
+                          fontSize: '0.88rem',
+                          letterSpacing: '0.01em'
                         }}
                       >
-                        Finding relevant previous year questions...
+                        {lastSearchQuery ? `Finding PYQs for "${lastSearchQuery}"...` : 'Finding relevant previous year questions...'}
                       </Typography>
                       <Typography 
                         variant="caption" 
                         sx={{ 
                           mt: 0.5, 
-                          color: '#000000', 
-                          opacity: 0.5,
+                          color: '#6b7280', 
                           fontSize: '0.75rem'
                         }}
                       >
-                        Searching questions across UPSC, CDS, SSC & more
+                        Searching questions across UPSC, CDS, SSC & State PSC
                       </Typography>
                     </Box>
                   ) : !lastSearchQuery && currentQuestions.length === 0 ? (
