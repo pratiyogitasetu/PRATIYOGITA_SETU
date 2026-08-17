@@ -744,7 +744,7 @@ const PYQSection = () => {
     <Box
       sx={{
         position: 'fixed',
-        top: { xs: 104, md: 64 },
+        top: { xs: 100, md: 64 },
         bottom: { xs: 0, md: 4 },
         left: { xs: 0, md: leftMarginPx },
         right: { xs: 0, md: rightMarginPx },
@@ -760,11 +760,11 @@ const PYQSection = () => {
       }}
     >
       <Paper
-        elevation={1}
+        elevation={2}
         className="flex-grow rounded-lg shadow-sm flex flex-col overflow-hidden transition-colors duration-300"
         sx={{
-          backgroundColor: '#ffffff',
-          border: '1px solid #808080',
+          backgroundColor: '#1e1e1e',
+          border: '1px solid rgba(255, 255, 255, 0.12)',
           position: 'relative'
         }}
       >
@@ -778,7 +778,8 @@ const PYQSection = () => {
               alignItems: 'center', 
               justifyContent: 'space-between', 
               gap: 1, 
-              borderBottom: '1px solid #f1f5f9',
+              backgroundColor: '#262626',
+              borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
               minWidth: 0
             }}
           >
@@ -799,10 +800,10 @@ const PYQSection = () => {
             >
               {/* Title & Count Badge */}
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.6, flexShrink: 0, mr: 0.5 }}>
-                <Typography variant="caption" sx={{ fontWeight: 800, color: '#111827', fontSize: '0.82rem', letterSpacing: '0.02em' }}>
+                <Typography variant="caption" sx={{ fontWeight: 800, color: '#f3f4f6', fontSize: '0.82rem', letterSpacing: '0.02em' }}>
                   PYQs
                 </Typography>
-                <Typography variant="caption" sx={{ color: '#6b7280', fontSize: '0.72rem', fontWeight: 600 }}>
+                <Typography variant="caption" sx={{ color: '#9ca3af', fontSize: '0.72rem', fontWeight: 600 }}>
                   ({filteredQuestions.length})
                 </Typography>
               </Box>
@@ -816,7 +817,7 @@ const PYQSection = () => {
                     variant="contained"
                     onClick={(event) => !loadingFilters && setExamAnchorEl(event.currentTarget)}
                     disabled={loadingFilters}
-                    endIcon={<ChevronDown className="w-3 h-3" />}
+                    endIcon={<ChevronDown className="w-3 h-3 text-white" />}
                     sx={{
                       backgroundColor: '#E4572E',
                       color: '#FFFFFF',
@@ -840,7 +841,15 @@ const PYQSection = () => {
                     open={isExamMenuOpen}
                     onClose={() => setExamAnchorEl(null)}
                     MenuListProps={{ dense: true }}
-                    PaperProps={{ sx: { border: '1px solid #e0e0e0', borderRadius: 2 } }}
+                    PaperProps={{
+                      sx: {
+                        backgroundColor: '#262626',
+                        color: '#f3f4f6',
+                        border: '1px solid rgba(255,255,255,0.12)',
+                        borderRadius: 2.5,
+                        boxShadow: '0 12px 36px rgba(0,0,0,0.5)'
+                      }
+                    }}
                   >
                     {exams.map((exam) => (
                       <MenuItem
@@ -850,7 +859,11 @@ const PYQSection = () => {
                           setSelectedExam(exam.id)
                           setExamAnchorEl(null)
                         }}
-                        sx={{ fontSize: '0.7rem' }}
+                        sx={{
+                          fontSize: '0.72rem',
+                          '&:hover': { backgroundColor: 'rgba(255,255,255,0.08)' },
+                          '&.Mui-selected': { backgroundColor: 'rgba(228,87,46,0.15)', color: '#E4572E', fontWeight: 700 }
+                        }}
                       >
                         {exam.name}
                       </MenuItem>
@@ -863,7 +876,7 @@ const PYQSection = () => {
                     variant="contained"
                     onClick={(event) => !loadingFilters && setSubjectAnchorEl(event.currentTarget)}
                     disabled={loadingFilters}
-                    endIcon={<ChevronDown className="w-3 h-3" />}
+                    endIcon={<ChevronDown className="w-3 h-3 text-white" />}
                     sx={{
                       backgroundColor: '#E4572E',
                       color: '#FFFFFF',
@@ -887,7 +900,15 @@ const PYQSection = () => {
                     open={isSubjectMenuOpen}
                     onClose={() => setSubjectAnchorEl(null)}
                     MenuListProps={{ dense: true }}
-                    PaperProps={{ sx: { border: '1px solid #e0e0e0', borderRadius: 2 } }}
+                    PaperProps={{
+                      sx: {
+                        backgroundColor: '#262626',
+                        color: '#f3f4f6',
+                        border: '1px solid rgba(255,255,255,0.12)',
+                        borderRadius: 2.5,
+                        boxShadow: '0 12px 36px rgba(0,0,0,0.5)'
+                      }
+                    }}
                   >
                     {subjects.map((subject) => (
                       <MenuItem
@@ -897,7 +918,11 @@ const PYQSection = () => {
                           setSelectedSubject(subject.id)
                           setSubjectAnchorEl(null)
                         }}
-                        sx={{ fontSize: '0.7rem' }}
+                        sx={{
+                          fontSize: '0.72rem',
+                          '&:hover': { backgroundColor: 'rgba(255,255,255,0.08)' },
+                          '&.Mui-selected': { backgroundColor: 'rgba(228,87,46,0.15)', color: '#E4572E', fontWeight: 700 }
+                        }}
                       >
                         {subject.name}
                       </MenuItem>
@@ -911,7 +936,7 @@ const PYQSection = () => {
                         size="small"
                         variant="contained"
                         onClick={(event) => setDateAnchorEl(event.currentTarget)}
-                        endIcon={<ChevronDown className="w-3 h-3" />}
+                        endIcon={<ChevronDown className="w-3 h-3 text-white" />}
                         sx={{
                           backgroundColor: '#E4572E',
                           color: '#FFFFFF',
@@ -935,7 +960,15 @@ const PYQSection = () => {
                         open={isDateMenuOpen}
                         onClose={() => setDateAnchorEl(null)}
                         MenuListProps={{ dense: true }}
-                        PaperProps={{ sx: { border: '1px solid #e0e0e0', borderRadius: 2 } }}
+                        PaperProps={{
+                          sx: {
+                            backgroundColor: '#262626',
+                            color: '#f3f4f6',
+                            border: '1px solid rgba(255,255,255,0.12)',
+                            borderRadius: 2.5,
+                            boxShadow: '0 12px 36px rgba(0,0,0,0.5)'
+                          }
+                        }}
                       >
                         {dates.map((date) => (
                           <MenuItem
@@ -945,7 +978,11 @@ const PYQSection = () => {
                               setSelectedDate(date.id)
                               setDateAnchorEl(null)
                             }}
-                            sx={{ fontSize: '0.7rem' }}
+                            sx={{
+                              fontSize: '0.72rem',
+                              '&:hover': { backgroundColor: 'rgba(255,255,255,0.08)' },
+                              '&.Mui-selected': { backgroundColor: 'rgba(228,87,46,0.15)', color: '#E4572E', fontWeight: 700 }
+                            }}
                           >
                             {date.name}
                           </MenuItem>
@@ -961,7 +998,7 @@ const PYQSection = () => {
                         size="small"
                         variant="contained"
                         onClick={(event) => setTopicAnchorEl(event.currentTarget)}
-                        endIcon={<ChevronDown className="w-3 h-3" />}
+                        endIcon={<ChevronDown className="w-3 h-3 text-white" />}
                         sx={{
                           backgroundColor: '#E4572E',
                           color: '#FFFFFF',
@@ -985,7 +1022,15 @@ const PYQSection = () => {
                         open={isTopicMenuOpen}
                         onClose={() => setTopicAnchorEl(null)}
                         MenuListProps={{ dense: true }}
-                        PaperProps={{ sx: { border: '1px solid #e0e0e0', borderRadius: 2 } }}
+                        PaperProps={{
+                          sx: {
+                            backgroundColor: '#262626',
+                            color: '#f3f4f6',
+                            border: '1px solid rgba(255,255,255,0.12)',
+                            borderRadius: 2.5,
+                            boxShadow: '0 12px 36px rgba(0,0,0,0.5)'
+                          }
+                        }}
                       >
                         {topics.map((topic) => (
                           <MenuItem
@@ -995,7 +1040,11 @@ const PYQSection = () => {
                               setSelectedTopic(topic.id)
                               setTopicAnchorEl(null)
                             }}
-                            sx={{ fontSize: '0.7rem' }}
+                            sx={{
+                              fontSize: '0.72rem',
+                              '&:hover': { backgroundColor: 'rgba(255,255,255,0.08)' },
+                              '&.Mui-selected': { backgroundColor: 'rgba(228,87,46,0.15)', color: '#E4572E', fontWeight: 700 }
+                            }}
                           >
                             {topic.name}
                           </MenuItem>
@@ -1014,8 +1063,8 @@ const PYQSection = () => {
                       label={`${importantQuestions.size} Starred`}
                       title={showImportantOnly ? 'Show all questions' : 'Show only starred questions'}
                       sx={{
-                        backgroundColor: showImportantOnly ? '#f59e0b' : 'rgba(245, 158, 11, 0.12)',
-                        color: showImportantOnly ? '#ffffff' : '#d97706',
+                        backgroundColor: showImportantOnly ? '#f59e0b' : 'rgba(245, 158, 11, 0.15)',
+                        color: showImportantOnly ? '#ffffff' : '#fbbf24',
                         border: '1px solid',
                         borderColor: showImportantOnly ? '#f59e0b' : 'rgba(245, 158, 11, 0.3)',
                         fontSize: '0.68rem',
@@ -1024,7 +1073,7 @@ const PYQSection = () => {
                         flexShrink: 0,
                         borderRadius: 999,
                         '&:hover': {
-                          backgroundColor: showImportantOnly ? '#d97706' : 'rgba(245, 158, 11, 0.22)'
+                          backgroundColor: showImportantOnly ? '#d97706' : 'rgba(245, 158, 11, 0.25)'
                         }
                       }}
                     />
@@ -1045,15 +1094,15 @@ const PYQSection = () => {
                       minHeight: 22,
                       height: 22,
                       borderRadius: 999,
-                      backgroundColor: '#f3f4f6',
-                      color: '#374151',
-                      borderColor: '#d1d5db',
+                      backgroundColor: 'rgba(255,255,255,0.06)',
+                      color: '#f3f4f6',
+                      borderColor: 'rgba(255,255,255,0.15)',
                       textTransform: 'none',
                       flexShrink: 0,
                       boxShadow: 'none',
                       '&:hover': {
-                        backgroundColor: '#e5e7eb',
-                        borderColor: '#9ca3af'
+                        backgroundColor: 'rgba(255,255,255,0.12)',
+                        borderColor: 'rgba(255,255,255,0.25)'
                       }
                     }}
                   >
@@ -1065,7 +1114,7 @@ const PYQSection = () => {
 
             {/* Toggle chat panel button on right side of PYQ header */}
             {!isMobile && !pyqVisible && (
-              <IconButton onClick={togglePyq} size="small" title="Show Chat Panel" sx={{ color: '#4b5563', flexShrink: 0 }}>
+              <IconButton onClick={togglePyq} size="small" title="Show Chat Panel" sx={{ color: '#9ca3af', flexShrink: 0, '&:hover': { color: '#ffffff' } }}>
                 <MessageSquare className="w-4 h-4" />
               </IconButton>
             )}
@@ -1073,7 +1122,7 @@ const PYQSection = () => {
           )}
 
             {/* Content Area */}
-            <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', m: 0.5, mt: 0, minHeight: 0, backgroundColor: '#ffffff', borderRadius: 2 }}>
+            <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', m: 0, minHeight: 0, backgroundColor: '#181818' }}>
               {/* Sticky Header - Only rendered if progress stats exist */}
               {filteredQuestions.length > 0 && Object.keys(userAnswers).length > 0 && (
                 <Box
@@ -1081,32 +1130,30 @@ const PYQSection = () => {
                     position: 'sticky',
                     top: 0,
                     zIndex: 10,
-                    backgroundColor: '#ffffff',
-                    borderBottom: '1px solid #d0d0d0',
-                    borderTopLeftRadius: 8,
-                    borderTopRightRadius: 8,
+                    backgroundColor: '#262626',
+                    borderBottom: '1px solid rgba(255,255,255,0.08)',
                     p: 0.75
                   }}
                 >
                   {/* Progress */}
                   <Stack direction="row" spacing={0.5} alignItems="center" sx={{ flexWrap: 'wrap' }}>
-                    <Typography variant="caption" sx={{ fontWeight: 600, color: '#000000' }}>
+                    <Typography variant="caption" sx={{ fontWeight: 600, color: '#f3f4f6' }}>
                       Progress:
                     </Typography>
                     <Chip
                       size="small"
                       label={`${progressStats.correct} Correct`}
-                      sx={{ backgroundColor: 'rgba(34,197,94,0.15)', color: '#16a34a', fontSize: '0.7rem' }}
+                      sx={{ backgroundColor: 'rgba(34,197,94,0.18)', color: '#4ade80', fontSize: '0.7rem', fontWeight: 600, border: '1px solid rgba(34,197,94,0.3)' }}
                     />
                     <Chip
                       size="small"
                       label={`${progressStats.wrong} Wrong`}
-                      sx={{ backgroundColor: 'rgba(239,68,68,0.15)', color: '#dc2626', fontSize: '0.7rem' }}
+                      sx={{ backgroundColor: 'rgba(239,68,68,0.18)', color: '#f87171', fontSize: '0.7rem', fontWeight: 600, border: '1px solid rgba(239,68,68,0.3)' }}
                     />
                     <Chip
                       size="small"
                       label={`${progressStats.answered}/${currentQuestions.length} Answered`}
-                      sx={{ backgroundColor: 'rgba(0,0,0,0.06)', color: '#000000', fontSize: '0.7rem' }}
+                      sx={{ backgroundColor: 'rgba(255,255,255,0.08)', color: '#e5e7eb', fontSize: '0.7rem', fontWeight: 600 }}
                     />
                   </Stack>
                 </Box>
@@ -1135,7 +1182,7 @@ const PYQSection = () => {
                         sx={{ 
                           mt: 3, 
                           fontWeight: 700, 
-                          color: '#111827',
+                          color: '#f3f4f6',
                           fontSize: '0.88rem',
                           letterSpacing: '0.01em'
                         }}
@@ -1146,7 +1193,7 @@ const PYQSection = () => {
                         variant="caption" 
                         sx={{ 
                           mt: 0.5, 
-                          color: '#6b7280', 
+                          color: '#9ca3af', 
                           fontSize: '0.75rem'
                         }}
                       >
@@ -1155,22 +1202,22 @@ const PYQSection = () => {
                     </Box>
                   ) : !lastSearchQuery && currentQuestions.length === 0 ? (
                     <Box sx={{ py: 1.5, px: { xs: 1, sm: 2 }, maxWidth: 760, mx: 'auto', width: '100%' }}>
-                      {/* Compact Top Header Card */}
+                      {/* Compact Top Header Card (Simplified Clean Version) */}
                       <Paper
                         elevation={0}
                         className="pyq-fade-slide"
                         sx={{
                           p: { xs: 1.5, sm: 2 },
                           borderRadius: 2.5,
-                          border: '1px solid #e5e7eb',
-                          background: 'linear-gradient(135deg, #ffffff 0%, #fafafa 100%)',
+                          border: '1px solid rgba(255, 255, 255, 0.12)',
+                          background: 'linear-gradient(135deg, #262626 0%, #1f1f1f 100%)',
                           mb: 1.25,
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'space-between',
                           flexWrap: 'wrap',
                           gap: 1.25,
-                          boxShadow: '0 2px 8px rgba(0,0,0,0.03)'
+                          boxShadow: '0 8px 24px rgba(0,0,0,0.3)'
                         }}
                       >
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25 }}>
@@ -1178,78 +1225,62 @@ const PYQSection = () => {
                             src="/pg.png" 
                             alt="PG Logo" 
                             className="w-10 h-10 object-contain mg-logo-shake"
-                            style={{ filter: 'drop-shadow(0 2px 8px rgba(228,87,46,0.25))' }}
+                            style={{ filter: 'drop-shadow(0 2px 8px rgba(228,87,46,0.35))' }}
                           />
-                          <Box>
-                            <Typography
-                              variant="caption"
-                              sx={{
-                                fontWeight: 700,
-                                letterSpacing: '0.08em',
-                                color: '#E4572E',
-                                fontSize: '0.68rem',
-                                textTransform: 'uppercase',
-                                display: 'block',
-                                lineHeight: 1
-                              }}
-                            >
-                              Exam Intelligence Archive
-                            </Typography>
-                            <Typography
-                              variant="subtitle1"
-                              sx={{
-                                fontWeight: 800,
-                                color: '#111827',
-                                fontSize: { xs: '0.92rem', sm: '1.02rem' },
-                                lineHeight: 1.25,
-                                mt: 0.2
-                              }}
-                            >
-                              Previous Year Questions
-                            </Typography>
-                            <Typography variant="caption" sx={{ color: '#6b7280', fontSize: '0.7rem', display: 'block' }}>
-                              Real exam MCQs indexed with instant solutions
-                            </Typography>
-                          </Box>
-                        </Box>
-
-                        {/* Compact Countdown Display */}
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, backgroundColor: 'rgba(228,87,46,0.06)', p: '5px 8px', borderRadius: 2, border: '1px solid rgba(228,87,46,0.15)' }}>
-                          {(totalQuestions > 0 ? String(totalQuestions).split('') : ['1', '1', '7']).map((digit, idx) => (
-                            <Box
-                              key={idx}
-                              className="pyq-countdown-digit"
-                              sx={{
-                                display: 'inline-flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                width: 24,
-                                height: 30,
-                                borderRadius: 1.2,
-                                background: 'linear-gradient(135deg, #E4572E 0%, #c43e1c 100%)',
-                                color: '#ffffff',
-                                fontSize: '0.95rem',
-                                fontWeight: 800,
-                                fontFamily: '"Fredoka", "Sora", sans-serif',
-                                boxShadow: '0 2px 6px rgba(228, 87, 46, 0.3)'
-                              }}
-                            >
-                              {digit}
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, flexWrap: 'wrap' }}>
+                            {/* Countdown Display */}
+                            <Box sx={{ display: 'inline-flex', gap: 0.4 }}>
+                              {(totalQuestions > 0 ? String(totalQuestions).split('') : ['1', '1', '7']).map((digit, idx) => (
+                                <Box
+                                  key={idx}
+                                  className="pyq-countdown-digit"
+                                  sx={{
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    width: 24,
+                                    height: 30,
+                                    borderRadius: 1.2,
+                                    background: 'linear-gradient(135deg, #E4572E 0%, #c43e1c 100%)',
+                                    color: '#ffffff',
+                                    fontSize: '0.95rem',
+                                    fontWeight: 800,
+                                    fontFamily: '"Fredoka", "Sora", sans-serif',
+                                    boxShadow: '0 2px 6px rgba(228, 87, 46, 0.4)'
+                                  }}
+                                >
+                                  {digit}
+                                </Box>
+                              ))}
                             </Box>
-                          ))}
-                          <Typography variant="caption" sx={{ fontWeight: 700, color: '#E4572E', fontSize: '0.72rem', ml: 0.5 }}>
-                            PYQs Loaded
-                          </Typography>
+                            <Typography variant="subtitle2" sx={{ fontWeight: 800, color: '#f3f4f6', fontSize: '0.88rem' }}>
+                              PYQs Available
+                            </Typography>
+                            <Box
+                              sx={{
+                                backgroundColor: 'rgba(228,87,46,0.14)',
+                                border: '1px solid rgba(228,87,46,0.3)',
+                                color: '#E4572E',
+                                px: 1,
+                                py: 0.25,
+                                borderRadius: 999,
+                                fontSize: '0.72rem',
+                                fontWeight: 700
+                              }}
+                            >
+                              Adding everyday • More to come 🚀
+                            </Box>
+                          </Box>
                         </Box>
                       </Paper>
 
                       {/* Compact 4-Badge Category Row */}
                       <Box sx={{ display: 'grid', gridTemplateColumns: { xs: 'repeat(2, 1fr)', sm: 'repeat(4, 1fr)' }, gap: 1, mb: 1.25 }}>
                         {[
-                          { title: 'UPSC CSE', icon: '🏛️', bg: 'rgba(59,130,246,0.06)', border: '#bfdbfe' },
-                          { title: 'CDS / NDA', icon: '⚔️', bg: 'rgba(16,185,129,0.06)', border: '#bbf7d0' },
-                          { title: 'SSC CGL', icon: '📊', bg: 'rgba(139,92,246,0.06)', border: '#ddd6fe' },
-                          { title: 'State PCS', icon: '🎓', bg: 'rgba(245,158,11,0.06)', border: '#fde68a' },
+                          { title: 'UPSC CSE', icon: '🏛️', bg: 'rgba(59,130,246,0.1)', border: 'rgba(59,130,246,0.25)' },
+                          { title: 'CDS / NDA', icon: '⚔️', bg: 'rgba(16,185,129,0.1)', border: 'rgba(16,185,129,0.25)' },
+                          { title: 'SSC CGL', icon: '📊', bg: 'rgba(139,92,246,0.1)', border: 'rgba(139,92,246,0.25)' },
+                          { title: 'State PCS', icon: '🎓', bg: 'rgba(245,158,11,0.1)', border: 'rgba(245,158,11,0.25)' },
                         ].map((cat, idx) => (
                           <Box
                             key={idx}
@@ -1270,12 +1301,12 @@ const PYQSection = () => {
                               transition: 'transform 0.2s ease, box-shadow 0.2s ease',
                               '&:hover': {
                                 transform: 'translateY(-1px)',
-                                boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+                                boxShadow: '0 4px 12px rgba(0,0,0,0.25)'
                               }
                             }}
                           >
                             <span style={{ fontSize: '0.95rem' }}>{cat.icon}</span>
-                            <Typography variant="caption" sx={{ fontWeight: 700, color: '#1f2937', fontSize: '0.75rem', whiteSpace: 'nowrap' }}>
+                            <Typography variant="caption" sx={{ fontWeight: 700, color: '#f3f4f6', fontSize: '0.75rem', whiteSpace: 'nowrap' }}>
                               {cat.title}
                             </Typography>
                           </Box>
@@ -1284,7 +1315,7 @@ const PYQSection = () => {
 
                       {/* Quick Practice Prompts (Compact 2-Column Grid) */}
                       <Box sx={{ mb: 0.5 }}>
-                        <Typography variant="caption" sx={{ fontWeight: 700, color: '#4b5563', mb: 0.75, display: 'flex', alignItems: 'center', gap: 0.75, fontSize: '0.72rem' }}>
+                        <Typography variant="caption" sx={{ fontWeight: 700, color: '#9ca3af', mb: 0.75, display: 'flex', alignItems: 'center', gap: 0.75, fontSize: '0.72rem' }}>
                           <Sparkles size={13} color="#fbbf24" />
                           <span>Quick Practice (Click to Search)</span>
                         </Typography>
@@ -1313,14 +1344,14 @@ const PYQSection = () => {
                                 fontSize: '0.74rem',
                                 fontWeight: 600,
                                 textTransform: 'none',
-                                color: '#374151',
-                                borderColor: '#e5e7eb',
-                                backgroundColor: '#ffffff',
+                                color: '#e5e7eb',
+                                borderColor: 'rgba(255,255,255,0.12)',
+                                backgroundColor: '#262626',
                                 transition: 'all 0.15s ease',
                                 '&:hover': {
                                   borderColor: '#E4572E',
-                                  backgroundColor: 'rgba(228,87,46,0.06)',
-                                  color: '#E4572E',
+                                  backgroundColor: 'rgba(228,87,46,0.15)',
+                                  color: '#ffffff',
                                   transform: 'translateY(-1px)'
                                 }
                               }}
@@ -1334,36 +1365,17 @@ const PYQSection = () => {
                     </Box>
                   ) : lastSearchQuery && currentQuestions.length === 0 ? (
                     <Box sx={{ textAlign: 'center', py: 6 }} className="pyq-fade-slide">
-                      <FileText className="w-12 h-12 mx-auto mb-2" style={{ color: '#000000', opacity: 0.4 }} />
-                      <Typography variant="caption" sx={{ display: 'block', color: '#000000', opacity: 0.7 }}>
+                      <FileText className="w-12 h-12 mx-auto mb-2" style={{ color: '#9ca3af', opacity: 0.6 }} />
+                      <Typography variant="caption" sx={{ display: 'block', color: '#f3f4f6' }}>
                         No related questions found for "{lastSearchQuery}"
                       </Typography>
-                      <Typography variant="caption" sx={{ display: 'block', mt: 0.5, color: '#000000', opacity: 0.5 }}>
+                      <Typography variant="caption" sx={{ display: 'block', mt: 0.5, color: '#9ca3af' }}>
                         Try different keywords or remove filters
                       </Typography>
                     </Box>
                   ) : currentQuestions.length > 0 ? (
                     <Stack spacing={1.5}>
-                      {isChatLoading && (
-                        <Box 
-                          className="pyq-fade-slide"
-                          sx={{ 
-                            display: 'flex', 
-                            alignItems: 'center', 
-                            gap: 1.5, 
-                            p: 1.5, 
-                            borderRadius: 2, 
-                            border: '1px dashed #E4572E',
-                            backgroundColor: 'rgba(228, 87, 46, 0.05)',
-                            mb: 1
-                          }}
-                        >
-                          <ThinkingOrb state="connecting" size={20} speed={1.80} />
-                          <Typography variant="caption" sx={{ fontWeight: 600, color: '#E4572E', fontSize: '0.8rem' }}>
-                            Searching new questions...
-                          </Typography>
-                        </Box>
-                      )}
+                      {/* Searched Query Accordion Tabs */}
                       {Object.entries(groupedQuestions).map(([queryName, questions]) => {
                         const isExpanded = expandedQueries[queryName] !== undefined
                           ? expandedQueries[queryName]
@@ -1374,11 +1386,10 @@ const PYQSection = () => {
                             key={queryName}
                             className="pyq-card-enter"
                             sx={{
-                              border: '1px solid',
-                              borderColor: isDarkMode ? 'rgba(255,255,255,0.08)' : '#e5e7eb',
+                              border: '1px solid rgba(255, 255, 255, 0.1)',
                               borderRadius: 2,
                               overflow: 'hidden',
-                              backgroundColor: isDarkMode ? '#1f2937' : '#ffffff',
+                              backgroundColor: '#262626',
                               mb: 1
                             }}
                           >
@@ -1397,20 +1408,19 @@ const PYQSection = () => {
                                 px: 1.5,
                                 py: 1,
                                 cursor: 'pointer',
-                                backgroundColor: isDarkMode ? '#111827' : '#eff6ff',
-                                borderBottom: isExpanded ? '1px solid' : 'none',
-                                borderColor: isDarkMode ? 'rgba(255,255,255,0.08)' : '#e5e7eb',
+                                backgroundColor: '#262626',
+                                borderBottom: isExpanded ? '1px solid rgba(255,255,255,0.08)' : 'none',
                                 '&:hover': {
-                                  backgroundColor: isDarkMode ? '#1e293b' : '#dbeafe'
+                                  backgroundColor: 'rgba(255,255,255,0.04)'
                                 },
                                 transition: 'background-color 0.2s'
                               }}
                             >
                               <Typography
                                 sx={{
-                                  fontWeight: 600,
-                                  fontSize: '0.7rem',
-                                  color: isDarkMode ? '#9ca3af' : '#1e40af',
+                                  fontWeight: 700,
+                                  fontSize: '0.75rem',
+                                  color: '#f3f4f6',
                                   maxWidth: '75%',
                                   overflow: 'hidden',
                                   textOverflow: 'ellipsis',
@@ -1426,22 +1436,24 @@ const PYQSection = () => {
                                   sx={{
                                     fontSize: '0.62rem',
                                     height: 18,
-                                    backgroundColor: isDarkMode ? 'rgba(255,255,255,0.1)' : '#dbeafe',
-                                    color: isDarkMode ? '#d1d5db' : '#1e40af'
+                                    backgroundColor: 'rgba(228,87,46,0.15)',
+                                    color: '#E4572E',
+                                    border: '1px solid rgba(228,87,46,0.3)',
+                                    fontWeight: 700
                                   }}
                                 />
                                 <ChevronDown
                                   className={`w-3.5 h-3.5 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
-                                  style={{ color: isDarkMode ? '#9ca3af' : '#2563eb' }}
+                                  style={{ color: '#9ca3af' }}
                                 />
                               </Stack>
                             </Box>
 
                             {/* Accordion Content */}
                             {isExpanded && (
-                              <Stack spacing={1.5} sx={{ p: 1, backgroundColor: isDarkMode ? '#1f2937' : '#ffffff' }}>
+                              <Stack spacing={1.5} sx={{ p: 1, backgroundColor: '#1e1e1e' }}>
                                 {applyFiltersToQuestions(questions).length === 0 ? (
-                                  <Typography variant="caption" sx={{ display: 'block', py: 1.5, px: 1, color: isDarkMode ? '#9ca3af' : '#6b7280', textAlign: 'center', fontStyle: 'italic' }}>
+                                  <Typography variant="caption" sx={{ display: 'block', py: 1.5, px: 1, color: '#9ca3af', textAlign: 'center', fontStyle: 'italic' }}>
                                     No questions match the selected filters.
                                   </Typography>
                                 ) : (
@@ -1461,16 +1473,16 @@ const PYQSection = () => {
                                         sx={{
                                           borderRadius: 2,
                                           border: '1px solid',
-                                          borderColor: hasAnswered ? (isCorrect ? 'rgba(34,197,94,0.4)' : 'rgba(239,68,68,0.4)') : (isDarkMode ? '#374151' : '#e5e7eb'),
-                                          backgroundColor: isDarkMode ? '#111827' : '#ffffff',
+                                          borderColor: hasAnswered ? (isCorrect ? 'rgba(34,197,94,0.5)' : 'rgba(239,68,68,0.5)') : 'rgba(255,255,255,0.1)',
+                                          backgroundColor: '#262626',
                                           overflow: 'hidden',
                                           transition: 'all 0.2s ease'
                                         }}
                                       >
                                         {/* Question Header */}
-                                        <Box sx={{ p: 1, pb: 0.75, borderBottom: '1px solid #f1f5f9' }}>
+                                        <Box sx={{ p: 1.25, pb: 1, borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
                                           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 1, mb: 1 }}>
-                                            <Typography variant="body2" sx={{ fontSize: '0.7rem', fontWeight: 600, color: isDarkMode ? '#e5e7eb' : '#111827', flex: 1 }}>
+                                            <Typography variant="body2" sx={{ fontSize: '0.74rem', fontWeight: 600, color: '#f3f4f6', flex: 1, lineHeight: 1.45 }}>
                                               {question.question}
                                             </Typography>
                                             <Stack direction="row" spacing={0.5} alignItems="center">
@@ -1483,9 +1495,9 @@ const PYQSection = () => {
                                                 }}
                                                 title={importantQuestions.has(questionId) ? 'Remove from important' : 'Mark as important'}
                                                 sx={{
-                                                  color: importantQuestions.has(questionId) ? '#f59e0b' : '#9ca3af',
-                                                  backgroundColor: importantQuestions.has(questionId) ? 'rgba(245, 158, 11, 0.12)' : 'transparent',
-                                                  '&:hover': { backgroundColor: 'rgba(245, 158, 11, 0.12)' }
+                                                  color: importantQuestions.has(questionId) ? '#f59e0b' : '#6b7280',
+                                                  backgroundColor: importantQuestions.has(questionId) ? 'rgba(245, 158, 11, 0.15)' : 'transparent',
+                                                  '&:hover': { backgroundColor: 'rgba(245, 158, 11, 0.25)' }
                                                 }}
                                               >
                                                 <Star className={`w-4 h-4 ${importantQuestions.has(questionId) ? 'fill-current' : ''}`} />
@@ -1493,12 +1505,14 @@ const PYQSection = () => {
                                               {hasAnswered && (
                                                 <Chip
                                                   size="small"
-                                                  label={isCorrect ? '✓' : '✗'}
+                                                  label={isCorrect ? '✓ Correct' : '✗ Incorrect'}
                                                   sx={{
-                                                    fontSize: '0.7rem',
+                                                    fontSize: '0.68rem',
+                                                    fontWeight: 700,
                                                     height: 20,
-                                                    backgroundColor: isCorrect ? 'rgba(34,197,94,0.15)' : 'rgba(239,68,68,0.15)',
-                                                    color: isCorrect ? '#16a34a' : '#dc2626'
+                                                    backgroundColor: isCorrect ? 'rgba(34,197,94,0.2)' : 'rgba(239,68,68,0.2)',
+                                                    color: isCorrect ? '#4ade80' : '#f87171',
+                                                    border: `1px solid ${isCorrect ? 'rgba(34,197,94,0.4)' : 'rgba(239,68,68,0.4)'}`
                                                   }}
                                                 />
                                               )}
@@ -1506,21 +1520,25 @@ const PYQSection = () => {
                                           </Box>
 
                                           {/* Options */}
-                                          <Stack spacing={0.5} sx={{ mt: 0.5 }}>
+                                          <Stack spacing={0.6} sx={{ mt: 1 }}>
                                             {question.options?.map((option, optionIndex) => {
                                               const isUserSelected = userAnswer === optionIndex
                                               const isCorrectAnswer = question.correct_answer === optionIndex
 
-                                              let borderColor = isDarkMode ? '#374151' : '#e5e7eb'
-                                              let backgroundColor = 'transparent'
-                                              if (!hasAnswered) {
-                                                backgroundColor = 'transparent'
-                                              } else if (isUserSelected) {
-                                                borderColor = isCorrect ? 'rgba(34,197,94,0.4)' : 'rgba(239,68,68,0.4)'
-                                                backgroundColor = isCorrect ? 'rgba(34,197,94,0.08)' : 'rgba(239,68,68,0.08)'
-                                              } else if (isCorrectAnswer) {
-                                                borderColor = 'rgba(34,197,94,0.4)'
-                                                backgroundColor = 'rgba(34,197,94,0.08)'
+                                              let borderColor = 'rgba(255,255,255,0.08)'
+                                              let backgroundColor = 'rgba(255,255,255,0.03)'
+                                              let textColor = '#e5e7eb'
+
+                                              if (hasAnswered) {
+                                                if (isUserSelected) {
+                                                  borderColor = isCorrect ? 'rgba(34,197,94,0.6)' : 'rgba(239,68,68,0.6)'
+                                                  backgroundColor = isCorrect ? 'rgba(34,197,94,0.18)' : 'rgba(239,68,68,0.18)'
+                                                  textColor = isCorrect ? '#4ade80' : '#f87171'
+                                                } else if (isCorrectAnswer) {
+                                                  borderColor = 'rgba(34,197,94,0.6)'
+                                                  backgroundColor = 'rgba(34,197,94,0.18)'
+                                                  textColor = '#4ade80'
+                                                }
                                               }
 
                                               return (
@@ -1536,40 +1554,43 @@ const PYQSection = () => {
                                                   sx={{
                                                     display: 'flex',
                                                     alignItems: 'flex-start',
-                                                    p: 0.6,
-                                                    borderRadius: 1,
+                                                    p: '7px 10px',
+                                                    borderRadius: 1.5,
                                                     border: '1px solid',
                                                     borderColor,
                                                     backgroundColor,
                                                     cursor: hasAnswered ? 'default' : 'pointer',
-                                                    transition: 'background-color 0.2s, border-color 0.2s',
-                                                    '&:hover': !hasAnswered ? { backgroundColor: isDarkMode ? '#1e293b' : '#f9fafb' } : undefined
+                                                    transition: 'all 0.15s ease',
+                                                    '&:hover': !hasAnswered ? {
+                                                      backgroundColor: 'rgba(255,255,255,0.08)',
+                                                      borderColor: '#E4572E'
+                                                    } : undefined
                                                   }}
                                                 >
-                                                  <Box sx={{ mr: 1, mt: 0.25 }}>
+                                                  <Box sx={{ mr: 1, mt: 0.2 }}>
                                                     <Box
                                                       sx={{
-                                                        width: 16,
-                                                        height: 16,
+                                                        width: 15,
+                                                        height: 15,
                                                         borderRadius: '50%',
                                                         border: '1px solid',
-                                                        borderColor: isUserSelected ? '#3b82f6' : '#d1d5db',
-                                                        backgroundColor: isUserSelected ? '#3b82f6' : 'transparent',
+                                                        borderColor: isUserSelected ? '#E4572E' : '#6b7280',
+                                                        backgroundColor: isUserSelected ? '#E4572E' : 'transparent',
                                                         display: 'flex',
                                                         alignItems: 'center',
                                                         justifyContent: 'center'
                                                       }}
                                                     >
-                                                      {isUserSelected && <Box sx={{ width: 8, height: 8, borderRadius: '50%', backgroundColor: '#ffffff' }} />}
+                                                      {isUserSelected && <Box sx={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#ffffff' }} />}
                                                     </Box>
                                                   </Box>
-                                                  <Typography variant="body2" sx={{ fontSize: '0.7rem', color: isDarkMode ? '#d1d5db' : '#111827', flex: 1 }}>
+                                                  <Typography variant="body2" sx={{ fontSize: '0.72rem', color: textColor, flex: 1, lineHeight: 1.35 }}>
                                                     {option}
                                                   </Typography>
                                                   {hasAnswered && isCorrectAnswer && !isUserSelected && (
                                                     <Box sx={{ ml: 1 }}>
-                                                      <Box sx={{ width: 16, height: 16, borderRadius: '50%', backgroundColor: 'rgba(34,197,94,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                                        <Box sx={{ width: 8, height: 8, borderRadius: '50%', backgroundColor: '#16a34a' }} />
+                                                      <Box sx={{ width: 16, height: 16, borderRadius: '50%', backgroundColor: 'rgba(34,197,94,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                                        <Box sx={{ width: 8, height: 8, borderRadius: '50%', backgroundColor: '#4ade80' }} />
                                                       </Box>
                                                     </Box>
                                                   )}
@@ -1580,20 +1601,20 @@ const PYQSection = () => {
                                         </Box>
 
                                         {/* Question Footer with Metadata */}
-                                        <Box sx={{ px: 1, py: 0.75, backgroundColor: isDarkMode ? '#1e293b' : '#f9fafb' }}>
+                                        <Box sx={{ px: 1.25, py: 0.75, backgroundColor: '#202020', borderTop: '1px solid rgba(255,255,255,0.04)' }}>
                                           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
                                             <Stack direction="row" spacing={0.5} flexWrap="wrap" alignItems="center">
                                               {(question.exam_name || question.metadata?.exam_name || question.metadata?.exam) && (
-                                                <Chip size="small" label={question.exam_name || question.metadata?.exam_name || question.metadata?.exam} sx={{ backgroundColor: '#dbeafe', color: '#1e40af', fontSize: '0.65rem' }} />
+                                                <Chip size="small" label={question.exam_name || question.metadata?.exam_name || question.metadata?.exam} sx={{ backgroundColor: 'rgba(59,130,246,0.15)', color: '#93c5fd', border: '1px solid rgba(59,130,246,0.3)', fontSize: '0.65rem', fontWeight: 600 }} />
                                               )}
                                               {(question.year || question.metadata?.year || question.metadata?.exam_year) && (
-                                                <Chip size="small" label={question.year || question.metadata?.year || question.metadata?.exam_year} sx={{ backgroundColor: '#dcfce7', color: '#166534', fontSize: '0.65rem' }} />
+                                                <Chip size="small" label={question.year || question.metadata?.year || question.metadata?.exam_year} sx={{ backgroundColor: 'rgba(16,185,129,0.15)', color: '#6ee7b7', border: '1px solid rgba(16,185,129,0.3)', fontSize: '0.65rem', fontWeight: 600 }} />
                                               )}
                                               {(question.term || question.metadata?.term || question.metadata?.exam_term) && (
-                                                <Chip size="small" label={question.term || question.metadata?.term || question.metadata?.exam_term} sx={{ backgroundColor: '#ede9fe', color: '#5b21b6', fontSize: '0.65rem' }} />
+                                                <Chip size="small" label={question.term || question.metadata?.term || question.metadata?.exam_term} sx={{ backgroundColor: 'rgba(139,92,246,0.15)', color: '#c4b5fd', border: '1px solid rgba(139,92,246,0.3)', fontSize: '0.65rem', fontWeight: 600 }} />
                                               )}
                                               {(question.subject || question.metadata?.subject) && (
-                                                <Chip size="small" label={question.subject || question.metadata?.subject} sx={{ backgroundColor: '#ffedd5', color: '#9a3412', fontSize: '0.65rem' }} />
+                                                <Chip size="small" label={question.subject || question.metadata?.subject} sx={{ backgroundColor: 'rgba(245,158,11,0.15)', color: '#fcd34d', border: '1px solid rgba(245,158,11,0.3)', fontSize: '0.65rem', fontWeight: 600 }} />
                                               )}
                                             </Stack>
 
@@ -1611,8 +1632,9 @@ const PYQSection = () => {
                                               endIcon={hasAnswered ? <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${expandedExplanations[questionId] ? 'rotate-180' : ''}`} /> : null}
                                               sx={{
                                                 fontSize: '0.68rem',
-                                                color: hasAnswered ? '#2563eb' : '#9ca3af',
-                                                '&:hover': { backgroundColor: hasAnswered ? 'rgba(37,99,235,0.08)' : 'transparent' }
+                                                fontWeight: 600,
+                                                color: hasAnswered ? '#60a5fa' : '#6b7280',
+                                                '&:hover': { backgroundColor: hasAnswered ? 'rgba(96,165,250,0.12)' : 'transparent' }
                                               }}
                                             >
                                               {hasAnswered
@@ -1623,29 +1645,30 @@ const PYQSection = () => {
                                           </Box>
 
                                           {expandedExplanations[questionId] && (
-                                            <Box sx={{ mt: 1, pt: 1, borderTop: '1px solid #e5e7eb' }}>
+                                            <Box sx={{ mt: 1, pt: 1, borderTop: '1px solid rgba(255,255,255,0.08)' }}>
                                               <Paper
                                                 elevation={0}
                                                 sx={{
                                                   p: 1.5,
                                                   borderRadius: 2,
-                                                  borderLeft: '4px solid #60a5fa',
-                                                  background: isDarkMode ? 'linear-gradient(90deg, #1e293b 0%, #0f172a 100%)' : 'linear-gradient(90deg, #eff6ff 0%, #eef2ff 100%)'
+                                                  border: '1px solid rgba(255,255,255,0.1)',
+                                                  borderLeft: '4px solid #E4572E',
+                                                  backgroundColor: '#161616'
                                                 }}
                                               >
                                                 {loadingExplanations[questionId] ? (
                                                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                                    <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                                                    <Typography variant="body2" sx={{ fontSize: '0.75rem', color: isDarkMode ? '#9ca3af' : '#374151', lineHeight: 1.6 }}>
+                                                    <RefreshCw className="w-3.5 h-3.5 animate-spin text-orange-500" />
+                                                    <Typography variant="body2" sx={{ fontSize: '0.75rem', color: '#9ca3af', lineHeight: 1.6 }}>
                                                       Generating AI explanation...
                                                     </Typography>
                                                   </Box>
                                                 ) : explanationErrors[questionId] ? (
-                                                  <Typography variant="body2" sx={{ fontSize: '0.75rem', color: '#dc2626', lineHeight: 1.6 }}>
+                                                  <Typography variant="body2" sx={{ fontSize: '0.75rem', color: '#f87171', lineHeight: 1.6 }}>
                                                     {explanationErrors[questionId]}
                                                   </Typography>
                                                 ) : (
-                                                  <Typography variant="body2" sx={{ fontSize: '0.75rem', color: isDarkMode ? '#d1d5db' : '#1f2937', lineHeight: 1.6 }}>
+                                                  <Typography variant="body2" sx={{ fontSize: '0.75rem', color: '#e5e7eb', lineHeight: 1.6 }}>
                                                     {aiExplanations[questionId] || question.explanation || 'Explanation unavailable.'}
                                                   </Typography>
                                                 )}
@@ -1662,6 +1685,29 @@ const PYQSection = () => {
                           </Box>
                         )
                       })}
+
+                      {/* Searching new questions appears at the BOTTOM of searched results */}
+                      {isChatLoading && (
+                        <Box 
+                          className="pyq-fade-slide"
+                          sx={{ 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            gap: 1.5, 
+                            p: 1.5, 
+                            borderRadius: 2, 
+                            border: '1px dashed rgba(228, 87, 46, 0.5)',
+                            backgroundColor: 'rgba(228, 87, 46, 0.08)',
+                            mt: 1,
+                            mb: 1
+                          }}
+                        >
+                          <ThinkingOrb state="connecting" size={20} speed={1.80} />
+                          <Typography variant="caption" sx={{ fontWeight: 600, color: '#E4572E', fontSize: '0.8rem' }}>
+                            Searching new questions...
+                          </Typography>
+                        </Box>
+                      )}
                     </Stack>
                   ) : !lastSearchQuery ? (
                     <Box sx={{ textAlign: 'center', py: 6 }}>
