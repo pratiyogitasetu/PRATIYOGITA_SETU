@@ -148,38 +148,38 @@ const normalizeBotMarkdown = (rawText) => {
 
 const createMarkdownComponents = (isUserMessage) => ({
   p: ({ ...props }) => (
-      <Typography
-        variant="body2"
-        sx={{
-          fontSize: CHAT_FONT_SIZES.body,
-          lineHeight: isUserMessage ? 1.48 : 1.44,
-          mb: isUserMessage ? 0.35 : 0.26,
-          color: 'inherit',
-          '&:last-of-type': { mb: 0 }
-        }}
-        {...props}
-      />
+    <Typography
+      variant="body2"
+      sx={{
+        fontSize: CHAT_FONT_SIZES.body,
+        lineHeight: isUserMessage ? 1.48 : 1.44,
+        mb: isUserMessage ? 0.35 : 0.26,
+        color: 'inherit',
+        '&:last-of-type': { mb: 0 }
+      }}
+      {...props}
+    />
   ),
   h1: ({ ...props }) => (
-      <Typography
-        variant="h6"
-        sx={{ fontSize: CHAT_FONT_SIZES.h1, fontWeight: 700, mt: 0.12, mb: isUserMessage ? 0.22 : 0.08, color: 'inherit' }}
-        {...props}
-      />
+    <Typography
+      variant="h6"
+      sx={{ fontSize: CHAT_FONT_SIZES.h1, fontWeight: 700, mt: 0.12, mb: isUserMessage ? 0.22 : 0.08, color: 'inherit' }}
+      {...props}
+    />
   ),
   h2: ({ ...props }) => (
-      <Typography
-        variant="subtitle1"
-        sx={{ fontSize: CHAT_FONT_SIZES.h2, fontWeight: 700, mt: 0.1, mb: isUserMessage ? 0.2 : 0.06, color: 'inherit' }}
-        {...props}
-      />
+    <Typography
+      variant="subtitle1"
+      sx={{ fontSize: CHAT_FONT_SIZES.h2, fontWeight: 700, mt: 0.1, mb: isUserMessage ? 0.2 : 0.06, color: 'inherit' }}
+      {...props}
+    />
   ),
   h3: ({ ...props }) => (
-      <Typography
-        variant="subtitle2"
-        sx={{ fontSize: CHAT_FONT_SIZES.h3, fontWeight: 700, mt: 0.1, mb: isUserMessage ? 0.18 : 0.05, color: 'inherit' }}
-        {...props}
-      />
+    <Typography
+      variant="subtitle2"
+      sx={{ fontSize: CHAT_FONT_SIZES.h3, fontWeight: 700, mt: 0.1, mb: isUserMessage ? 0.18 : 0.05, color: 'inherit' }}
+      {...props}
+    />
   ),
   ul: ({ ...props }) => (
     <Box
@@ -239,61 +239,61 @@ const createMarkdownComponents = (isUserMessage) => ({
     </Box>
   ),
   blockquote: ({ ...props }) => (
-      <Box
-        component="blockquote"
-        sx={{
-          pl: 1.5,
-          ml: 0,
-          mr: 0,
-          mb: 0.35,
-          borderLeft: (theme) => `3px solid ${alpha(theme.palette.text.primary, 0.2)}`,
-          color: 'inherit',
-          opacity: isUserMessage ? 0.9 : 0.85
-        }}
-        {...props}
-      />
+    <Box
+      component="blockquote"
+      sx={{
+        pl: 1.5,
+        ml: 0,
+        mr: 0,
+        mb: 0.35,
+        borderLeft: (theme) => `3px solid ${alpha(theme.palette.text.primary, 0.2)}`,
+        color: 'inherit',
+        opacity: isUserMessage ? 0.9 : 0.85
+      }}
+      {...props}
+    />
   ),
   pre: ({ ...props }) => (
-      <Box
-        component="pre"
-        sx={{
-          fontFamily: '"JetBrains Mono", "Fira Code", monospace',
-          fontSize: CHAT_FONT_SIZES.code,
-          backgroundColor: (theme) => alpha(theme.palette.text.primary, 0.08),
-          p: 1,
-          borderRadius: 1,
-          overflowX: 'auto',
-          my: 0.35,
-          whiteSpace: 'pre'
-        }}
-        {...props}
-      />
+    <Box
+      component="pre"
+      sx={{
+        fontFamily: '"JetBrains Mono", "Fira Code", monospace',
+        fontSize: CHAT_FONT_SIZES.code,
+        backgroundColor: (theme) => alpha(theme.palette.text.primary, 0.08),
+        p: 1,
+        borderRadius: 1,
+        overflowX: 'auto',
+        my: 0.35,
+        whiteSpace: 'pre'
+      }}
+      {...props}
+    />
   ),
   code: ({ inline, ...props }) => (
-      <Box
-        component="code"
-        sx={{
-          fontFamily: '"JetBrains Mono", "Fira Code", monospace',
-          fontSize: CHAT_FONT_SIZES.code,
-          backgroundColor: (theme) => alpha(theme.palette.text.primary, 0.08),
-          px: inline ? 0.45 : 0,
-          py: inline ? 0.05 : 0,
-          borderRadius: 1,
-          display: inline ? 'inline' : 'inherit',
-          whiteSpace: inline ? 'pre-wrap' : 'inherit',
-          overflowX: inline ? 'visible' : 'inherit'
-        }}
-        {...props}
-      />
+    <Box
+      component="code"
+      sx={{
+        fontFamily: '"JetBrains Mono", "Fira Code", monospace',
+        fontSize: CHAT_FONT_SIZES.code,
+        backgroundColor: (theme) => alpha(theme.palette.text.primary, 0.08),
+        px: inline ? 0.45 : 0,
+        py: inline ? 0.05 : 0,
+        borderRadius: 1,
+        display: inline ? 'inline' : 'inherit',
+        whiteSpace: inline ? 'pre-wrap' : 'inherit',
+        overflowX: inline ? 'visible' : 'inherit'
+      }}
+      {...props}
+    />
   ),
   a: ({ ...props }) => (
-      <Box
-        component="a"
-        sx={{ color: 'inherit', textDecoration: 'underline' }}
-        target="_blank"
-        rel="noreferrer"
-        {...props}
-      />
+    <Box
+      component="a"
+      sx={{ color: 'inherit', textDecoration: 'underline' }}
+      target="_blank"
+      rel="noreferrer"
+      {...props}
+    />
   )
 })
 
@@ -315,8 +315,8 @@ const ChatMessageBubble = memo(({
     <Box
       key={message.id}
       ref={message.type === 'user' ? userRef : null}
-      sx={{ 
-        display: 'flex', 
+      sx={{
+        display: 'flex',
         justifyContent: message.type === 'user' ? 'flex-end' : 'flex-start',
         width: '100%'
       }}
@@ -360,17 +360,15 @@ const ChatMessageBubble = memo(({
               width: message.type === 'user' ? { xs: '100%', md: 'auto' } : 'auto',
               flexGrow: message.type === 'user' ? 0 : 1,
               borderRadius: 2,
-              backgroundColor: message.type === 'user' ? '#E4572E' : '#262626',
-              color: message.type === 'user' ? '#ffffff' : '#f3f4f6',
-              border: message.type === 'user' ? 'none' : '1px solid rgba(255,255,255,0.08)',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.2)'
+              backgroundColor: message.type === 'user' ? 'primary.main' : 'background.paper',
+              color: message.type === 'user' ? 'primary.contrastText' : 'text.primary',
+              border: message.type === 'user' ? 'none' : (theme) => `1px solid ${theme.palette.divider}`
             }}
           >
             <Box
               sx={{
                 fontSize: '0.7rem',
-                lineHeight: message.type === 'bot' ? 1.35 : 1.4,
-                color: message.type === 'user' ? '#ffffff' : '#e5e7eb',
+                lineHeight: message.type === 'bot' ? 1.3 : 1.4,
                 whiteSpace: 'normal',
                 '& h1 + p, & h2 + p, & h3 + p, & h4 + p, & h5 + p, & h6 + p': {
                   marginTop: '0.08rem'
@@ -385,140 +383,152 @@ const ChatMessageBubble = memo(({
               </ReactMarkdown>
             </Box>
 
-          {/* Sources Section - Only for bot messages with sources */}
-          {message.type === 'bot' && message.sources && message.sources.length > 0 && (
-            <Box sx={{ mt: 2, pt: 2, borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-              {/* Sources Header with Individual Source Buttons */}
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 1 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                  <FileText className="w-2.5 h-2.5 text-gray-400" />
-                  <Typography variant="caption" sx={{ color: '#9ca3af', fontWeight: 600, fontSize: '0.68rem' }}>
-                    Sources ({message.sources.length}):
-                  </Typography>
+            {/* Sources Section - Only for bot messages with sources */}
+            {message.type === 'bot' && message.sources && message.sources.length > 0 && (
+              <Box sx={{ mt: 2, pt: 2, borderTop: '1px solid #e0e0e0' }}>
+                {/* Sources Header with Individual Source Buttons */}
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 1 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                    <FileText className="w-2.5 h-2.5" style={{ color: '#000000', opacity: 0.6 }} />
+                    <Typography variant="caption" sx={{ color: '#000000', opacity: 0.7, fontWeight: 600 }}>
+                      Sources ({message.sources.length}):
+                    </Typography>
+                  </Box>
+
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                    {message.sources.map((source, index) => {
+                      const sourceKey = `${message.id}-${index}`
+                      const isExpanded = expandedSourceSet.has(index)
+                      return (
+                        <Button
+                          key={index}
+                          size="small"
+                          variant={isExpanded ? 'contained' : 'outlined'}
+                          onClick={() => onToggleSource(sourceKey)}
+                          sx={{
+                            minWidth: 0,
+                            height: '20px',
+                            minHeight: '20px',
+                            px: 0.75,
+                            py: 0,
+                            borderRadius: 999,
+                            fontSize: '0.62rem',
+                            backgroundColor: (theme) =>
+                              isExpanded
+                                ? theme.palette.primary.main
+                                : theme.palette.background.default,
+                            borderColor: (theme) =>
+                              isExpanded
+                                ? theme.palette.primary.main
+                                : theme.palette.divider,
+                            color: (theme) =>
+                              isExpanded
+                                ? theme.palette.primary.contrastText
+                                : theme.palette.text.primary,
+                            '&:hover': {
+                              backgroundColor: (theme) =>
+                                isExpanded
+                                  ? theme.palette.primary.dark
+                                  : alpha(theme.palette.text.primary, 0.06)
+                            }
+                          }}
+                        >
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                            <Hash className="w-2 h-2" />
+                            <span>{index + 1}</span>
+                            {source.score && (
+                              <span style={{ opacity: 0.75 }}>({(source.score * 100).toFixed(0)}%)</span>
+                            )}
+                          </Box>
+                        </Button>
+                      )
+                    })}
+                  </Box>
                 </Box>
 
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                  {message.sources.map((source, index) => {
-                    const sourceKey = `${message.id}-${index}`
-                    const isExpanded = expandedSourceSet.has(index)
-                    return (
-                      <Button
-                        key={index}
-                        size="small"
-                        variant={isExpanded ? 'contained' : 'outlined'}
-                        onClick={() => onToggleSource(sourceKey)}
-                        sx={{
-                          minWidth: 0,
-                          height: '20px',
-                          minHeight: '20px',
-                          px: 0.75,
-                          py: 0,
-                          borderRadius: 999,
-                          fontSize: '0.62rem',
-                          backgroundColor: isExpanded ? '#E4572E' : 'rgba(255,255,255,0.08)',
-                          borderColor: isExpanded ? '#E4572E' : 'rgba(255,255,255,0.15)',
-                          color: isExpanded ? '#ffffff' : '#f3f4f6',
-                          '&:hover': {
-                            backgroundColor: isExpanded ? '#c43e1c' : 'rgba(255,255,255,0.15)'
-                          }
-                        }}
-                      >
+                {/* Individual Source Content - Only show the specific expanded source */}
+                {message.sources.map((source, index) => {
+                  const isExpanded = expandedSourceSet.has(index)
+                  const sourceKey = `${message.id}-${index}`
+                  return isExpanded ? (
+                    <Paper
+                      key={index}
+                      elevation={0}
+                      sx={{ mt: 1, p: 1, borderRadius: 2, backgroundColor: '#f9f9f9', border: '1px solid #e0e0e0' }}
+                    >
+                      {/* Source Header */}
+                      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 0.75 }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                          <Hash className="w-2 h-2" />
-                          <span>{index + 1}</span>
+                          <Hash className="w-2 h-2" style={{ color: '#000000', opacity: 0.6 }} />
+                          <Typography variant="caption" sx={{ fontWeight: 600, color: '#000000', fontSize: '0.68rem' }}>
+                            Source {index + 1}
+                          </Typography>
                           {source.score && (
-                            <span style={{ opacity: 0.75 }}>({(source.score * 100).toFixed(0)}%)</span>
+                            <Chip
+                              size="small"
+                              label={`${(source.score * 100).toFixed(1)}%`}
+                              sx={{ height: '18px', backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.2), color: 'text.primary', fontSize: '0.62rem', '& .MuiChip-label': { px: 0.75 } }}
+                            />
                           )}
                         </Box>
-                      </Button>
-                    )
-                  })}
-                </Box>
+                        <IconButton onClick={() => onToggleSource(sourceKey)} size="small" sx={{ color: '#000000', opacity: 0.6, p: 0.25 }}>
+                          <ChevronUp className="w-2.5 h-2.5" />
+                        </IconButton>
+                      </Box>
+
+                      {/* Source Details */}
+                      <Stack spacing={0.75}>
+                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                          {source.subject && (
+                            <Chip size="small" label={source.subject} sx={{ height: '18px', backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.18), color: 'text.primary', fontSize: '0.62rem', '& .MuiChip-label': { px: 0.75 } }} />
+                          )}
+                          {source.class && (
+                            <Chip size="small" label={source.class} sx={{ height: '18px', backgroundColor: (theme) => alpha(theme.palette.text.primary, 0.08), color: 'text.primary', fontSize: '0.62rem', '& .MuiChip-label': { px: 0.75 } }} />
+                          )}
+                          {(source.chapter || source.chapter_name) && (
+                            <Chip size="small" label={source.chapter_name || source.chapter} sx={{ height: '18px', backgroundColor: (theme) => alpha(theme.palette.text.primary, 0.08), color: 'text.primary', fontSize: '0.62rem', '& .MuiChip-label': { px: 0.75 } }} />
+                          )}
+                          {source.topic && (
+                            <Chip size="small" label={source.topic} sx={{ height: '18px', backgroundColor: (theme) => alpha(theme.palette.text.primary, 0.08), color: 'text.primary', fontSize: '0.62rem', '& .MuiChip-label': { px: 0.75 } }} />
+                          )}
+                        </Box>
+
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, fontSize: '0.62rem', pt: 0.75, borderTop: '1px solid #e0e0e0', color: '#000000', opacity: 0.6 }}>
+                          {source.chunk && (
+                            <span><strong>Chunk:</strong> {source.chunk}</span>
+                          )}
+                          <span><strong>Score:</strong> {(source.score * 100).toFixed(1)}%</span>
+                        </Box>
+
+                        {(source.content || source.text_preview || source.text || source.full_text) && (
+                          <Paper elevation={0} sx={{ p: 1, borderRadius: 2, backgroundColor: '#f5f5f5', border: '1px solid #e0e0e0', maxHeight: 180, overflowY: 'auto' }}>
+                            <Typography variant="caption" sx={{ fontWeight: 700, color: '#000000', display: 'block', mb: 0.5, fontSize: '0.68rem' }}>
+                              Content:
+                            </Typography>
+                            <Typography variant="body2" sx={{ fontSize: '0.68rem', lineHeight: 1.45, whiteSpace: 'pre-wrap', color: '#000000', opacity: 0.8 }}>
+                              {source.content || source.full_text || source.text_preview || source.text || 'No content available'}
+                            </Typography>
+                          </Paper>
+                        )}
+                      </Stack>
+                    </Paper>
+                  ) : null
+                })}
               </Box>
+            )}
 
-              {/* Individual Source Content - Only show the specific expanded source */}
-              {message.sources.map((source, index) => {
-                const isExpanded = expandedSourceSet.has(index)
-                const sourceKey = `${message.id}-${index}`
-                return isExpanded ? (
-                  <Paper
-                    key={index}
-                    elevation={0}
-                    sx={{ mt: 1, p: 1, borderRadius: 2, backgroundColor: '#1e1e1e', border: '1px solid rgba(255,255,255,0.08)' }}
-                  >
-                    {/* Source Header */}
-                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 0.75 }}>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                        <Hash className="w-2 h-2 text-orange-400" />
-                        <Typography variant="caption" sx={{ fontWeight: 600, color: '#f3f4f6', fontSize: '0.68rem' }}>
-                          Source {index + 1}
-                        </Typography>
-                        {source.score && (
-                          <Chip
-                            size="small"
-                            label={`${(source.score * 100).toFixed(1)}%`}
-                            sx={{ height: '18px', backgroundColor: 'rgba(228,87,46,0.15)', color: '#E4572E', border: '1px solid rgba(228,87,46,0.3)', fontSize: '0.62rem', fontWeight: 600, '& .MuiChip-label': { px: 0.75 } }}
-                          />
-                        )}
-                      </Box>
-                      <IconButton onClick={() => onToggleSource(sourceKey)} size="small" sx={{ color: '#9ca3af', p: 0.25, '&:hover': { color: '#ffffff' } }}>
-                        <ChevronUp className="w-2.5 h-2.5" />
-                      </IconButton>
-                    </Box>
+            {/* Legacy sources display (fallback) */}
+            {message.type === 'bot' && message.sources && typeof message.sources === 'string' && (
+              <Typography variant="caption" sx={{ mt: 1, display: 'block', color: '#6b7280', borderTop: '1px solid #e5e7eb', pt: 1 }}>
+                {message.sources}
+              </Typography>
+            )}
 
-                    {/* Source Details */}
-                    <Stack spacing={0.75}>
-                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                        {source.subject && (
-                          <Chip size="small" label={source.subject} sx={{ height: '18px', backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.18), color: 'text.primary', fontSize: '0.62rem', '& .MuiChip-label': { px: 0.75 } }} />
-                        )}
-                        {source.class && (
-                          <Chip size="small" label={source.class} sx={{ height: '18px', backgroundColor: (theme) => alpha(theme.palette.text.primary, 0.08), color: 'text.primary', fontSize: '0.62rem', '& .MuiChip-label': { px: 0.75 } }} />
-                        )}
-                        {(source.chapter || source.chapter_name) && (
-                          <Chip size="small" label={source.chapter_name || source.chapter} sx={{ height: '18px', backgroundColor: (theme) => alpha(theme.palette.text.primary, 0.08), color: 'text.primary', fontSize: '0.62rem', '& .MuiChip-label': { px: 0.75 } }} />
-                        )}
-                        {source.topic && (
-                          <Chip size="small" label={source.topic} sx={{ height: '18px', backgroundColor: (theme) => alpha(theme.palette.text.primary, 0.08), color: 'text.primary', fontSize: '0.62rem', '& .MuiChip-label': { px: 0.75 } }} />
-                        )}
-                      </Box>
-
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, fontSize: '0.62rem', pt: 0.75, borderTop: '1px solid #e0e0e0', color: '#000000', opacity: 0.6 }}>
-                        {source.chunk && (
-                          <span><strong>Chunk:</strong> {source.chunk}</span>
-                        )}
-                        <span><strong>Score:</strong> {(source.score * 100).toFixed(1)}%</span>
-                      </Box>
-
-                      {(source.content || source.text_preview || source.text || source.full_text) && (
-                        <Paper elevation={0} sx={{ p: 1, borderRadius: 2, backgroundColor: '#f5f5f5', border: '1px solid #e0e0e0', maxHeight: 180, overflowY: 'auto' }}>
-                          <Typography variant="caption" sx={{ fontWeight: 700, color: '#000000', display: 'block', mb: 0.5, fontSize: '0.68rem' }}>
-                            Content:
-                          </Typography>
-                          <Typography variant="body2" sx={{ fontSize: '0.68rem', lineHeight: 1.45, whiteSpace: 'pre-wrap', color: '#000000', opacity: 0.8 }}>
-                            {source.content || source.full_text || source.text_preview || source.text || 'No content available'}
-                          </Typography>
-                        </Paper>
-                      )}
-                    </Stack>
-                  </Paper>
-                ) : null
-              })}
-            </Box>
-          )}
-
-          {/* Legacy sources display (fallback) */}
-          {message.type === 'bot' && message.sources && typeof message.sources === 'string' && (
-            <Typography variant="caption" sx={{ mt: 1, display: 'block', color: '#6b7280', borderTop: '1px solid #e5e7eb', pt: 1 }}>
-              {message.sources}
-            </Typography>
-          )}
-
-          {message.error && (
-            <Typography variant="caption" sx={{ mt: 1, display: 'block', color: '#ef4444' }}>
-              Error processing request
-            </Typography>
-          )}
+            {message.error && (
+              <Typography variant="caption" sx={{ mt: 1, display: 'block', color: '#ef4444' }}>
+                Error processing request
+              </Typography>
+            )}
           </Paper>
         )}
       </Box>
@@ -576,18 +586,18 @@ const ChatSection = () => {
         delete newState[sourceKey]
         return newState
       }
-      
+
       // Otherwise, close all sources for this message and open only the clicked one
       const messageId = sourceKey.split('-')[0]
       const newState = {}
-      
+
       // Keep sources from other messages intact
       Object.keys(prev).forEach(key => {
         if (!key.startsWith(messageId + '-')) {
           newState[key] = prev[key]
         }
       })
-      
+
       // Open only the clicked source
       newState[sourceKey] = true
       return newState
@@ -608,7 +618,7 @@ const ChatSection = () => {
         setSystemStatus({ initialized: false, healthy: false })
       }
     }
-    
+
     checkHealth()
   }, [])
 
@@ -661,7 +671,7 @@ const ChatSection = () => {
       setCurrentChatId(chatId)
       setCurrentChatTitle(title)
       setMessages([]) // Clear messages first
-      
+
       try {
         // Always load all messages for this chatId from Firebase
         const chatMessages = await getChatMessages(chatId)
@@ -807,7 +817,7 @@ const ChatSection = () => {
   // Handle guest chat saving
   const handleGuestChatSave = useCallback((messages, titleSource) => {
     if (currentUser) return // Don't save guest chats for authenticated users
-    
+
     if (!currentChatId || !currentChatId.startsWith('guest-')) {
       // Create a new guest chat
       const firstMessage = messages.find(msg => msg.type === 'user')?.content || 'New Chat'
@@ -833,7 +843,7 @@ const ChatSection = () => {
           .map(chat => chat.title || '')
         nextTitle = ensureUniqueTitle(baseTitle, existingTitles)
       }
-      
+
       updateGuestChat(currentChatId, {
         title: nextTitle,
         firstMessage: firstMessage,
@@ -859,7 +869,7 @@ const ChatSection = () => {
           errorContent += `• ${suggestion}\n`
         })
       }
-      
+
       const errorMessage = {
         id: Date.now(),
         type: 'bot',
@@ -871,7 +881,7 @@ const ChatSection = () => {
       setMessages(prev => [...prev, errorMessage])
       return
     }
-    
+
     if (isLoading) return
     setIsLoading(true)
 
@@ -959,21 +969,21 @@ const ChatSection = () => {
           max_tokens: SEARCH_SETTINGS.answerGeneration.maxTokens
         }
       })
-      
+
       // Track successful search interaction
       trackInteraction('search', {
         subject: selectedSubject,
         query: query,
         hasResults: response.rag_response ? true : false
       })
-      
+
       // Track question asked
       trackInteraction('question', {
         subject: selectedSubject,
         query: query,
         hasResults: response.rag_response ? true : false
       })
-      
+
       // Track chat interaction if this is the first message
       if (messages.length === 0) {
         trackInteraction('chat', {
@@ -982,7 +992,7 @@ const ChatSection = () => {
           subject: selectedSubject
         })
       }
-      
+
       // Update the bot message with actual response
       const normalizedResponse = normalizeBotMarkdown(
         response.rag_response || 'I received your question but couldn\'t generate a proper response.'
@@ -1037,35 +1047,23 @@ const ChatSection = () => {
         const titleSource = botMessage.content
         handleGuestChatSave(updatedMessages, titleSource)
       }
-      
+
       if (response.mcq_results && response.mcq_results.length > 0) {
-        window.dispatchEvent(new CustomEvent('newMcqResults', { 
-          detail: { 
-            mcqs: response.mcq_results,
-            query: query 
-          } 
-        }))
-      } else {
-        window.dispatchEvent(new CustomEvent('newMcqResults', { 
-          detail: { 
-            mcqs: [],
-            query: query 
-          } 
-        }))
+        setTimeout(() => {
+          window.dispatchEvent(new CustomEvent('newMcqResults', {
+            detail: {
+              mcqs: response.mcq_results,
+              query: query
+            }
+          }))
+        }, 100)
       }
     } catch (error) {
       console.error('API Error:', error)
-      
-      window.dispatchEvent(new CustomEvent('newMcqResults', { 
-        detail: { 
-          mcqs: [],
-          query: query 
-        } 
-      }))
-      
+
       // Build friendly error message with suggestions
       let errorContent = "Sorry, I couldn't process your request. Could you please rephrase your question?"
-      
+
       // Check if error response has suggestions
       if (error.response?.data?.suggestions) {
         errorContent += '\n\n**Try asking:**\n'
@@ -1080,7 +1078,7 @@ const ChatSection = () => {
         errorContent += '• What is democracy?\n'
         errorContent += '• Describe the water cycle'
       }
-      
+
       // Update the temporary bot message with error
       const errorMessage = {
         id: tempBotMessage.id,
@@ -1090,7 +1088,7 @@ const ChatSection = () => {
         isLoading: false,
         timestamp: new Date()
       }
-      setMessages(prev => prev.map(msg => 
+      setMessages(prev => prev.map(msg =>
         msg.id === tempBotMessage.id ? errorMessage : msg
       ))
     } finally {
@@ -1215,7 +1213,6 @@ const ChatSection = () => {
   )
 
   const handleSendMessage = useCallback((query, options) => {
-    // Dispatch submitChatQuery so PYQSection receives the query and search options simultaneously
     const event = new CustomEvent('submitChatQuery', {
       detail: { query, options }
     })
@@ -1231,11 +1228,11 @@ const ChatSection = () => {
             position: 'fixed',
             right: isMobile ? 0 : 4,
             left: isMobile ? 0 : 'auto',
-            top: isMobile ? 100 : 64,
+            top: isMobile ? 60 : 64,
             bottom: isMobile ? 0 : 4,
             width: isMobile ? '100%' : 420,
             zIndex: isMobile ? 25 : 30,
-            borderRadius: isMobile ? 0 : 1,
+            borderRadius: isMobile ? 0 : 1.5,
             backgroundColor: '#1e1e1e',
             overflow: 'hidden',
             display: 'flex',
@@ -1267,9 +1264,9 @@ const ChatSection = () => {
                     onClick={togglePyq}
                     size="small"
                     title="Hide Chat Panel"
-                    sx={{ color: '#ffffff', padding: '3px', '&:hover': { backgroundColor: 'rgba(255,255,255,0.1)' } }}
+                    sx={{ color: '#9ca3af', padding: '3px', '&:hover': { color: '#ffffff' } }}
                   >
-                    <ChevronFirst width={15} height={15} strokeWidth={2} stroke="#ffffff" />
+                    <ChevronFirst width={15} height={15} strokeWidth={2} stroke="currentColor" />
                   </IconButton>
                   <Typography variant="caption" sx={{ fontWeight: 700, color: '#f3f4f6', fontSize: '0.8rem' }}>
                     Chat Companion
@@ -1277,207 +1274,181 @@ const ChatSection = () => {
                 </Box>
               </Box>
             )}
-          {/* System Status Banner */}
-          {!systemStatus.healthy && (
-            <Box sx={{ mx: 2, mt: 1 }}>
-              <Alert
-                severity="warning"
-                variant="outlined"
-                sx={{
-                  py: 0.5,
-                  borderColor: 'rgba(255, 146, 28, 0.5)',
-                  backgroundColor: 'rgba(255, 146, 28, 0.15)',
-                  color: '#d97706',
-                  fontSize: '0.75rem'
-                }}
-              >
-                System initializing... Please wait for the backend to be ready.
-              </Alert>
-            </Box>
-          )}
+            {/* System Status Banner */}
+            {!systemStatus.healthy && (
+              <Box sx={{ mx: 2, mt: 1 }}>
+                <Alert
+                  severity="warning"
+                  variant="outlined"
+                  sx={{
+                    py: 0.5,
+                    borderColor: 'rgba(255, 146, 28, 0.5)',
+                    backgroundColor: 'rgba(255, 146, 28, 0.15)',
+                    color: '#fbbf24',
+                    fontSize: '0.75rem'
+                  }}
+                >
+                  System initializing... Please wait for the backend to be ready.
+                </Alert>
+              </Box>
+            )}
 
-          {/* Rate Limit Message */}
-          {rateLimitMessage && (
-            <Box sx={{ mx: 2, mt: 1 }}>
-              <Alert
-                severity="warning"
-                variant="outlined"
-                sx={{
-                  py: 0.5,
-                  borderColor: 'rgba(234, 179, 8, 0.35)',
-                  backgroundColor: 'rgba(234, 179, 8, 0.15)',
-                  color: '#92400e',
-                  fontSize: '0.75rem'
-                }}
-              >
-                {rateLimitMessage}
-              </Alert>
-            </Box>
-          )}
-          
-          {/* Chat Messages */}
-          <Box
-            ref={scrollContainerRef}
-            className="flex-grow p-4 overflow-y-auto space-y-4 text-xs"
-            sx={{
-              backgroundColor: '#181818',
-              color: '#f3f4f6',
-              overflowAnchor: 'none',
-              scrollBehavior: 'auto',
-              pb: { xs: 22, sm: 18, md: 4 }
-            }}
-          >
-            <div className="w-full space-y-1 py-1 relative z-10">
-              {messages.length === 0 && (
-                <div className="text-center py-3 mt-1 w-full">
-                  <div className="w-full px-2">
-                    {/* Logo and Welcome Header */}
-                    <div className="mb-2">
-                      <img 
-                        src="/pg.png" 
-                        alt="MG Logo" 
-                        className="w-24 h-24 mx-auto object-contain mb-2 mg-logo-shake transition-all duration-300"
-                        style={{ filter: 'drop-shadow(0 4px 12px rgba(228,87,46,0.35))' }}
-                      />
+            {/* Rate Limit Message */}
+            {rateLimitMessage && (
+              <Box sx={{ mx: 2, mt: 1 }}>
+                <Alert
+                  severity="warning"
+                  variant="outlined"
+                  sx={{
+                    py: 0.5,
+                    borderColor: 'rgba(234, 179, 8, 0.35)',
+                    backgroundColor: 'rgba(234, 179, 8, 0.15)',
+                    color: '#fbbf24',
+                    fontSize: '0.75rem'
+                  }}
+                >
+                  {rateLimitMessage}
+                </Alert>
+              </Box>
+            )}
 
-                      <p 
-                        className="mb-2 text-xs transition-colors duration-300 max-w-xs mx-auto text-gray-400"
-                      >
-                        Ask any question and get comprehensive answers along with related PYQs.
-                      </p>
-                    </div>
+            {/* Chat Messages */}
+            <Box
+              ref={scrollContainerRef}
+              className="flex-grow p-4 overflow-y-auto space-y-4 text-xs"
+              sx={{
+                backgroundColor: '#181818',
+                color: '#f3f4f6',
+                overflowAnchor: 'none',
+                scrollBehavior: 'auto',
+                pb: { xs: 22, sm: 18, md: 4 }
+              }}
+            >
+              <div className="w-full space-y-1 py-1 relative z-10">
+                {messages.length === 0 && (
+                  <div className="text-center py-3 mt-1 w-full">
+                    <div className="w-full px-2">
+                      {/* Logo and Welcome Header */}
+                      <div className="mb-2">
+                        <img
+                          src="/pg.png"
+                          alt="MG Logo"
+                          className="w-24 h-24 mx-auto object-contain mb-2 mg-logo-shake transition-all duration-300"
+                        />
 
-                    {/* Features Section */}
-                    <div className="mb-2">
-                      <h3 
-                        className="text-xs font-bold text-center mb-2 tracking-wide uppercase text-gray-300"
-                      >
-                        Features
-                      </h3>
-                      
-                      {/* Feature Icons - Auto-scrolling with blurred edges */}
-                      <div className="relative w-full mx-auto">
-                        {/* Gradient overlays for blurred/faded edges */}
-                        <div 
-                          className="absolute left-0 top-0 bottom-0 w-8 z-10 pointer-events-none transition-all duration-300"
-                          style={{ 
-                            background: 'linear-gradient(to right, #181818, transparent)'
-                          }}
-                        ></div>
-                        <div 
-                          className="absolute right-0 top-0 bottom-0 w-8 z-10 pointer-events-none transition-all duration-300"
-                          style={{ 
-                            background: 'linear-gradient(to left, #181818, transparent)'
-                          }}
-                        ></div>
-                        
-                        {/* Auto-scrolling container */}
-                        <div 
-                          className="features-scroll-container overflow-hidden"
-                          style={{
-                            maskImage: 'linear-gradient(to right, transparent, black 30px, black calc(100% - 30px), transparent)',
-                            WebkitMaskImage: 'linear-gradient(to right, transparent, black 30px, black calc(100% - 30px), transparent)'
-                          }}
+                        <p
+                          className="mb-2 text-xs transition-colors duration-300 max-w-xs mx-auto text-gray-300"
                         >
-                          <div className="features-scroll-content flex items-center gap-2.5 animate-scroll-features">
-                            {/* Duplicate the feature items twice for seamless loop */}
-                            {[1, 2].map((iteration) => (
-                              <Fragment key={iteration}>
-                                {/* Subject Selection */}
-                                <div className="p-2.5 rounded-xl group cursor-pointer transition-all duration-300 flex-shrink-0 min-w-[150px] bg-[#262626] border border-white/10 hover:border-[#E4572E]/50">
-                                  <div className="flex items-center gap-2">
-                                    <GraduationCap className="w-6 h-6 flex-shrink-0 text-purple-400" />
-                                    <div className="flex-1 text-left">
-                                      <h4 className="font-semibold text-xs text-gray-200">Subject</h4>
-                                      <div className="flex flex-wrap gap-1 mt-0.5">
-                                        <span className="inline-flex items-center px-1.5 py-0.2 rounded-full text-[9px] font-semibold bg-red-900/60 text-red-300 border border-red-800">History</span>
-                                        <span className="inline-flex items-center px-1.5 py-0.2 rounded-full text-[9px] font-semibold bg-yellow-900/60 text-yellow-300 border border-yellow-800">Polity</span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
+                          Ask any question and get comprehensive answers along with related PYQs.
+                        </p>
+                      </div>
 
-                                {/* NCERT Content */}
-                                <div className="p-2.5 rounded-xl group cursor-pointer transition-all duration-300 flex-shrink-0 min-w-[140px] bg-[#262626] border border-white/10 hover:border-[#E4572E]/50">
-                                  <div className="flex items-center gap-2">
-                                    <Book className="w-6 h-6 flex-shrink-0 text-emerald-400" />
-                                    <div className="flex-1 text-left">
-                                      <h4 className="font-semibold text-xs text-gray-200">NCERT</h4>
-                                      <div className="flex justify-start mt-0.5">
-                                        <span className="inline-flex items-center px-1.5 py-0.2 rounded-full text-[9px] font-semibold bg-emerald-900/60 text-emerald-300 border border-emerald-800">Class 6 - 12</span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
+                      {/* Features Section */}
+                      <div className="mb-2">
+                        <h3
+                          className="text-sm font-semibold text-center mb-2 text-gray-200"
+                        >
+                          Features
+                        </h3>
 
-                                {/* Previous Year Questions */}
-                                <div className="p-2.5 rounded-xl group cursor-pointer transition-all duration-300 flex-shrink-0 min-w-[150px] bg-[#262626] border border-white/10 hover:border-[#E4572E]/50">
-                                  <div className="flex items-center gap-2">
-                                    <FileText className="w-6 h-6 flex-shrink-0 text-blue-400" />
-                                    <div className="flex-1 text-left">
-                                      <h4 className="font-semibold text-xs text-gray-200">PYQ</h4>
-                                      <div className="flex flex-wrap gap-1 mt-0.5">
-                                        <span className="inline-flex items-center px-1.5 py-0.2 rounded-full text-[9px] font-semibold bg-blue-900/60 text-blue-300 border border-blue-800">UPSC</span>
-                                        <span className="inline-flex items-center px-1.5 py-0.2 rounded-full text-[9px] font-semibold bg-indigo-900/60 text-indigo-300 border border-indigo-800">CDS</span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
+                        {/* Feature Icons - Auto-scrolling with blurred edges */}
+                        <div className="relative w-full mx-auto">
+                          {/* Gradient overlays for blurred/faded edges */}
+                          <div
+                            className="absolute left-0 top-0 bottom-0 w-10 z-10 pointer-events-none"
+                            style={{
+                              background: 'linear-gradient(to right, #181818, transparent)'
+                            }}
+                          ></div>
+                          <div
+                            className="absolute right-0 top-0 bottom-0 w-10 z-10 pointer-events-none"
+                            style={{
+                              background: 'linear-gradient(to left, #181818, transparent)'
+                            }}
+                          ></div>
 
-                                {/* AI Analysis */}
-                                <div className="p-2.5 rounded-xl group cursor-pointer transition-all duration-300 flex-shrink-0 min-w-[130px] bg-[#262626] border border-white/10 hover:border-[#E4572E]/50">
-                                  <div className="flex items-center gap-2">
-                                    <Sparkles className="w-6 h-6 flex-shrink-0 text-orange-400" />
-                                    <div className="flex-1 text-left">
-                                      <h4 className="font-semibold text-xs text-gray-200">AI</h4>
-                                      <div className="flex justify-start mt-0.5">
-                                        <span className="inline-flex items-center px-1.5 py-0.2 rounded-full text-[9px] font-semibold bg-orange-900/60 text-orange-300 border border-orange-800">Accurate</span>
+                          {/* Auto-scrolling container */}
+                          <div
+                            className="features-scroll-container overflow-hidden"
+                            style={{
+                              maskImage: 'linear-gradient(to right, transparent, black 40px, black calc(100% - 40px), transparent)',
+                              WebkitMaskImage: 'linear-gradient(to right, transparent, black 40px, black calc(100% - 40px), transparent)'
+                            }}
+                          >
+                            <div className="features-scroll-content flex items-center gap-2.5 animate-scroll-features">
+                              {/* Duplicate the feature items twice for seamless loop */}
+                              {[1, 2].map((iteration) => (
+                                <Fragment key={iteration}>
+                                  {/* Subject Selection */}
+                                  <div className="p-3 rounded-xl group cursor-pointer transition-all duration-300 flex-shrink-0 min-w-[160px] bg-[#262626] border border-white/10 hover:border-orange-500/50 shadow-md">
+                                    <div className="flex items-center gap-2.5">
+                                      <GraduationCap className="w-7 h-7 flex-shrink-0 text-purple-400" />
+                                      <div className="flex-1">
+                                        <h4 className="font-medium text-xs mb-1 text-purple-300">Subject</h4>
+                                        <div className="flex flex-wrap gap-1">
+                                          <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-red-900/50 text-red-300 border border-red-700/50">History</span>
+                                          <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-yellow-900/50 text-yellow-300 border border-yellow-700/50">Polity</span>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
-                                </div>
 
-                                {/* Comprehensive Learning */}
-                                <div className="p-2.5 rounded-xl group cursor-pointer transition-all duration-300 flex-shrink-0 min-w-[130px] bg-[#262626] border border-white/10 hover:border-[#E4572E]/50">
-                                  <div className="flex items-center gap-2">
-                                    <TrendingUp className="w-6 h-6 flex-shrink-0 text-teal-400" />
-                                    <div className="flex-1 text-left">
-                                      <h4 className="font-semibold text-xs text-gray-200">Learning</h4>
-                                      <div className="flex justify-start mt-0.5">
-                                        <span className="inline-flex items-center px-1.5 py-0.2 rounded-full text-[9px] font-semibold bg-teal-900/60 text-teal-300 border border-teal-800">Great</span>
+                                  {/* NCERT Content */}
+                                  <div className="p-3 rounded-xl group cursor-pointer transition-all duration-300 flex-shrink-0 min-w-[160px] bg-[#262626] border border-white/10 hover:border-orange-500/50 shadow-md">
+                                    <div className="flex items-center gap-2.5">
+                                      <BookOpen className="w-7 h-7 flex-shrink-0 text-emerald-400" />
+                                      <div className="flex-1">
+                                        <h4 className="font-medium text-xs mb-1 text-emerald-300">NCERT</h4>
+                                        <div className="flex flex-wrap gap-1">
+                                          <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-blue-900/50 text-blue-300 border border-blue-700/50">6-10th</span>
+                                          <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-green-900/50 text-green-300 border border-green-700/50">11-12th</span>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
-                                </div>
 
-                                {/* Quick Response */}
-                                <div className="p-2.5 rounded-xl group cursor-pointer transition-all duration-300 flex-shrink-0 min-w-[130px] bg-[#262626] border border-white/10 hover:border-[#E4572E]/50">
-                                  <div className="flex items-center gap-2">
-                                    <Zap className="w-6 h-6 flex-shrink-0 text-rose-400" />
-                                    <div className="flex-1 text-left">
-                                      <h4 className="font-semibold text-xs text-gray-200">Quick</h4>
-                                      <div className="flex justify-start mt-0.5">
-                                        <span className="inline-flex items-center px-1.5 py-0.2 rounded-full text-[9px] font-semibold bg-rose-900/60 text-rose-300 border border-rose-800">Instant</span>
+                                  {/* Previous Year Questions */}
+                                  <div className="p-3 rounded-xl group cursor-pointer transition-all duration-300 flex-shrink-0 min-w-[160px] bg-[#262626] border border-white/10 hover:border-orange-500/50 shadow-md">
+                                    <div className="flex items-center gap-2.5">
+                                      <Sliders className="w-7 h-7 flex-shrink-0 text-blue-400" />
+                                      <div className="flex-1">
+                                        <h4 className="font-medium text-xs mb-1 text-blue-300">Length</h4>
+                                        <div className="flex flex-wrap gap-1">
+                                          <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-amber-900/50 text-amber-300 border border-amber-700/50">Short</span>
+                                          <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-indigo-900/50 text-indigo-300 border border-indigo-700/50">Detailed</span>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
-                                </div>
-                              </Fragment>
-                            ))}
+
+                                  {/* Quick Response */}
+                                  <div className="p-3 rounded-xl group cursor-pointer transition-all duration-300 flex-shrink-0 min-w-[140px] bg-[#262626] border border-white/10 hover:border-orange-500/50 shadow-md">
+                                    <div className="flex items-center gap-2.5">
+                                      <Zap className="w-7 h-7 flex-shrink-0 text-rose-400" />
+                                      <div className="flex-1">
+                                        <h4 className="font-medium text-xs mb-1 text-rose-300">Quick</h4>
+                                        <div className="flex justify-start">
+                                          <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-yellow-900/50 text-yellow-300 border border-yellow-700/50">Instant</span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </Fragment>
+                              ))}
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              {messagePairs.flatMap((pair) => [
-                pair.user ? renderMessage(pair.user) : null,
-                pair.bot ? renderMessage(pair.bot) : null
-              ])}
-            </div>
-          </Box>
+                {messagePairs.flatMap((pair) => [
+                  pair.user ? renderMessage(pair.user) : null,
+                  pair.bot ? renderMessage(pair.bot) : null
+                ])}
+              </div>
+            </Box>
 
           </Paper>
         </Box>
@@ -1494,10 +1465,10 @@ const ChatSection = () => {
             bottom: 4,
             width: 40,
             zIndex: 30,
-            borderRadius: 1,
-            border: '1px solid #808080',
-            backgroundColor: '#ffffff',
-            color: '#000000',
+            borderRadius: 1.5,
+            border: '1px solid rgba(255, 255, 255, 0.12)',
+            backgroundColor: '#1e1e1e',
+            color: '#f3f4f6',
             overflow: 'hidden',
             display: 'flex',
             flexDirection: 'column'
@@ -1509,9 +1480,9 @@ const ChatSection = () => {
               onClick={togglePyq}
               size="small"
               title="Show Chat Panel"
-              sx={{ color: '#000000', transform: 'scaleX(-1)', padding: '3px' }}
+              sx={{ color: '#9ca3af', transform: 'scaleX(-1)', padding: '3px', '&:hover': { color: '#ffffff' } }}
             >
-              <ChevronFirst width={15} height={15} strokeWidth={2} stroke="#000000" />
+              <ChevronFirst width={15} height={15} strokeWidth={2} stroke="currentColor" />
             </IconButton>
           </Box>
 
@@ -1521,7 +1492,7 @@ const ChatSection = () => {
               onClick={togglePyq}
               size="small"
               title="Show Chat Panel"
-              sx={{ color: 'text.primary', '&:hover': { backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.12) } }}
+              sx={{ color: '#E4572E', '&:hover': { backgroundColor: 'rgba(228,87,46,0.12)' } }}
             >
               <MessageSquare className="w-4 h-4" />
             </IconButton>

@@ -36,10 +36,10 @@ const EmbeddedSearchBar = ({ onSendMessage, isLoading }) => {
       console.log('🔍 EmbeddedSearchBar: Loading available subjects...')
       const response = await apiService.getBooks()
       console.log('📚 EmbeddedSearchBar: Books response:', response)
-      
+
       const indexedBooks = response.filter(book => book.total_chunks > 0)
       console.log('✅ EmbeddedSearchBar: Indexed books:', indexedBooks)
-      
+
       // Create subject list with indexed subjects only
       const subjects = ['All Subjects'] // Always include "All Subjects"
       indexedBooks.forEach(book => {
@@ -49,7 +49,7 @@ const EmbeddedSearchBar = ({ onSendMessage, isLoading }) => {
           subjects.push(subjectName)
         }
       })
-      
+
       console.log('🎯 EmbeddedSearchBar: Final subjects list:', subjects)
       setAvailableSubjects(subjects)
     } catch (error) {
@@ -117,13 +117,13 @@ const EmbeddedSearchBar = ({ onSendMessage, isLoading }) => {
     e.preventDefault()
     const query = inputValue.trim()
     if (!query || isLoading) return
-    
+
     // Convert subject name to the format expected by the API
     let subjectId = 'all'
     if (selectedSubject !== 'All Subjects') {
       subjectId = selectedSubject.toLowerCase()
     }
-    
+
     let selectedClassValue = null
     if (selectedClass !== 'All Classes') {
       const classNumMatch = selectedClass.match(/(6|7|8|9|10|11|12)/)
@@ -165,59 +165,47 @@ const EmbeddedSearchBar = ({ onSendMessage, isLoading }) => {
   }, [inputValue, adjustTextareaHeight])
 
   return (
-    <div 
-      className="w-full mx-auto p-2.5 sm:p-3 rounded-2xl sm:rounded-3xl flex flex-col gap-2 transition-all duration-300"
-      style={{
-        backgroundColor: '#262626',
-        border: '1px solid rgba(255, 255, 255, 0.12)',
-        boxShadow: '0 12px 36px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.06)'
-      }}
-    >
-      {/* 3 Buttons Row at top (Sleek Dark Glass Pills) */}
-      <div className="flex flex-wrap items-center gap-1.5 min-w-0 justify-start px-0.5">
+    <div className="w-full mx-auto p-3 rounded-2xl border border-gray-200 bg-white shadow-xl flex flex-col gap-2">
+      {/* 3 Buttons Row at top, with orange BG */}
+      <div className="flex flex-wrap items-center gap-1.5 min-w-0 justify-start px-1">
         {/* Subject Selector */}
         <div className="relative" ref={subjectDropdownRef}>
           <button
             type="button"
             onClick={() => setShowDropdown(!showDropdown)}
-            className="flex items-center justify-between space-x-1.5 px-3 py-1 rounded-full text-[11px] font-semibold border transition-all duration-200 hover:bg-white/15 active:scale-95"
+            className="flex items-center justify-between space-x-1.5 px-3 py-1 rounded-full text-[10px] font-bold border transition-colors duration-200 hover:bg-[#d9522b]"
             style={{
-              borderColor: 'rgba(255, 255, 255, 0.16)',
-              backgroundColor: 'rgba(255, 255, 255, 0.08)',
-              color: '#f3f4f6'
+              borderColor: '#E4572E',
+              backgroundColor: '#E4572E',
+              color: '#FFFFFF'
             }}
             disabled={isLoadingSubjects}
           >
-            <span className="whitespace-nowrap truncate max-w-[90px]">
+            <span className="whitespace-nowrap truncate max-w-[80px]">
               {isLoadingSubjects ? 'Loading...' : selectedSubject}
             </span>
-            <ChevronDown className="w-3 h-3 flex-shrink-0 text-white/70" />
+            <ChevronDown className="w-3 h-3 flex-shrink-0 text-white" />
           </button>
 
           {showDropdown && !isLoadingSubjects && (
-            <div 
-              className="absolute bottom-full left-0 mb-2 w-44 rounded-xl shadow-2xl overflow-hidden z-[70] py-1 max-h-52 overflow-y-auto"
-              style={{
-                backgroundColor: '#262626',
-                border: '1px solid rgba(255, 255, 255, 0.15)',
-                boxShadow: '0 16px 40px rgba(0,0,0,0.6)'
-              }}
-            >
-              {availableSubjects.map((subject, index) => (
-                <button
-                  key={index}
-                  type="button"
-                  onClick={() => handleSubjectSelect(subject)}
-                  className="w-full text-left px-3 py-1.5 text-xs transition-colors hover:bg-white/10"
-                  style={{
-                    color: selectedSubject === subject ? '#E4572E' : '#f3f4f6',
-                    fontWeight: selectedSubject === subject ? '700' : '400',
-                    backgroundColor: selectedSubject === subject ? 'rgba(228, 87, 46, 0.15)' : 'transparent'
-                  }}
-                >
-                  {subject}
-                </button>
-              ))}
+            <div className="absolute bottom-full left-0 mb-1 w-40 rounded-lg shadow-lg border border-gray-200 bg-white z-[60]">
+              <div className="py-1 max-h-48 overflow-y-auto">
+                {availableSubjects.map((subject, index) => (
+                  <button
+                    key={index}
+                    type="button"
+                    onClick={() => handleSubjectSelect(subject)}
+                    className="w-full text-left px-2.5 py-1.5 text-xs hover:bg-gray-50 transition-colors"
+                    style={{
+                      color: '#1F2933',
+                      fontWeight: selectedSubject === subject ? '600' : '400',
+                      backgroundColor: selectedSubject === subject ? 'rgba(228, 87, 46, 0.08)' : 'transparent'
+                    }}
+                  >
+                    {subject}
+                  </button>
+                ))}
+              </div>
             </div>
           )}
         </div>
@@ -227,44 +215,39 @@ const EmbeddedSearchBar = ({ onSendMessage, isLoading }) => {
           <button
             type="button"
             onClick={() => setShowClassDropdown(!showClassDropdown)}
-            className="flex items-center justify-between space-x-1.5 px-3 py-1 rounded-full text-[11px] font-semibold border transition-all duration-200 hover:bg-white/15 active:scale-95"
+            className="flex items-center justify-between space-x-1.5 px-3 py-1 rounded-full text-[10px] font-bold border transition-colors duration-200 hover:bg-[#d9522b]"
             style={{
-              borderColor: 'rgba(255, 255, 255, 0.16)',
-              backgroundColor: 'rgba(255, 255, 255, 0.08)',
-              color: '#f3f4f6'
+              borderColor: '#E4572E',
+              backgroundColor: '#E4572E',
+              color: '#FFFFFF'
             }}
             disabled={isLoadingClasses}
           >
-            <span className="whitespace-nowrap truncate max-w-[80px]">
+            <span className="whitespace-nowrap truncate max-w-[70px]">
               {isLoadingClasses ? 'Loading...' : selectedClass}
             </span>
-            <ChevronDown className="w-3 h-3 flex-shrink-0 text-white/70" />
+            <ChevronDown className="w-3 h-3 flex-shrink-0 text-white" />
           </button>
 
           {showClassDropdown && !isLoadingClasses && (
-            <div 
-              className="absolute bottom-full left-0 mb-2 w-40 rounded-xl shadow-2xl overflow-hidden z-[70] py-1 max-h-52 overflow-y-auto"
-              style={{
-                backgroundColor: '#262626',
-                border: '1px solid rgba(255, 255, 255, 0.15)',
-                boxShadow: '0 16px 40px rgba(0,0,0,0.6)'
-              }}
-            >
-              {availableClasses.map((classLabel, index) => (
-                <button
-                  key={index}
-                  type="button"
-                  onClick={() => handleClassSelect(classLabel)}
-                  className="w-full text-left px-3 py-1.5 text-xs transition-colors hover:bg-white/10"
-                  style={{
-                    color: selectedClass === classLabel ? '#E4572E' : '#f3f4f6',
-                    fontWeight: selectedClass === classLabel ? '700' : '400',
-                    backgroundColor: selectedClass === classLabel ? 'rgba(228, 87, 46, 0.15)' : 'transparent'
-                  }}
-                >
-                  {classLabel}
-                </button>
-              ))}
+            <div className="absolute bottom-full left-0 mb-1 w-36 rounded-lg shadow-lg border border-gray-200 bg-white z-[60]">
+              <div className="py-1 max-h-48 overflow-y-auto">
+                {availableClasses.map((classLabel, index) => (
+                  <button
+                    key={index}
+                    type="button"
+                    onClick={() => handleClassSelect(classLabel)}
+                    className="w-full text-left px-2.5 py-1.5 text-xs hover:bg-gray-50 transition-colors"
+                    style={{
+                      color: '#1F2933',
+                      fontWeight: selectedClass === classLabel ? '600' : '400',
+                      backgroundColor: selectedClass === classLabel ? 'rgba(228, 87, 46, 0.08)' : 'transparent'
+                    }}
+                  >
+                    {classLabel}
+                  </button>
+                ))}
+              </div>
             </div>
           )}
         </div>
@@ -274,58 +257,52 @@ const EmbeddedSearchBar = ({ onSendMessage, isLoading }) => {
           <button
             type="button"
             onClick={() => setShowLengthDropdown(!showLengthDropdown)}
-            className="flex items-center justify-between space-x-1.5 px-3 py-1 rounded-full text-[11px] font-semibold border transition-all duration-200 hover:bg-white/15 active:scale-95"
+            className="flex items-center justify-between space-x-1.5 px-3 py-1 rounded-full text-[10px] font-bold border transition-colors duration-200 hover:bg-[#d9522b]"
             style={{
-              borderColor: 'rgba(255, 255, 255, 0.16)',
-              backgroundColor: 'rgba(255, 255, 255, 0.08)',
-              color: '#f3f4f6'
+              borderColor: '#E4572E',
+              backgroundColor: '#E4572E',
+              color: '#FFFFFF'
             }}
           >
             <span className="whitespace-nowrap">
               {answerLengthModes[answerLengthIndex]?.label} Length
             </span>
-            <ChevronDown className="w-3 h-3 flex-shrink-0 text-white/70" />
+            <ChevronDown className="w-3 h-3 flex-shrink-0 text-white" />
           </button>
 
           {showLengthDropdown && (
-            <div 
-              className="absolute bottom-full left-0 mb-2 w-40 rounded-xl shadow-2xl overflow-hidden z-[70] py-1"
-              style={{
-                backgroundColor: '#262626',
-                border: '1px solid rgba(255, 255, 255, 0.15)',
-                boxShadow: '0 16px 40px rgba(0,0,0,0.6)'
-              }}
-            >
-              {answerLengthModes.map((mode, idx) => (
-                <button
-                  key={mode.value}
-                  type="button"
-                  onClick={() => {
-                    setAnswerLengthIndex(idx)
-                    setShowLengthDropdown(false)
-                  }}
-                  className="w-full text-left px-3 py-1.5 text-xs transition-colors hover:bg-white/10"
-                  style={{
-                    color: answerLengthIndex === idx ? '#E4572E' : '#f3f4f6',
-                    fontWeight: answerLengthIndex === idx ? '700' : '400',
-                    backgroundColor: answerLengthIndex === idx ? 'rgba(228, 87, 46, 0.15)' : 'transparent'
-                  }}
-                >
-                  {mode.label}
-                </button>
-              ))}
+            <div className="absolute bottom-full left-0 mb-1 w-36 rounded-lg shadow-lg border border-gray-200 bg-white z-[60]">
+              <div className="py-1">
+                {answerLengthModes.map((mode, idx) => (
+                  <button
+                    key={mode.value}
+                    type="button"
+                    onClick={() => {
+                      setAnswerLengthIndex(idx)
+                      setShowLengthDropdown(false)
+                    }}
+                    className="w-full text-left px-2.5 py-1.5 text-xs hover:bg-gray-50 transition-colors"
+                    style={{
+                      color: '#1F2933',
+                      fontWeight: answerLengthIndex === idx ? '600' : '400',
+                      backgroundColor: answerLengthIndex === idx ? 'rgba(228, 87, 46, 0.08)' : 'transparent'
+                    }}
+                  >
+                    {mode.label}
+                  </button>
+                ))}
+              </div>
             </div>
           )}
         </div>
       </div>
 
-      {/* Dark sleek search input row */}
+      {/* ChatGPT style search input row */}
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-[768px] mx-auto rounded-xl p-1.5 pr-2 pl-3 flex items-center gap-2 transition-all duration-200 focus-within:border-[#E4572E] focus-within:ring-1 focus-within:ring-[#E4572E]"
+        className="w-full max-w-[768px] mx-auto rounded-xl border border-gray-200 p-1.5 pr-2 pl-3 flex items-center gap-2 transition-colors duration-200 focus-within:border-[#E4572E] focus-within:ring-1 focus-within:ring-[#E4572E]"
         style={{
-          backgroundColor: 'rgba(0, 0, 0, 0.35)',
-          border: '1px solid rgba(255, 255, 255, 0.12)'
+          backgroundColor: '#FFFFFF'
         }}
       >
         <div className="flex-1 relative">
@@ -339,9 +316,9 @@ const EmbeddedSearchBar = ({ onSendMessage, isLoading }) => {
             }}
             onKeyDown={handleKeyPress}
             placeholder="Ask a question..."
-            className="w-full py-1 text-xs sm:text-sm rounded-md focus:outline-none resize-none bg-transparent placeholder:text-gray-400"
+            className="w-full py-1 text-xs rounded-md focus:outline-none resize-none bg-transparent"
             style={{
-              color: '#ffffff',
+              color: '#1F2933',
               caretColor: '#E4572E',
               minHeight: 24,
               maxHeight: '120px',
@@ -355,7 +332,7 @@ const EmbeddedSearchBar = ({ onSendMessage, isLoading }) => {
         <button
           type="submit"
           disabled={isLoading || !inputValue.trim()}
-          className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 disabled:opacity-30 disabled:scale-95 hover:scale-105 active:scale-95 shadow-md"
+          className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 disabled:opacity-30 disabled:scale-95 hover:scale-105 active:scale-95"
           style={{
             backgroundColor: '#E4572E',
             color: '#FFFFFF'

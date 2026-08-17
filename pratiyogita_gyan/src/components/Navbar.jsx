@@ -1,5 +1,5 @@
 import { useState, useEffect, lazy, Suspense } from 'react'
-import { LogIn, UserPlus, Home, BarChart3, Info, Phone, LogOut, ChevronLeft, User, ChevronRight, Sparkles, Settings, MoreVertical } from 'lucide-react'
+import { LogIn, UserPlus, Home, BarChart3, Info, Phone, LogOut, ChevronLeft, User, ChevronRight, Sparkles, Settings, MoreVertical, BookOpen, MessageSquare } from 'lucide-react'
 import { AppBar, Toolbar, Box, Typography, Button, Avatar, Stack, Container, IconButton, Divider, MenuItem, Popover } from '@mui/material'
 import PropTypes from 'prop-types'
 const AuthModal = lazy(() => import('./AuthModal'))
@@ -14,7 +14,7 @@ import { ChevronFirst } from './icons/ChevronFirst'
 
 const Navbar = ({ onViewChange, currentView }) => {
   const { currentUser, logout } = useAuth()
-  const { toggleSidebar, sidebarVisible } = useLayout()
+  const { toggleSidebar, sidebarVisible, mobileActiveTab, setMobileActiveTab } = useLayout()
   const [showAuthModal, setShowAuthModal] = useState(false)
   const [authMode, setAuthMode] = useState('login')
   const [showAboutModal, setShowAboutModal] = useState(false)
@@ -54,15 +54,15 @@ const Navbar = ({ onViewChange, currentView }) => {
     }
   }, [])
 
-  const handleAuthClick = (mode) => {
-    setAuthMode(mode)
-    setShowAuthModal(true)
+  const handleNavigation = (view) => {
+    if (onViewChange) {
+      onViewChange(view)
+    }
     handleCloseMenu()
   }
 
-  const handleNavigate = (view) => {
-    onViewChange(view)
-    handleCloseMenu()
+  const handleHomeClick = () => {
+    handleNavigation('chat')
   }
 
   const handleOpenModal = (setter) => {
@@ -70,8 +70,9 @@ const Navbar = ({ onViewChange, currentView }) => {
     handleCloseMenu()
   }
 
-  const handleHomeClick = () => {
-    onViewChange('chat')
+  const handleAuthClick = (mode) => {
+    setAuthMode(mode)
+    setShowAuthModal(true)
     handleCloseMenu()
   }
 
@@ -104,6 +105,7 @@ const Navbar = ({ onViewChange, currentView }) => {
   }
 
   return (
+    <>
     <AppBar
       position="fixed"
       elevation={0}
@@ -175,6 +177,7 @@ const Navbar = ({ onViewChange, currentView }) => {
                     textTransform: 'uppercase',
                     color: 'primary.main',
                     fontSize: { xs: '0.95rem', sm: '1.15rem' },
+                    display: { xs: currentView === 'chat' ? 'none' : 'block', sm: 'block' },
                     whiteSpace: 'nowrap',
                     lineHeight: 1
                   }}
@@ -183,6 +186,71 @@ const Navbar = ({ onViewChange, currentView }) => {
                 </Typography>
               </Box>
             </Box>
+
+            {/* Center: Integrated PYQ / Chat Switcher (Clean, Seamless & Single-Row) */}
+            {currentView === 'chat' && (
+              <Box
+                sx={{
+                  display: { xs: 'flex', md: 'none' },
+                  alignItems: 'center',
+                  backgroundColor: '#18181b',
+                  border: '1px solid rgba(255, 255, 255, 0.12)',
+                  borderRadius: 999,
+                  p: '2px',
+                  height: 34,
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
+                }}
+              >
+                <Button
+                  onClick={() => setMobileActiveTab('pyq')}
+                  size="small"
+                  sx={{
+                    minWidth: 66,
+                    height: 28,
+                    borderRadius: 999,
+                    fontSize: '0.72rem',
+                    fontWeight: 700,
+                    textTransform: 'none',
+                    gap: 0.5,
+                    color: mobileActiveTab === 'pyq' ? '#ffffff' : '#9ca3af',
+                    backgroundColor: mobileActiveTab === 'pyq' ? '#E4572E' : 'transparent',
+                    boxShadow: mobileActiveTab === 'pyq' ? '0 2px 8px rgba(228,87,46,0.45)' : 'none',
+                    transition: 'all 0.2s ease',
+                    '&:hover': {
+                      backgroundColor: mobileActiveTab === 'pyq' ? '#c43e1c' : 'rgba(255,255,255,0.06)',
+                      color: '#ffffff'
+                    }
+                  }}
+                >
+                  <BookOpen className="w-3.5 h-3.5" />
+                  <span>PYQ</span>
+                </Button>
+                <Button
+                  onClick={() => setMobileActiveTab('chat')}
+                  size="small"
+                  sx={{
+                    minWidth: 66,
+                    height: 28,
+                    borderRadius: 999,
+                    fontSize: '0.72rem',
+                    fontWeight: 700,
+                    textTransform: 'none',
+                    gap: 0.5,
+                    color: mobileActiveTab === 'chat' ? '#ffffff' : '#9ca3af',
+                    backgroundColor: mobileActiveTab === 'chat' ? '#E4572E' : 'transparent',
+                    boxShadow: mobileActiveTab === 'chat' ? '0 2px 8px rgba(228,87,46,0.45)' : 'none',
+                    transition: 'all 0.2s ease',
+                    '&:hover': {
+                      backgroundColor: mobileActiveTab === 'chat' ? '#c43e1c' : 'rgba(255,255,255,0.06)',
+                      color: '#ffffff'
+                    }
+                  }}
+                >
+                  <MessageSquare className="w-3.5 h-3.5" />
+                  <span>Chat</span>
+                </Button>
+              </Box>
+            )}
 
             {/* Right: Attached Menu Button */}
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -566,6 +634,7 @@ const Navbar = ({ onViewChange, currentView }) => {
         )}
       </Suspense>
     </AppBar>
+    </>
   )
 }
 

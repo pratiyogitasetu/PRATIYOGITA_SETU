@@ -240,7 +240,7 @@ const PYQSection = () => {
   useEffect(() => {
     const handleMcqResults = (event) => {
       const { mcqs, query } = event.detail
-      
+
       setSearchResults(prev => {
         const existingIds = new Set(prev.map(q => q.id || q.question))
         const newMcqs = (mcqs || []).map(q => ({
@@ -337,27 +337,6 @@ const PYQSection = () => {
     }
   }, [])
 
-  // Listen for query submission from chat input or quick prompts
-  useEffect(() => {
-    const handleSubmitQuery = (event) => {
-      const query = event.detail?.query
-      if (query && typeof query === 'string' && query.trim()) {
-        const cleanQuery = query.trim()
-        setLastSearchQuery(cleanQuery)
-        setIsChatLoading(true)
-        setExpandedQueries(prev => {
-          const collapsed = {}
-          Object.keys(prev).forEach(k => { collapsed[k] = false })
-          return collapsed
-        })
-      }
-    }
-    window.addEventListener('submitChatQuery', handleSubmitQuery)
-    return () => {
-      window.removeEventListener('submitChatQuery', handleSubmitQuery)
-    }
-  }, [])
-
   useEffect(() => {
     const handleLoadingChange = (event) => {
       const loading = Boolean(event.detail?.isLoading)
@@ -380,7 +359,6 @@ const PYQSection = () => {
     if (!pyqVisible) {
       togglePyq()
     }
-    setLastSearchQuery(query)
     setExpandedQueries(prev => {
       const collapsed = {}
       Object.keys(prev).forEach(k => { collapsed[k] = false })
@@ -744,7 +722,7 @@ const PYQSection = () => {
     <Box
       sx={{
         position: 'fixed',
-        top: { xs: 100, md: 64 },
+        top: { xs: 60, md: 64 },
         bottom: { xs: 0, md: 4 },
         left: { xs: 0, md: leftMarginPx },
         right: { xs: 0, md: rightMarginPx },
@@ -1712,7 +1690,7 @@ const PYQSection = () => {
                   ) : !lastSearchQuery ? (
                     <Box sx={{ textAlign: 'center', py: 6 }}>
                       <FileText className="w-12 h-12 mx-auto mb-2" style={{ color: '#9ca3af' }} />
-                      <Typography variant="caption" sx={{ display: 'block', color: '#6b7280' }}>
+                      <Typography variant="caption" sx={{ display: 'block', color: '#9ca3af' }}>
                         Use the search bar below to find relevant PYQs
                       </Typography>
                     </Box>

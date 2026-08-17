@@ -150,7 +150,6 @@ function AppContent() {
       </svg>
       <div className="grainy-background-layer" />
       <Navbar onViewChange={handleViewChange} currentView={currentView} />
-      {currentView === 'chat' && <MobileTabBar />}
       <div className="flex-1 min-h-0 relative flex flex-col md:flex-row w-full overflow-hidden">
         <Suspense
           fallback={
