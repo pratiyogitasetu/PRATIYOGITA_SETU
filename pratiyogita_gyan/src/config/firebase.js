@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
 import { getAuth, connectAuthEmulator } from 'firebase/auth';
-import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
+import { getFirestore, initializeFirestore, persistentLocalCache, persistentMultipleTabManager, connectFirestoreEmulator } from 'firebase/firestore';
 
 // Your web app's Firebase configuration
 // Replace with your actual Firebase config or use environment variables
@@ -38,15 +38,22 @@ let db;
 try {
   app = initializeApp(firebaseConfig);
   auth = getAuth(app);
-  db = getFirestore(app);
+  
+  // Use modern bounded local cache (5MB limit) instead of deprecated unbounded IndexedDB
+  db = initializeFirestore(app, {
+    localCache: persistentLocalCache({
+      tabManager: persistentMultipleTabManager(),
+      cacheSizeBytes: 5 * 1024 * 1024 // 5 MB maximum cache limit
+    })
+  });
   
   if (import.meta.env.DEV) {
-    console.log('✅ Firebase initialized successfully');
+    console.log('✅ Firebase initialized successfully with 5MB cache limit');
   }
 } catch (error) {
   console.error('❌ Firebase initialization error:', error);
-  // Re-throw with more context
-  throw new Error(`Firebase initialization failed: ${error.message}`);
+  // Fallback to standard getFirestore if initializeFirestore already called
+  db = getFirestore(app);
 }
 
 // Connect to emulators in development (optional)
@@ -55,20 +62,6 @@ if (import.meta.env.DEV && import.meta.env.VITE_USE_FIREBASE_EMULATOR === 'true'
   connectFirestoreEmulator(db, 'localhost', 8080);
   console.log('🔧 Connected to Firebase emulators');
 }
-
-// Enable persistence for offline support
-import { enableIndexedDbPersistence } from 'firebase/firestore';
-enableIndexedDbPersistence(db).catch((err) => {
-  if (err.code === 'failed-precondition') {
-    if (import.meta.env.DEV) {
-      console.warn('⚠️ Firestore persistence failed: Multiple tabs open');
-    }
-  } else if (err.code === 'unimplemented') {
-    if (import.meta.env.DEV) {
-      console.warn('⚠️ Firestore persistence not available in this browser');
-    }
-  }
-});
 
 export { auth, db };
 export default app;

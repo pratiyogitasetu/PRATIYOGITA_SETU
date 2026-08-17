@@ -1038,6 +1038,7 @@ const PYQSection = () => {
                       {/* Compact Top Header Card */}
                       <Paper
                         elevation={0}
+                        className="pyq-fade-slide"
                         sx={{
                           p: { xs: 1.5, sm: 2 },
                           borderRadius: 2.5,
@@ -1097,6 +1098,7 @@ const PYQSection = () => {
                           {(totalQuestions > 0 ? String(totalQuestions).split('') : ['1', '1', '7']).map((digit, idx) => (
                             <Box
                               key={idx}
+                              className="pyq-countdown-digit"
                               sx={{
                                 display: 'inline-flex',
                                 alignItems: 'center',
@@ -1131,6 +1133,8 @@ const PYQSection = () => {
                         ].map((cat, idx) => (
                           <Box
                             key={idx}
+                            className="pyq-badge-enter"
+                            style={{ animationDelay: `${idx * 0.05}s` }}
                             sx={{
                               py: 0.7,
                               px: 1,
@@ -1142,7 +1146,12 @@ const PYQSection = () => {
                               alignItems: 'center',
                               justifyContent: 'center',
                               gap: 0.75,
-                              userSelect: 'none'
+                              userSelect: 'none',
+                              transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                              '&:hover': {
+                                transform: 'translateY(-1px)',
+                                boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+                              }
                             }}
                           >
                             <span style={{ fontSize: '0.95rem' }}>{cat.icon}</span>
@@ -1173,6 +1182,8 @@ const PYQSection = () => {
                               onClick={() => handleSendMessage(topic, { exam: 'all', subject: 'all' })}
                               variant="outlined"
                               size="small"
+                              className="pyq-fade-slide"
+                              style={{ animationDelay: `${0.1 + idx * 0.03}s` }}
                               sx={{
                                 justifyContent: 'flex-start',
                                 textAlign: 'left',
@@ -1189,7 +1200,8 @@ const PYQSection = () => {
                                 '&:hover': {
                                   borderColor: '#E4572E',
                                   backgroundColor: 'rgba(228,87,46,0.06)',
-                                  color: '#E4572E'
+                                  color: '#E4572E',
+                                  transform: 'translateY(-1px)'
                                 }
                               }}
                             >
@@ -1201,7 +1213,7 @@ const PYQSection = () => {
                       </Box>
                     </Box>
                   ) : lastSearchQuery && currentQuestions.length === 0 ? (
-                    <Box sx={{ textAlign: 'center', py: 6 }}>
+                    <Box sx={{ textAlign: 'center', py: 6 }} className="pyq-fade-slide">
                       <FileText className="w-12 h-12 mx-auto mb-2" style={{ color: '#000000', opacity: 0.4 }} />
                       <Typography variant="caption" sx={{ display: 'block', color: '#000000', opacity: 0.7 }}>
                         No related questions found for "{lastSearchQuery}"
@@ -1214,6 +1226,7 @@ const PYQSection = () => {
                     <Stack spacing={1.5}>
                       {isChatLoading && (
                         <Box 
+                          className="pyq-fade-slide"
                           sx={{ 
                             display: 'flex', 
                             alignItems: 'center', 
@@ -1239,6 +1252,7 @@ const PYQSection = () => {
                         return (
                           <Box
                             key={queryName}
+                            className="pyq-card-enter"
                             sx={{
                               border: '1px solid',
                               borderColor: isDarkMode ? 'rgba(255,255,255,0.08)' : '#e5e7eb',
@@ -1311,7 +1325,7 @@ const PYQSection = () => {
                                     No questions match the selected filters.
                                   </Typography>
                                 ) : (
-                                  applyFiltersToQuestions(questions).map((question) => {
+                                  applyFiltersToQuestions(questions).map((question, qIdx) => {
                                     const questionIndex = currentQuestions.indexOf(question)
                                     const questionId = getStableQuestionId(question, questionIndex)
                                     const userAnswer = userAnswers[questionId]
@@ -1322,12 +1336,15 @@ const PYQSection = () => {
                                       <Paper
                                         key={questionId}
                                         elevation={0}
+                                        className="pyq-card-enter"
+                                        style={{ animationDelay: `${Math.min(qIdx * 0.04, 0.25)}s` }}
                                         sx={{
                                           borderRadius: 2,
                                           border: '1px solid',
                                           borderColor: hasAnswered ? (isCorrect ? 'rgba(34,197,94,0.4)' : 'rgba(239,68,68,0.4)') : (isDarkMode ? '#374151' : '#e5e7eb'),
                                           backgroundColor: isDarkMode ? '#111827' : '#ffffff',
-                                          overflow: 'hidden'
+                                          overflow: 'hidden',
+                                          transition: 'all 0.2s ease'
                                         }}
                                       >
                                         {/* Question Header */}
