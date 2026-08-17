@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useMemo, useCallback, useLayoutEffect, Fragment, memo } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { User, ChevronUp, FileText, Hash, ChevronLeft, ChevronRight, MessageSquare, Sparkles, TrendingUp, Zap, GraduationCap, Book } from 'lucide-react'
+import { User, ChevronUp, FileText, Hash, ChevronLeft, ChevronRight, MessageSquare, Sparkles, TrendingUp, Zap, GraduationCap, Book, BookOpen, Sliders } from 'lucide-react'
 import { Box, Paper, Stack, Typography, Alert, Chip, Divider, Avatar, IconButton, Button } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 import PropTypes from 'prop-types'
