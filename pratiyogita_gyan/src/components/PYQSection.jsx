@@ -1154,7 +1154,7 @@ const PYQSection = () => {
                         textAlign: 'center'
                       }}
                     >
-                      <ThinkingOrb state="connecting" size={64} speed={1.80} />
+                      <ThinkingOrb state="connecting" size={96} speed={1.80} />
                       <Typography 
                         variant="body2" 
                         sx={{ 
@@ -1198,55 +1198,47 @@ const PYQSection = () => {
                           boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
                         }}
                       >
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25 }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                           <img 
                             src="/pg.png" 
-                            alt="PG Logo" 
-                            className="w-10 h-10 object-contain mg-logo-shake"
+                            alt="Pratiyogita Gyan Logo" 
+                            className="w-11 h-11 object-contain mg-logo-shake"
                             style={{ filter: 'drop-shadow(0 2px 8px rgba(228,87,46,0.25))' }}
                           />
-                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, flexWrap: 'wrap' }}>
-                            {/* Countdown Display */}
-                            <Box sx={{ display: 'inline-flex', gap: 0.4 }}>
-                              {(totalQuestions > 0 ? String(totalQuestions).split('') : ['1', '1', '7']).map((digit, idx) => (
-                                <Box
-                                  key={idx}
-                                  className="pyq-countdown-digit"
-                                  sx={{
-                                    display: 'inline-flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    width: 24,
-                                    height: 30,
-                                    borderRadius: 1.2,
-                                    background: 'linear-gradient(135deg, #E4572E 0%, #c43e1c 100%)',
-                                    color: '#ffffff',
-                                    fontSize: '0.95rem',
-                                    fontWeight: 800,
-                                    fontFamily: '"Fredoka", "Sora", sans-serif',
-                                    boxShadow: '0 2px 6px rgba(228, 87, 46, 0.3)'
-                                  }}
-                                >
-                                  {digit}
-                                </Box>
-                              ))}
-                            </Box>
-                            <Typography variant="subtitle2" sx={{ fontWeight: 800, color: '#111827', fontSize: '0.88rem' }}>
-                              PYQs Available
-                            </Typography>
-                            <Box
+                          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                            <Typography
+                              variant="subtitle1"
                               sx={{
-                                backgroundColor: 'rgba(228,87,46,0.08)',
-                                border: '1px solid rgba(228,87,46,0.2)',
-                                color: '#E4572E',
-                                px: 1,
-                                py: 0.25,
-                                borderRadius: 999,
-                                fontSize: '0.72rem',
-                                fontWeight: 700
+                                fontWeight: 800,
+                                color: '#111827',
+                                fontSize: '1rem',
+                                letterSpacing: '0.01em',
+                                lineHeight: 1.2
                               }}
                             >
-                              Adding everyday • More to come 🚀
+                              Pratiyogita Gyan
+                            </Typography>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.6, mt: 0.3, flexWrap: 'wrap' }}>
+                              <Typography
+                                variant="caption"
+                                sx={{
+                                  fontWeight: 700,
+                                  color: '#E4572E',
+                                  fontSize: '0.82rem'
+                                }}
+                              >
+                                {totalQuestions > 0 ? totalQuestions : 117} PYQ Questions
+                              </Typography>
+                              <Typography
+                                variant="caption"
+                                sx={{
+                                  color: '#6b7280',
+                                  fontSize: '0.78rem',
+                                  fontWeight: 500
+                                }}
+                              >
+                                • Adding more everyday 🚀
+                              </Typography>
                             </Box>
                           </Box>
                         </Box>
@@ -1669,7 +1661,7 @@ const PYQSection = () => {
                             mb: 1
                           }}
                         >
-                          <ThinkingOrb state="connecting" size={20} speed={1.80} />
+                          <ThinkingOrb state="connecting" size={30} speed={1.80} />
                           <Typography variant="caption" sx={{ fontWeight: 600, color: '#E4572E', fontSize: '0.8rem' }}>
                             Searching new questions...
                           </Typography>

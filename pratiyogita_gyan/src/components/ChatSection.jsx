@@ -334,15 +334,24 @@ const ChatMessageBubble = memo(({
         {/* Avatar */}
         <Box sx={{ width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
           {message.type === 'user' ? (
-            <Avatar sx={{ width: 32, height: 32, bgcolor: 'primary.main', color: 'primary.contrastText' }}>
-              <User size={12} />
+            <Avatar 
+              sx={{ 
+                width: 28, 
+                height: 28, 
+                bgcolor: '#f3f4f6', 
+                color: '#374151', 
+                border: '1px solid #e5e7eb',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.04)'
+              }}
+            >
+              <User size={13} />
             </Avatar>
           ) : (
             <Box
               component="img"
-              src="/mg.png"
-              alt="MG Bot"
-              sx={{ width: 48, height: 48, objectFit: 'contain' }}
+              src="/pg.png"
+              alt="PG Bot"
+              sx={{ width: 32, height: 32, objectFit: 'contain', filter: 'drop-shadow(0 2px 4px rgba(228,87,46,0.2))' }}
             />
           )}
         </Box>
@@ -356,19 +365,22 @@ const ChatMessageBubble = memo(({
           <Paper
             elevation={0}
             sx={{
-              p: message.type === 'bot' ? 0.75 : 0.9,
-              width: message.type === 'user' ? { xs: '100%', md: 'auto' } : 'auto',
+              p: message.type === 'user' ? '7px 12px' : 0.9,
+              width: message.type === 'user' ? { xs: 'auto', md: 'auto' } : 'auto',
+              maxWidth: message.type === 'user' ? '85%' : '100%',
               flexGrow: message.type === 'user' ? 0 : 1,
-              borderRadius: 2,
-              backgroundColor: message.type === 'user' ? 'primary.main' : 'background.paper',
-              color: message.type === 'user' ? 'primary.contrastText' : 'text.primary',
-              border: message.type === 'user' ? 'none' : (theme) => `1px solid ${theme.palette.divider}`
+              borderRadius: message.type === 'user' ? '14px 14px 4px 14px' : 2,
+              backgroundColor: message.type === 'user' ? '#f3f4f6' : '#ffffff',
+              color: message.type === 'user' ? '#111827' : '#1f2937',
+              border: '1px solid #e5e7eb',
+              boxShadow: message.type === 'user' ? '0 1px 3px rgba(0,0,0,0.04)' : 'none'
             }}
           >
             <Box
               sx={{
-                fontSize: '0.7rem',
-                lineHeight: message.type === 'bot' ? 1.3 : 1.4,
+                fontSize: message.type === 'user' ? '0.78rem' : '0.7rem',
+                fontWeight: message.type === 'user' ? 600 : 400,
+                lineHeight: message.type === 'bot' ? 1.3 : 1.42,
                 whiteSpace: 'normal',
                 '& h1 + p, & h2 + p, & h3 + p, & h4 + p, & h5 + p, & h6 + p': {
                   marginTop: '0.08rem'

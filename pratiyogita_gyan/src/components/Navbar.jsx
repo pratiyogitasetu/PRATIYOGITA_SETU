@@ -131,6 +131,7 @@ const Navbar = ({ onViewChange, currentView }) => {
                 size="small"
                 aria-label="Toggle sidebar"
                 sx={{
+                  display: { xs: 'inline-flex', md: 'none' },
                   color: '#000000',
                   border: '1px solid #e5e7eb',
                   borderRadius: 2,
@@ -187,39 +188,63 @@ const Navbar = ({ onViewChange, currentView }) => {
               </Box>
             </Box>
 
-            {/* Center: Integrated PYQ / Chat Switcher (Clean, Seamless & Single-Row) */}
+            {/* Center: Integrated PYQ / Chat Switcher (Clean, Seamless & Single-Row with Smooth Sliding Highlight) */}
             {currentView === 'chat' && (
               <Box
                 sx={{
                   display: { xs: 'flex', md: 'none' },
+                  position: 'relative',
                   alignItems: 'center',
                   backgroundColor: '#18181b',
                   border: '1px solid rgba(255, 255, 255, 0.12)',
                   borderRadius: 999,
-                  p: '2px',
+                  p: '3px',
                   height: 34,
+                  width: 140,
+                  overflow: 'hidden',
+                  userSelect: 'none',
                   boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
                 }}
               >
+                {/* Smooth Sliding Orange Highlight Pill */}
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: 3,
+                    bottom: 3,
+                    left: 3,
+                    width: 'calc(50% - 3px)',
+                    backgroundColor: '#E4572E',
+                    borderRadius: 999,
+                    boxShadow: '0 2px 8px rgba(228,87,46,0.45)',
+                    transform: mobileActiveTab === 'chat' ? 'translateX(100%)' : 'translateX(0%)',
+                    transition: 'transform 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
+                    zIndex: 1,
+                    pointerEvents: 'none'
+                  }}
+                />
+
                 <Button
                   onClick={() => setMobileActiveTab('pyq')}
+                  disableRipple
                   size="small"
                   sx={{
-                    minWidth: 66,
-                    height: 28,
+                    flex: 1,
+                    height: '100%',
                     borderRadius: 999,
                     fontSize: '0.72rem',
                     fontWeight: 700,
                     textTransform: 'none',
                     gap: 0.5,
+                    position: 'relative',
+                    zIndex: 2,
                     color: mobileActiveTab === 'pyq' ? '#ffffff' : '#9ca3af',
-                    backgroundColor: mobileActiveTab === 'pyq' ? '#E4572E' : 'transparent',
-                    boxShadow: mobileActiveTab === 'pyq' ? '0 2px 8px rgba(228,87,46,0.45)' : 'none',
-                    transition: 'all 0.2s ease',
-                    '&:hover': {
-                      backgroundColor: mobileActiveTab === 'pyq' ? '#c43e1c' : 'rgba(255,255,255,0.06)',
-                      color: '#ffffff'
-                    }
+                    backgroundColor: 'transparent !important',
+                    boxShadow: 'none',
+                    p: 0,
+                    minWidth: 0,
+                    transition: 'color 0.2s ease',
+                    '&:hover': { color: '#ffffff' }
                   }}
                 >
                   <BookOpen className="w-3.5 h-3.5" />
@@ -227,23 +252,25 @@ const Navbar = ({ onViewChange, currentView }) => {
                 </Button>
                 <Button
                   onClick={() => setMobileActiveTab('chat')}
+                  disableRipple
                   size="small"
                   sx={{
-                    minWidth: 66,
-                    height: 28,
+                    flex: 1,
+                    height: '100%',
                     borderRadius: 999,
                     fontSize: '0.72rem',
                     fontWeight: 700,
                     textTransform: 'none',
                     gap: 0.5,
+                    position: 'relative',
+                    zIndex: 2,
                     color: mobileActiveTab === 'chat' ? '#ffffff' : '#9ca3af',
-                    backgroundColor: mobileActiveTab === 'chat' ? '#E4572E' : 'transparent',
-                    boxShadow: mobileActiveTab === 'chat' ? '0 2px 8px rgba(228,87,46,0.45)' : 'none',
-                    transition: 'all 0.2s ease',
-                    '&:hover': {
-                      backgroundColor: mobileActiveTab === 'chat' ? '#c43e1c' : 'rgba(255,255,255,0.06)',
-                      color: '#ffffff'
-                    }
+                    backgroundColor: 'transparent !important',
+                    boxShadow: 'none',
+                    p: 0,
+                    minWidth: 0,
+                    transition: 'color 0.2s ease',
+                    '&:hover': { color: '#ffffff' }
                   }}
                 >
                   <MessageSquare className="w-3.5 h-3.5" />
@@ -263,8 +290,8 @@ const Navbar = ({ onViewChange, currentView }) => {
                 sx={{
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: 0.8,
-                  p: '4px 10px',
+                  gap: { xs: 0, sm: 0.8 },
+                  p: { xs: '4px 6px', sm: '4px 10px' },
                   borderRadius: 999,
                   border: '1px solid',
                   borderColor: isMenuOpen ? 'primary.main' : '#e5e7eb',
@@ -307,7 +334,9 @@ const Navbar = ({ onViewChange, currentView }) => {
                 >
                   {getUserDisplayName()}
                 </Box>
-                <MoreVertical size={16} strokeWidth={2} style={{ color: '#4b5563', marginLeft: 2 }} />
+                <Box sx={{ display: { xs: 'none', sm: 'inline-flex' } }}>
+                  <MoreVertical size={16} strokeWidth={2} style={{ color: '#4b5563', marginLeft: 2 }} />
+                </Box>
               </Button>
             </Box>
           </Box>
