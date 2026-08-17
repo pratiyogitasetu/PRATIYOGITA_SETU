@@ -1198,7 +1198,6 @@ const ChatSection = () => {
     }
     userMessageRefs.current.set(messageId, node)
   }, [])
-
   const renderMessage = (message) => (
     <ChatMessageBubble
       key={message.id}
@@ -1232,12 +1231,12 @@ const ChatSection = () => {
             bottom: isMobile ? 0 : 4,
             width: isMobile ? '100%' : 420,
             zIndex: isMobile ? 25 : 30,
-            borderRadius: isMobile ? 0 : 1.5,
-            backgroundColor: '#1e1e1e',
+            borderRadius: isMobile ? 0 : 1,
+            backgroundColor: '#ffffff',
             overflow: 'hidden',
             display: 'flex',
             flexDirection: 'column',
-            border: isMobile ? 'none' : '1px solid rgba(255, 255, 255, 0.12)',
+            border: isMobile ? 'none' : '1px solid #808080',
             transform: isMobile ? (mobileActiveTab === 'chat' ? 'translateX(0%)' : 'translateX(100%)') : 'none',
             opacity: isMobile ? (mobileActiveTab === 'chat' ? 1 : 0) : 1,
             pointerEvents: isMobile ? (mobileActiveTab === 'chat' ? 'auto' : 'none') : 'auto',
@@ -1247,10 +1246,10 @@ const ChatSection = () => {
         >
           {/* Main Chat Container with Theme-aware Background */}
           <Paper
-            elevation={2}
+            elevation={1}
             className="flex-grow rounded-lg flex flex-col overflow-hidden transition-colors duration-300"
             sx={{
-              backgroundColor: '#1e1e1e',
+              backgroundColor: '#ffffff',
               border: 'none',
               position: 'relative',
               height: '100%'
@@ -1258,17 +1257,17 @@ const ChatSection = () => {
           >
             {/* Toggle Button in Header (Desktop Only) */}
             {!isMobile && (
-              <Box sx={{ p: 0.75, px: 1.5, display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(255, 255, 255, 0.08)', backgroundColor: '#262626' }}>
+              <Box sx={{ p: 0.75, px: 1.5, display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #e5e7eb', backgroundColor: '#fafafa' }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   <IconButton
                     onClick={togglePyq}
                     size="small"
                     title="Hide Chat Panel"
-                    sx={{ color: '#9ca3af', padding: '3px', '&:hover': { color: '#ffffff' } }}
+                    sx={{ color: '#000000', padding: '3px' }}
                   >
-                    <ChevronFirst width={15} height={15} strokeWidth={2} stroke="currentColor" />
+                    <ChevronFirst width={15} height={15} strokeWidth={2} stroke="#000000" />
                   </IconButton>
-                  <Typography variant="caption" sx={{ fontWeight: 700, color: '#f3f4f6', fontSize: '0.8rem' }}>
+                  <Typography variant="caption" sx={{ fontWeight: 700, color: '#1f2937', fontSize: '0.8rem' }}>
                     Chat Companion
                   </Typography>
                 </Box>
@@ -1284,7 +1283,7 @@ const ChatSection = () => {
                     py: 0.5,
                     borderColor: 'rgba(255, 146, 28, 0.5)',
                     backgroundColor: 'rgba(255, 146, 28, 0.15)',
-                    color: '#fbbf24',
+                    color: '#d97706',
                     fontSize: '0.75rem'
                   }}
                 >
@@ -1303,7 +1302,7 @@ const ChatSection = () => {
                     py: 0.5,
                     borderColor: 'rgba(234, 179, 8, 0.35)',
                     backgroundColor: 'rgba(234, 179, 8, 0.15)',
-                    color: '#fbbf24',
+                    color: '#92400e',
                     fontSize: '0.75rem'
                   }}
                 >
@@ -1317,8 +1316,8 @@ const ChatSection = () => {
               ref={scrollContainerRef}
               className="flex-grow p-4 overflow-y-auto space-y-4 text-xs"
               sx={{
-                backgroundColor: '#181818',
-                color: '#f3f4f6',
+                backgroundColor: '#ffffff',
+                color: '#000000',
                 overflowAnchor: 'none',
                 scrollBehavior: 'auto',
                 pb: { xs: 22, sm: 18, md: 4 }
@@ -1333,11 +1332,15 @@ const ChatSection = () => {
                         <img
                           src="/pg.png"
                           alt="MG Logo"
-                          className="w-24 h-24 mx-auto object-contain mb-2 mg-logo-shake transition-all duration-300"
+                          className="w-28 h-28 mx-auto object-contain mb-2 mg-logo-shake transition-all duration-300"
                         />
 
                         <p
-                          className="mb-2 text-xs transition-colors duration-300 max-w-xs mx-auto text-gray-300"
+                          className="mb-2 text-xs transition-colors duration-300 max-w-xs mx-auto"
+                          style={{
+                            color: '#000000',
+                            opacity: 0.7
+                          }}
                         >
                           Ask any question and get comprehensive answers along with related PYQs.
                         </p>
@@ -1346,7 +1349,8 @@ const ChatSection = () => {
                       {/* Features Section */}
                       <div className="mb-2">
                         <h3
-                          className="text-sm font-semibold text-center mb-2 text-gray-200"
+                          className="text-sm font-semibold text-center mb-2 transition-colors duration-300"
+                          style={{ color: '#000000' }}
                         >
                           Features
                         </h3>
@@ -1355,15 +1359,15 @@ const ChatSection = () => {
                         <div className="relative w-full mx-auto">
                           {/* Gradient overlays for blurred/faded edges */}
                           <div
-                            className="absolute left-0 top-0 bottom-0 w-10 z-10 pointer-events-none"
+                            className="absolute left-0 top-0 bottom-0 w-10 z-10 pointer-events-none transition-all duration-300"
                             style={{
-                              background: 'linear-gradient(to right, #181818, transparent)'
+                              background: 'linear-gradient(to right, #ffffff, rgba(255, 255, 255, 0.8), transparent)'
                             }}
                           ></div>
                           <div
-                            className="absolute right-0 top-0 bottom-0 w-10 z-10 pointer-events-none"
+                            className="absolute right-0 top-0 bottom-0 w-10 z-10 pointer-events-none transition-all duration-300"
                             style={{
-                              background: 'linear-gradient(to left, #181818, transparent)'
+                              background: 'linear-gradient(to left, #ffffff, rgba(255, 255, 255, 0.8), transparent)'
                             }}
                           ></div>
 
@@ -1380,55 +1384,55 @@ const ChatSection = () => {
                               {[1, 2].map((iteration) => (
                                 <Fragment key={iteration}>
                                   {/* Subject Selection */}
-                                  <div className="p-3 rounded-xl group cursor-pointer transition-all duration-300 flex-shrink-0 min-w-[160px] bg-[#262626] border border-white/10 hover:border-orange-500/50 shadow-md">
+                                  <div className="p-3 rounded-xl group cursor-pointer transition-all duration-300 flex-shrink-0 min-w-[160px] bg-gradient-to-br from-purple-50 to-purple-100 hover:from-purple-25 hover:to-purple-50 shadow-md shadow-purple-200/30">
                                     <div className="flex items-center gap-2.5">
-                                      <GraduationCap className="w-7 h-7 flex-shrink-0 text-purple-400" />
+                                      <GraduationCap className="w-7 h-7 flex-shrink-0 transition-all duration-300 text-purple-700" />
                                       <div className="flex-1">
-                                        <h4 className="font-medium text-xs mb-1 text-purple-300">Subject</h4>
+                                        <h4 className="font-medium text-xs mb-1 text-purple-700">Subject</h4>
                                         <div className="flex flex-wrap gap-1">
-                                          <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-red-900/50 text-red-300 border border-red-700/50">History</span>
-                                          <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-yellow-900/50 text-yellow-300 border border-yellow-700/50">Polity</span>
+                                          <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-red-300 text-red-800">History</span>
+                                          <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-yellow-300 text-yellow-800">Polity</span>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
 
-                                  {/* NCERT Content */}
-                                  <div className="p-3 rounded-xl group cursor-pointer transition-all duration-300 flex-shrink-0 min-w-[160px] bg-[#262626] border border-white/10 hover:border-orange-500/50 shadow-md">
+                                  {/* Class Selection */}
+                                  <div className="p-3 rounded-xl group cursor-pointer transition-all duration-300 flex-shrink-0 min-w-[160px] bg-gradient-to-br from-emerald-50 to-emerald-100 hover:from-emerald-25 hover:to-emerald-50 shadow-md shadow-emerald-200/30">
                                     <div className="flex items-center gap-2.5">
-                                      <BookOpen className="w-7 h-7 flex-shrink-0 text-emerald-400" />
+                                      <BookOpen className="w-7 h-7 flex-shrink-0 transition-all duration-300 text-emerald-700" />
                                       <div className="flex-1">
-                                        <h4 className="font-medium text-xs mb-1 text-emerald-300">NCERT</h4>
+                                        <h4 className="font-medium text-xs mb-1 text-emerald-700">NCERT</h4>
                                         <div className="flex flex-wrap gap-1">
-                                          <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-blue-900/50 text-blue-300 border border-blue-700/50">6-10th</span>
-                                          <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-green-900/50 text-green-300 border border-green-700/50">11-12th</span>
+                                          <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-blue-300 text-blue-800">6-10th</span>
+                                          <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-green-300 text-green-800">11-12th</span>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
 
-                                  {/* Previous Year Questions */}
-                                  <div className="p-3 rounded-xl group cursor-pointer transition-all duration-300 flex-shrink-0 min-w-[160px] bg-[#262626] border border-white/10 hover:border-orange-500/50 shadow-md">
+                                  {/* Answer Length */}
+                                  <div className="p-3 rounded-xl group cursor-pointer transition-all duration-300 flex-shrink-0 min-w-[160px] bg-gradient-to-br from-blue-50 to-blue-100 hover:from-blue-25 hover:to-blue-50 shadow-md shadow-blue-200/30">
                                     <div className="flex items-center gap-2.5">
-                                      <Sliders className="w-7 h-7 flex-shrink-0 text-blue-400" />
+                                      <Sliders className="w-7 h-7 flex-shrink-0 transition-all duration-300 text-blue-700" />
                                       <div className="flex-1">
-                                        <h4 className="font-medium text-xs mb-1 text-blue-300">Length</h4>
+                                        <h4 className="font-medium text-xs mb-1 text-blue-700">Length</h4>
                                         <div className="flex flex-wrap gap-1">
-                                          <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-amber-900/50 text-amber-300 border border-amber-700/50">Short</span>
-                                          <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-indigo-900/50 text-indigo-300 border border-indigo-700/50">Detailed</span>
+                                          <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-amber-300 text-amber-800">Short</span>
+                                          <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-indigo-300 text-indigo-800">Detailed</span>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
 
                                   {/* Quick Response */}
-                                  <div className="p-3 rounded-xl group cursor-pointer transition-all duration-300 flex-shrink-0 min-w-[140px] bg-[#262626] border border-white/10 hover:border-orange-500/50 shadow-md">
+                                  <div className="p-3 rounded-xl group cursor-pointer transition-all duration-300 flex-shrink-0 min-w-[140px] bg-gradient-to-br from-rose-50 to-rose-100 hover:from-rose-25 hover:to-rose-50 shadow-md shadow-rose-200/30">
                                     <div className="flex items-center gap-2.5">
-                                      <Zap className="w-7 h-7 flex-shrink-0 text-rose-400" />
+                                      <Zap className="w-7 h-7 flex-shrink-0 transition-all duration-300 text-rose-700" />
                                       <div className="flex-1">
-                                        <h4 className="font-medium text-xs mb-1 text-rose-300">Quick</h4>
+                                        <h4 className="font-medium text-xs mb-1 text-rose-700">Quick</h4>
                                         <div className="flex justify-start">
-                                          <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-yellow-900/50 text-yellow-300 border border-yellow-700/50">Instant</span>
+                                          <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-yellow-300 text-yellow-800">Instant</span>
                                         </div>
                                       </div>
                                     </div>
@@ -1465,10 +1469,10 @@ const ChatSection = () => {
             bottom: 4,
             width: 40,
             zIndex: 30,
-            borderRadius: 1.5,
-            border: '1px solid rgba(255, 255, 255, 0.12)',
-            backgroundColor: '#1e1e1e',
-            color: '#f3f4f6',
+            borderRadius: 1,
+            border: '1px solid #808080',
+            backgroundColor: '#ffffff',
+            color: '#000000',
             overflow: 'hidden',
             display: 'flex',
             flexDirection: 'column'
@@ -1480,9 +1484,9 @@ const ChatSection = () => {
               onClick={togglePyq}
               size="small"
               title="Show Chat Panel"
-              sx={{ color: '#9ca3af', transform: 'scaleX(-1)', padding: '3px', '&:hover': { color: '#ffffff' } }}
+              sx={{ color: '#000000', transform: 'scaleX(-1)', padding: '3px' }}
             >
-              <ChevronFirst width={15} height={15} strokeWidth={2} stroke="currentColor" />
+              <ChevronFirst width={15} height={15} strokeWidth={2} stroke="#000000" />
             </IconButton>
           </Box>
 
@@ -1492,7 +1496,7 @@ const ChatSection = () => {
               onClick={togglePyq}
               size="small"
               title="Show Chat Panel"
-              sx={{ color: '#E4572E', '&:hover': { backgroundColor: 'rgba(228,87,46,0.12)' } }}
+              sx={{ color: 'text.primary', '&:hover': { backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.12) } }}
             >
               <MessageSquare className="w-4 h-4" />
             </IconButton>
