@@ -771,45 +771,67 @@ const PYQSection = () => {
         <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
           {/* Toggle Button and Header - Hidden on mobile until results are loaded */}
           {(!isMobile || searchResults.length > 0) && (
-          <Box sx={{ p: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 1 }}>
-            <Stack direction="row" spacing={1.5} alignItems="center" flexWrap="wrap" sx={{ minWidth: 0, flex: 1 }}>
-              <Typography variant="caption" sx={{ fontWeight: 600, color: '#000000', fontSize: '0.8rem', whiteSpace: 'nowrap' }}>
-                PYQs
-              </Typography>
-              <Typography variant="caption" sx={{ color: '#000000', opacity: 0.7, fontSize: '0.75rem', whiteSpace: 'nowrap' }}>
-                ({filteredQuestions.length} Questions)
-              </Typography>
-              {importantQuestions.size > 0 && (
-                <Chip
-                  size="small"
-                  clickable
-                  onClick={() => setShowImportantOnly(prev => !prev)}
-                  icon={<Star className={`w-3 h-3 ${showImportantOnly ? 'fill-current' : ''}`} />}
-                  label={`${importantQuestions.size} important`}
-                  title={showImportantOnly ? 'Show all questions' : 'Show only important questions'}
-                  sx={{
-                    backgroundColor: showImportantOnly ? '#f59e0b' : 'rgba(255, 146, 28, 0.15)',
-                    color: showImportantOnly ? '#ffffff' : '#FF921C',
-                    fontSize: '0.7rem',
-                    height: 20,
-                    '&:hover': {
-                      backgroundColor: showImportantOnly ? '#d97706' : 'rgba(255, 146, 28, 0.25)'
-                    }
-                  }}
-                />
-              )}
+          <Box 
+            sx={{ 
+              p: '6px 10px', 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'space-between', 
+              gap: 1, 
+              borderBottom: '1px solid #f1f5f9',
+              minWidth: 0
+            }}
+          >
+            {/* Left: Title + Filter Buttons All in One Horizontal Line */}
+            <Box 
+              sx={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: 0.8, 
+                overflowX: 'auto', 
+                whiteSpace: 'nowrap', 
+                flex: 1, 
+                minWidth: 0,
+                py: 0.25,
+                scrollbarWidth: 'none',
+                '&::-webkit-scrollbar': { display: 'none' }
+              }}
+            >
+              {/* Title & Count Badge */}
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.6, flexShrink: 0, mr: 0.5 }}>
+                <Typography variant="caption" sx={{ fontWeight: 800, color: '#111827', fontSize: '0.82rem', letterSpacing: '0.02em' }}>
+                  PYQs
+                </Typography>
+                <Typography variant="caption" sx={{ color: '#6b7280', fontSize: '0.72rem', fontWeight: 600 }}>
+                  ({filteredQuestions.length})
+                </Typography>
+              </Box>
 
-              {/* Filters relocated in header row */}
+              {/* Filters in Single Horizontal Row: All Exams -> All Subjects -> Select Date -> Select Topic -> Starred Filter -> Select All */}
               {!loadingFilters && searchResults.length > 0 && (
-                <Stack direction="row" spacing={0.5} flexWrap="wrap" alignItems="center" sx={{ ml: 1 }}>
-                  {/* Exam Filter */}
+                <>
+                  {/* 1. Exam Filter */}
                   <Button
                     size="small"
                     variant="contained"
                     onClick={(event) => !loadingFilters && setExamAnchorEl(event.currentTarget)}
                     disabled={loadingFilters}
                     endIcon={<ChevronDown className="w-3 h-3" />}
-                    sx={{ backgroundColor: 'primary.main', color: 'primary.contrastText', fontSize: '0.7rem', px: 1, py: 0.25, minHeight: 24, borderRadius: 999, '&:hover': { backgroundColor: 'primary.dark' } }}
+                    sx={{
+                      backgroundColor: '#E4572E',
+                      color: '#FFFFFF',
+                      fontSize: '0.68rem',
+                      fontWeight: 600,
+                      px: 1.1,
+                      py: 0.25,
+                      minHeight: 22,
+                      height: 22,
+                      borderRadius: 999,
+                      textTransform: 'none',
+                      flexShrink: 0,
+                      boxShadow: 'none',
+                      '&:hover': { backgroundColor: '#c43e1c', boxShadow: 'none' }
+                    }}
                   >
                     {loadingFilters ? 'Loading...' : (exams.find(e => e.id === selectedExam)?.name || 'All Exams')}
                   </Button>
@@ -818,7 +840,7 @@ const PYQSection = () => {
                     open={isExamMenuOpen}
                     onClose={() => setExamAnchorEl(null)}
                     MenuListProps={{ dense: true }}
-                    PaperProps={{ sx: { border: '1px solid #e0e0e0' } }}
+                    PaperProps={{ sx: { border: '1px solid #e0e0e0', borderRadius: 2 } }}
                   >
                     {exams.map((exam) => (
                       <MenuItem
@@ -835,14 +857,28 @@ const PYQSection = () => {
                     ))}
                   </Menu>
 
-                  {/* Subject Filter */}
+                  {/* 2. Subject Filter */}
                   <Button
                     size="small"
                     variant="contained"
                     onClick={(event) => !loadingFilters && setSubjectAnchorEl(event.currentTarget)}
                     disabled={loadingFilters}
                     endIcon={<ChevronDown className="w-3 h-3" />}
-                    sx={{ backgroundColor: 'primary.main', color: 'primary.contrastText', fontSize: '0.7rem', px: 1, py: 0.25, minHeight: 24, borderRadius: 999, '&:hover': { backgroundColor: 'primary.dark' } }}
+                    sx={{
+                      backgroundColor: '#E4572E',
+                      color: '#FFFFFF',
+                      fontSize: '0.68rem',
+                      fontWeight: 600,
+                      px: 1.1,
+                      py: 0.25,
+                      minHeight: 22,
+                      height: 22,
+                      borderRadius: 999,
+                      textTransform: 'none',
+                      flexShrink: 0,
+                      boxShadow: 'none',
+                      '&:hover': { backgroundColor: '#c43e1c', boxShadow: 'none' }
+                    }}
                   >
                     {loadingFilters ? 'Loading...' : (subjects.find(s => s.id === selectedSubject)?.name || 'All Subjects')}
                   </Button>
@@ -851,7 +887,7 @@ const PYQSection = () => {
                     open={isSubjectMenuOpen}
                     onClose={() => setSubjectAnchorEl(null)}
                     MenuListProps={{ dense: true }}
-                    PaperProps={{ sx: { border: '1px solid #e0e0e0' } }}
+                    PaperProps={{ sx: { border: '1px solid #e0e0e0', borderRadius: 2 } }}
                   >
                     {subjects.map((subject) => (
                       <MenuItem
@@ -868,7 +904,7 @@ const PYQSection = () => {
                     ))}
                   </Menu>
 
-                  {/* Select Date Filter */}
+                  {/* 3. Select Date Filter */}
                   {availableDates.length > 0 && (
                     <>
                       <Button
@@ -876,7 +912,21 @@ const PYQSection = () => {
                         variant="contained"
                         onClick={(event) => setDateAnchorEl(event.currentTarget)}
                         endIcon={<ChevronDown className="w-3 h-3" />}
-                        sx={{ backgroundColor: 'primary.main', color: 'primary.contrastText', fontSize: '0.7rem', px: 1, py: 0.25, minHeight: 24, borderRadius: 999, '&:hover': { backgroundColor: 'primary.dark' } }}
+                        sx={{
+                          backgroundColor: '#E4572E',
+                          color: '#FFFFFF',
+                          fontSize: '0.68rem',
+                          fontWeight: 600,
+                          px: 1.1,
+                          py: 0.25,
+                          minHeight: 22,
+                          height: 22,
+                          borderRadius: 999,
+                          textTransform: 'none',
+                          flexShrink: 0,
+                          boxShadow: 'none',
+                          '&:hover': { backgroundColor: '#c43e1c', boxShadow: 'none' }
+                        }}
                       >
                         {dates.find(d => d.id === selectedDate)?.name || 'Select Date'}
                       </Button>
@@ -885,7 +935,7 @@ const PYQSection = () => {
                         open={isDateMenuOpen}
                         onClose={() => setDateAnchorEl(null)}
                         MenuListProps={{ dense: true }}
-                        PaperProps={{ sx: { border: '1px solid #e0e0e0' } }}
+                        PaperProps={{ sx: { border: '1px solid #e0e0e0', borderRadius: 2 } }}
                       >
                         {dates.map((date) => (
                           <MenuItem
@@ -904,7 +954,7 @@ const PYQSection = () => {
                     </>
                   )}
 
-                  {/* Select Topic Filter */}
+                  {/* 4. Select Topic Filter */}
                   {availableTopics.length > 0 && (
                     <>
                       <Button
@@ -912,7 +962,21 @@ const PYQSection = () => {
                         variant="contained"
                         onClick={(event) => setTopicAnchorEl(event.currentTarget)}
                         endIcon={<ChevronDown className="w-3 h-3" />}
-                        sx={{ backgroundColor: 'primary.main', color: 'primary.contrastText', fontSize: '0.7rem', px: 1, py: 0.25, minHeight: 24, borderRadius: 999, '&:hover': { backgroundColor: 'primary.dark' } }}
+                        sx={{
+                          backgroundColor: '#E4572E',
+                          color: '#FFFFFF',
+                          fontSize: '0.68rem',
+                          fontWeight: 600,
+                          px: 1.1,
+                          py: 0.25,
+                          minHeight: 22,
+                          height: 22,
+                          borderRadius: 999,
+                          textTransform: 'none',
+                          flexShrink: 0,
+                          boxShadow: 'none',
+                          '&:hover': { backgroundColor: '#c43e1c', boxShadow: 'none' }
+                        }}
                       >
                         {topics.find(t => t.id === selectedTopic)?.name || 'Select Topic'}
                       </Button>
@@ -921,7 +985,7 @@ const PYQSection = () => {
                         open={isTopicMenuOpen}
                         onClose={() => setTopicAnchorEl(null)}
                         MenuListProps={{ dense: true }}
-                        PaperProps={{ sx: { border: '1px solid #e0e0e0' } }}
+                        PaperProps={{ sx: { border: '1px solid #e0e0e0', borderRadius: 2 } }}
                       >
                         {topics.map((topic) => (
                           <MenuItem
@@ -940,7 +1004,33 @@ const PYQSection = () => {
                     </>
                   )}
 
-                  {/* Select All / Clear All */}
+                  {/* 5. Starred / Important Filter Chip */}
+                  {importantQuestions.size > 0 && (
+                    <Chip
+                      size="small"
+                      clickable
+                      onClick={() => setShowImportantOnly(prev => !prev)}
+                      icon={<Star className={`w-3 h-3 ${showImportantOnly ? 'fill-current' : ''}`} />}
+                      label={`${importantQuestions.size} Starred`}
+                      title={showImportantOnly ? 'Show all questions' : 'Show only starred questions'}
+                      sx={{
+                        backgroundColor: showImportantOnly ? '#f59e0b' : 'rgba(245, 158, 11, 0.12)',
+                        color: showImportantOnly ? '#ffffff' : '#d97706',
+                        border: '1px solid',
+                        borderColor: showImportantOnly ? '#f59e0b' : 'rgba(245, 158, 11, 0.3)',
+                        fontSize: '0.68rem',
+                        fontWeight: 600,
+                        height: 22,
+                        flexShrink: 0,
+                        borderRadius: 999,
+                        '&:hover': {
+                          backgroundColor: showImportantOnly ? '#d97706' : 'rgba(245, 158, 11, 0.22)'
+                        }
+                      }}
+                    />
+                  )}
+
+                  {/* 6. Select All / Clear All Button */}
                   <Button
                     size="small"
                     variant="outlined"
@@ -948,26 +1038,34 @@ const PYQSection = () => {
                     startIcon={<Star className="w-3 h-3" />}
                     title={importantQuestions.size > 0 ? 'Clear all marked important questions' : 'Mark all currently visible questions as important'}
                     sx={{
-                      fontSize: '0.7rem',
-                      px: 1,
+                      fontSize: '0.68rem',
+                      fontWeight: 600,
+                      px: 1.1,
                       py: 0.25,
-                      minHeight: 24,
+                      minHeight: 22,
+                      height: 22,
                       borderRadius: 999,
-                      backgroundColor: '#e5e7eb',
+                      backgroundColor: '#f3f4f6',
                       color: '#374151',
-                      borderColor: '#e5e7eb',
-                      '&:hover': { backgroundColor: '#d1d5db' }
+                      borderColor: '#d1d5db',
+                      textTransform: 'none',
+                      flexShrink: 0,
+                      boxShadow: 'none',
+                      '&:hover': {
+                        backgroundColor: '#e5e7eb',
+                        borderColor: '#9ca3af'
+                      }
                     }}
                   >
                     {importantQuestions.size > 0 ? 'Clear All' : 'Select All'}
                   </Button>
-                </Stack>
+                </>
               )}
-            </Stack>
+            </Box>
 
             {/* Toggle chat panel button on right side of PYQ header */}
             {!isMobile && !pyqVisible && (
-              <IconButton onClick={togglePyq} size="small" title="Show Chat Panel" sx={{ color: '#000000' }}>
+              <IconButton onClick={togglePyq} size="small" title="Show Chat Panel" sx={{ color: '#4b5563', flexShrink: 0 }}>
                 <MessageSquare className="w-4 h-4" />
               </IconButton>
             )}
