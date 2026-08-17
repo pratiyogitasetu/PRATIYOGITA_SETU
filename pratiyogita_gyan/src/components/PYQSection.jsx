@@ -1154,7 +1154,9 @@ const PYQSection = () => {
                         textAlign: 'center'
                       }}
                     >
-                      <ThinkingOrb state="connecting" size={96} speed={1.80} />
+                      <Box sx={{ width: 96, height: 96, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <ThinkingOrb state="connecting" size={64} speed={1.80} style={{ transform: 'scale(1.5)', transformOrigin: 'center' }} />
+                      </Box>
                       <Typography 
                         variant="body2" 
                         sx={{ 
@@ -1661,7 +1663,9 @@ const PYQSection = () => {
                             mb: 1
                           }}
                         >
-                          <ThinkingOrb state="connecting" size={30} speed={1.80} />
+                          <Box sx={{ width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <ThinkingOrb state="connecting" size={20} speed={1.80} style={{ transform: 'scale(1.4)', transformOrigin: 'center' }} />
+                          </Box>
                           <Typography variant="caption" sx={{ fontWeight: 600, color: '#E4572E', fontSize: '0.8rem' }}>
                             Searching new questions...
                           </Typography>
