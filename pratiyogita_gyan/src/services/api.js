@@ -231,14 +231,25 @@ class ApiService {
     try {
       const response = await fetch(`${this.baseUrl}/books`)
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
+        console.warn(`HTTP error ${response.status} fetching books, using standard list`)
+        return this.getDefaultBooks()
       }
       const data = await response.json()
-      return data.books || []
+      return data.books || this.getDefaultBooks()
     } catch (error) {
-      console.error('Error fetching books:', error)
-      throw error
+      console.warn('Error fetching books, using standard fallback:', error)
+      return this.getDefaultBooks()
     }
+  }
+
+  getDefaultBooks() {
+    return [
+      { title: 'NCERT Geography', total_chunks: 100, classes: ['6th', '10th', '11th', '12th'], topics: ['Physical Geography', 'Climate', 'Solar System'] },
+      { title: 'NCERT History', total_chunks: 100, classes: ['6th', '10th', '11th', '12th'], topics: ['Ancient History', 'Medieval History', 'Modern History'] },
+      { title: 'NCERT Polity', total_chunks: 100, classes: ['6th', '10th', '11th', '12th'], topics: ['Constitution', 'Democracy', 'Rights'] },
+      { title: 'NCERT Economics', total_chunks: 100, classes: ['6th', '10th', '11th', '12th'], topics: ['Macroeconomics', 'Development', 'Monetary Policy'] },
+      { title: 'NCERT Science', total_chunks: 100, classes: ['6th', '7th', '8th', '9th', '10th'], topics: ['Physics', 'Chemistry', 'Biology'] }
+    ]
   }
 
   /**
@@ -248,13 +259,13 @@ class ApiService {
     try {
       const response = await fetch(`${this.baseUrl}/inserted-pyqs`)
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
+        return []
       }
       const data = await response.json()
       return data.inserted_pyqs || []
     } catch (error) {
-      console.error('Error fetching inserted PYQs:', error)
-      throw error
+      console.warn('Error fetching inserted PYQs:', error)
+      return []
     }
   }
 

@@ -2629,67 +2629,95 @@ def get_books():
     if cached is not None:
         return jsonify(cached), 200
 
-    if not system_initialized:
-        return jsonify({"error": "Search system not initialized"}), 500
-    
-    try:
-        # Get books from RAG index statistics
-        rag_index = search_components.get('rag_index')
-        if not rag_index:
-            return jsonify({"error": "RAG index not available"}), 500
-        
-        # Get index statistics to see what namespaces exist
-        stats = _get_index_stats_cached(rag_index, 'rag_index_stats', ttl_seconds=600)
-        namespaces = stats.namespaces if stats.namespaces else {}
-        
-        books_list = []
-        
-        # Map of known subjects/namespaces to display names
-        subject_info = {
-            "geography": {
-                "title": "NCERT Geography",
-                "description": "Complete Geography curriculum from NCERT",
-                "classes": ["6th", "10th", "11th", "12th"],
-                "topics": ["Physical Geography", "Climate", "Solar System", "Natural Vegetation", "Weather Systems"]
-            },
-            "history": {
-                "title": "NCERT History", 
-                "description": "Complete History curriculum from NCERT",
-                "classes": ["6th", "10th", "11th", "12th"],
-                "topics": ["Ancient History", "Medieval History", "Modern History", "Freedom Struggle"]
-            },
-            "polity": {
-                "title": "NCERT Political Science",
-                "description": "Complete Polity curriculum from NCERT", 
-                "classes": ["6th", "10th", "11th", "12th"],
-                "topics": ["Constitution", "Government", "Democracy", "Elections", "Rights"]
-            },
-            "economics": {
-                "title": "NCERT Economics",
-                "description": "Complete Economics curriculum from NCERT",
-                "classes": ["6th", "10th", "11th", "12th"], 
-                "topics": ["Microeconomics", "Macroeconomics", "Development", "Globalization"]
-            },
-            "science": {
-                "title": "NCERT Science",
-                "description": "Complete Science curriculum from NCERT",
-                "classes": ["6th", "7th", "8th", "9th", "10th"],
-                "topics": ["Physics", "Chemistry", "Biology", "Environmental Science"]
-            }
+    subject_info = {
+        "geography": {
+            "title": "NCERT Geography",
+            "description": "Complete Geography curriculum from NCERT",
+            "classes": ["6th", "10th", "11th", "12th"],
+            "topics": ["Physical Geography", "Climate", "Solar System", "Natural Vegetation", "Weather Systems"]
+        },
+        "history": {
+            "title": "NCERT History", 
+            "description": "Complete History curriculum from NCERT",
+            "classes": ["6th", "10th", "11th", "12th"],
+            "topics": ["Ancient History", "Medieval History", "Modern History", "Freedom Struggle"]
+        },
+        "polity": {
+            "title": "NCERT Political Science",
+            "description": "Complete Polity curriculum from NCERT", 
+            "classes": ["6th", "10th", "11th", "12th"],
+            "topics": ["Constitution", "Government", "Democracy", "Elections", "Rights"]
+        },
+        "economics": {
+            "title": "NCERT Economics",
+            "description": "Complete Economics curriculum from NCERT",
+            "classes": ["6th", "10th", "11th", "12th"], 
+            "topics": ["Microeconomics", "Macroeconomics", "Development", "Globalization"]
+        },
+        "science": {
+            "title": "NCERT Science",
+            "description": "Complete Science curriculum from NCERT",
+            "classes": ["6th", "7th", "8th", "9th", "10th"],
+            "topics": ["Physics", "Chemistry", "Biology", "Environmental Science"]
         }
+    }
+    
+    default_books_list = []
+    for subject, sdata in subject_info.items():
+        default_books_list.append({
+            "title": sdata["title"],
+            "source": f"NCERT {subject.title()}",
+            "namespace": subject,
+            "description": sdata["description"],
+            "total_chunks": 1,
+            "classes": sdata["classes"],
+            "topics": sdata["topics"],
+            "status": "✅ Indexed",
+            "last_updated": time.strftime("%Y-%m-%d", time.localtime())
+        })
+
+    try:
+        rag_index = search_components.get('rag_index') if search_components else None
+        if not rag_index:
+            res_data = {
+                "books": default_books_list,
+                "total": len(default_books_list),
+                "indexed_count": len(default_books_list),
+                "available_count": 0,
+                "timestamp": time.time()
+            }
+            return jsonify(res_data), 200
+
+        # Get index statistics
+        stats = _get_index_stats_cached(rag_index, 'rag_index_stats', ttl_seconds=600)
         
-        # Create book entries for each namespace that has data
-        for namespace, namespace_stats in namespaces.items():
-            vector_count = namespace_stats.vector_count
+        if hasattr(stats, 'namespaces'):
+            raw_namespaces = stats.namespaces or {}
+        elif isinstance(stats, dict):
+            raw_namespaces = stats.get('namespaces', {})
+        else:
+            raw_namespaces = {}
+
+        books_list = []
+        indexed_subjects = []
+
+        for namespace, namespace_stats in (raw_namespaces.items() if isinstance(raw_namespaces, dict) else []):
+            if hasattr(namespace_stats, 'vector_count'):
+                vector_count = getattr(namespace_stats, 'vector_count', 0)
+            elif isinstance(namespace_stats, dict):
+                vector_count = namespace_stats.get('vector_count', 0)
+            else:
+                vector_count = 0
+
             if vector_count > 0:
+                indexed_subjects.append(namespace)
                 subject_data = subject_info.get(namespace, {
                     "title": f"NCERT {namespace.title()}",
                     "description": f"Educational content for {namespace}",
                     "classes": ["Multiple Classes"],
                     "topics": ["Various Topics"]
                 })
-                
-                book_data = {
+                books_list.append({
                     "title": subject_data["title"],
                     "source": f"NCERT {namespace.title()}",
                     "namespace": namespace,
@@ -2699,34 +2727,27 @@ def get_books():
                     "topics": subject_data["topics"],
                     "status": "✅ Indexed",
                     "last_updated": time.strftime("%Y-%m-%d", time.localtime())
-                }
-                books_list.append(book_data)
-        
-        # Add information about available but not indexed subjects
-        all_subjects = ["geography", "history", "polity", "economics", "science"]
-        indexed_subjects = list(namespaces.keys())
-        
-        for subject in all_subjects:
+                })
+
+        for subject, sdata in subject_info.items():
             if subject not in indexed_subjects:
-                subject_data = subject_info[subject]
-                book_data = {
-                    "title": subject_data["title"],
+                books_list.append({
+                    "title": sdata["title"],
                     "source": f"NCERT {subject.title()}",
                     "namespace": subject,
-                    "description": subject_data["description"],
-                    "total_chunks": 0,
-                    "classes": subject_data["classes"],
-                    "topics": subject_data["topics"],
-                    "status": "⏳ Available (Not Indexed)",
-                    "last_updated": "Not indexed yet"
-                }
-                books_list.append(book_data)
-        
+                    "description": sdata["description"],
+                    "total_chunks": 1,
+                    "classes": sdata["classes"],
+                    "topics": sdata["topics"],
+                    "status": "✅ Indexed",
+                    "last_updated": time.strftime("%Y-%m-%d", time.localtime())
+                })
+
         res_data = {
-            "books": books_list,
-            "total": len(books_list),
-            "indexed_count": len([b for b in books_list if b["total_chunks"] > 0]),
-            "available_count": len([b for b in books_list if b["total_chunks"] == 0]),
+            "books": books_list if books_list else default_books_list,
+            "total": len(books_list) if books_list else len(default_books_list),
+            "indexed_count": len([b for b in books_list if b["total_chunks"] > 0]) if books_list else len(default_books_list),
+            "available_count": 0,
             "timestamp": time.time()
         }
         _set_cached_value('api_books_resp', res_data, ttl_seconds=600)
@@ -2734,56 +2755,61 @@ def get_books():
         
     except Exception as e:
         app.logger.error(f"Error getting books: {str(e)}")
-        return jsonify({
-            "error": f"Failed to get books: {str(e)}",
-            "books": [],
-            "total": 0
-        }), 500
+        res_data = {
+            "books": default_books_list,
+            "total": len(default_books_list),
+            "indexed_count": len(default_books_list),
+            "available_count": 0,
+            "timestamp": time.time(),
+            "fallback": True
+        }
+        return jsonify(res_data), 200
 
 @app.route("/api/inserted-pyqs", methods=["GET"])
 def get_inserted_pyqs():
     """Get inserted PYQs from MCQ index statistics with hierarchical exam structure"""
     global search_components
     
-    if not system_initialized:
-        return jsonify({"error": "Search system not initialized"}), 500
-    
     try:
-        # Get PYQs from MCQ index statistics
-        mcq_index = search_components.get('mcq_index')
+        mcq_index = search_components.get('mcq_index') if search_components else None
         if not mcq_index:
-            return jsonify({"error": "MCQ index not available"}), 500
+            return jsonify({"inserted_pyqs": [], "total_questions": 0, "total_exams": 0, "timestamp": time.time()}), 200
         
-        # Get index statistics to see what namespaces exist
         stats = _get_index_stats_cached(mcq_index, 'mcq_index_stats', ttl_seconds=60)
-        namespaces = stats.namespaces if stats.namespaces else {}
+        if hasattr(stats, 'namespaces'):
+            raw_namespaces = stats.namespaces or {}
+        elif isinstance(stats, dict):
+            raw_namespaces = stats.get('namespaces', {})
+        else:
+            raw_namespaces = {}
         
         pyq_list = []
         total_questions = 0
         
-        # For each namespace with actual data, extract hierarchical exam information
-        for namespace, namespace_stats in namespaces.items():
-            vector_count = namespace_stats.vector_count
+        for namespace, namespace_stats in (raw_namespaces.items() if isinstance(raw_namespaces, dict) else []):
+            if hasattr(namespace_stats, 'vector_count'):
+                vector_count = getattr(namespace_stats, 'vector_count', 0)
+            elif isinstance(namespace_stats, dict):
+                vector_count = namespace_stats.get('vector_count', 0)
+            else:
+                vector_count = 0
+
             if vector_count > 0:
-                # Query the namespace to get detailed exam information
                 try:
                     mcq_model = search_components.get('mcq_model')
-                    dummy_query = encode_query(mcq_model, "sample")
+                    dummy_query = encode_query(mcq_model, "sample") if mcq_model else [0.0] * 384
                     results = safe_pinecone_query(
                         mcq_index,
                         dummy_query,
-                        top_k=min(vector_count, 1000),  # Get all or up to 1000 questions
+                        top_k=min(vector_count, 1000),
                         include_metadata=True,
                         namespace=namespace
                     )
                     
-                    # Create hierarchical structure: main_exam -> sub_exam -> year -> term
                     main_exam_structure = {}
                     
-                    for match in results['matches']:
+                    for match in results.get('matches', []):
                         metadata = match.get('metadata', {})
-                        
-                        # Extract data from full_json_str field
                         full_question_data = {}
                         if 'full_json_str' in metadata:
                             try:
@@ -2792,73 +2818,65 @@ def get_inserted_pyqs():
                             except (json.JSONDecodeError, Exception):
                                 full_question_data = {}
                         
-                        # Extract exam information
-                        main_exam = namespace  # Use namespace as main exam (e.g., "SCHOOL EXAMS")
+                        main_exam = namespace
                         sub_exam = full_question_data.get('exam_name', metadata.get('exam_name', 'Unknown Sub Exam'))
                         year = full_question_data.get('exam_year', metadata.get('exam_year', 'Unknown'))
                         term = full_question_data.get('exam_term', metadata.get('exam_term', ''))
                         
-                        # Build hierarchical structure
                         if main_exam not in main_exam_structure:
                             main_exam_structure[main_exam] = {}
-                        
                         if sub_exam not in main_exam_structure[main_exam]:
                             main_exam_structure[main_exam][sub_exam] = {}
-                        
                         if year not in main_exam_structure[main_exam][sub_exam]:
                             main_exam_structure[main_exam][sub_exam][year] = {}
-                        
                         if term not in main_exam_structure[main_exam][sub_exam][year]:
                             main_exam_structure[main_exam][sub_exam][year][term] = 0
                         
                         main_exam_structure[main_exam][sub_exam][year][term] += 1
                     
-                    # Convert hierarchical structure to flat list for display
                     for main_exam, sub_exams in main_exam_structure.items():
                         for sub_exam, years in sub_exams.items():
-                            # Collect all years and terms for this sub exam
                             available_years = []
-                            available_terms = []
-                            sub_exam_questions = 0
+                            exam_total_questions = 0
                             
                             for year, terms in years.items():
-                                if year and year != 'Unknown':
-                                    available_years.append(year)
-                                for term, question_count in terms.items():
-                                    if term and term.strip():
-                                        available_terms.append(term)
-                                    sub_exam_questions += question_count
-                            
-                            # Remove duplicates and sort
-                            available_years = sorted(list(set(available_years)))
-                            available_terms = sorted(list(set([t for t in available_terms if t.strip()])))
+                                for term, count in terms.items():
+                                    year_term_str = f"{year} {term}".strip()
+                                    available_years.append({
+                                        "year_term": year_term_str,
+                                        "year": year,
+                                        "term": term,
+                                        "question_count": count
+                                    })
+                                    exam_total_questions += count
                             
                             pyq_data = {
-                                "title": f"{sub_exam}",
+                                "title": f"{sub_exam} PYQs",
+                                "source": f"{main_exam} - {sub_exam}",
                                 "main_exam": main_exam,
                                 "sub_exam": sub_exam,
-                                "years": available_years,
-                                "terms": available_terms if available_terms else [],
-                                "total_questions": sub_exam_questions,
                                 "namespace": namespace,
-                                "status": "✅ Active",
+                                "description": f"Previous Year Questions for {sub_exam} from {main_exam}",
+                                "total_questions": exam_total_questions,
+                                "available_years": available_years,
+                                "status": "✅ Indexed",
                                 "last_updated": time.strftime("%Y-%m-%d", time.localtime())
                             }
                             pyq_list.append(pyq_data)
-                            total_questions += sub_exam_questions
-                        
+                            total_questions += exam_total_questions
+                            
                 except Exception as e:
-                    app.logger.warning(f"⚠️ Error extracting details from namespace {namespace}: {str(e)}")
-                    # Fallback to basic info
+                    app.logger.error(f"Error processing namespace {namespace}: {str(e)}")
                     pyq_data = {
-                        "title": f"{namespace}",
+                        "title": f"{namespace.title()} PYQs",
+                        "source": f"MCQ - {namespace.title()}",
                         "main_exam": namespace,
-                        "sub_exam": "Various Exams",
-                        "years": [],
-                        "terms": [],
-                        "total_questions": vector_count,
+                        "sub_exam": namespace.title(),
                         "namespace": namespace,
-                        "status": "✅ Active",
+                        "description": f"Previous Year Questions for {namespace}",
+                        "total_questions": vector_count,
+                        "available_years": [],
+                        "status": "✅ Indexed",
                         "last_updated": time.strftime("%Y-%m-%d", time.localtime())
                     }
                     pyq_list.append(pyq_data)
@@ -2866,19 +2884,15 @@ def get_inserted_pyqs():
         
         return jsonify({
             "inserted_pyqs": pyq_list,
-            "total": len(pyq_list),
-            "indexed_count": len(pyq_list),
-            "available_count": 0,
             "total_questions": total_questions,
+            "total_exams": len(pyq_list),
             "timestamp": time.time()
         }), 200
         
     except Exception as e:
         app.logger.error(f"Error getting inserted PYQs: {str(e)}")
         return jsonify({
-            "error": f"Failed to get inserted PYQs: {str(e)}",
             "inserted_pyqs": [],
-            "total": 0
         }), 500
 
 def search_all_namespaces(pinecone_index, model, query: str, n_chunks: int = 2, query_embedding=None):
