@@ -41,11 +41,10 @@ const stats = [
 ];
 
 const PRATIYOGITA_YOGYA_URL =
-  import.meta.env.VITE_PRATIYOGITA_YOGYA_URL || "http://localhost:5173";
-const PRATIYOGITA_MARG_URL =
-  import.meta.env.VITE_PRATIYOGITA_MARG_URL || "http://localhost:8080";
+  import.meta.env.VITE_PRATIYOGITA_YOGYA_URL || "https://pratiyogitayogya.vercel.app";
+const PRATIYOGITA_MARG_URL = null; // Coming Soon
 const PRATIYOGITA_GYAN_URL =
-  import.meta.env.VITE_PRATIYOGITA_GYAN_URL || "http://localhost:3002";
+  import.meta.env.VITE_PRATIYOGITA_GYAN_URL || "https://pratiyogitagyan.vercel.app";
 
 const HeroSection = () => {
   return (
@@ -89,13 +88,16 @@ const HeroSection = () => {
               <span className="font-bold text-xs sm:text-sm">Check Now</span>
               <span className="text-[10px] sm:text-[11px] font-normal opacity-90">Know your Eligibility</span>
             </a>
-            <a
-              href={`${PRATIYOGITA_MARG_URL}/explore`}
-              className="bubble-btn bubble-btn-outline flex flex-col items-center gap-0.5 whitespace-nowrap"
+            <span
+              className="bubble-btn bubble-btn-outline flex flex-col items-center gap-0.5 whitespace-nowrap relative cursor-default"
+              style={{ opacity: 0.5, pointerEvents: "none" }}
             >
               <span className="font-bold text-xs sm:text-sm">Explore</span>
               <span className="text-[10px] sm:text-[11px] font-normal opacity-90">Explore Mindmaps</span>
-            </a>
+              <span className="absolute -top-2 -right-2 text-[7px] sm:text-[8px] font-bold uppercase tracking-wider bg-[#E4572E]/25 text-[#E4572E] px-1.5 py-0.5 rounded-full border border-[#E4572E]/30">
+                Soon
+              </span>
+            </span>
             <a
               href={PRATIYOGITA_GYAN_URL}
               className="bubble-btn bubble-btn-outline flex flex-col items-center gap-0.5 whitespace-nowrap"
