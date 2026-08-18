@@ -7,10 +7,10 @@ const Footer = () => {
   const isDark = theme === "dark";
   const currentYear = new Date().getFullYear();
 
-  const PRATIYOGITA_SETU_URL = import.meta.env.VITE_PRATIYOGITA_SETU_URL || "https://psetu.com/";
-  const PRATIYOGITA_YOGYA_URL = import.meta.env.VITE_PRATIYOGITA_YOGYA_URL || "https://yogya.psetu.com/";
-  const PRATIYOGITA_MARG_URL = import.meta.env.VITE_PRATIYOGITA_MARG_URL || "https://marg.psetu.com/";
-  const PRATIYOGITA_GYAN_URL = import.meta.env.VITE_PRATIYOGITA_GYAN_URL || "https://gyan.psetu.com/";
+  const PRATIYOGITA_SETU_URL = import.meta.env.VITE_PRATIYOGITA_SETU_URL || "https://pratiyogitasetu.vercel.app";
+  const PRATIYOGITA_YOGYA_URL = import.meta.env.VITE_PRATIYOGITA_YOGYA_URL || "https://pratiyogitayogya.vercel.app";
+  const PRATIYOGITA_MARG_URL = null; // Coming Soon
+  const PRATIYOGITA_GYAN_URL = import.meta.env.VITE_PRATIYOGITA_GYAN_URL || "https://pratiyogitagyan.vercel.app";
 
   return (
     <footer className="w-full relative overflow-hidden" style={{background: 'linear-gradient(to top, rgba(249,115,22,0.18) 60%, transparent 100%)'}}>
@@ -42,10 +42,11 @@ const Footer = () => {
 
               {/* Pratiyogita Marg */}
               <div>
-                <a href={PRATIYOGITA_MARG_URL} className="flex items-center gap-2 mb-1.5">
-                  <img src="/logos/pm.png" alt="Pratiyogita Marg" className="h-7 sm:h-8 w-auto object-contain" />
-                  <span className="text-sm sm:text-base font-bold text-white">Pratiyogita Marg</span>
-                </a>
+                <div className="flex items-center gap-2 mb-1.5">
+                  <img src="/logos/pm.png" alt="Pratiyogita Marg" className="h-7 sm:h-8 w-auto object-contain opacity-50" />
+                  <span className="text-sm sm:text-base font-bold text-white/50">Pratiyogita Marg</span>
+                  <span className="text-[8px] font-bold uppercase tracking-wider bg-orange-500/20 text-orange-400 px-1.5 py-0.5 rounded-full border border-orange-500/30">Coming Soon</span>
+                </div>
                 <p className="text-xs text-white/70 leading-relaxed text-justify">
                   {language === "en"
                     ? "Guided path to competitive exam success with Subject - Expert roadmaps, best practices, and essential study materials."
@@ -142,9 +143,10 @@ const Footer = () => {
               <a href={PRATIYOGITA_YOGYA_URL} className="text-white/70 hover:text-orange-400 hover:underline transition-colors">
                 {language === "en" ? "Pratiyogita Yogya" : "प्रतियोगिता योग्य"}
               </a>
-              <a href={PRATIYOGITA_MARG_URL} className="text-white/70 hover:text-orange-400 hover:underline transition-colors">
+              <span className="text-white/40 cursor-default flex items-center gap-1">
                 {language === "en" ? "Pratiyogita Marg" : "प्रतियोगिता मार्ग"}
-              </a>
+                <span className="text-[7px] font-bold uppercase bg-orange-500/20 text-orange-400 px-1 py-0.5 rounded-full">Soon</span>
+              </span>
               <a href={PRATIYOGITA_GYAN_URL} className="text-white/70 hover:text-orange-400 hover:underline transition-colors">
                 {language === "en" ? "Pratiyogita Gyan" : "प्रतियोगिता ज्ञान"}
               </a>

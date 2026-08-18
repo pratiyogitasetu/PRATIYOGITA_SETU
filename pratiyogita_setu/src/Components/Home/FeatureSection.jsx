@@ -1,5 +1,5 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const features = [
   {
@@ -11,6 +11,7 @@ const features = [
     logo: "/logos/py.png",
     alt: "Pratiyogita Yogya",
     link: "https://pratiyogitayogya.vercel.app",
+    comingSoon: false,
     accent: "#E4572E",
     gridItems: [
       {
@@ -48,7 +49,8 @@ const features = [
       "Navigate your preparation with visual learning paths, interactive mindmaps, and custom study plans. Track your progress and celebrate milestones.",
     logo: "/logos/pm.png",
     alt: "Pratiyogita Marg",
-    link: "https://pratiyogitamarg.vercel.app",
+    link: null,
+    comingSoon: true,
     accent: "#E4572E",
     gridItems: [
       {
@@ -86,7 +88,8 @@ const features = [
       "Your 24/7 AI study companion. Get instant explanations of NCERT concepts, practice previous year questions, and receive topic-wise AI feedback.",
     logo: "/logos/pg.png",
     alt: "Pratiyogita Gyan",
-    link: "https://pratiyogita-gyan.vercel.app",
+    link: "https://pratiyogitagyan.vercel.app",
+    comingSoon: false,
     accent: "#E4572E",
     gridItems: [
       {
@@ -295,7 +298,40 @@ const BentoGrid = ({ feature }) => {
   );
 };
 
-/* ── Single Feature Row ── */
+/* ── Mobile Feature Card (simplified grid for small screens) ── */
+const MobileFeatureCards = ({ feature }) => {
+  const items = feature.gridItems;
+
+  const cardBase = {
+    background: "rgba(30, 30, 36, 0.7)",
+    border: "1px solid rgba(255,255,255,0.08)",
+    backdropFilter: "blur(8px)",
+  };
+
+  return (
+    <div className="grid grid-cols-2 gap-3 w-full">
+      {items.map((item, i) => (
+        <motion.div
+          key={i}
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35, delay: i * 0.06 }}
+          className={`rounded-xl p-4 transition-all duration-300 ${i === 0 ? "col-span-2" : ""}`}
+          style={cardBase}
+        >
+          <h4 className="text-[#FBF6EE] font-bold text-sm mb-1.5">
+            {item.title}
+          </h4>
+          <p className="text-[#E8D8C3]/55 text-xs leading-relaxed">
+            {item.desc}
+          </p>
+        </motion.div>
+      ))}
+    </div>
+  );
+};
+
+/* ── Single Feature Row (Desktop only) ── */
 const FeatureRow = ({ feature, index }) => {
   const isReversed = index % 2 !== 0;
 
@@ -335,16 +371,23 @@ const FeatureRow = ({ feature, index }) => {
           </div>
         </motion.div>
 
-        {/* Title */}
-        <motion.h3
+        {/* Title + Coming Soon badge */}
+        <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.25 }}
-          className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#FBF6EE] mb-2"
+          className="flex items-center gap-3 mb-2"
         >
-          {feature.title}
-        </motion.h3>
+          <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#FBF6EE]">
+            {feature.title}
+          </h3>
+          {feature.comingSoon && (
+            <span className="text-[10px] font-bold uppercase tracking-wider bg-[#E4572E]/20 text-[#E4572E] px-2.5 py-1 rounded-full border border-[#E4572E]/30 whitespace-nowrap">
+              Coming Soon
+            </span>
+          )}
+        </motion.div>
 
         {/* Tagline */}
         <motion.p
@@ -369,39 +412,56 @@ const FeatureRow = ({ feature, index }) => {
         </motion.p>
 
         {/* CTA Button */}
-        <motion.a
-          href={feature.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.97 }}
-          className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full font-semibold text-sm transition-colors duration-300"
-          style={{
-            background: "#E4572E",
-            color: "#FBF6EE",
-            boxShadow: "0 4px 20px rgba(228,87,46,0.3)",
-          }}
-        >
-          Try {feature.title}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-4 w-4"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
+        {feature.comingSoon ? (
+          <motion.span
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full font-semibold text-sm cursor-default"
+            style={{
+              background: "rgba(228,87,46,0.15)",
+              color: "rgba(228,87,46,0.6)",
+              border: "1px solid rgba(228,87,46,0.2)",
+            }}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M14 5l7 7m0 0l-7 7m7-7H3"
-            />
-          </svg>
-        </motion.a>
+            Coming Soon
+          </motion.span>
+        ) : (
+          <motion.a
+            href={feature.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.97 }}
+            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full font-semibold text-sm transition-colors duration-300"
+            style={{
+              background: "#E4572E",
+              color: "#FBF6EE",
+              boxShadow: "0 4px 20px rgba(228,87,46,0.3)",
+            }}
+          >
+            Try {feature.title}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M14 5l7 7m0 0l-7 7m7-7H3"
+              />
+            </svg>
+          </motion.a>
+        )}
       </div>
 
       {/* ── Right: Bento Grid ── */}
@@ -409,6 +469,153 @@ const FeatureRow = ({ feature, index }) => {
         <BentoGrid feature={feature} />
       </div>
     </motion.div>
+  );
+};
+
+/* ── Mobile Tabbed View ── */
+const MobileTabbedFeatures = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const activeFeature = features[activeIndex];
+
+  return (
+    <div className="lg:hidden">
+      {/* ── Logo Tab Bar ── */}
+      <div className="flex items-center justify-center gap-4 mb-8">
+        {features.map((feature, index) => (
+          <motion.button
+            key={feature.id}
+            onClick={() => setActiveIndex(index)}
+            whileTap={{ scale: 0.92 }}
+            className={`relative flex flex-col items-center gap-2 p-3 rounded-2xl transition-all duration-300 ${
+              activeIndex === index
+                ? "bg-[#E4572E]/15 border-2 border-[#E4572E]/50 shadow-lg shadow-[#E4572E]/10"
+                : "bg-[#1E1E24]/60 border-2 border-transparent hover:border-[#E4572E]/20"
+            }`}
+            style={{ minWidth: "90px" }}
+          >
+            <div
+              className={`w-14 h-14 rounded-xl flex items-center justify-center p-2 transition-all duration-300 ${
+                activeIndex === index
+                  ? "bg-[#2B1E17] shadow-md shadow-[#E4572E]/20"
+                  : "bg-[#1E1E24]"
+              }`}
+              style={{
+                border: activeIndex === index
+                  ? "2px solid rgba(228,87,46,0.4)"
+                  : "1px solid rgba(255,255,255,0.08)",
+              }}
+            >
+              <img
+                src={feature.logo}
+                alt={feature.alt}
+                className={`w-full h-full object-contain transition-all duration-300 ${
+                  activeIndex === index ? "opacity-100" : "opacity-40"
+                }`}
+              />
+            </div>
+            <span
+              className={`text-[10px] font-semibold leading-tight text-center transition-colors duration-300 ${
+                activeIndex === index ? "text-[#E4572E]" : "text-[#E8D8C3]/40"
+              }`}
+            >
+              {feature.title.split(" ")[1]}
+            </span>
+            {/* Coming Soon badge */}
+            {feature.comingSoon && (
+              <span className="absolute -top-1 -right-1 text-[7px] font-bold uppercase tracking-wider bg-[#E4572E]/25 text-[#E4572E] px-1.5 py-0.5 rounded-full border border-[#E4572E]/30">
+                Soon
+              </span>
+            )}
+            {/* Active indicator dot */}
+            {activeIndex === index && (
+              <motion.div
+                layoutId="activeTabDot"
+                className="absolute -bottom-1 w-1.5 h-1.5 rounded-full bg-[#E4572E]"
+                transition={{ type: "spring", stiffness: 500, damping: 30 }}
+              />
+            )}
+          </motion.button>
+        ))}
+      </div>
+
+      {/* ── Active Feature Content ── */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={activeFeature.id}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.35 }}
+        >
+          {/* Feature Info */}
+          <div className="text-center mb-6">
+            <div className="flex items-center justify-center gap-3 mb-2">
+              <h3 className="text-2xl font-bold text-[#FBF6EE]">
+                {activeFeature.title}
+              </h3>
+              {activeFeature.comingSoon && (
+                <span className="text-[9px] font-bold uppercase tracking-wider bg-[#E4572E]/20 text-[#E4572E] px-2 py-0.5 rounded-full border border-[#E4572E]/30">
+                  Coming Soon
+                </span>
+              )}
+            </div>
+            <p className="text-base text-[#E4572E] font-semibold italic mb-3">
+              "{activeFeature.tagline}"
+            </p>
+            <p className="text-sm text-[#E8D8C3]/70 leading-relaxed mb-5 max-w-md mx-auto">
+              {activeFeature.description}
+            </p>
+
+            {/* CTA Button */}
+            {activeFeature.comingSoon ? (
+              <span
+                className="inline-flex items-center gap-2 px-5 py-2 rounded-full font-semibold text-sm cursor-default"
+                style={{
+                  background: "rgba(228,87,46,0.15)",
+                  color: "rgba(228,87,46,0.6)",
+                  border: "1px solid rgba(228,87,46,0.2)",
+                }}
+              >
+                Coming Soon
+              </span>
+            ) : (
+              <motion.a
+                href={activeFeature.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.97 }}
+                className="inline-flex items-center gap-2 px-5 py-2 rounded-full font-semibold text-sm transition-colors duration-300"
+                style={{
+                  background: "#E4572E",
+                  color: "#FBF6EE",
+                  boxShadow: "0 4px 20px rgba(228,87,46,0.3)",
+                }}
+              >
+                Try {activeFeature.title}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M14 5l7 7m0 0l-7 7m7-7H3"
+                  />
+                </svg>
+              </motion.a>
+            )}
+          </div>
+
+          {/* Feature Grid Cards */}
+          <MobileFeatureCards feature={activeFeature} />
+        </motion.div>
+      </AnimatePresence>
+    </div>
   );
 };
 
@@ -440,10 +647,15 @@ const FeatureSection = () => {
           </motion.h2>
         </div>
 
-        {/* ── Feature Rows ── */}
-        {features.map((feature, index) => (
-          <FeatureRow key={feature.id} feature={feature} index={index} />
-        ))}
+        {/* ── Mobile: Tabbed layout ── */}
+        <MobileTabbedFeatures />
+
+        {/* ── Desktop: Feature Rows (hidden on mobile) ── */}
+        <div className="hidden lg:block">
+          {features.map((feature, index) => (
+            <FeatureRow key={feature.id} feature={feature} index={index} />
+          ))}
+        </div>
       </div>
     </section>
   );

@@ -4,11 +4,10 @@ import { Menu, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 const PRATIYOGITA_YOGYA_URL =
-  import.meta.env.VITE_PRATIYOGITA_YOGYA_URL || "https://yogya.psetu.com";
-const PRATIYOGITA_MARG_URL =
-  import.meta.env.VITE_PRATIYOGITA_MARG_URL || "https://marg.psetu.com";
+  import.meta.env.VITE_PRATIYOGITA_YOGYA_URL || "https://pratiyogitayogya.vercel.app";
+const PRATIYOGITA_MARG_URL = null; // Coming Soon
 const PRATIYOGITA_GYAN_URL =
-  import.meta.env.VITE_PRATIYOGITA_GYAN_URL || "https://gyan.psetu.com";
+  import.meta.env.VITE_PRATIYOGITA_GYAN_URL || "https://pratiyogitagyan.vercel.app";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -67,9 +66,10 @@ const Navbar = () => {
               <a href={PRATIYOGITA_YOGYA_URL} className="text-[#E8D8C3] hover:text-[#E4572E] font-semibold text-[11px] lg:text-xs xl:text-sm transition-colors">
                 Pratiyogita Yogya
               </a>
-              <a href={PRATIYOGITA_MARG_URL} className="text-[#E8D8C3] hover:text-[#E4572E] font-semibold text-[11px] lg:text-xs xl:text-sm transition-colors">
+              <span className="relative text-[#E8D8C3]/50 font-semibold text-[11px] lg:text-xs xl:text-sm cursor-default flex items-center gap-1">
                 Pratiyogita Marg
-              </a>
+                <span className="text-[8px] lg:text-[9px] font-bold uppercase tracking-wider bg-[#E4572E]/20 text-[#E4572E] px-1.5 py-0.5 rounded-full border border-[#E4572E]/30">Soon</span>
+              </span>
               <a href={PRATIYOGITA_GYAN_URL} className="text-[#E8D8C3] hover:text-[#E4572E] font-semibold text-[11px] lg:text-xs xl:text-sm transition-colors">
                 Pratiyogita Gyan
               </a>
@@ -117,9 +117,10 @@ const Navbar = () => {
               <a href={PRATIYOGITA_YOGYA_URL} onClick={() => setIsOpen(false)} className="block px-3 py-2 rounded-lg text-[#E8D8C3] hover:bg-[#E4572E]/15 hover:text-[#FBF6EE] text-sm font-semibold transition-colors">
                 Pratiyogita Yogya
               </a>
-              <a href={PRATIYOGITA_MARG_URL} onClick={() => setIsOpen(false)} className="block px-3 py-2 rounded-lg text-[#E8D8C3] hover:bg-[#E4572E]/15 hover:text-[#FBF6EE] text-sm font-semibold transition-colors">
+              <span className="block px-3 py-2 rounded-lg text-[#E8D8C3]/50 text-sm font-semibold cursor-default flex items-center gap-2">
                 Pratiyogita Marg
-              </a>
+                <span className="text-[9px] font-bold uppercase tracking-wider bg-[#E4572E]/20 text-[#E4572E] px-1.5 py-0.5 rounded-full border border-[#E4572E]/30">Coming Soon</span>
+              </span>
               <a href={PRATIYOGITA_GYAN_URL} onClick={() => setIsOpen(false)} className="block px-3 py-2 rounded-lg text-[#E8D8C3] hover:bg-[#E4572E]/15 hover:text-[#FBF6EE] text-sm font-semibold transition-colors">
                 Pratiyogita Gyan
               </a>
