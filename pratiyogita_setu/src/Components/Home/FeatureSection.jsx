@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
+
 const features = [
   {
     id: "pratiyogita-yogya",
@@ -341,9 +342,8 @@ const FeatureRow = ({ feature, index }) => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.6, delay: 0.1 }}
-      className={`flex flex-col ${
-        isReversed ? "lg:flex-row-reverse" : "lg:flex-row"
-      } items-center gap-8 lg:gap-14 mb-20 lg:mb-28`}
+      className={`flex flex-col ${isReversed ? "lg:flex-row-reverse" : "lg:flex-row"
+        } items-center gap-8 lg:gap-14 mb-20 lg:mb-28`}
     >
       {/* ── Left: Text Content ── */}
       <div className="w-full lg:w-[35%] flex flex-col items-center lg:items-start text-center lg:text-left">
@@ -486,19 +486,17 @@ const MobileTabbedFeatures = () => {
             key={feature.id}
             onClick={() => setActiveIndex(index)}
             whileTap={{ scale: 0.92 }}
-            className={`relative flex flex-col items-center gap-2 p-3 rounded-2xl transition-all duration-300 ${
-              activeIndex === index
+            className={`relative flex flex-col items-center gap-2 p-3 rounded-2xl transition-all duration-300 ${activeIndex === index
                 ? "bg-[#E4572E]/15 border-2 border-[#E4572E]/50 shadow-lg shadow-[#E4572E]/10"
                 : "bg-[#1E1E24]/60 border-2 border-transparent hover:border-[#E4572E]/20"
-            }`}
+              }`}
             style={{ minWidth: "90px" }}
           >
             <div
-              className={`w-14 h-14 rounded-xl flex items-center justify-center p-2 transition-all duration-300 ${
-                activeIndex === index
+              className={`w-14 h-14 rounded-xl flex items-center justify-center p-2 transition-all duration-300 ${activeIndex === index
                   ? "bg-[#2B1E17] shadow-md shadow-[#E4572E]/20"
                   : "bg-[#1E1E24]"
-              }`}
+                }`}
               style={{
                 border: activeIndex === index
                   ? "2px solid rgba(228,87,46,0.4)"
@@ -508,15 +506,13 @@ const MobileTabbedFeatures = () => {
               <img
                 src={feature.logo}
                 alt={feature.alt}
-                className={`w-full h-full object-contain transition-all duration-300 ${
-                  activeIndex === index ? "opacity-100" : "opacity-40"
-                }`}
+                className={`w-full h-full object-contain transition-all duration-300 ${activeIndex === index ? "opacity-100" : "opacity-40"
+                  }`}
               />
             </div>
             <span
-              className={`text-[10px] font-semibold leading-tight text-center transition-colors duration-300 ${
-                activeIndex === index ? "text-[#E4572E]" : "text-[#E8D8C3]/40"
-              }`}
+              className={`text-[10px] font-semibold leading-tight text-center transition-colors duration-300 ${activeIndex === index ? "text-[#E4572E]" : "text-[#E8D8C3]/40"
+                }`}
             >
               {feature.title.split(" ")[1]}
             </span>
