@@ -5,29 +5,32 @@
       {
         "exam_name": "SSC GD Constable",
         "exam_code": "SSC/SGC/01",
-        "linked_json_file": "SSC_EXAMS/sscgdconstrable.json",
-        "has_divisions": true
+        "linked_json_file": "SSC_EXAMS/ssc-gd-constable.json",
+        "has_divisions": false
       },
       {
         "exam_name": "SSC CGL",
         "exam_code": "SSC/SC/02",
-        "linked_json_file": "SSC_EXAMS/ssccgl.json",
-        "has_divisions": true
+        "linked_json_file": "SSC_EXAMS/ssc-cgl.json",
+        "has_divisions": false
       },
       {
         "exam_name": "SSC Selection Post",
         "exam_code": "SSC/SSP/03",
-        "linked_json_file": ""
+        "linked_json_file": "SSC_EXAMS/ssc-selection-post.json",
+        "has_divisions": false
       },
       {
         "exam_name": "SSC CPO",
         "exam_code": "SSC/SC/05",
-        "linked_json_file": ""
+        "linked_json_file": "SSC_EXAMS/ssc-cpo.json",
+        "has_divisions": false
       },
       {
         "exam_name": "SSC MTS",
         "exam_code": "SSC/SM/06",
-        "linked_json_file": ""
+        "linked_json_file": "SSC_EXAMS/ssc-mts.json",
+        "has_divisions": false
       },
       {
         "exam_name": "Delhi Police Constable",
@@ -37,7 +40,8 @@
       {
         "exam_name": "SSC Stenographer",
         "exam_code": "SSC/SS/08",
-        "linked_json_file": ""
+        "linked_json_file": "SSC_EXAMS/ssc-stenographer.json",
+        "has_divisions": false
       },
       {
         "exam_name": "Delhi Police HeadConstable",
@@ -52,17 +56,20 @@
       {
         "exam_name": "SSC JE CE",
         "exam_code": "SSC/SJC/11",
-        "linked_json_file": ""
+        "linked_json_file": "SSC_EXAMS/ssc-je-ce.json",
+        "has_divisions": false
       },
       {
         "exam_name": "SSC JE EE",
         "exam_code": "SSC/SJE/12",
-        "linked_json_file": ""
+        "linked_json_file": "SSC_EXAMS/ssc-je-ee.json",
+        "has_divisions": false
       },
       {
         "exam_name": "SSC JE ME",
         "exam_code": "SSC/SJM/13",
-        "linked_json_file": ""
+        "linked_json_file": "SSC_EXAMS/ssc-je-me.json",
+        "has_divisions": false
       },
       {
         "exam_name": "RSMSSB JE",
@@ -72,7 +79,8 @@
       {
         "exam_name": "SSC JHT",
         "exam_code": "SSC/SJ/15",
-        "linked_json_file": ""
+        "linked_json_file": "SSC_EXAMS/ssc-jht.json",
+        "has_divisions": false
       },
       {
         "exam_name": "CSIR ASO",
@@ -143,44 +151,56 @@
         "exam_name": "NTA Delhi University Non-Teaching",
         "exam_code": "SSC/NDUN/29",
         "linked_json_file": ""
+      },
+      {
+        "exam_name": "SSC CHSL",
+        "exam_code": "SSC/SC/04",
+        "linked_json_file": "SSC_EXAMS/ssc-chsl.json",
+        "has_divisions": false
       }
     ],
     "BANKING_EXAMS": [
       {
         "exam_name": "SBI Clerk",
         "exam_code": "BANKING/SC/01",
-        "linked_json_file": ""
+        "linked_json_file": "BANKING_EXAMS/sbi-clerk.json",
+        "has_divisions": false
       },
       {
         "exam_name": "SBI PO",
         "exam_code": "BANKING/SP/02",
-        "linked_json_file": "BANKING_EXAMS/sbipo.json",
+        "linked_json_file": "BANKING_EXAMS/sbi-po.json",
         "has_divisions": false
       },
       {
         "exam_name": "IBPS PO",
         "exam_code": "BANKING/IP/03",
-        "linked_json_file": ""
+        "linked_json_file": "BANKING_EXAMS/ibps-po.json",
+        "has_divisions": false
       },
       {
         "exam_name": "IBPS Clerk",
         "exam_code": "BANKING/IC/04",
-        "linked_json_file": ""
+        "linked_json_file": "BANKING_EXAMS/ibps-clerk.json",
+        "has_divisions": false
       },
       {
         "exam_name": "RRB Office Assistant",
         "exam_code": "BANKING/ROA/05",
-        "linked_json_file": ""
+        "linked_json_file": "BANKING_EXAMS/ibps-rrb-office-assistant.json",
+        "has_divisions": false
       },
       {
         "exam_name": "RRB OFFicer Scale -I",
         "exam_code": "BANKING/ROSI/06",
-        "linked_json_file": ""
+        "linked_json_file": "BANKING_EXAMS/ibps-rrb-officer-scale-i.json",
+        "has_divisions": false
       },
       {
         "exam_name": "IDBI Executive",
         "exam_code": "BANKING/IE/07",
-        "linked_json_file": ""
+        "linked_json_file": "BANKING_EXAMS/idbi-executive.json",
+        "has_divisions": false
       },
       {
         "exam_name": "Bank of India PO",
@@ -200,7 +220,8 @@
       {
         "exam_name": "RBI Grade B",
         "exam_code": "BANKING/RGB/11",
-        "linked_json_file": ""
+        "linked_json_file": "BANKING_EXAMS/rbi-grade-b.json",
+        "has_divisions": false
       },
       {
         "exam_name": "MP Cooperative Bank Committee ...",
@@ -285,7 +306,8 @@
       {
         "exam_name": "IBPS SO",
         "exam_code": "BANKING/IS/28",
-        "linked_json_file": ""
+        "linked_json_file": "BANKING_EXAMS/ibps-so.json",
+        "has_divisions": false
       },
       {
         "exam_name": "Bank of Maharashtra Generalist 0...",
@@ -315,7 +337,8 @@
       {
         "exam_name": "SEBI Grade A",
         "exam_code": "BANKING/SGA/34",
-        "linked_json_file": ""
+        "linked_json_file": "BANKING_EXAMS/sebi-grade-a.json",
+        "has_divisions": false
       },
       {
         "exam_name": "Agricultural Field Officer - Scale I",
@@ -326,39 +349,50 @@
         "exam_name": "ITOfficer - Scale I",
         "exam_code": "BANKING/ISI/36",
         "linked_json_file": ""
+      },
+      {
+        "exam_name": "NABARD Grade A",
+        "exam_code": "BANKING/NGA/37",
+        "linked_json_file": "BANKING_EXAMS/nabard-grade-a.json",
+        "has_divisions": false
       }
     ],
     "CIVIL_SERVICES_EXAMS": [
       {
         "exam_name": "UPSC Civil Services",
         "exam_code": "CIVIL/UCS/01",
-        "linked_json_file": "CIVIL_SERVICES_EXAMS/upsc.json",
-        "has_divisions": true
+        "linked_json_file": "CIVIL_SERVICES_EXAMS/upsc-civil-services.json",
+        "has_divisions": false
       },
       {
         "exam_name": "BPSC Exam",
         "exam_code": "CIVIL/BE/02",
-        "linked_json_file": ""
+        "linked_json_file": "CIVIL_SERVICES_EXAMS/bpsc-combined-competitive.json",
+        "has_divisions": false
       },
       {
         "exam_name": "UPPSC",
         "exam_code": "CIVIL/U/03",
-        "linked_json_file": ""
+        "linked_json_file": "CIVIL_SERVICES_EXAMS/uppsc-pcs.json",
+        "has_divisions": false
       },
       {
         "exam_name": "MPPSC State Service",
         "exam_code": "CIVIL/MSS/04",
-        "linked_json_file": ""
+        "linked_json_file": "CIVIL_SERVICES_EXAMS/mppsc-state-service.json",
+        "has_divisions": false
       },
       {
         "exam_name": "RPSC RAS",
         "exam_code": "CIVIL/RR/05",
-        "linked_json_file": ""
+        "linked_json_file": "CIVIL_SERVICES_EXAMS/rpsc-ras.json",
+        "has_divisions": false
       },
       {
         "exam_name": "UPSC CAPF AC",
         "exam_code": "CIVIL/UCA/06",
-        "linked_json_file": ""
+        "linked_json_file": "CIVIL_SERVICES_EXAMS/upsc-capf-ac.json",
+        "has_divisions": false
       },
       {
         "exam_name": "MPSC State Service",
@@ -378,7 +412,8 @@
       {
         "exam_name": "WBCS",
         "exam_code": "CIVIL/W/10",
-        "linked_json_file": ""
+        "linked_json_file": "CIVIL_SERVICES_EXAMS/wbcs.json",
+        "has_divisions": false
       },
       {
         "exam_name": "JPSC Civil Services",
@@ -498,7 +533,8 @@
       {
         "exam_name": "UPSC IFS",
         "exam_code": "CIVIL/UI/34",
-        "linked_json_file": ""
+        "linked_json_file": "CIVIL_SERVICES_EXAMS/upsc-ifs.json",
+        "has_divisions": false
       },
       {
         "exam_name": "UPSC Combined Geo Scientist",
@@ -518,7 +554,8 @@
       {
         "exam_name": "UPSC IES ISS",
         "exam_code": "CIVIL/UII/38",
-        "linked_json_file": ""
+        "linked_json_file": "CIVIL_SERVICES_EXAMS/upsc-ies-iss.json",
+        "has_divisions": false
       },
       {
         "exam_name": "UPSC Assistant Labour Commission...",
@@ -528,7 +565,8 @@
       {
         "exam_name": "UPSC CMS",
         "exam_code": "CIVIL/UC/40",
-        "linked_json_file": ""
+        "linked_json_file": "CIVIL_SERVICES_EXAMS/upsc-cms.json",
+        "has_divisions": false
       },
       {
         "exam_name": "UPSC Air Safety Officer",
@@ -550,43 +588,50 @@
       {
         "exam_name": "RRB Group D",
         "exam_code": "RAILWAY/RGD/01",
-        "linked_json_file": ""
+        "linked_json_file": "RAILWAY_EXAMS/rrb-group-d.json",
+        "has_divisions": false
       },
       {
         "exam_name": "RRB NTPC",
         "exam_code": "RAILWAY/RN/02",
-        "linked_json_file": "RAILWAY_EXAMS/rrbntpc.json",
-        "has_divisions": true
+        "linked_json_file": "RAILWAY_EXAMS/rrb-ntpc.json",
+        "has_divisions": false
       },
       {
         "exam_name": "RPF Constable",
         "exam_code": "RAILWAY/RC/03",
-        "linked_json_file": ""
+        "linked_json_file": "RAILWAY_EXAMS/rpf-constable.json",
+        "has_divisions": false
       },
       {
         "exam_name": "RRB ALP",
         "exam_code": "RAILWAY/RA/04",
-        "linked_json_file": ""
+        "linked_json_file": "RAILWAY_EXAMS/rrb-alp.json",
+        "has_divisions": false
       },
       {
         "exam_name": "RRB Technician",
         "exam_code": "RAILWAY/RT/05",
-        "linked_json_file": ""
+        "linked_json_file": "RAILWAY_EXAMS/rrb-technician.json",
+        "has_divisions": false
       },
       {
         "exam_name": "RPF SI",
         "exam_code": "RAILWAY/RS/06",
-        "linked_json_file": ""
+        "linked_json_file": "RAILWAY_EXAMS/rpf-si.json",
+        "has_divisions": false
       },
       {
         "exam_name": "RRB JE",
         "exam_code": "RAILWAY/RJ/07",
-        "linked_json_file": ""
+        "linked_json_file": "RAILWAY_EXAMS/rrb-je.json",
+        "has_divisions": false
       },
       {
         "exam_name": "RRB Technician Grade1",
         "exam_code": "RAILWAY/RTG/08",
-        "linked_json_file": ""
+        "linked_json_file": "RAILWAY_EXAMS/rrb-technician-grade-1.json",
+        "has_divisions": false
       },
       {
         "exam_name": "Railway GDCE",
@@ -601,7 +646,8 @@
       {
         "exam_name": "RRB Ministerial and Isolated Cate",
         "exam_code": "RAILWAY/RMAIC/11",
-        "linked_json_file": ""
+        "linked_json_file": "RAILWAY_EXAMS/rrb-ministerial-isolated.json",
+        "has_divisions": false
       },
       {
         "exam_name": "RRB Junior Stenographer",
@@ -611,7 +657,8 @@
       {
         "exam_name": "DFCCIL Executive",
         "exam_code": "RAILWAY/DE/13",
-        "linked_json_file": ""
+        "linked_json_file": "RAILWAY_EXAMS/dfccil-executive.json",
+        "has_divisions": false
       },
       {
         "exam_name": "RPSF",
@@ -768,8 +815,7 @@
       {
         "exam_name": "Indian Coast Guard Assistant Commandant",
         "exam_code": "DEFENCE/ICGAC/01",
-        "linked_json_file": "DEFENCE_EXAMS/indiancoastguardac.json",
-        "has_divisions": true
+        "linked_json_file": ""
       },
       {
         "exam_name": "(CDS)Combined Defence Services Examination",
@@ -786,7 +832,7 @@
         "exam_name": "NDA",
         "exam_code": "DEFENCE/NDA/04",
         "linked_json_file": "DEFENCE_EXAMS/nda.json",
-        "has_divisions": true
+        "has_divisions": false
       },
       {
         "exam_name": "Airforce Group Y",
@@ -796,7 +842,8 @@
       {
         "exam_name": "Army GD Agniveer",
         "exam_code": "DEFENCE/AGA/06",
-        "linked_json_file": ""
+        "linked_json_file": "DEFENCE_EXAMS/army-gd-agniveer.json",
+        "has_divisions": false
       },
       {
         "exam_name": "BSF Head Constable",
@@ -812,7 +859,7 @@
         "exam_name": "AFCAT",
         "exam_code": "DEFENCE/A/09",
         "exam_code_lower": "defence/a/09",
-        "linked_json_file": "DEFENCE_EXAMS/defence-a-09.json",
+        "linked_json_file": "DEFENCE_EXAMS/afcat.json",
         "has_divisions": false
       },
       {
@@ -823,7 +870,8 @@
       {
         "exam_name": "UPSC CAPF AC",
         "exam_code": "DEFENCE/UCA/11",
-        "linked_json_file": ""
+        "linked_json_file": "DEFENCE_EXAMS/upsc-capf-ac.json",
+        "has_divisions": false
       },
       {
         "exam_name": "Army Tradesman Agniveer",
@@ -838,17 +886,20 @@
       {
         "exam_name": "Indian Airforce Agniveer",
         "exam_code": "DEFENCE/IAA/14",
-        "linked_json_file": ""
+        "linked_json_file": "DEFENCE_EXAMS/indian-airforce-agniveer.json",
+        "has_divisions": false
       },
       {
         "exam_name": "Indian Army Agniveer",
         "exam_code": "DEFENCE/IAA/15",
-        "linked_json_file": ""
+        "linked_json_file": "DEFENCE_EXAMS/indian-army-agniveer.json",
+        "has_divisions": false
       },
       {
         "exam_name": "Army Technical Agniveer",
         "exam_code": "DEFENCE/ATA/16",
-        "linked_json_file": ""
+        "linked_json_file": "DEFENCE_EXAMS/army-technical-agniveer.json",
+        "has_divisions": false
       },
       {
         "exam_name": "Indian Army Nursing Assistant",
@@ -903,7 +954,8 @@
       {
         "exam_name": "Navy MR Agniveer",
         "exam_code": "DEFENCE/NMA/27",
-        "linked_json_file": ""
+        "linked_json_file": "DEFENCE_EXAMS/navy-mr-agniveer.json",
+        "has_divisions": false
       },
       {
         "exam_name": "SSB Service Selection Board",
@@ -918,7 +970,8 @@
       {
         "exam_name": "Indian Coast Guard Navik GD",
         "exam_code": "DEFENCE/ICGNG/30",
-        "linked_json_file": ""
+        "linked_json_file": "DEFENCE_EXAMS/coast-guard-navik-gd.json",
+        "has_divisions": false
       },
       {
         "exam_name": "CISF Tradesman",
@@ -983,7 +1036,8 @@
       {
         "exam_name": "Indian Navy Agniveer",
         "exam_code": "DEFENCE/INA/43",
-        "linked_json_file": ""
+        "linked_json_file": "DEFENCE_EXAMS/indian-navy-agniveer.json",
+        "has_divisions": false
       },
       {
         "exam_name": "Navy AA",
@@ -1083,8 +1137,7 @@
       {
         "exam_name": "Army NCC Special Entry",
         "exam_code": "DEFENCE/ARMYNCC/63",
-        "linked_json_file": "DEFENCE_EXAMS/armynccentry.json",
-        "has_divisions": false
+        "linked_json_file": ""
       },
       {
         "exam_name": "Navy NCC Entry",
@@ -1103,7 +1156,7 @@
       {
         "exam_name": "CUET PG",
         "exam_code": "PG/CUETPG/01",
-        "linked_json_file": "PG_EXAMS/cuetpg.json",
+        "linked_json_file": "PG_EXAMS/cuet-pg.json",
         "has_divisions": false
       }
     ],
@@ -1112,57 +1165,67 @@
         "exam_name": "CAT Exam",
         "exam_code": "MBA/CE/01",
         "linked_json_file": "MBA_EXAMS/cat.json",
-        "has_divisions": true
+        "has_divisions": false
       },
       {
         "exam_name": "CMAT Exam",
         "exam_code": "MBA/CE/02",
-        "linked_json_file": ""
+        "linked_json_file": "MBA_EXAMS/cmat.json",
+        "has_divisions": false
       },
       {
         "exam_name": "MAH MBA CET",
         "exam_code": "MBA/MMC/03",
-        "linked_json_file": ""
+        "linked_json_file": "MBA_EXAMS/mah-mba-cet.json",
+        "has_divisions": false
       },
       {
         "exam_name": "XAT Exam",
         "exam_code": "MBA/XE/04",
-        "linked_json_file": ""
+        "linked_json_file": "MBA_EXAMS/xat.json",
+        "has_divisions": false
       },
       {
         "exam_name": "SNAP Exam",
         "exam_code": "MBA/SE/05",
-        "linked_json_file": ""
+        "linked_json_file": "MBA_EXAMS/snap.json",
+        "has_divisions": false
       },
       {
         "exam_name": "Karnataka PGCET",
         "exam_code": "MBA/KP/06",
-        "linked_json_file": ""
+        "linked_json_file": "MBA_EXAMS/karnataka-pgcet.json",
+        "has_divisions": false
       },
       {
         "exam_name": "TANCET",
         "exam_code": "MBA/T/07",
-        "linked_json_file": ""
+        "linked_json_file": "MBA_EXAMS/tancet.json",
+        "has_divisions": false
       },
       {
         "exam_name": "KMAT Kerala",
         "exam_code": "MBA/KK/08",
-        "linked_json_file": ""
+        "linked_json_file": "MBA_EXAMS/kmat-kerala.json",
+        "has_divisions": false
       },
       {
         "exam_name": "NMAT Exam",
         "exam_code": "MBA/NE/09",
-        "linked_json_file": ""
+        "linked_json_file": "MBA_EXAMS/nmat.json",
+        "has_divisions": false
       },
       {
         "exam_name": "MAT Exam",
         "exam_code": "MBA/ME/10",
-        "linked_json_file": ""
+        "linked_json_file": "MBA_EXAMS/mat.json",
+        "has_divisions": false
       },
       {
         "exam_name": "ATMA Exam",
         "exam_code": "MBA/AE/11",
-        "linked_json_file": ""
+        "linked_json_file": "MBA_EXAMS/atma.json",
+        "has_divisions": false
       },
       {
         "exam_name": "PGDBA Exam",
@@ -1190,23 +1253,26 @@
       {
         "exam_name": "JEE Main",
         "exam_code": "UG/JM/02",
-        "linked_json_file": "UG_EXAMS/jeemains.json",
+        "linked_json_file": "UG_EXAMS/jee-main.json",
         "has_divisions": false
       },
       {
         "exam_name": "JEE Advanced",
         "exam_code": "UG/JA/03",
-        "linked_json_file": ""
+        "linked_json_file": "UG_EXAMS/jee-advanced.json",
+        "has_divisions": false
       },
       {
         "exam_name": "CUET",
         "exam_code": "UG/C/04",
-        "linked_json_file": ""
+        "linked_json_file": "UG_EXAMS/cuet-ug.json",
+        "has_divisions": false
       },
       {
         "exam_name": "WB JEE",
         "exam_code": "UG/WJ/05",
-        "linked_json_file": ""
+        "linked_json_file": "UG_EXAMS/wbjee.json",
+        "has_divisions": false
       },
       {
         "exam_name": "AP ICET Exam",
@@ -1221,17 +1287,20 @@
       {
         "exam_name": "MHT CET",
         "exam_code": "UG/MC/08",
-        "linked_json_file": ""
+        "linked_json_file": "UG_EXAMS/mht-cet.json",
+        "has_divisions": false
       },
       {
         "exam_name": "COMEDK UGET",
         "exam_code": "UG/CU/09",
-        "linked_json_file": ""
+        "linked_json_file": "UG_EXAMS/comedk-uget.json",
+        "has_divisions": false
       },
       {
         "exam_name": "VITEEE",
         "exam_code": "UG/V/10",
-        "linked_json_file": ""
+        "linked_json_file": "UG_EXAMS/viteee.json",
+        "has_divisions": false
       },
       {
         "exam_name": "IIT JAM",
@@ -1251,22 +1320,26 @@
       {
         "exam_name": "KCET",
         "exam_code": "UG/K/14",
-        "linked_json_file": ""
+        "linked_json_file": "UG_EXAMS/kcet.json",
+        "has_divisions": false
       },
       {
         "exam_name": "KEAM",
         "exam_code": "UG/K/15",
-        "linked_json_file": ""
+        "linked_json_file": "UG_EXAMS/keam.json",
+        "has_divisions": false
       },
       {
         "exam_name": "AP EAPCET",
         "exam_code": "UG/AE/16",
-        "linked_json_file": ""
+        "linked_json_file": "UG_EXAMS/ap-eapcet.json",
+        "has_divisions": false
       },
       {
         "exam_name": "CLAT",
         "exam_code": "UG/C/17",
-        "linked_json_file": ""
+        "linked_json_file": "UG_EXAMS/clat.json",
+        "has_divisions": false
       },
       {
         "exam_name": "SRMJEEE",
@@ -1431,7 +1504,8 @@
       {
         "exam_name": "NEST",
         "exam_code": "UG/N/50",
-        "linked_json_file": ""
+        "linked_json_file": "UG_EXAMS/nest.json",
+        "has_divisions": false
       },
       {
         "exam_name": "CEED",
@@ -1461,12 +1535,14 @@
       {
         "exam_name": "IISER IAT",
         "exam_code": "UG/II/56",
-        "linked_json_file": ""
+        "linked_json_file": "UG_EXAMS/iiser-iat.json",
+        "has_divisions": false
       },
       {
         "exam_name": "AILET",
         "exam_code": "UG/A/57",
-        "linked_json_file": ""
+        "linked_json_file": "UG_EXAMS/ailet.json",
+        "has_divisions": false
       },
       {
         "exam_name": "TS LAWCET",
@@ -1541,7 +1617,8 @@
       {
         "exam_name": "UCEED",
         "exam_code": "UG/U/72",
-        "linked_json_file": ""
+        "linked_json_file": "UG_EXAMS/uceed.json",
+        "has_divisions": false
       },
       {
         "exam_name": "PU CET",
@@ -1551,7 +1628,8 @@
       {
         "exam_name": "IPMAT",
         "exam_code": "UG/I/74",
-        "linked_json_file": ""
+        "linked_json_file": "UG_EXAMS/ipmat.json",
+        "has_divisions": false
       },
       {
         "exam_name": "HP PAT",
@@ -1566,7 +1644,8 @@
       {
         "exam_name": "NATA",
         "exam_code": "UG/N/77",
-        "linked_json_file": ""
+        "linked_json_file": "UG_EXAMS/nata.json",
+        "has_divisions": false
       },
       {
         "exam_name": "AP POLYCET",
@@ -1586,7 +1665,8 @@
       {
         "exam_name": "CUSAT CAT",
         "exam_code": "UG/CC/81",
-        "linked_json_file": ""
+        "linked_json_file": "UG_EXAMS/cusat-cat.json",
+        "has_divisions": false
       },
       {
         "exam_name": "AP DEECET",
@@ -1646,7 +1726,8 @@
       {
         "exam_name": "NCHMCT JEE Exam",
         "exam_code": "UG/NJE/93",
-        "linked_json_file": ""
+        "linked_json_file": "UG_EXAMS/nchmct-jee.json",
+        "has_divisions": false
       },
       {
         "exam_name": "Bihar Diploma DECE-LE",
@@ -1678,8 +1759,7 @@
       {
         "exam_name": "UP Police Sub Inspector",
         "exam_code": "POLICE/UPSI/05",
-        "linked_json_file": "POLICE_EXAMS/upsi.json",
-        "has_divisions": true
+        "linked_json_file": ""
       },
       {
         "exam_name": "Delhi Police Driver",
@@ -2221,8 +2301,7 @@
       {
         "exam_name": "Rashtriya Military School Entrance Exam",
         "exam_code": "SCHOOL/RMSEE/04",
-        "linked_json_file": "SCHOOL_EXAMS/rms.json",
-        "has_divisions": true
+        "linked_json_file": ""
       },
       {
         "exam_name": "Rashtriya Indian Military College Entrance Exam (RIMC)",
@@ -2235,7 +2314,7 @@
         "exam_name": "CTET",
         "exam_code": "TEACHING/C/01",
         "linked_json_file": "TEACHING_EXAMS/ctet.json",
-        "has_divisions": true
+        "has_divisions": false
       },
       {
         "exam_name": "GATE",
@@ -2245,7 +2324,8 @@
       {
         "exam_name": "REET",
         "exam_code": "TEACHING/R/03",
-        "linked_json_file": ""
+        "linked_json_file": "TEACHING_EXAMS/reet.json",
+        "has_divisions": false
       },
       {
         "exam_name": "Bihar D.El.Ed",
@@ -2255,7 +2335,8 @@
       {
         "exam_name": "UGC NET",
         "exam_code": "TEACHING/UN/05",
-        "linked_json_file": ""
+        "linked_json_file": "TEACHING_EXAMS/ugc-net.json",
+        "has_divisions": false
       },
       {
         "exam_name": "Bihar Primary Teacher",
@@ -2305,7 +2386,8 @@
       {
         "exam_name": "Bihar STET",
         "exam_code": "TEACHING/BS/15",
-        "linked_json_file": ""
+        "linked_json_file": "TEACHING_EXAMS/bihar-stet.json",
+        "has_divisions": false
       },
       {
         "exam_name": "KVS PRT",
@@ -2325,12 +2407,14 @@
       {
         "exam_name": "HTET PRT",
         "exam_code": "TEACHING/HP/19",
-        "linked_json_file": ""
+        "linked_json_file": "TEACHING_EXAMS/htet-prt.json",
+        "has_divisions": false
       },
       {
         "exam_name": "HTET PGT",
         "exam_code": "TEACHING/HP/20",
-        "linked_json_file": ""
+        "linked_json_file": "TEACHING_EXAMS/htet-pgt.json",
+        "has_divisions": false
       },
       {
         "exam_name": "Rajasthan 3rd Grade Teacher",
@@ -2375,7 +2459,8 @@
       {
         "exam_name": "UPTET",
         "exam_code": "TEACHING/U/29",
-        "linked_json_file": ""
+        "linked_json_file": "TEACHING_EXAMS/uptet.json",
+        "has_divisions": false
       },
       {
         "exam_name": "MP SET",
@@ -2395,7 +2480,8 @@
       {
         "exam_name": "MPTET Varg 3",
         "exam_code": "TEACHING/MV3/33",
-        "linked_json_file": ""
+        "linked_json_file": "TEACHING_EXAMS/mptet-varg-3.json",
+        "has_divisions": false
       },
       {
         "exam_name": "Bihar CET B.Ed",
@@ -2435,7 +2521,8 @@
       {
         "exam_name": "CSIR NET",
         "exam_code": "TEACHING/CN/41",
-        "linked_json_file": ""
+        "linked_json_file": "TEACHING_EXAMS/csir-net.json",
+        "has_divisions": false
       },
       {
         "exam_name": "HSSC TGT",
@@ -2465,7 +2552,8 @@
       {
         "exam_name": "KTET",
         "exam_code": "TEACHING/K/47",
-        "linked_json_file": ""
+        "linked_json_file": "TEACHING_EXAMS/ktet.json",
+        "has_divisions": false
       },
       {
         "exam_name": "Rajasthan PTET",
@@ -2510,7 +2598,8 @@
       {
         "exam_name": "TS TET",
         "exam_code": "TEACHING/TT/56",
-        "linked_json_file": ""
+        "linked_json_file": "TEACHING_EXAMS/ts-tet.json",
+        "has_divisions": false
       },
       {
         "exam_name": "UP Junior High School Teacher",
@@ -2550,7 +2639,8 @@
       {
         "exam_name": "Karnataka TET",
         "exam_code": "TEACHING/KT/64",
-        "linked_json_file": ""
+        "linked_json_file": "TEACHING_EXAMS/karnataka-tet.json",
+        "has_divisions": false
       },
       {
         "exam_name": "AWES PGT",
@@ -2575,7 +2665,8 @@
       {
         "exam_name": "WB TET",
         "exam_code": "TEACHING/WT/69",
-        "linked_json_file": ""
+        "linked_json_file": "TEACHING_EXAMS/wb-tet.json",
+        "has_divisions": false
       },
       {
         "exam_name": "EMRS Junior Secretariat Assistant",
@@ -2585,12 +2676,14 @@
       {
         "exam_name": "PSTET",
         "exam_code": "TEACHING/P/71",
-        "linked_json_file": ""
+        "linked_json_file": "TEACHING_EXAMS/pstet.json",
+        "has_divisions": false
       },
       {
         "exam_name": "HP TET",
         "exam_code": "TEACHING/HT/72",
-        "linked_json_file": ""
+        "linked_json_file": "TEACHING_EXAMS/hp-tet.json",
+        "has_divisions": false
       },
       {
         "exam_name": "HSSC JBT Teacher",
@@ -2605,7 +2698,8 @@
       {
         "exam_name": "MAHA TET",
         "exam_code": "TEACHING/MT/75",
-        "linked_json_file": ""
+        "linked_json_file": "TEACHING_EXAMS/maha-tet.json",
+        "has_divisions": false
       },
       {
         "exam_name": "AWES Army Public School",
@@ -2640,7 +2734,8 @@
       {
         "exam_name": "AP TET",
         "exam_code": "TEACHING/AT/82",
-        "linked_json_file": ""
+        "linked_json_file": "TEACHING_EXAMS/ap-tet.json",
+        "has_divisions": false
       },
       {
         "exam_name": "CG TET",
@@ -3437,8 +3532,7 @@
       {
         "exam_name": "GATE",
         "exam_code": "ENGINEERING/GATE/01",
-        "linked_json_file": "ENGINEERING_RECRUITING_EXAMS/gate.json",
-        "has_divisions": true
+        "linked_json_file": ""
       },
       {
         "exam_name": "RRB ALP",
@@ -5426,8 +5520,7 @@
       {
         "exam_name": "LIC AAO",
         "exam_code": "INSURANCES/LA/03",
-        "linked_json_file": "INSURANCES_ED/licaao.json",
-        "has_divisions": true
+        "linked_json_file": ""
       },
       {
         "exam_name": "ESIC Paramedical",
@@ -5509,8 +5602,7 @@
       {
         "exam_name": "AIIMS Nursing Officer",
         "exam_code": "NURSING/ANO/01",
-        "linked_json_file": "NURSING_ED/aiimsnursingofficer.json",
-        "has_divisions": true
+        "linked_json_file": ""
       },
       {
         "exam_name": "ESIC Nursing Officer",
