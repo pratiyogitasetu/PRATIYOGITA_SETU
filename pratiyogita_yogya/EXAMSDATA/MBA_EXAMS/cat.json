@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "_id": "MBA_EXAMS__cat",
   "academies": {
     "MBA / PGDM / FPM Admissions": {
@@ -54,10 +55,62 @@
         }
       },
       "age_relaxation": {
+=======
+  "exam_code": "MBA/CE/01",
+  "exam_name": "CAT Exam",
+  "full_form": "Common Admission Test",
+  "exam_level": "NATIONAL",
+  "exam_sector": "MBA_EXAMS",
+  "exam_target": "ADMISSION (PG)",
+  "exam_frequency_year": "1",
+  "conducting_body": "IIT (Indian Institute of Technology)",
+  "posts_classes_courses_departments_academies": "ADMISSION (PG)",
+  "exam_tiers": "VERIFY OFFICIAL NOTIFICATION",
+  "gender": "MALE, FEMALE",
+  "special_gender_eligibility": "",
+  "marital_status": {
+    "MALE": [],
+    "FEMALE": [],
+    "TRANSGENDER": []
+  },
+  "pwd_status": "APPLICABLE",
+  "domicile": "ALL STATES",
+  "nationality": "INDIAN",
+  "caste_category": "GEN, OBC, EWS, SC, ST",
+  "age_criteria_type": "",
+  "starting_age": "",
+  "ending_age": "",
+  "between_age": "",
+  "minimum_dob": {
+    "EXAM-SESSION": ""
+  },
+  "maximum_dob": "",
+  "between_dob": "",
+  "no_age_limit": "",
+  "age_relaxation": "",
+  "maximum_attempts_allowed": "",
+  "highest_education_qualification": "GRADUATION",
+  "education_levels": {
+    "post_doctorate": "",
+    "phd": "",
+    "post_graduation": "",
+    "graduation": "APPLICABLE",
+    "diploma": "",
+    "12th_higher_secondary": {
+      "course": {
+        "options": []
+      },
+      "subject": {},
+      "status": {
+        "options": []
+      },
+      "marks_percentage": {
+>>>>>>> 852f23a2231550310910f564e5a5adfdcb4aa899
         "GEN": "",
         "OBC": "",
         "EWS": "",
         "SC": "",
+<<<<<<< HEAD
         "ST": "",
         "EX_SERVICEMEN": ""
       },
@@ -197,4 +250,70 @@
   "exam_name": "Common Admission Test (CAT) 2025",
   "posts_classes_courses_departments_academies": "MBA / PGDM / FPM Admissions",
   "source_file": "MBA_EXAMS/cat.json"
+=======
+        "ST": ""
+      },
+      "completed_year": "",
+      "board_university": {
+        "options": []
+      }
+    },
+    "10th_secondary": {
+      "course_stream": {
+        "options": []
+      },
+      "subject": {
+        "options": []
+      },
+      "status": {
+        "options": []
+      },
+      "marks_percentage": {
+        "GEN": "",
+        "OBC": "",
+        "EWS": "",
+        "SC": "",
+        "ST": ""
+      },
+      "completed_year": "",
+      "board_university": {
+        "options": []
+      }
+    },
+    "below_10th": "",
+    "no_education": ""
+  },
+  "active_backlogs_allowed": "",
+  "gap_years_allowed": "APPLICABLE",
+  "exam_subjects": "VERIFY OFFICIAL NOTIFICATION",
+  "exam_pattern": "VERIFY OFFICIAL NOTIFICATION",
+  "exam_sections": "VERIFY OFFICIAL NOTIFICATION",
+  "mode_of_exam": "COMPUTER BASED TEST (CBT) / VERIFY OFFICIAL NOTIFICATION",
+  "exam_duration": "",
+  "total_marks": "",
+  "number_of_questions": "",
+  "marking_scheme": "",
+  "paper_medium": "VERIFY OFFICIAL NOTIFICATION",
+  "exam_date": "",
+  "educational_stream_restriction": "",
+  "ncc_wing": "",
+  "ncc_certificate": "",
+  "ncc_certificate_grade": "",
+  "sports_quota_eligibility": "",
+  "cpl_holder": "",
+  "height_cm": "",
+  "weight_kg": "",
+  "vision_eyesight": "",
+  "language_proficiency": "",
+  "driving_license_type": "",
+  "current_employment_status": "",
+  "work_experience_required": "",
+  "work_experience_years": "",
+  "ex_servicemen_status": "",
+  "_id": "MBA_EXAMS__cat",
+  "category": "MBA_EXAMS",
+  "source_file": "zextra/other files/non_division_funcnility.json",
+  "last_updated": "2026-08-24",
+  "last_date_to_apply": ""
+>>>>>>> 852f23a2231550310910f564e5a5adfdcb4aa899
 }

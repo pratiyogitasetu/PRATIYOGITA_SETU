@@ -378,9 +378,7 @@
         "MALE": [
           "UNMARRIED"
         ],
-        "FEMALE": [
-          "UNMARRIED"
-        ],
+        "FEMALE": [],
         "TRANSGENDER": []
       },
       "nationality": [

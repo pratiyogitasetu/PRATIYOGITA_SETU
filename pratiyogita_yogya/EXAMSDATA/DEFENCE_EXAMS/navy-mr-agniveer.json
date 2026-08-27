@@ -1,0 +1,119 @@
+{
+  "exam_code": "DEFENCE/NMA/27",
+  "exam_name": "Navy MR Agniveer",
+  "full_form": "Indian Navy Agniveer Matric Recruit",
+  "exam_level": "NATIONAL",
+  "exam_sector": "DEFENCE_EXAMS",
+  "exam_target": "CADET / TRAINEE",
+  "exam_frequency_year": "1",
+  "conducting_body": "INDIAN NAVY",
+  "posts_classes_courses_departments_academies": "CADET / TRAINEE",
+  "exam_tiers": "VERIFY OFFICIAL NOTIFICATION",
+  "gender": "MALE, FEMALE",
+  "special_gender_eligibility": "",
+  "marital_status": {
+    "MALE": [],
+    "FEMALE": [],
+    "TRANSGENDER": []
+  },
+  "pwd_status": "APPLICABLE",
+  "domicile": "ALL STATES",
+  "nationality": "INDIAN",
+  "caste_category": "GEN, OBC, EWS, SC, ST",
+  "age_criteria_type": "",
+  "starting_age": "",
+  "ending_age": "",
+  "between_age": "",
+  "minimum_dob": {
+    "EXAM-SESSION": ""
+  },
+  "maximum_dob": "",
+  "between_dob": "",
+  "no_age_limit": "",
+  "age_relaxation": "",
+  "maximum_attempts_allowed": "",
+  "highest_education_qualification": "(10TH)SECONDARY",
+  "education_levels": {
+    "post_doctorate": "",
+    "phd": "",
+    "post_graduation": "",
+    "graduation": "",
+    "diploma": "",
+    "12th_higher_secondary": {
+      "course": {
+        "options": []
+      },
+      "subject": {},
+      "status": {
+        "options": []
+      },
+      "marks_percentage": {
+        "GEN": "",
+        "OBC": "",
+        "EWS": "",
+        "SC": "",
+        "ST": ""
+      },
+      "completed_year": "",
+      "board_university": {
+        "options": []
+      }
+    },
+    "10th_secondary": {
+      "course_stream": {
+        "options": [
+          "ALL STREAMS"
+        ]
+      },
+      "subject": {},
+      "status": "ALL STATUS",
+      "marks_percentage": {
+        "GEN": "33%",
+        "OBC": "33%",
+        "EWS": "33%",
+        "SC": "33%",
+        "ST": "33%"
+      },
+      "completed_year": "",
+      "board_university": {
+        "options": [
+          "ALL BOARDS"
+        ]
+      }
+    },
+    "below_10th": "",
+    "no_education": ""
+  },
+  "active_backlogs_allowed": "",
+  "gap_years_allowed": "APPLICABLE",
+  "exam_subjects": "VERIFY OFFICIAL NOTIFICATION",
+  "exam_pattern": "VERIFY OFFICIAL NOTIFICATION",
+  "exam_sections": "VERIFY OFFICIAL NOTIFICATION",
+  "mode_of_exam": "COMPUTER BASED TEST (CBT) / VERIFY OFFICIAL NOTIFICATION",
+  "exam_duration": "",
+  "total_marks": "",
+  "number_of_questions": "",
+  "marking_scheme": "",
+  "paper_medium": "VERIFY OFFICIAL NOTIFICATION",
+  "exam_date": "",
+  "educational_stream_restriction": "",
+  "ncc_wing": "",
+  "ncc_certificate": "",
+  "ncc_certificate_grade": "",
+  "sports_quota_eligibility": "",
+  "cpl_holder": "",
+  "height_cm": "",
+  "weight_kg": "",
+  "vision_eyesight": "",
+  "language_proficiency": "",
+  "driving_license_type": "",
+  "current_employment_status": "",
+  "work_experience_required": "",
+  "work_experience_years": "",
+  "ex_servicemen_status": "",
+  "_id": "DEFENCE_EXAMS__navy-mr-agniveer",
+  "category": "DEFENCE_EXAMS",
+  "source_file": "zextra/other files/non_division_funcnility.json",
+  "last_updated": "2026-08-24",
+  "last_date_to_apply": ""
+}
