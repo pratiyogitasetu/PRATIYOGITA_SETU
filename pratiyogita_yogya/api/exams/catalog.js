@@ -4,8 +4,6 @@
  */
 
 import { connectToDatabase } from '../db.js';
-import fs from 'fs';
-import path from 'path';
 
 export default async function handler(req, res) {
   // Only allow GET
@@ -25,31 +23,9 @@ export default async function handler(req, res) {
     }
 
     const categories = catalog.categories || {};
-    const filteredCategories = {};
-
-    for (const [categoryName, exams] of Object.entries(categories)) {
-      if (Array.isArray(exams)) {
-        filteredCategories[categoryName] = exams.map(exam => {
-          if (exam.linked_json_file) {
-            const filePath = path.join(process.cwd(), 'EXAMSDATA', exam.linked_json_file);
-            if (!fs.existsSync(filePath)) {
-              return {
-                ...exam,
-                linked_json_file: ""
-              };
-            }
-          }
-          return exam;
-        });
-      } else {
-        filteredCategories[categoryName] = exams;
-      }
-    }
-
-    // Return just the filtered categories object
-    return res.status(200).json(filteredCategories);
+    return res.status(200).json(categories);
   } catch (err) {
     console.error('Error fetching exam catalog:', err);
-    return res.status(500).json({ error: 'Internal server error' });
+    return res.status(500).json({ error: 'Internal server error', details: err.message });
   }
 }

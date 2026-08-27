@@ -5,13 +5,8 @@
 
 import { MongoClient } from 'mongodb';
 
-const MONGODB_URI = process.env.MONGODB_URI;
 const DB_NAME = 'pratiyogita_yogya';
 const DOH_ENDPOINT = 'https://cloudflare-dns.com/dns-query';
-
-if (!MONGODB_URI) {
-  throw new Error('MONGODB_URI environment variable is not set');
-}
 
 let cachedClient = null;
 let cachedDb = null;
@@ -90,9 +85,19 @@ export async function connectToDatabase() {
     return { client: cachedClient, db: cachedDb };
   }
 
-  let connectionUri = MONGODB_URI;
+  const mongodbUri = process.env.MONGODB_URI;
+  if (!mongodbUri) {
+    throw new Error('MONGODB_URI environment variable is not set in Vercel or environment');
+  }
+
+  let connectionUri = mongodbUri;
   if (connectionUri.startsWith('mongodb+srv://')) {
-    connectionUri = await expandMongoSrvUri(connectionUri);
+    try {
+      connectionUri = await expandMongoSrvUri(connectionUri);
+    } catch (err) {
+      console.warn('DNS-over-HTTPS SRV expansion failed, falling back to direct URI:', err.message);
+      connectionUri = mongodbUri;
+    }
   }
 
   const client = new MongoClient(connectionUri);

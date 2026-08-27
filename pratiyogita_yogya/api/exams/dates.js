@@ -17,8 +17,6 @@
  */
 
 import { connectToDatabase } from '../db.js';
-import fs from 'fs';
-import path from 'path';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
