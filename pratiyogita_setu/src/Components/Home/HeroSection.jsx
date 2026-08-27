@@ -5,7 +5,7 @@ const defaultStats = [
   {
     key: "categories",
     label: "Exam Categories",
-    value: "14+",
+    value: "14",
     textColor: "#E4572E",
     gradient: "linear-gradient(135deg, rgba(228,87,46,0.5) 0%, rgba(228,87,46,0.28) 55%, rgba(43,30,23,0.2) 100%)",
     border: "rgba(228,87,46,0.55)",
@@ -13,7 +13,7 @@ const defaultStats = [
   {
     key: "exams",
     label: "Total Exams",
-    value: "1,100+",
+    value: "20",
     textColor: "#FBF6EE",
     gradient: "linear-gradient(135deg, rgba(251,246,238,0.18) 0%, rgba(232,216,195,0.14) 55%, rgba(43,30,23,0.2) 100%)",
     border: "rgba(232,216,195,0.35)",
@@ -55,8 +55,8 @@ const HeroSection = () => {
         const statsRes = await fetch(`${PRATIYOGITA_YOGYA_URL}/api/exams/stats`).catch(() => null);
         if (statsRes && statsRes.ok) {
           const statsData = await statsRes.json();
-          if (statsData.total_categories) categoryCount = statsData.total_categories;
-          if (statsData.total_exams) totalExamCount = statsData.total_exams;
+          if (statsData.total_categories !== undefined) categoryCount = statsData.total_categories;
+          if (statsData.total_exams !== undefined) totalExamCount = statsData.total_exams;
         } else {
           // Fallback to /api/exams/catalog from MongoDB
           const catRes = await fetch(`${PRATIYOGITA_YOGYA_URL}/api/exams/catalog`).catch(() => null);
@@ -65,20 +65,22 @@ const HeroSection = () => {
             categoryCount = Object.keys(catData).length;
             let sum = 0;
             Object.values(catData).forEach((arr) => {
-              if (Array.isArray(arr)) sum += arr.length;
+              if (Array.isArray(arr)) {
+                sum += arr.filter((e) => e && e.linked_json_file).length;
+              }
             });
             if (sum > 0) totalExamCount = sum;
           }
         }
 
-        if (isMounted && categoryCount) {
+        if (isMounted && categoryCount !== null) {
           setStats((prev) =>
             prev.map((s) => {
               if (s.key === "categories") {
-                return { ...s, value: `${categoryCount}+` };
+                return { ...s, value: `${categoryCount}` };
               }
-              if (s.key === "exams" && totalExamCount) {
-                return { ...s, value: `${totalExamCount.toLocaleString()}+` };
+              if (s.key === "exams" && totalExamCount !== null) {
+                return { ...s, value: `${totalExamCount}` };
               }
               return s;
             })

@@ -36,8 +36,8 @@ export default async function handler(req, res) {
 
     return res.status(200).json({
       total_categories: categoryCount,
-      total_exams: totalExams,
-      total_linked_exams: totalLinkedExams,
+      total_exams: totalLinkedExams,
+      total_catalog_exams: totalExams,
       timestamp: new Date().toISOString(),
     });
   } catch (err) {
