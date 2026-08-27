@@ -21,7 +21,7 @@ const defaultStats = [
   {
     key: "pyqs",
     label: "Total PYQs",
-    value: "9,480+",
+    value: "117+",
     textColor: "#E4572E",
     gradient: "linear-gradient(135deg, rgba(228,87,46,0.55) 0%, rgba(228,87,46,0.3) 55%, rgba(43,30,23,0.2) 100%)",
     border: "rgba(228,87,46,0.5)",
@@ -96,20 +96,20 @@ const HeroSection = () => {
         const gyanStatsRes = await fetch(`${PRATIYOGITA_GYAN_URL}/api/stats`).catch(() => null);
         if (gyanStatsRes && gyanStatsRes.ok) {
           const gyanData = await gyanStatsRes.json();
-          if (gyanData.total_pyqs) pyqCount = gyanData.total_pyqs;
+          if (gyanData.total_pyqs !== undefined) pyqCount = gyanData.total_pyqs;
         } else {
           const insertedRes = await fetch(`${PRATIYOGITA_GYAN_URL}/api/inserted-pyqs`).catch(() => null);
           if (insertedRes && insertedRes.ok) {
             const insertedData = await insertedRes.json();
-            if (insertedData.total_questions) pyqCount = insertedData.total_questions;
+            if (insertedData.total_questions !== undefined) pyqCount = insertedData.total_questions;
           }
         }
 
-        if (isMounted && pyqCount) {
+        if (isMounted && pyqCount !== null && pyqCount > 0) {
           setStats((prev) =>
             prev.map((s) => {
               if (s.key === "pyqs") {
-                return { ...s, value: `${pyqCount.toLocaleString()}+` };
+                return { ...s, value: `${pyqCount}+` };
               }
               return s;
             })

@@ -2783,7 +2783,7 @@ def get_system_stats():
         
         # If stats returned 0 or not indexed, default to base indexed pyqs if available
         if total_pyqs <= 0:
-            total_pyqs = 9480
+            total_pyqs = 117
 
         return jsonify({
             "total_pyqs": total_pyqs,
@@ -2793,7 +2793,7 @@ def get_system_stats():
     except Exception as e:
         app.logger.error(f"Error fetching stats: {str(e)}")
         return jsonify({
-            "total_pyqs": 9480,
+            "total_pyqs": 117,
             "status": "fallback",
             "timestamp": time.time()
         }), 200
