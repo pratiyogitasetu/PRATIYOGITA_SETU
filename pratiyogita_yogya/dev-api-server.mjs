@@ -35,6 +35,7 @@ loadEnvFile('.env.local');
 const catalogHandler = (await import('./api/exams/catalog.js')).default;
 const examIdHandler = (await import('./api/exams/[examId].js')).default;
 const datesHandler = (await import('./api/exams/dates.js')).default;
+const statsHandler = (await import('./api/exams/stats.js')).default;
 
 const PORT = 3000;
 
@@ -106,6 +107,11 @@ const server = http.createServer(async (req, res) => {
   try {
     if (pathname === '/api/exams/catalog') {
       await catalogHandler(mockReq, mockRes);
+      return;
+    }
+
+    if (pathname === '/api/exams/stats') {
+      await statsHandler(mockReq, mockRes);
       return;
     }
 

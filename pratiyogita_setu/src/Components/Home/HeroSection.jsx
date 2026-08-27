@@ -29,47 +29,97 @@ const defaultStats = [
 ];
 
 const PRATIYOGITA_YOGYA_URL =
-  import.meta.env.VITE_PRATIYOGITA_YOGYA_URL || "https://pratiyogitayogya.vercel.app";
+  import.meta.env.VITE_PRATIYOGITA_YOGYA_URL ||
+  (typeof window !== "undefined" && window.location.hostname === "localhost"
+    ? "http://localhost:3000"
+    : "https://pratiyogitayogya.vercel.app");
 const PRATIYOGITA_MARG_URL = null; // Coming Soon
 const PRATIYOGITA_GYAN_URL =
-  import.meta.env.VITE_PRATIYOGITA_GYAN_URL || "https://pratiyogitagyan.vercel.app";
+  import.meta.env.VITE_PRATIYOGITA_GYAN_URL ||
+  (typeof window !== "undefined" && window.location.hostname === "localhost"
+    ? "http://localhost:5000"
+    : "https://pratiyogitagyan.vercel.app");
 
 const HeroSection = () => {
   const [stats, setStats] = React.useState(defaultStats);
 
   React.useEffect(() => {
     let isMounted = true;
-    async function fetchLiveStats() {
-      try {
-        const res = await fetch(`${PRATIYOGITA_YOGYA_URL}/api/exams/catalog`);
-        if (res.ok) {
-          const data = await res.json();
-          const categoryCount = Object.keys(data).length;
-          let totalCount = 0;
-          Object.values(data).forEach((arr) => {
-            if (Array.isArray(arr)) totalCount += arr.length;
-          });
 
-          if (isMounted && categoryCount > 0) {
-            setStats((prev) =>
-              prev.map((s) => {
-                if (s.key === "categories") {
-                  return { ...s, value: `${categoryCount}+` };
-                }
-                if (s.key === "exams" && totalCount > 0) {
-                  return { ...s, value: `${totalCount.toLocaleString()}+` };
-                }
-                return s;
-              })
-            );
+    async function fetchLiveMongoDBStats() {
+      // 1. Fetch Exam Categories & Total Exams directly from MongoDB Atlas (via Yogya API)
+      try {
+        let categoryCount = null;
+        let totalExamCount = null;
+
+        const statsRes = await fetch(`${PRATIYOGITA_YOGYA_URL}/api/exams/stats`).catch(() => null);
+        if (statsRes && statsRes.ok) {
+          const statsData = await statsRes.json();
+          if (statsData.total_categories) categoryCount = statsData.total_categories;
+          if (statsData.total_exams) totalExamCount = statsData.total_exams;
+        } else {
+          // Fallback to /api/exams/catalog from MongoDB
+          const catRes = await fetch(`${PRATIYOGITA_YOGYA_URL}/api/exams/catalog`).catch(() => null);
+          if (catRes && catRes.ok) {
+            const catData = await catRes.json();
+            categoryCount = Object.keys(catData).length;
+            let sum = 0;
+            Object.values(catData).forEach((arr) => {
+              if (Array.isArray(arr)) sum += arr.length;
+            });
+            if (sum > 0) totalExamCount = sum;
           }
         }
-      } catch {
-        // Keep resilient default values
+
+        if (isMounted && categoryCount) {
+          setStats((prev) =>
+            prev.map((s) => {
+              if (s.key === "categories") {
+                return { ...s, value: `${categoryCount}+` };
+              }
+              if (s.key === "exams" && totalExamCount) {
+                return { ...s, value: `${totalExamCount.toLocaleString()}+` };
+              }
+              return s;
+            })
+          );
+        }
+      } catch (err) {
+        console.warn("Could not fetch live MongoDB exam stats:", err);
+      }
+
+      // 2. Fetch Total PYQs directly from Pratiyogita Gyan backend / Pinecone
+      try {
+        let pyqCount = null;
+        const gyanStatsRes = await fetch(`${PRATIYOGITA_GYAN_URL}/api/stats`).catch(() => null);
+        if (gyanStatsRes && gyanStatsRes.ok) {
+          const gyanData = await gyanStatsRes.json();
+          if (gyanData.total_pyqs) pyqCount = gyanData.total_pyqs;
+        } else {
+          const insertedRes = await fetch(`${PRATIYOGITA_GYAN_URL}/api/inserted-pyqs`).catch(() => null);
+          if (insertedRes && insertedRes.ok) {
+            const insertedData = await insertedRes.json();
+            if (insertedData.total_questions) pyqCount = insertedData.total_questions;
+          }
+        }
+
+        if (isMounted && pyqCount) {
+          setStats((prev) =>
+            prev.map((s) => {
+              if (s.key === "pyqs") {
+                return { ...s, value: `${pyqCount.toLocaleString()}+` };
+              }
+              return s;
+            })
+          );
+        }
+      } catch (err) {
+        console.warn("Could not fetch live PYQ stats:", err);
       }
     }
 
-    fetchLiveStats();
+    fetchLiveMongoDBStats();
+
     return () => {
       isMounted = false;
     };
