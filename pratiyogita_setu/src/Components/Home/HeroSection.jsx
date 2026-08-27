@@ -1,42 +1,30 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-const stats = [
+const defaultStats = [
   {
-    label: "Exam Categories", value: "20",
+    key: "categories",
+    label: "Exam Categories",
+    value: "14+",
     textColor: "#E4572E",
     gradient: "linear-gradient(135deg, rgba(228,87,46,0.5) 0%, rgba(228,87,46,0.28) 55%, rgba(43,30,23,0.2) 100%)",
     border: "rgba(228,87,46,0.55)",
   },
   {
-    label: "Total Exams", value: "40",
+    key: "exams",
+    label: "Total Exams",
+    value: "1,100+",
     textColor: "#FBF6EE",
     gradient: "linear-gradient(135deg, rgba(251,246,238,0.18) 0%, rgba(232,216,195,0.14) 55%, rgba(43,30,23,0.2) 100%)",
     border: "rgba(232,216,195,0.35)",
   },
   {
-    label: "Input Fields", value: "54",
-    textColor: "#E4572E",
-    gradient: "linear-gradient(135deg, rgba(228,87,46,0.38) 0%, rgba(228,87,46,0.2) 55%, rgba(43,30,23,0.2) 100%)",
-    border: "rgba(228,87,46,0.4)",
-  },
-  {
-    label: "Mind Maps", value: "12",
-    textColor: "#E8D8C3",
-    gradient: "linear-gradient(135deg, rgba(232,216,195,0.22) 0%, rgba(232,216,195,0.12) 55%, rgba(43,30,23,0.2) 100%)",
-    border: "rgba(232,216,195,0.3)",
-  },
-  {
-    label: "PYQs", value: "9,480",
+    key: "pyqs",
+    label: "Total PYQs",
+    value: "9,480+",
     textColor: "#E4572E",
     gradient: "linear-gradient(135deg, rgba(228,87,46,0.55) 0%, rgba(228,87,46,0.3) 55%, rgba(43,30,23,0.2) 100%)",
     border: "rgba(228,87,46,0.5)",
-  },
-  {
-    label: "Books", value: "6",
-    textColor: "#FBF6EE",
-    gradient: "linear-gradient(135deg, rgba(251,246,238,0.16) 0%, rgba(232,216,195,0.12) 55%, rgba(43,30,23,0.2) 100%)",
-    border: "rgba(251,246,238,0.22)",
   },
 ];
 
@@ -47,6 +35,46 @@ const PRATIYOGITA_GYAN_URL =
   import.meta.env.VITE_PRATIYOGITA_GYAN_URL || "https://pratiyogitagyan.vercel.app";
 
 const HeroSection = () => {
+  const [stats, setStats] = React.useState(defaultStats);
+
+  React.useEffect(() => {
+    let isMounted = true;
+    async function fetchLiveStats() {
+      try {
+        const res = await fetch(`${PRATIYOGITA_YOGYA_URL}/api/exams/catalog`);
+        if (res.ok) {
+          const data = await res.json();
+          const categoryCount = Object.keys(data).length;
+          let totalCount = 0;
+          Object.values(data).forEach((arr) => {
+            if (Array.isArray(arr)) totalCount += arr.length;
+          });
+
+          if (isMounted && categoryCount > 0) {
+            setStats((prev) =>
+              prev.map((s) => {
+                if (s.key === "categories") {
+                  return { ...s, value: `${categoryCount}+` };
+                }
+                if (s.key === "exams" && totalCount > 0) {
+                  return { ...s, value: `${totalCount.toLocaleString()}+` };
+                }
+                return s;
+              })
+            );
+          }
+        }
+      } catch {
+        // Keep resilient default values
+      }
+    }
+
+    fetchLiveStats();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   return (
     <section className="relative overflow-hidden py-14 sm:py-20">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 mb-4">
@@ -116,7 +144,7 @@ const HeroSection = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.4, delay: 0.8 }}
       >
-        <div className="grid grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 max-w-3xl mx-auto gap-3.5 sm:gap-5">
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}
@@ -134,14 +162,14 @@ const HeroSection = () => {
               <div className="absolute inset-0 rounded-2xl bg-[#2B1E17]/45" />
 
               {/* Content */}
-              <div className="relative z-10 flex flex-col items-center gap-1 py-3 px-2">
+              <div className="relative z-10 flex flex-col items-center gap-1.5 py-4 px-3">
                 <span
-                  className="text-2xl sm:text-3xl font-black tracking-tight leading-none"
+                  className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight leading-none"
                   style={{ color: stat.textColor, fontVariantNumeric: "tabular-nums" }}
                 >
                   {stat.value}
                 </span>
-                <span className="text-[10px] sm:text-[11px] text-[#E8D8C3]/75 text-center leading-tight font-semibold uppercase tracking-wide mt-1">
+                <span className="text-xs sm:text-sm text-[#E8D8C3]/80 text-center leading-tight font-semibold uppercase tracking-wider mt-1">
                   {stat.label}
                 </span>
               </div>
