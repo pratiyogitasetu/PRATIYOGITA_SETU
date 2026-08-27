@@ -1,0 +1,584 @@
+{
+  "_id": "SSC_EXAMS__ssccgl",
+  "academies": {
+    "ASSISTANT SECTION OFFICER (CENTRAL SECRETARIAT SERVICE)": {
+      "maximum_attempts_allowed": "TILL AGE LIMIT REACHED",
+      "age_criteria_type": "BETWEEN_DOB",
+      "starting_age": "",
+      "ending_age": "",
+      "between_age": "20-30",
+      "minimum_dob": "",
+      "maximum_dob": "",
+      "between_dob": {
+        "2026": "02-08-1995 to 01-08-2005",
+        "2027": "02-08-1996 to 01-08-2006",
+        "2028": "02-08-1997 to 01-08-2007",
+        "2029": "02-08-1998 to 01-08-2008",
+        "2030": "02-08-1999 to 01-08-2009"
+      },
+      "no_age_limit": "",
+      "gender": "MALE, FEMALE, TRANSGENDER",
+      "special_gender_eligibility": "",
+      "marital_status": {
+        "MALE": [
+          "MARRIED",
+          "UNMARRIED"
+        ],
+        "FEMALE": [
+          "MARRIED",
+          "UNMARRIED"
+        ],
+        "TRANSGENDER": [
+          "MARRIED",
+          "UNMARRIED"
+        ]
+      },
+      "nationality": [
+        "INDIAN"
+      ],
+      "domicile": "ALL STATES",
+      "caste_category": "GEN, OBC, EWS, SC, ST",
+      "pwd_status": {
+        "applicability": "APPLICABLE",
+        "marks_percentage_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        },
+        "age_relaxation_basis": {
+          "GEN": "10 YEARS",
+          "OBC": "13 YEARS",
+          "EWS": "10 YEARS",
+          "SC": "15 YEARS",
+          "ST": "15 YEARS"
+        }
+      },
+      "age_relaxation": {
+        "GEN": "0 YEARS",
+        "OBC": "3 YEARS",
+        "EWS": "0 YEARS",
+        "SC": "5 YEARS",
+        "ST": "5 YEARS",
+        "EX_SERVICEMEN": "3 YEARS AFTER DEDUCTION OF MILITARY SERVICE"
+      },
+      "highest_education_qualification": "GRADUATION",
+      "education_levels": {
+        "graduation": {
+          "course": {
+            "options": [
+              "ALL COURSES"
+            ],
+            "except_course": []
+          },
+          "subject": "ALL SUBJECTS",
+          "mandatory_subject": "",
+          "mandatory_subjects": [],
+          "status": "ALL STATUS",
+          "marks_percentage": {
+            "GEN": "33%",
+            "OBC": "33%",
+            "EWS": "33%",
+            "SC": "33%",
+            "ST": "33%"
+          },
+          "mandatory_subject_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subjects_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "completed_year": "",
+          "board_university": "",
+          "active_backlogs_allowed": "NOT APPLICABLE"
+        },
+        "12th_higher_secondary": {
+          "course": {
+            "options": [
+              "ALL COURSES"
+            ]
+          },
+          "subject": "ALL SUBJECTS",
+          "mandatory_subject": "",
+          "mandatory_subjects": [],
+          "status": "ALL STATUS",
+          "marks_percentage": {
+            "GEN": "33%",
+            "OBC": "33%",
+            "EWS": "33%",
+            "SC": "33%",
+            "ST": "33%"
+          },
+          "mandatory_subject_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subjects_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "completed_year": "",
+          "board_university": {
+            "options": [
+              "CBSE",
+              "ICSE",
+              "STATE BOARD",
+              "NIOS",
+              "OTHER"
+            ]
+          }
+        },
+        "10th_secondary": {
+          "course_stream": {
+            "options": [
+              "(10TH) SECONDARY"
+            ]
+          },
+          "subject": "ALL SUBJECTS",
+          "mandatory_subject": "",
+          "mandatory_subjects": [],
+          "status": "ALL STATUS",
+          "marks_percentage": {
+            "GEN": "33%",
+            "OBC": "33%",
+            "EWS": "33%",
+            "SC": "33%",
+            "ST": "33%"
+          },
+          "mandatory_subject_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subjects_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "completed_year": "",
+          "board_university": {
+            "options": [
+              "CBSE",
+              "ICSE",
+              "STATE BOARD",
+              "NIOS",
+              "OTHER"
+            ]
+          }
+        }
+      },
+      "gap_years_allowed": "NO LIMIT",
+      "educational_stream_restriction": "",
+      "ncc_wing": "",
+      "ncc_certificate": "",
+      "ncc_certificate_grade": ""
+    },
+    "JUNIOR STATISTICAL OFFICER (MINISTRY OF STATISTICS & PROGRAMME IMPLEMENTATION)": {
+      "maximum_attempts_allowed": "TILL AGE LIMIT REACHED",
+      "age_criteria_type": "BETWEEN_DOB",
+      "starting_age": "",
+      "ending_age": "",
+      "between_age": "18-32",
+      "minimum_dob": "",
+      "maximum_dob": "",
+      "between_dob": {
+        "2026": "02-08-1993 to 01-08-2007",
+        "2027": "02-08-1994 to 01-08-2008",
+        "2028": "02-08-1995 to 01-08-2009",
+        "2029": "02-08-1996 to 01-08-2010",
+        "2030": "02-08-1997 to 01-08-2011"
+      },
+      "no_age_limit": "",
+      "gender": "MALE, FEMALE, TRANSGENDER",
+      "special_gender_eligibility": "",
+      "marital_status": {
+        "MALE": [
+          "MARRIED",
+          "UNMARRIED"
+        ],
+        "FEMALE": [
+          "MARRIED",
+          "UNMARRIED"
+        ],
+        "TRANSGENDER": [
+          "MARRIED",
+          "UNMARRIED"
+        ]
+      },
+      "nationality": [
+        "INDIAN"
+      ],
+      "domicile": "ALL STATES",
+      "caste_category": "GEN, OBC, EWS, SC, ST",
+      "pwd_status": {
+        "applicability": "APPLICABLE",
+        "marks_percentage_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        },
+        "age_relaxation_basis": {
+          "GEN": "10 YEARS",
+          "OBC": "13 YEARS",
+          "EWS": "10 YEARS",
+          "SC": "15 YEARS",
+          "ST": "15 YEARS"
+        }
+      },
+      "age_relaxation": {
+        "GEN": "0 YEARS",
+        "OBC": "3 YEARS",
+        "EWS": "0 YEARS",
+        "SC": "5 YEARS",
+        "ST": "5 YEARS",
+        "EX_SERVICEMEN": "3 YEARS AFTER DEDUCTION OF MILITARY SERVICE"
+      },
+      "highest_education_qualification": "GRADUATION",
+      "education_levels": {
+        "graduation": {
+          "course": {
+            "options": [
+              "ALL COURSES"
+            ],
+            "except_course": []
+          },
+          "subject": "ALL SUBJECTS",
+          "mandatory_subject": "Statistics",
+          "mandatory_subjects": [],
+          "status": "ALL STATUS",
+          "marks_percentage": {
+            "GEN": "33%",
+            "OBC": "33%",
+            "EWS": "33%",
+            "SC": "33%",
+            "ST": "33%"
+          },
+          "mandatory_subject_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subjects_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "completed_year": "",
+          "board_university": "",
+          "active_backlogs_allowed": "NOT APPLICABLE"
+        },
+        "12th_higher_secondary": {
+          "course": {
+            "options": [
+              "ALL COURSES"
+            ]
+          },
+          "subject": "ALL SUBJECTS",
+          "mandatory_subject": "Mathematics",
+          "mandatory_subjects": [],
+          "status": "ALL STATUS",
+          "marks_percentage": {
+            "GEN": "33%",
+            "OBC": "33%",
+            "EWS": "33%",
+            "SC": "33%",
+            "ST": "33%"
+          },
+          "mandatory_subject_marks_percentage": {
+            "GEN": "60%",
+            "OBC": "60%",
+            "EWS": "60%",
+            "SC": "60%",
+            "ST": "60%"
+          },
+          "mandatory_subjects_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "completed_year": "",
+          "board_university": {
+            "options": [
+              "CBSE",
+              "ICSE",
+              "STATE BOARD",
+              "NIOS",
+              "OTHER"
+            ]
+          }
+        },
+        "10th_secondary": {
+          "course_stream": {
+            "options": [
+              "(10TH) SECONDARY"
+            ]
+          },
+          "subject": "ALL SUBJECTS",
+          "mandatory_subject": "",
+          "mandatory_subjects": [],
+          "status": "ALL STATUS",
+          "marks_percentage": {
+            "GEN": "33%",
+            "OBC": "33%",
+            "EWS": "33%",
+            "SC": "33%",
+            "ST": "33%"
+          },
+          "mandatory_subject_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subjects_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "completed_year": "",
+          "board_university": {
+            "options": [
+              "CBSE",
+              "ICSE",
+              "STATE BOARD",
+              "NIOS",
+              "OTHER"
+            ]
+          }
+        }
+      },
+      "gap_years_allowed": "NO LIMIT",
+      "educational_stream_restriction": "MATHEMATICS/STATISTICS BACKGROUND PREFERRED",
+      "ncc_wing": "",
+      "ncc_certificate": "",
+      "ncc_certificate_grade": ""
+    },
+    "STATISTICAL INVESTIGATOR GRADE-II (MINISTRY OF HOME AFFAIRS)": {
+      "maximum_attempts_allowed": "TILL AGE LIMIT REACHED",
+      "age_criteria_type": "BETWEEN_DOB",
+      "starting_age": "",
+      "ending_age": "",
+      "between_age": "18-30",
+      "minimum_dob": "",
+      "maximum_dob": "",
+      "between_dob": {
+        "2026": "02-08-1995 to 01-08-2007",
+        "2027": "02-08-1996 to 01-08-2008",
+        "2028": "02-08-1997 to 01-08-2009",
+        "2029": "02-08-1998 to 01-08-2010",
+        "2030": "02-08-1999 to 01-08-2011"
+      },
+      "no_age_limit": "",
+      "gender": "MALE, FEMALE, TRANSGENDER",
+      "special_gender_eligibility": "",
+      "marital_status": {
+        "MALE": [
+          "MARRIED",
+          "UNMARRIED"
+        ],
+        "FEMALE": [
+          "MARRIED",
+          "UNMARRIED"
+        ],
+        "TRANSGENDER": [
+          "MARRIED",
+          "UNMARRIED"
+        ]
+      },
+      "nationality": [
+        "INDIAN"
+      ],
+      "domicile": "ALL STATES",
+      "caste_category": "GEN, OBC, EWS, SC, ST",
+      "pwd_status": {
+        "applicability": "APPLICABLE",
+        "marks_percentage_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        },
+        "age_relaxation_basis": {
+          "GEN": "10 YEARS",
+          "OBC": "13 YEARS",
+          "EWS": "10 YEARS",
+          "SC": "15 YEARS",
+          "ST": "15 YEARS"
+        }
+      },
+      "age_relaxation": {
+        "GEN": "0 YEARS",
+        "OBC": "3 YEARS",
+        "EWS": "0 YEARS",
+        "SC": "5 YEARS",
+        "ST": "5 YEARS",
+        "EX_SERVICEMEN": "3 YEARS AFTER DEDUCTION OF MILITARY SERVICE"
+      },
+      "highest_education_qualification": "GRADUATION",
+      "education_levels": {
+        "graduation": {
+          "course": {
+            "options": [
+              "ALL COURSES"
+            ],
+            "except_course": []
+          },
+          "subject": "ALL SUBJECTS",
+          "mandatory_subject": "Statistics",
+          "mandatory_subjects": [],
+          "status": "ALL STATUS",
+          "marks_percentage": {
+            "GEN": "33%",
+            "OBC": "33%",
+            "EWS": "33%",
+            "SC": "33%",
+            "ST": "33%"
+          },
+          "mandatory_subject_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subjects_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "completed_year": "",
+          "board_university": "",
+          "active_backlogs_allowed": "NOT APPLICABLE"
+        },
+        "12th_higher_secondary": {
+          "course": {
+            "options": [
+              "ALL COURSES"
+            ]
+          },
+          "subject": "ALL SUBJECTS",
+          "mandatory_subject": "",
+          "mandatory_subjects": [],
+          "status": "ALL STATUS",
+          "marks_percentage": {
+            "GEN": "33%",
+            "OBC": "33%",
+            "EWS": "33%",
+            "SC": "33%",
+            "ST": "33%"
+          },
+          "mandatory_subject_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subjects_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "completed_year": "",
+          "board_university": {
+            "options": [
+              "CBSE",
+              "ICSE",
+              "STATE BOARD",
+              "NIOS",
+              "OTHER"
+            ]
+          }
+        },
+        "10th_secondary": {
+          "course_stream": {
+            "options": [
+              "(10TH) SECONDARY"
+            ]
+          },
+          "subject": "ALL SUBJECTS",
+          "mandatory_subject": "",
+          "mandatory_subjects": [],
+          "status": "ALL STATUS",
+          "marks_percentage": {
+            "GEN": "33%",
+            "OBC": "33%",
+            "EWS": "33%",
+            "SC": "33%",
+            "ST": "33%"
+          },
+          "mandatory_subject_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subjects_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "completed_year": "",
+          "board_university": {
+            "options": [
+              "CBSE",
+              "ICSE",
+              "STATE BOARD",
+              "NIOS",
+              "OTHER"
+            ]
+          }
+        }
+      },
+      "gap_years_allowed": "NO LIMIT",
+      "educational_stream_restriction": "STATISTICS AS MANDATORY SUBJECT AT GRADUATION LEVEL",
+      "ncc_wing": "",
+      "ncc_certificate": "",
+      "ncc_certificate_grade": ""
+    }
+  },
+  "category": "SSC_EXAMS",
+  "conducting_body": "STAFF SELECTION COMMISSION (SSC)",
+  "exam_code": "SSC_CGL",
+  "exam_name": "SSC Combined Graduate Level Examination, 2026",
+  "posts_classes_courses_departments_academies": "ASSISTANT SECTION OFFICER (CENTRAL SECRETARIAT SERVICE), JUNIOR STATISTICAL OFFICER (MINISTRY OF STATISTICS & PROGRAMME IMPLEMENTATION), STATISTICAL INVESTIGATOR GRADE-II (MINISTRY OF HOME AFFAIRS)",
+  "source_file": "SSC_EXAMS/ssccgl.json"
+}

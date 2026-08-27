@@ -1,0 +1,200 @@
+{
+  "_id": "MBA_EXAMS__cat",
+  "academies": {
+    "MBA / PGDM / FPM Admissions": {
+      "maximum_attempts_allowed": "NO LIMIT",
+      "age_criteria_type": "NO_AGE_LIMIT",
+      "starting_age": "",
+      "ending_age": "",
+      "between_age": "",
+      "minimum_dob": "",
+      "maximum_dob": "",
+      "between_dob": {
+        "2026": "",
+        "2027": "",
+        "2028": "",
+        "2029": "",
+        "2030": ""
+      },
+      "no_age_limit": "YES",
+      "gender": "MALE, FEMALE, TRANSGENDER",
+      "special_gender_eligibility": "",
+      "marital_status": {
+        "MALE": [
+          "MARRIED",
+          "UNMARRIED"
+        ],
+        "FEMALE": [
+          "MARRIED",
+          "UNMARRIED"
+        ],
+        "TRANSGENDER": [
+          "MARRIED",
+          "UNMARRIED"
+        ]
+      },
+      "nationality": "ALL ELIGIBLE",
+      "domicile": "ALL STATES",
+      "caste_category": "GEN, OBC, EWS, SC, ST",
+      "pwd_status": {
+        "applicability": "APPLICABLE",
+        "marks_percentage_basis": {
+          "GEN": "50%",
+          "OBC": "45%",
+          "EWS": "50%",
+          "SC": "45%",
+          "ST": "45%"
+        },
+        "age_relaxation_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        }
+      },
+      "age_relaxation": {
+        "GEN": "",
+        "OBC": "",
+        "EWS": "",
+        "SC": "",
+        "ST": "",
+        "EX_SERVICEMEN": ""
+      },
+      "highest_education_qualification": "GRADUATION",
+      "education_levels": {
+        "graduation": {
+          "course": {
+            "options": [
+              "ALL COURSES"
+            ],
+            "except_course": []
+          },
+          "subject": "ALL SUBJECTS",
+          "mandatory_subject": "",
+          "mandatory_subjects": [],
+          "status": "ALL STATUS",
+          "marks_percentage": {
+            "GEN": "50%",
+            "OBC": "45%",
+            "EWS": "50%",
+            "SC": "45%",
+            "ST": "45%"
+          },
+          "mandatory_subject_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subjects_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "completed_year": "",
+          "board_university": "ANY RECOGNISED UNIVERSITY/INSTITUTE",
+          "active_backlogs_allowed": "AS PER INSTITUTE RULES"
+        },
+        "12th_higher_secondary": {
+          "course": {
+            "options": [
+              "ALL COURSES"
+            ]
+          },
+          "subject": "ALL SUBJECTS",
+          "mandatory_subject": "",
+          "mandatory_subjects": [],
+          "status": "ALL STATUS",
+          "marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subject_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subjects_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "completed_year": "",
+          "board_university": {
+            "options": [
+              "CBSE",
+              "ICSE",
+              "STATE BOARD",
+              "NIOS",
+              "OTHER"
+            ]
+          }
+        },
+        "10th_secondary": {
+          "course_stream": {
+            "options": [
+              "(10TH) SECONDARY"
+            ]
+          },
+          "subject": "ALL SUBJECTS",
+          "mandatory_subject": "",
+          "mandatory_subjects": [],
+          "status": "ALL STATUS",
+          "marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subject_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subjects_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "completed_year": "",
+          "board_university": {
+            "options": [
+              "CBSE",
+              "ICSE",
+              "STATE BOARD",
+              "NIOS",
+              "OTHER"
+            ]
+          }
+        }
+      },
+      "gap_years_allowed": "YES (NO LIMIT)",
+      "educational_stream_restriction": "NONE",
+      "ncc_wing": "",
+      "ncc_certificate": "",
+      "ncc_certificate_grade": ""
+    }
+  },
+  "category": "MBA_EXAMS",
+  "conducting_body": "INDIAN INSTITUTES OF MANAGEMENT (IIMs)",
+  "exam_code": "CAT",
+  "exam_name": "Common Admission Test (CAT) 2025",
+  "posts_classes_courses_departments_academies": "MBA / PGDM / FPM Admissions",
+  "source_file": "MBA_EXAMS/cat.json"
+}

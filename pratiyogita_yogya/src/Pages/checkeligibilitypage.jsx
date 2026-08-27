@@ -10,6 +10,7 @@
  */
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
+import ExamCalendar from "../components/ExamCalendar/ExamCalendar";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
@@ -1939,8 +1940,10 @@ function CheckEligibilityPage() {
                     </DialogActions>
                 </Dialog>
 
-                {/* Content (form + results) */}
-                <div className="pb-4">
+                {/* Content (form + results) — Two column layout */}
+                <div className="pb-4 flex flex-col xl:flex-row gap-3 xl:gap-4">
+                    {/* ── Left Column: Form + Results ── */}
+                    <div className="flex-1 min-w-0">
                     {error && (
                         <Alert severity="error" className="mb-4" onClose={() => setError("")}>
                             {error}
@@ -3113,6 +3116,12 @@ function CheckEligibilityPage() {
                         </div>
                     )}
 
+                    </div>
+
+                    {/* ── Right Column: Calendar + Notices ── */}
+                    <div className="w-full xl:w-[280px] 2xl:w-[310px] shrink-0 flex flex-col gap-3 xl:sticky xl:top-20 xl:self-start">
+                        <ExamCalendar />
+                    </div>
                 </div>
             </div>
         </ThemeProvider>

@@ -1,0 +1,261 @@
+{
+  "_id": "BANKING_EXAMS__sbipo",
+  "age_criteria_type": "BETWEEN_DOB",
+  "age_relaxation": {
+    "GEN": "0 YEARS",
+    "OBC": "3 YEARS",
+    "EWS": "0 YEARS",
+    "SC": "5 YEARS",
+    "ST": "5 YEARS",
+    "EX_SERVICEMEN": "5 YEARS"
+  },
+  "between_age": "",
+  "between_dob": {
+    "GEN": {
+      "2026": "02-04-1996 to 01-04-2005",
+      "2027": "02-04-1997 to 01-04-2006",
+      "2028": "02-04-1998 to 01-04-2007",
+      "2029": "02-04-1999 to 01-04-2008",
+      "2030": "02-04-2000 to 01-04-2009"
+    },
+    "OBC": {
+      "2026": "02-04-1993 to 01-04-2005",
+      "2027": "02-04-1994 to 01-04-2006",
+      "2028": "02-04-1995 to 01-04-2007",
+      "2029": "02-04-1996 to 01-04-2008",
+      "2030": "02-04-1997 to 01-04-2009"
+    },
+    "EWS": {
+      "2026": "02-04-1996 to 01-04-2005",
+      "2027": "02-04-1997 to 01-04-2006",
+      "2028": "02-04-1998 to 01-04-2007",
+      "2029": "02-04-1999 to 01-04-2008",
+      "2030": "02-04-2000 to 01-04-2009"
+    },
+    "SC": {
+      "2026": "02-04-1991 to 01-04-2005",
+      "2027": "02-04-1992 to 01-04-2006",
+      "2028": "02-04-1993 to 01-04-2007",
+      "2029": "02-04-1994 to 01-04-2008",
+      "2030": "02-04-1995 to 01-04-2009"
+    },
+    "ST": {
+      "2026": "02-04-1991 to 01-04-2005",
+      "2027": "02-04-1992 to 01-04-2006",
+      "2028": "02-04-1993 to 01-04-2007",
+      "2029": "02-04-1994 to 01-04-2008",
+      "2030": "02-04-1995 to 01-04-2009"
+    }
+  },
+  "caste_category": "GEN, OBC, EWS, SC, ST",
+  "category": "BANKING_EXAMS",
+  "conducting_body": "STATE BANK OF INDIA (SBI)",
+  "domicile": "ALL STATES",
+  "education_levels": {
+    "graduation": {
+      "course": {
+        "options": [
+          "ALL COURSES"
+        ],
+        "except_course": []
+      },
+      "subject": "ALL SUBJECTS",
+      "mandatory_subject": "",
+      "mandatory_subjects": [],
+      "status": [
+        "PASSED",
+        "FINAL YEAR / APPEARING"
+      ],
+      "marks_percentage": {
+        "GEN": "PASS",
+        "OBC": "PASS",
+        "EWS": "PASS",
+        "SC": "PASS",
+        "ST": "PASS"
+      },
+      "mandatory_subject_marks_percentage": {
+        "GEN": "",
+        "OBC": "",
+        "EWS": "",
+        "SC": "",
+        "ST": ""
+      },
+      "mandatory_subjects_marks_percentage": {
+        "GEN": "",
+        "OBC": "",
+        "EWS": "",
+        "SC": "",
+        "ST": ""
+      },
+      "completed_year": "",
+      "board_university": "RECOGNIZED UNIVERSITY",
+      "active_backlogs_allowed": "NOT APPLICABLE"
+    },
+    "12th_higher_secondary": {
+      "course": {
+        "options": [
+          "ALL COURSES"
+        ]
+      },
+      "subject": "ALL SUBJECTS",
+      "mandatory_subject": "",
+      "mandatory_subjects": [],
+      "status": "PASSED",
+      "marks_percentage": {
+        "GEN": "PASS",
+        "OBC": "PASS",
+        "EWS": "PASS",
+        "SC": "PASS",
+        "ST": "PASS"
+      },
+      "mandatory_subject_marks_percentage": {
+        "GEN": "",
+        "OBC": "",
+        "EWS": "",
+        "SC": "",
+        "ST": ""
+      },
+      "mandatory_subjects_marks_percentage": {
+        "GEN": "",
+        "OBC": "",
+        "EWS": "",
+        "SC": "",
+        "ST": ""
+      },
+      "completed_year": "",
+      "board_university": {
+        "options": [
+          "CBSE",
+          "ICSE",
+          "STATE BOARD",
+          "NIOS",
+          "OTHER"
+        ]
+      }
+    },
+    "10th_secondary": {
+      "course_stream": {
+        "options": [
+          "(10TH) SECONDARY"
+        ]
+      },
+      "subject": "ALL SUBJECTS",
+      "mandatory_subject": "",
+      "mandatory_subjects": [],
+      "status": "PASSED",
+      "marks_percentage": {
+        "GEN": "PASS",
+        "OBC": "PASS",
+        "EWS": "PASS",
+        "SC": "PASS",
+        "ST": "PASS"
+      },
+      "mandatory_subject_marks_percentage": {
+        "GEN": "",
+        "OBC": "",
+        "EWS": "",
+        "SC": "",
+        "ST": ""
+      },
+      "mandatory_subjects_marks_percentage": {
+        "GEN": "",
+        "OBC": "",
+        "EWS": "",
+        "SC": "",
+        "ST": ""
+      },
+      "completed_year": "",
+      "board_university": {
+        "options": [
+          "CBSE",
+          "ICSE",
+          "STATE BOARD",
+          "NIOS",
+          "OTHER"
+        ]
+      }
+    }
+  },
+  "educational_stream_restriction": "",
+  "ending_age": "",
+  "exam_code": "SBI_PO",
+  "exam_name": "State Bank of India Probationary Officer Examination, 2026",
+  "gap_years_allowed": "NO LIMIT",
+  "gender": "MALE, FEMALE, TRANSGENDER",
+  "highest_education_qualification": "GRADUATION",
+  "marital_status": {
+    "MALE": [
+      "MARRIED",
+      "UNMARRIED"
+    ],
+    "FEMALE": [
+      "MARRIED",
+      "UNMARRIED"
+    ],
+    "TRANSGENDER": [
+      "MARRIED",
+      "UNMARRIED"
+    ]
+  },
+  "maximum_attempts_allowed": {
+    "applicable_for": "MAINS",
+    "caste_category_basis": {
+      "GEN": "4",
+      "OBC": "7",
+      "EWS": "4",
+      "SC": "NO LIMIT",
+      "ST": "NO LIMIT"
+    },
+    "pwd_status_basis": {
+      "GEN": "7",
+      "OBC": "7",
+      "EWS": "7",
+      "SC": "NO LIMIT",
+      "ST": "NO LIMIT"
+    }
+  },
+  "maximum_dob": "",
+  "minimum_dob": "",
+  "nationality": [
+    "INDIAN",
+    "CITIZEN OF NEPAL",
+    "CITIZEN OF BHUTAN",
+    "TIBETAN REFUGEE (PRE-1962)",
+    "PERSON OF INDIAN ORIGIN (PIO) FROM PAKISTAN",
+    "PERSON OF INDIAN ORIGIN (PIO) FROM BURMA/MYANMAR",
+    "PERSON OF INDIAN ORIGIN (PIO) FROM SRI LANKA",
+    "PERSON OF INDIAN ORIGIN (PIO) FROM KENYA",
+    "PERSON OF INDIAN ORIGIN (PIO) FROM UGANDA",
+    "PERSON OF INDIAN ORIGIN (PIO) FROM TANZANIA",
+    "PERSON OF INDIAN ORIGIN (PIO) FROM ZAMBIA",
+    "PERSON OF INDIAN ORIGIN (PIO) FROM MALAWI",
+    "PERSON OF INDIAN ORIGIN (PIO) FROM ZAIRE/DR CONGO",
+    "PERSON OF INDIAN ORIGIN (PIO) FROM ETHIOPIA",
+    "PERSON OF INDIAN ORIGIN (PIO) FROM VIETNAM"
+  ],
+  "ncc_certificate": "",
+  "ncc_certificate_grade": "",
+  "ncc_wing": "",
+  "no_age_limit": "",
+  "posts_classes_courses_departments_academies": "",
+  "pwd_status": {
+    "applicability": "APPLICABLE",
+    "marks_percentage_basis": {
+      "GEN": "",
+      "OBC": "",
+      "EWS": "",
+      "SC": "",
+      "ST": ""
+    },
+    "age_relaxation_basis": {
+      "GEN": "10 YEARS",
+      "OBC": "13 YEARS",
+      "EWS": "10 YEARS",
+      "SC": "15 YEARS",
+      "ST": "15 YEARS"
+    }
+  },
+  "source_file": "BANKING_EXAMS/sbipo.json",
+  "special_gender_eligibility": "",
+  "starting_age": ""
+}

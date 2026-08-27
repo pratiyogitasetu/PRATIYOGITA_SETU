@@ -1,0 +1,326 @@
+{
+  "_id": "POLICE_EXAMS__upsi",
+  "academies": {
+    "SUB INSPECTOR (CIVIL POLICE)": {
+      "maximum_attempts_allowed": "NO LIMIT (TILL AGE LIMIT)",
+      "age_criteria_type": "BETWEEN_DOB",
+      "starting_age": "",
+      "ending_age": "",
+      "between_age": "",
+      "minimum_dob": "",
+      "maximum_dob": "",
+      "between_dob": {
+        "2026": "02-07-1998 to 01-07-2005",
+        "2027": "02-07-1999 to 01-07-2006",
+        "2028": "02-07-2000 to 01-07-2007",
+        "2029": "02-07-2001 to 01-07-2008",
+        "2030": "02-07-2002 to 01-07-2009"
+      },
+      "no_age_limit": "",
+      "gender": "MALE, FEMALE, TRANSGENDER",
+      "special_gender_eligibility": "",
+      "marital_status": {
+        "MALE": [
+          "MARRIED",
+          "UNMARRIED"
+        ],
+        "FEMALE": [
+          "MARRIED",
+          "UNMARRIED"
+        ],
+        "TRANSGENDER": [
+          "MARRIED",
+          "UNMARRIED"
+        ]
+      },
+      "nationality": [
+        "INDIAN"
+      ],
+      "domicile": "ALL STATES",
+      "caste_category": "GEN, OBC, EWS, SC, ST",
+      "pwd_status": {
+        "applicability": "NOT APPLICABLE",
+        "marks_percentage_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        },
+        "age_relaxation_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        }
+      },
+      "age_relaxation": {
+        "GEN": "0 YEARS",
+        "OBC": "5 YEARS",
+        "EWS": "0 YEARS",
+        "SC": "5 YEARS",
+        "ST": "5 YEARS",
+        "EX_SERVICEMEN": "AS PER UP GOVERNMENT RULES"
+      },
+      "highest_education_qualification": "GRADUATION",
+      "education_levels": {
+        "graduation": {
+          "course": {
+            "options": [
+              "ALL COURSES"
+            ],
+            "except_course": []
+          },
+          "subject": "ALL SUBJECTS",
+          "mandatory_subject": "",
+          "mandatory_subjects": [],
+          "status": "PASSED",
+          "marks_percentage": {
+            "GEN": "PASS",
+            "OBC": "PASS",
+            "EWS": "PASS",
+            "SC": "PASS",
+            "ST": "PASS"
+          },
+          "mandatory_subject_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subjects_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "completed_year": "",
+          "board_university": "RECOGNISED UNIVERSITY",
+          "active_backlogs_allowed": "NOT ALLOWED"
+        }
+      },
+      "gap_years_allowed": "NO LIMIT",
+      "educational_stream_restriction": "",
+      "ncc_wing": "",
+      "ncc_certificate": "",
+      "ncc_certificate_grade": ""
+    },
+    "SUB INSPECTOR (CONFIDENTIAL)": {
+      "maximum_attempts_allowed": "NO LIMIT (TILL AGE LIMIT)",
+      "age_criteria_type": "BETWEEN_DOB",
+      "starting_age": "",
+      "ending_age": "",
+      "between_age": "",
+      "minimum_dob": "",
+      "maximum_dob": "",
+      "between_dob": {
+        "2026": "02-07-1998 to 01-07-2005",
+        "2027": "02-07-1999 to 01-07-2006",
+        "2028": "02-07-2000 to 01-07-2007",
+        "2029": "02-07-2001 to 01-07-2008",
+        "2030": "02-07-2002 to 01-07-2009"
+      },
+      "no_age_limit": "",
+      "gender": "MALE, FEMALE",
+      "special_gender_eligibility": "",
+      "marital_status": {
+        "MALE": [
+          "MARRIED",
+          "UNMARRIED"
+        ],
+        "FEMALE": [
+          "MARRIED",
+          "UNMARRIED"
+        ],
+        "TRANSGENDER": []
+      },
+      "nationality": [
+        "INDIAN"
+      ],
+      "domicile": "ALL STATES",
+      "caste_category": "GEN, OBC, EWS, SC, ST",
+      "pwd_status": {
+        "applicability": "NOT APPLICABLE",
+        "marks_percentage_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        },
+        "age_relaxation_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        }
+      },
+      "age_relaxation": {
+        "GEN": "0 YEARS",
+        "OBC": "5 YEARS",
+        "EWS": "0 YEARS",
+        "SC": "5 YEARS",
+        "ST": "5 YEARS",
+        "EX_SERVICEMEN": ""
+      },
+      "highest_education_qualification": "GRADUATION",
+      "education_levels": {
+        "graduation": {
+          "course": {
+            "options": [
+              "ALL COURSES"
+            ],
+            "except_course": []
+          },
+          "subject": "",
+          "mandatory_subject": "",
+          "mandatory_subjects": [],
+          "status": "PASSED",
+          "marks_percentage": {
+            "GEN": "PASS",
+            "OBC": "PASS",
+            "EWS": "PASS",
+            "SC": "PASS",
+            "ST": "PASS"
+          },
+          "mandatory_subject_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subjects_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "completed_year": "",
+          "board_university": "RECOGNISED UNIVERSITY",
+          "active_backlogs_allowed": ""
+        }
+      },
+      "gap_years_allowed": "",
+      "educational_stream_restriction": "",
+      "ncc_wing": "",
+      "ncc_certificate": "",
+      "ncc_certificate_grade": ""
+    },
+    "SUB INSPECTOR (ACCOUNTS)": {
+      "maximum_attempts_allowed": "NO LIMIT (TILL AGE LIMIT)",
+      "age_criteria_type": "BETWEEN_DOB",
+      "starting_age": "",
+      "ending_age": "",
+      "between_age": "",
+      "minimum_dob": "",
+      "maximum_dob": "",
+      "between_dob": {
+        "2026": "02-07-1998 to 01-07-2005",
+        "2027": "02-07-1999 to 01-07-2006",
+        "2028": "02-07-2000 to 01-07-2007",
+        "2029": "02-07-2001 to 01-07-2008",
+        "2030": "02-07-2002 to 01-07-2009"
+      },
+      "no_age_limit": "",
+      "gender": "MALE, FEMALE",
+      "special_gender_eligibility": "",
+      "marital_status": {
+        "MALE": [
+          "MARRIED",
+          "UNMARRIED"
+        ],
+        "FEMALE": [
+          "MARRIED",
+          "UNMARRIED"
+        ],
+        "TRANSGENDER": []
+      },
+      "nationality": [
+        "INDIAN"
+      ],
+      "domicile": "ALL STATES",
+      "caste_category": "GEN, OBC, EWS, SC, ST",
+      "pwd_status": {
+        "applicability": "NOT APPLICABLE",
+        "marks_percentage_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        },
+        "age_relaxation_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        }
+      },
+      "age_relaxation": {
+        "GEN": "0 YEARS",
+        "OBC": "5 YEARS",
+        "EWS": "0 YEARS",
+        "SC": "5 YEARS",
+        "ST": "5 YEARS",
+        "EX_SERVICEMEN": ""
+      },
+      "highest_education_qualification": "GRADUATION",
+      "education_levels": {
+        "graduation": {
+          "course": {
+            "options": [
+              "ALL COURSES"
+            ],
+            "except_course": []
+          },
+          "subject": "ALL SUBJECTS",
+          "mandatory_subject": "",
+          "mandatory_subjects": [],
+          "status": "PASSED",
+          "marks_percentage": {
+            "GEN": "PASS",
+            "OBC": "PASS",
+            "EWS": "PASS",
+            "SC": "PASS",
+            "ST": "PASS"
+          },
+          "mandatory_subject_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subjects_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "completed_year": "",
+          "board_university": "RECOGNISED UNIVERSITY",
+          "active_backlogs_allowed": ""
+        }
+      },
+      "gap_years_allowed": "",
+      "educational_stream_restriction": "",
+      "ncc_wing": "",
+      "ncc_certificate": "",
+      "ncc_certificate_grade": ""
+    }
+  },
+  "category": "POLICE_EXAMS",
+  "conducting_body": "UTTAR PRADESH POLICE RECRUITMENT AND PROMOTION BOARD (UPPRPB)",
+  "exam_code": "UP_POLICE_SI",
+  "exam_name": "Uttar Pradesh Police Sub Inspector Recruitment Examination",
+  "posts_classes_courses_departments_academies": "SUB INSPECTOR (CIVIL POLICE), SUB INSPECTOR (CONFIDENTIAL), SUB INSPECTOR (ACCOUNTS)",
+  "source_file": "POLICE_EXAMS/upsi.json"
+}

@@ -1,0 +1,363 @@
+{
+  "_id": "CIVIL_SERVICES_EXAMS__upsc",
+  "academies": {
+    "INDIAN_ADMINISTRATIVE_SERVICE (IAS)": {
+      "maximum_attempts_allowed": {
+        "GEN": "6",
+        "OBC": "9",
+        "SC": "NO LIMIT",
+        "ST": "NO LIMIT",
+        "PwBD": "AS PER CATEGORY"
+      },
+      "age_criteria_type": "BETWEEN_DOB",
+      "starting_age": "",
+      "ending_age": "",
+      "between_age": "",
+      "minimum_dob": "",
+      "maximum_dob": "",
+      "between_dob": {
+        "2026": "02-08-1994 to 01-08-2005",
+        "2027": "02-08-1995 to 01-08-2006",
+        "2028": "02-08-1996 to 01-08-2007",
+        "2029": "02-08-1997 to 01-08-2008",
+        "2030": "02-08-1998 to 01-08-2009"
+      },
+      "no_age_limit": "",
+      "gender": "MALE, FEMALE, TRANSGENDER",
+      "special_gender_eligibility": "",
+      "marital_status": {
+        "MALE": [
+          "MARRIED",
+          "UNMARRIED"
+        ],
+        "FEMALE": [
+          "MARRIED",
+          "UNMARRIED"
+        ],
+        "TRANSGENDER": [
+          "MARRIED",
+          "UNMARRIED"
+        ]
+      },
+      "nationality": [
+        "INDIAN"
+      ],
+      "domicile": "ALL STATES",
+      "caste_category": "GEN, OBC, EWS, SC, ST, PwBD",
+      "pwd_status": {
+        "applicability": "APPLICABLE",
+        "marks_percentage_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        },
+        "age_relaxation_basis": {
+          "GEN": "10 YEARS",
+          "OBC": "13 YEARS",
+          "EWS": "",
+          "SC": "15 YEARS",
+          "ST": "15 YEARS"
+        }
+      },
+      "age_relaxation": {
+        "GEN": "0 YEARS",
+        "OBC": "3 YEARS",
+        "EWS": "",
+        "SC": "5 YEARS",
+        "ST": "5 YEARS",
+        "EX_SERVICEMEN": "5 YEARS"
+      },
+      "highest_education_qualification": "GRADUATION",
+      "education_levels": {
+        "graduation": {
+          "course": {
+            "options": [
+              "ALL COURSES"
+            ],
+            "except_course": []
+          },
+          "subject": "ALL SUBJECTS",
+          "mandatory_subject": "",
+          "mandatory_subjects": [],
+          "status": [
+            "PASSED",
+            "FINAL YEAR APPEARING"
+          ],
+          "marks_percentage": {
+            "GEN": "PASS",
+            "OBC": "PASS",
+            "EWS": "PASS",
+            "SC": "PASS",
+            "ST": "PASS"
+          },
+          "mandatory_subject_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subjects_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "completed_year": "",
+          "board_university": "RECOGNIZED UNIVERSITY",
+          "active_backlogs_allowed": "FINAL YEAR ALLOWED"
+        }
+      },
+      "gap_years_allowed": "NO LIMIT",
+      "educational_stream_restriction": "",
+      "ncc_wing": "",
+      "ncc_certificate": "",
+      "ncc_certificate_grade": ""
+    },
+    "INDIAN_FOREIGN_SERVICE (IFS)": {
+      "maximum_attempts_allowed": "SAME AS CSE",
+      "age_criteria_type": "",
+      "starting_age": "",
+      "ending_age": "",
+      "between_age": "21-32",
+      "minimum_dob": "",
+      "maximum_dob": "",
+      "between_dob": {
+        "2026": "",
+        "2027": "",
+        "2028": "",
+        "2029": "",
+        "2030": ""
+      },
+      "no_age_limit": "",
+      "gender": "MALE, FEMALE, TRANSGENDER",
+      "special_gender_eligibility": "",
+      "marital_status": {
+        "MALE": [],
+        "FEMALE": [],
+        "TRANSGENDER": []
+      },
+      "nationality": "INDIAN ONLY",
+      "domicile": "",
+      "caste_category": "",
+      "pwd_status": {
+        "applicability": "",
+        "marks_percentage_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        },
+        "age_relaxation_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        }
+      },
+      "age_relaxation": {
+        "GEN": "",
+        "OBC": "",
+        "EWS": "",
+        "SC": "",
+        "ST": "",
+        "EX_SERVICEMEN": ""
+      },
+      "highest_education_qualification": "GRADUATION",
+      "education_levels": {},
+      "gap_years_allowed": "",
+      "educational_stream_restriction": "MEDICALLY FIT FOR FOREIGN SERVICE",
+      "ncc_wing": "",
+      "ncc_certificate": "",
+      "ncc_certificate_grade": ""
+    },
+    "INDIAN_POLICE_SERVICE (IPS)": {
+      "maximum_attempts_allowed": "",
+      "age_criteria_type": "",
+      "starting_age": "",
+      "ending_age": "",
+      "between_age": "21-32",
+      "minimum_dob": "",
+      "maximum_dob": "",
+      "between_dob": {
+        "2026": "",
+        "2027": "",
+        "2028": "",
+        "2029": "",
+        "2030": ""
+      },
+      "no_age_limit": "",
+      "gender": "MALE, FEMALE, TRANSGENDER",
+      "special_gender_eligibility": "",
+      "marital_status": {
+        "MALE": [],
+        "FEMALE": [],
+        "TRANSGENDER": []
+      },
+      "nationality": "INDIAN ONLY",
+      "domicile": "",
+      "caste_category": "",
+      "pwd_status": {
+        "applicability": "",
+        "marks_percentage_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        },
+        "age_relaxation_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        }
+      },
+      "age_relaxation": {
+        "GEN": "",
+        "OBC": "",
+        "EWS": "",
+        "SC": "",
+        "ST": "",
+        "EX_SERVICEMEN": ""
+      },
+      "highest_education_qualification": "GRADUATION",
+      "education_levels": {},
+      "gap_years_allowed": "",
+      "educational_stream_restriction": "",
+      "ncc_wing": "",
+      "ncc_certificate": "",
+      "ncc_certificate_grade": ""
+    },
+    "CENTRAL_CIVIL_SERVICES_GROUP_A": {
+      "maximum_attempts_allowed": "",
+      "age_criteria_type": "",
+      "starting_age": "",
+      "ending_age": "",
+      "between_age": "21-32",
+      "minimum_dob": "",
+      "maximum_dob": "",
+      "between_dob": {
+        "2026": "",
+        "2027": "",
+        "2028": "",
+        "2029": "",
+        "2030": ""
+      },
+      "no_age_limit": "",
+      "gender": "",
+      "special_gender_eligibility": "",
+      "marital_status": {
+        "MALE": [],
+        "FEMALE": [],
+        "TRANSGENDER": []
+      },
+      "nationality": "INDIAN / ELIGIBLE PIO",
+      "domicile": "",
+      "caste_category": "",
+      "pwd_status": {
+        "applicability": "",
+        "marks_percentage_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        },
+        "age_relaxation_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        }
+      },
+      "age_relaxation": {
+        "GEN": "",
+        "OBC": "",
+        "EWS": "",
+        "SC": "",
+        "ST": "",
+        "EX_SERVICEMEN": ""
+      },
+      "highest_education_qualification": "GRADUATION",
+      "education_levels": {},
+      "gap_years_allowed": "",
+      "educational_stream_restriction": "",
+      "ncc_wing": "",
+      "ncc_certificate": "",
+      "ncc_certificate_grade": ""
+    },
+    "CENTRAL_CIVIL_SERVICES_GROUP_B": {
+      "maximum_attempts_allowed": "",
+      "age_criteria_type": "",
+      "starting_age": "",
+      "ending_age": "",
+      "between_age": "21-32",
+      "minimum_dob": "",
+      "maximum_dob": "",
+      "between_dob": {
+        "2026": "",
+        "2027": "",
+        "2028": "",
+        "2029": "",
+        "2030": ""
+      },
+      "no_age_limit": "",
+      "gender": "",
+      "special_gender_eligibility": "",
+      "marital_status": {
+        "MALE": [],
+        "FEMALE": [],
+        "TRANSGENDER": []
+      },
+      "nationality": "INDIAN / ELIGIBLE PIO",
+      "domicile": "",
+      "caste_category": "",
+      "pwd_status": {
+        "applicability": "",
+        "marks_percentage_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        },
+        "age_relaxation_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        }
+      },
+      "age_relaxation": {
+        "GEN": "",
+        "OBC": "",
+        "EWS": "",
+        "SC": "",
+        "ST": "",
+        "EX_SERVICEMEN": ""
+      },
+      "highest_education_qualification": "GRADUATION",
+      "education_levels": {},
+      "gap_years_allowed": "",
+      "educational_stream_restriction": "",
+      "ncc_wing": "",
+      "ncc_certificate": "",
+      "ncc_certificate_grade": ""
+    }
+  },
+  "category": "CIVIL_SERVICES_EXAMS",
+  "conducting_body": "UNION PUBLIC SERVICE COMMISSION (UPSC)",
+  "exam_code": "UPSC_CSE",
+  "exam_name": "Civil Services Examination, 2026",
+  "posts_classes_courses_departments_academies": "INDIAN ADMINISTRATIVE SERVICE (IAS), INDIAN FOREIGN SERVICE (IFS), INDIAN POLICE SERVICE (IPS), CENTRAL CIVIL SERVICES (GROUP A), CENTRAL CIVIL SERVICES (GROUP B)",
+  "source_file": "CIVIL_SERVICES_EXAMS/upsc.json"
+}

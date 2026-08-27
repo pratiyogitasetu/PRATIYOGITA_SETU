@@ -1,0 +1,713 @@
+{
+  "_id": "SSC_EXAMS__sscgdconstrable",
+  "academies": {
+    "BSF": {
+      "maximum_attempts_allowed": "TILL AGE LIMIT REACHED",
+      "age_criteria_type": "BETWEEN_DOB",
+      "starting_age": "",
+      "ending_age": "",
+      "between_age": "18-23",
+      "minimum_dob": "",
+      "maximum_dob": "",
+      "between_dob": {
+        "2026": "02-01-2002 to 01-01-2007",
+        "2027": "02-01-2003 to 01-01-2008",
+        "2028": "02-01-2004 to 01-01-2009",
+        "2029": "02-01-2005 to 01-01-2010",
+        "2030": "02-01-2006 to 01-01-2011"
+      },
+      "no_age_limit": "",
+      "gender": "MALE, FEMALE",
+      "special_gender_eligibility": "",
+      "marital_status": {
+        "MALE": [
+          "MARRIED",
+          "UNMARRIED"
+        ],
+        "FEMALE": [
+          "MARRIED",
+          "UNMARRIED"
+        ],
+        "TRANSGENDER": [
+          "MARRIED",
+          "UNMARRIED"
+        ]
+      },
+      "nationality": [
+        "INDIAN"
+      ],
+      "domicile": "ALL STATES",
+      "caste_category": "GEN, OBC, EWS, SC, ST",
+      "pwd_status": {
+        "applicability": "NOT APPLICABLE",
+        "marks_percentage_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        },
+        "age_relaxation_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        }
+      },
+      "age_relaxation": {
+        "GEN": "0 YEARS",
+        "OBC": "3 YEARS",
+        "EWS": "0 YEARS",
+        "SC": "5 YEARS",
+        "ST": "5 YEARS",
+        "EX_SERVICEMEN": ""
+      },
+      "highest_education_qualification": "(10TH) SECONDARY",
+      "education_levels": {
+        "10th_secondary": {
+          "course_stream": {
+            "options": [
+              "(10TH) SECONDARY"
+            ]
+          },
+          "subject": "ALL SUBJECTS",
+          "mandatory_subject": "",
+          "mandatory_subjects": [],
+          "status": {
+            "options": [
+              "PASSED"
+            ]
+          },
+          "marks_percentage": {
+            "GEN": "PASS",
+            "OBC": "PASS",
+            "EWS": "PASS",
+            "SC": "PASS",
+            "ST": "PASS"
+          },
+          "mandatory_subject_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subjects_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "completed_year": "",
+          "board_university": {
+            "options": [
+              "CBSE",
+              "ICSE",
+              "STATE BOARD",
+              "NIOS",
+              "OTHER"
+            ]
+          }
+        }
+      },
+      "gap_years_allowed": "NO LIMIT",
+      "educational_stream_restriction": "",
+      "ncc_wing": "",
+      "ncc_certificate": "",
+      "ncc_certificate_grade": ""
+    },
+    "CISF": {
+      "maximum_attempts_allowed": "TILL AGE LIMIT REACHED",
+      "age_criteria_type": "BETWEEN_DOB",
+      "starting_age": "",
+      "ending_age": "",
+      "between_age": "18-23",
+      "minimum_dob": "",
+      "maximum_dob": "",
+      "between_dob": {
+        "2026": "02-01-2002 to 01-01-2007",
+        "2027": "02-01-2003 to 01-01-2008",
+        "2028": "02-01-2004 to 01-01-2009",
+        "2029": "02-01-2005 to 01-01-2010",
+        "2030": "02-01-2006 to 01-01-2011"
+      },
+      "no_age_limit": "",
+      "gender": "MALE, FEMALE",
+      "special_gender_eligibility": "",
+      "marital_status": {
+        "MALE": [
+          "MARRIED",
+          "UNMARRIED"
+        ],
+        "FEMALE": [
+          "MARRIED",
+          "UNMARRIED"
+        ],
+        "TRANSGENDER": [
+          "MARRIED",
+          "UNMARRIED"
+        ]
+      },
+      "nationality": [
+        "INDIAN"
+      ],
+      "domicile": "ALL STATES",
+      "caste_category": "GEN, OBC, EWS, SC, ST",
+      "pwd_status": {
+        "applicability": "NOT APPLICABLE",
+        "marks_percentage_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        },
+        "age_relaxation_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        }
+      },
+      "age_relaxation": {
+        "GEN": "0 YEARS",
+        "OBC": "3 YEARS",
+        "EWS": "0 YEARS",
+        "SC": "5 YEARS",
+        "ST": "5 YEARS",
+        "EX_SERVICEMEN": ""
+      },
+      "highest_education_qualification": "(10TH) SECONDARY",
+      "education_levels": {
+        "10th_secondary": {
+          "course_stream": {
+            "options": [
+              "(10TH) SECONDARY"
+            ]
+          },
+          "subject": "ALL SUBJECTS",
+          "mandatory_subject": "",
+          "mandatory_subjects": [],
+          "status": {
+            "options": [
+              "PASSED"
+            ]
+          },
+          "marks_percentage": {
+            "GEN": "PASS",
+            "OBC": "PASS",
+            "EWS": "PASS",
+            "SC": "PASS",
+            "ST": "PASS"
+          },
+          "mandatory_subject_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subjects_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "completed_year": "",
+          "board_university": {
+            "options": [
+              "CBSE",
+              "ICSE",
+              "STATE BOARD",
+              "NIOS",
+              "OTHER"
+            ]
+          }
+        }
+      },
+      "gap_years_allowed": "NO LIMIT",
+      "educational_stream_restriction": "",
+      "ncc_wing": "",
+      "ncc_certificate": "",
+      "ncc_certificate_grade": ""
+    },
+    "CRPF": {
+      "maximum_attempts_allowed": "TILL AGE LIMIT REACHED",
+      "age_criteria_type": "BETWEEN_DOB",
+      "starting_age": "",
+      "ending_age": "",
+      "between_age": "18-23",
+      "minimum_dob": "",
+      "maximum_dob": "",
+      "between_dob": {
+        "2026": "02-01-2002 to 01-01-2007",
+        "2027": "02-01-2003 to 01-01-2008",
+        "2028": "02-01-2004 to 01-01-2009",
+        "2029": "02-01-2005 to 01-01-2010",
+        "2030": "02-01-2006 to 01-01-2011"
+      },
+      "no_age_limit": "",
+      "gender": "MALE, FEMALE",
+      "special_gender_eligibility": "",
+      "marital_status": {
+        "MALE": [
+          "MARRIED",
+          "UNMARRIED"
+        ],
+        "FEMALE": [
+          "MARRIED",
+          "UNMARRIED"
+        ],
+        "TRANSGENDER": [
+          "MARRIED",
+          "UNMARRIED"
+        ]
+      },
+      "nationality": [
+        "INDIAN"
+      ],
+      "domicile": "ALL STATES",
+      "caste_category": "GEN, OBC, EWS, SC, ST",
+      "pwd_status": {
+        "applicability": "NOT APPLICABLE",
+        "marks_percentage_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        },
+        "age_relaxation_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        }
+      },
+      "age_relaxation": {
+        "GEN": "0 YEARS",
+        "OBC": "3 YEARS",
+        "EWS": "0 YEARS",
+        "SC": "5 YEARS",
+        "ST": "5 YEARS",
+        "EX_SERVICEMEN": ""
+      },
+      "highest_education_qualification": "(10TH) SECONDARY",
+      "education_levels": {
+        "10th_secondary": {
+          "course_stream": {
+            "options": [
+              "(10TH) SECONDARY"
+            ]
+          },
+          "subject": "ALL SUBJECTS",
+          "mandatory_subject": "",
+          "mandatory_subjects": [],
+          "status": {
+            "options": [
+              "PASSED"
+            ]
+          },
+          "marks_percentage": {
+            "GEN": "33%",
+            "OBC": "33%",
+            "EWS": "33%",
+            "SC": "33%",
+            "ST": "33%"
+          },
+          "mandatory_subject_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subjects_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "completed_year": "",
+          "board_university": {
+            "options": [
+              "CBSE",
+              "ICSE",
+              "STATE BOARD",
+              "NIOS",
+              "OTHER"
+            ]
+          }
+        }
+      },
+      "gap_years_allowed": "NO LIMIT",
+      "educational_stream_restriction": "",
+      "ncc_wing": "",
+      "ncc_certificate": "",
+      "ncc_certificate_grade": ""
+    },
+    "SSB": {
+      "maximum_attempts_allowed": "TILL AGE LIMIT REACHED",
+      "age_criteria_type": "BETWEEN_DOB",
+      "starting_age": "",
+      "ending_age": "",
+      "between_age": "18-23",
+      "minimum_dob": "",
+      "maximum_dob": "",
+      "between_dob": {
+        "2026": "02-01-2002 to 01-01-2007",
+        "2027": "02-01-2003 to 01-01-2008",
+        "2028": "02-01-2004 to 01-01-2009",
+        "2029": "02-01-2005 to 01-01-2010",
+        "2030": "02-01-2006 to 01-01-2011"
+      },
+      "no_age_limit": "",
+      "gender": "MALE, FEMALE",
+      "special_gender_eligibility": "",
+      "marital_status": {
+        "MALE": [
+          "MARRIED",
+          "UNMARRIED"
+        ],
+        "FEMALE": [
+          "MARRIED",
+          "UNMARRIED"
+        ],
+        "TRANSGENDER": [
+          "MARRIED",
+          "UNMARRIED"
+        ]
+      },
+      "nationality": [
+        "INDIAN"
+      ],
+      "domicile": "ALL STATES",
+      "caste_category": "GEN, OBC, EWS, SC, ST",
+      "pwd_status": {
+        "applicability": "NOT APPLICABLE",
+        "marks_percentage_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        },
+        "age_relaxation_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        }
+      },
+      "age_relaxation": {
+        "GEN": "0 YEARS",
+        "OBC": "3 YEARS",
+        "EWS": "0 YEARS",
+        "SC": "5 YEARS",
+        "ST": "5 YEARS",
+        "EX_SERVICEMEN": ""
+      },
+      "highest_education_qualification": "(10TH) SECONDARY",
+      "education_levels": {
+        "10th_secondary": {
+          "course_stream": {
+            "options": [
+              "(10TH) SECONDARY"
+            ]
+          },
+          "subject": "ALL SUBJECTS",
+          "mandatory_subject": "",
+          "mandatory_subjects": [],
+          "status": {
+            "options": [
+              "PASSED"
+            ]
+          },
+          "marks_percentage": {
+            "GEN": "33%",
+            "OBC": "33%",
+            "EWS": "33%",
+            "SC": "33%",
+            "ST": "33%"
+          },
+          "mandatory_subject_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subjects_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "completed_year": "",
+          "board_university": {
+            "options": [
+              "CBSE",
+              "ICSE",
+              "STATE BOARD",
+              "NIOS",
+              "OTHER"
+            ]
+          }
+        }
+      },
+      "gap_years_allowed": "NO LIMIT",
+      "educational_stream_restriction": "",
+      "ncc_wing": "",
+      "ncc_certificate": "",
+      "ncc_certificate_grade": ""
+    },
+    "ITBP": {
+      "maximum_attempts_allowed": "TILL AGE LIMIT REACHED",
+      "age_criteria_type": "BETWEEN_DOB",
+      "starting_age": "",
+      "ending_age": "",
+      "between_age": "18-23",
+      "minimum_dob": "",
+      "maximum_dob": "",
+      "between_dob": {
+        "2026": "02-01-2002 to 01-01-2007",
+        "2027": "02-01-2003 to 01-01-2008",
+        "2028": "02-01-2004 to 01-01-2009",
+        "2029": "02-01-2005 to 01-01-2010",
+        "2030": "02-01-2006 to 01-01-2011"
+      },
+      "no_age_limit": "",
+      "gender": "MALE, FEMALE",
+      "special_gender_eligibility": "",
+      "marital_status": {
+        "MALE": [
+          "MARRIED",
+          "UNMARRIED"
+        ],
+        "FEMALE": [
+          "MARRIED",
+          "UNMARRIED"
+        ],
+        "TRANSGENDER": [
+          "MARRIED",
+          "UNMARRIED"
+        ]
+      },
+      "nationality": [
+        "INDIAN"
+      ],
+      "domicile": "ALL STATES",
+      "caste_category": "GEN, OBC, EWS, SC, ST",
+      "pwd_status": {
+        "applicability": "NOT APPLICABLE",
+        "marks_percentage_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        },
+        "age_relaxation_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        }
+      },
+      "age_relaxation": {
+        "GEN": "0 YEARS",
+        "OBC": "3 YEARS",
+        "EWS": "0 YEARS",
+        "SC": "5 YEARS",
+        "ST": "5 YEARS",
+        "EX_SERVICEMEN": ""
+      },
+      "highest_education_qualification": "(10TH) SECONDARY",
+      "education_levels": {
+        "10th_secondary": {
+          "course_stream": {
+            "options": [
+              "(10TH) SECONDARY"
+            ]
+          },
+          "subject": "ALL SUBJECTS",
+          "mandatory_subject": "",
+          "mandatory_subjects": [],
+          "status": {
+            "options": [
+              "PASSED"
+            ]
+          },
+          "marks_percentage": {
+            "GEN": "33%",
+            "OBC": "33%",
+            "EWS": "33%",
+            "SC": "33%",
+            "ST": "33%"
+          },
+          "mandatory_subject_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subjects_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "completed_year": "",
+          "board_university": {
+            "options": [
+              "CBSE",
+              "ICSE",
+              "STATE BOARD",
+              "NIOS",
+              "OTHER"
+            ]
+          }
+        }
+      },
+      "gap_years_allowed": "NO LIMIT",
+      "educational_stream_restriction": "",
+      "ncc_wing": "",
+      "ncc_certificate": "",
+      "ncc_certificate_grade": ""
+    },
+    "AR": {
+      "maximum_attempts_allowed": "TILL AGE LIMIT REACHED",
+      "age_criteria_type": "BETWEEN_DOB",
+      "starting_age": "",
+      "ending_age": "",
+      "between_age": "18-23",
+      "minimum_dob": "",
+      "maximum_dob": "",
+      "between_dob": {
+        "2026": "02-01-2002 to 01-01-2007",
+        "2027": "02-01-2003 to 01-01-2008",
+        "2028": "02-01-2004 to 01-01-2009",
+        "2029": "02-01-2005 to 01-01-2010",
+        "2030": "02-01-2006 to 01-01-2011"
+      },
+      "no_age_limit": "",
+      "gender": "MALE, FEMALE",
+      "special_gender_eligibility": "",
+      "marital_status": {
+        "MALE": [
+          "MARRIED",
+          "UNMARRIED"
+        ],
+        "FEMALE": [
+          "MARRIED",
+          "UNMARRIED"
+        ],
+        "TRANSGENDER": [
+          "MARRIED",
+          "UNMARRIED"
+        ]
+      },
+      "nationality": [
+        "INDIAN"
+      ],
+      "domicile": "ALL STATES",
+      "caste_category": "GEN, OBC, EWS, SC, ST",
+      "pwd_status": {
+        "applicability": "NOT APPLICABLE",
+        "marks_percentage_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        },
+        "age_relaxation_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        }
+      },
+      "age_relaxation": {
+        "GEN": "0 YEARS",
+        "OBC": "3 YEARS",
+        "EWS": "0 YEARS",
+        "SC": "5 YEARS",
+        "ST": "5 YEARS",
+        "EX_SERVICEMEN": ""
+      },
+      "highest_education_qualification": "(10TH) SECONDARY",
+      "education_levels": {
+        "10th_secondary": {
+          "course_stream": {
+            "options": [
+              "(10TH) SECONDARY"
+            ]
+          },
+          "subject": "ALL SUBJECTS",
+          "mandatory_subject": "",
+          "mandatory_subjects": [],
+          "status": {
+            "options": [
+              "PASSED"
+            ]
+          },
+          "marks_percentage": {
+            "GEN": "33%",
+            "OBC": "33%",
+            "EWS": "33%",
+            "SC": "33%",
+            "ST": "33%"
+          },
+          "mandatory_subject_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subjects_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "completed_year": "",
+          "board_university": {
+            "options": [
+              "CBSE",
+              "ICSE",
+              "STATE BOARD",
+              "NIOS",
+              "OTHER"
+            ]
+          }
+        }
+      },
+      "gap_years_allowed": "NO LIMIT",
+      "educational_stream_restriction": "",
+      "ncc_wing": "",
+      "ncc_certificate": "",
+      "ncc_certificate_grade": ""
+    }
+  },
+  "category": "SSC_EXAMS",
+  "conducting_body": "STAFF SELECTION COMMISSION (SSC)",
+  "exam_code": "SSC_GD",
+  "exam_name": "SSC GD Constable Examination, 2026",
+  "posts_classes_courses_departments_academies": "BSF, CISF, CRPF, SSB, ITBP, AR",
+  "source_file": "SSC_EXAMS/sscgdconstrable.json"
+}

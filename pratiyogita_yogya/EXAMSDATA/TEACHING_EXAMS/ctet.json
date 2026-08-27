@@ -1,0 +1,231 @@
+{
+  "_id": "TEACHING_EXAMS__ctet",
+  "academies": {
+    "PRIMARY_TEACHER_CLASSES_I_TO_V": {
+      "maximum_attempts_allowed": "NO LIMIT",
+      "age_criteria_type": "NO_AGE_LIMIT",
+      "starting_age": "",
+      "ending_age": "",
+      "between_age": "",
+      "minimum_dob": "",
+      "maximum_dob": "",
+      "between_dob": {
+        "2026": "",
+        "2027": "",
+        "2028": "",
+        "2029": "",
+        "2030": ""
+      },
+      "no_age_limit": "YES",
+      "gender": "MALE, FEMALE, TRANSGENDER",
+      "special_gender_eligibility": "",
+      "marital_status": {
+        "MALE": [
+          "MARRIED",
+          "UNMARRIED"
+        ],
+        "FEMALE": [
+          "MARRIED",
+          "UNMARRIED"
+        ],
+        "TRANSGENDER": [
+          "MARRIED",
+          "UNMARRIED"
+        ]
+      },
+      "nationality": [
+        "INDIAN"
+      ],
+      "domicile": "ALL STATES",
+      "caste_category": "GEN, OBC, EWS, SC, ST",
+      "pwd_status": {
+        "applicability": "APPLICABLE",
+        "marks_percentage_basis": {
+          "GEN": "60%",
+          "OBC": "55%",
+          "EWS": "60%",
+          "SC": "55%",
+          "ST": "55%"
+        },
+        "age_relaxation_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        }
+      },
+      "age_relaxation": {
+        "GEN": "",
+        "OBC": "",
+        "EWS": "",
+        "SC": "",
+        "ST": "",
+        "EX_SERVICEMEN": ""
+      },
+      "highest_education_qualification": "GRADUATION",
+      "education_levels": {
+        "graduation": {
+          "course": {
+            "options": [
+              "BEd",
+              "BElEd",
+              "DLED",
+              "OTHER"
+            ],
+            "except_course": []
+          },
+          "subject": "EDUCATION / RELEVANT SUBJECTS",
+          "mandatory_subject": "CHILD DEVELOPMENT & PEDAGOGY",
+          "mandatory_subjects": [],
+          "status": "PASSED / APPEARING",
+          "marks_percentage": {
+            "GEN": "50%",
+            "OBC": "45%",
+            "EWS": "50%",
+            "SC": "45%",
+            "ST": "45%"
+          },
+          "mandatory_subject_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subjects_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "completed_year": "",
+          "board_university": "",
+          "active_backlogs_allowed": "NOT APPLICABLE"
+        }
+      },
+      "gap_years_allowed": "NO LIMIT",
+      "educational_stream_restriction": "",
+      "ncc_wing": "",
+      "ncc_certificate": "",
+      "ncc_certificate_grade": ""
+    },
+    "ELEMENTARY_TEACHER_CLASSES_VI_TO_VIII": {
+      "maximum_attempts_allowed": "NO LIMIT",
+      "age_criteria_type": "NO_AGE_LIMIT",
+      "starting_age": "",
+      "ending_age": "",
+      "between_age": "",
+      "minimum_dob": "",
+      "maximum_dob": "",
+      "between_dob": {
+        "2026": "",
+        "2027": "",
+        "2028": "",
+        "2029": "",
+        "2030": ""
+      },
+      "no_age_limit": "YES",
+      "gender": "MALE, FEMALE, TRANSGENDER",
+      "special_gender_eligibility": "",
+      "marital_status": {
+        "MALE": [
+          "MARRIED",
+          "UNMARRIED"
+        ],
+        "FEMALE": [
+          "MARRIED",
+          "UNMARRIED"
+        ],
+        "TRANSGENDER": [
+          "MARRIED",
+          "UNMARRIED"
+        ]
+      },
+      "nationality": [
+        "INDIAN"
+      ],
+      "domicile": "ALL STATES",
+      "caste_category": "GEN, OBC, EWS, SC, ST",
+      "pwd_status": {
+        "applicability": "APPLICABLE",
+        "marks_percentage_basis": {
+          "GEN": "60%",
+          "OBC": "55%",
+          "EWS": "60%",
+          "SC": "55%",
+          "ST": "55%"
+        },
+        "age_relaxation_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        }
+      },
+      "age_relaxation": {
+        "GEN": "",
+        "OBC": "",
+        "EWS": "",
+        "SC": "",
+        "ST": "",
+        "EX_SERVICEMEN": ""
+      },
+      "highest_education_qualification": "GRADUATION",
+      "education_levels": {
+        "graduation": {
+          "course": {
+            "options": [
+              "BEd",
+              "BA BEd",
+              "BSc BEd",
+              "OTHER"
+            ],
+            "except_course": []
+          },
+          "subject": "MATHEMATICS / SCIENCE / SOCIAL SCIENCE",
+          "mandatory_subject": "PEDAGOGY",
+          "mandatory_subjects": [],
+          "status": "PASSED / APPEARING",
+          "marks_percentage": {
+            "GEN": "50%",
+            "OBC": "45%",
+            "EWS": "50%",
+            "SC": "45%",
+            "ST": "45%"
+          },
+          "mandatory_subject_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subjects_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "completed_year": "",
+          "board_university": "",
+          "active_backlogs_allowed": "NOT APPLICABLE"
+        }
+      },
+      "gap_years_allowed": "NO LIMIT",
+      "educational_stream_restriction": "",
+      "ncc_wing": "",
+      "ncc_certificate": "",
+      "ncc_certificate_grade": ""
+    }
+  },
+  "category": "TEACHING_EXAMS",
+  "conducting_body": "CENTRAL BOARD OF SECONDARY EDUCATION (CBSE)",
+  "exam_code": "CTET",
+  "exam_name": "Central Teacher Eligibility Test (CTET) – July 2024",
+  "posts_classes_courses_departments_academies": "PRIMARY TEACHER (CLASSES I–V), ELEMENTARY TEACHER (CLASSES VI–VIII)",
+  "source_file": "TEACHING_EXAMS/ctet.json"
+}

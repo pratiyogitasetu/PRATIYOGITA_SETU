@@ -666,6 +666,7 @@
   "posts_classes_courses_departments_academies": "IMA, INA, AFA, OTA",
   "source_file": "DEFENCE_EXAMS/cds.json",
   "last_updated": "",
+  "starting_date_to_apply": "13-05-2026",
   "last_date_to_apply": "09-06-2026",
   "exam_date": "02-10-2026"
 }

@@ -1,0 +1,180 @@
+{
+  "_id": "CUET_AND_UG_ENTRANCE_EXAMS__cuet",
+  "academies": {
+    "CUET_UG": {
+      "maximum_attempts_allowed": "NO LIMIT",
+      "age_criteria_type": "NO_AGE_LIMIT",
+      "starting_age": "",
+      "ending_age": "",
+      "between_age": "",
+      "minimum_dob": "",
+      "maximum_dob": "",
+      "between_dob": {},
+      "no_age_limit": "",
+      "gender": "MALE, FEMALE, TRANSGENDER",
+      "special_gender_eligibility": "",
+      "marital_status": {
+        "MALE": [
+          "UNMARRIED",
+          "MARRIED",
+          "SEPARATED",
+          "DIVORCEE",
+          "WIDOWER"
+        ],
+        "FEMALE": [
+          "UNMARRIED",
+          "MARRIED",
+          "SEPARATED",
+          "DIVORCEE",
+          "WIDOW"
+        ],
+        "TRANSGENDER": [
+          "UNMARRIED",
+          "MARRIED",
+          "SEPARATED",
+          "DIVORCEE"
+        ]
+      },
+      "nationality": [
+        "INDIAN",
+        "OCI (OVERSEAS CITIZEN OF INDIA)",
+        "NRI (NON-RESIDENT INDIAN)",
+        "FOREIGN NATIONAL"
+      ],
+      "domicile": "ALL STATES",
+      "caste_category": "GEN, OBC, EWS, SC, ST",
+      "pwd_status": {
+        "applicability": "APPLICABLE",
+        "marks_percentage_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        },
+        "age_relaxation_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        }
+      },
+      "age_relaxation": {
+        "GEN": "",
+        "OBC": "",
+        "EWS": "",
+        "SC": "",
+        "ST": "",
+        "EX_SERVICEMEN": ""
+      },
+      "highest_education_qualification": "12TH_HIGHER_SECONDARY",
+      "education_levels": {
+        "12th_higher_secondary": {
+          "course": {
+            "options": [
+              "Science",
+              "Commerce",
+              "Arts/Humanities"
+            ]
+          },
+          "subject": {
+            "Science": [
+              "Physics",
+              "Chemistry",
+              "Mathematics",
+              "Biology",
+              "Computer Science",
+              "Biotechnology",
+              "Engineering Graphics",
+              "Entrepreneurship",
+              "OTHER"
+            ],
+            "Commerce": [
+              "Accountancy",
+              "Business Studies",
+              "Economics",
+              "Mathematics",
+              "Entrepreneurship",
+              "OTHER"
+            ],
+            "Arts/Humanities": [
+              "History",
+              "Geography",
+              "Political Science",
+              "Economics",
+              "Sociology",
+              "Psychology",
+              "Philosophy",
+              "Home Science",
+              "Fine Arts/Painting",
+              "Music",
+              "Physical Education",
+              "Legal Studies",
+              "Sanskrit",
+              "OTHER"
+            ]
+          },
+          "mandatory_subject": "",
+          "mandatory_subjects": [],
+          "status": {
+            "options": [
+              "PASSED",
+              "APPEARING",
+              "FAILED",
+              "NOT APPLICABLE"
+            ]
+          },
+          "marks_percentage": {
+            "GEN": "NO MINIMUM (NTA)",
+            "OBC": "NO MINIMUM (NTA)",
+            "EWS": "NO MINIMUM (NTA)",
+            "SC": "NO MINIMUM (NTA)",
+            "ST": "NO MINIMUM (NTA)"
+          },
+          "mandatory_subject_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subjects_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "completed_year": "",
+          "board_university": {
+            "options": [
+              "CBSE",
+              "ICSE",
+              "STATE BOARD",
+              "NIOS",
+              "IB (INTERNATIONAL BACCALAUREATE)",
+              "CAMBRIDGE (IGCSE/A-LEVEL)",
+              "OTHER"
+            ]
+          }
+        }
+      },
+      "gap_years_allowed": "NO LIMIT",
+      "educational_stream_restriction": "",
+      "ncc_wing": "",
+      "ncc_certificate": "",
+      "ncc_certificate_grade": ""
+    }
+  },
+  "category": "CUET_AND_UG_ENTRANCE_EXAMS",
+  "conducting_body": "NTA (National Testing Agency)",
+  "exam_code": "CUET",
+  "exam_name": "Common University Entrance Test (UG)",
+  "posts_classes_courses_departments_academies": "CUET_UG",
+  "source_file": "CUET_AND_UG_ENTRANCE_EXAMS/cuet.json",
+  "last_updated": "",
+  "starting_date_to_apply": "03-01-2027",
+  "last_date_to_apply": "30-01-2027",
+  "exam_date": "15-05-2027"
+}

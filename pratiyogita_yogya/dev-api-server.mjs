@@ -34,6 +34,7 @@ loadEnvFile('.env.local');
 
 const catalogHandler = (await import('./api/exams/catalog.js')).default;
 const examIdHandler = (await import('./api/exams/[examId].js')).default;
+const datesHandler = (await import('./api/exams/dates.js')).default;
 
 const PORT = 3000;
 
@@ -108,6 +109,11 @@ const server = http.createServer(async (req, res) => {
       return;
     }
 
+    if (pathname === '/api/exams/dates') {
+      await datesHandler(mockReq, mockRes);
+      return;
+    }
+
     if (pathname.startsWith('/api/exams/') && pathname !== '/api/exams/') {
       const examId = decodeURIComponent(pathname.replace('/api/exams/', ''));
       mockReq.query = { examId };
@@ -128,5 +134,6 @@ server.listen(PORT, () => {
   console.log(`API dev server running at http://localhost:${PORT}`);
   console.log('Endpoints:');
   console.log('  GET  /api/exams/catalog');
+  console.log('  GET  /api/exams/dates');
   console.log('  GET  /api/exams/:examId');
 });
