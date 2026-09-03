@@ -278,30 +278,7 @@ canvas {
   animation: slow-shake 3s ease-in-out infinite;
 }
 
-/* Auto-scrolling features animation */
-@keyframes scroll-features {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
 
-.animate-scroll-features {
-  animation: scroll-features 30s linear infinite;
-}
-
-/* Features scroll container */
-.features-scroll-container {
-  position: relative;
-  width: 100%;
-}
-
-.features-scroll-content {
-  white-space: nowrap;
-  width: fit-content;
-}
 
 /* DEV: force toolbar children to center vertically (remove in prod if necessary) */
 .MuiToolbar-root {

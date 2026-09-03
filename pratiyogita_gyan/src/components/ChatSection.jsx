@@ -1,7 +1,7 @@
-import { useState, useEffect, useRef, useMemo, useCallback, useLayoutEffect, Fragment, memo } from 'react'
+import { useState, useEffect, useRef, useMemo, useCallback, useLayoutEffect, memo } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { User, ChevronUp, FileText, Hash, ChevronLeft, ChevronRight, MessageSquare, Sparkles, TrendingUp, Zap, GraduationCap, Book, BookOpen, Sliders } from 'lucide-react'
+import { User, ChevronUp, FileText, Hash, ChevronLeft, ChevronRight, MessageSquare, Sparkles, TrendingUp, Book, BookOpen } from 'lucide-react'
 import { Box, Paper, Stack, Typography, Alert, Chip, Divider, Avatar, IconButton, Button } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 import PropTypes from 'prop-types'
@@ -1356,104 +1356,6 @@ const ChatSection = () => {
                         >
                           Ask any question and get comprehensive answers along with related PYQs.
                         </p>
-                      </div>
-
-                      {/* Features Section */}
-                      <div className="mb-2">
-                        <h3
-                          className="text-sm font-semibold text-center mb-2 transition-colors duration-300"
-                          style={{ color: '#000000' }}
-                        >
-                          Features
-                        </h3>
-
-                        {/* Feature Icons - Auto-scrolling with blurred edges */}
-                        <div className="relative w-full mx-auto">
-                          {/* Gradient overlays for blurred/faded edges */}
-                          <div
-                            className="absolute left-0 top-0 bottom-0 w-10 z-10 pointer-events-none transition-all duration-300"
-                            style={{
-                              background: 'linear-gradient(to right, #ffffff, rgba(255, 255, 255, 0.8), transparent)'
-                            }}
-                          ></div>
-                          <div
-                            className="absolute right-0 top-0 bottom-0 w-10 z-10 pointer-events-none transition-all duration-300"
-                            style={{
-                              background: 'linear-gradient(to left, #ffffff, rgba(255, 255, 255, 0.8), transparent)'
-                            }}
-                          ></div>
-
-                          {/* Auto-scrolling container */}
-                          <div
-                            className="features-scroll-container overflow-hidden"
-                            style={{
-                              maskImage: 'linear-gradient(to right, transparent, black 40px, black calc(100% - 40px), transparent)',
-                              WebkitMaskImage: 'linear-gradient(to right, transparent, black 40px, black calc(100% - 40px), transparent)'
-                            }}
-                          >
-                            <div className="features-scroll-content flex items-center gap-2.5 animate-scroll-features">
-                              {/* Duplicate the feature items twice for seamless loop */}
-                              {[1, 2].map((iteration) => (
-                                <Fragment key={iteration}>
-                                  {/* Subject Selection */}
-                                  <div className="p-3 rounded-xl group cursor-pointer transition-all duration-300 flex-shrink-0 min-w-[160px] bg-gradient-to-br from-purple-50 to-purple-100 hover:from-purple-25 hover:to-purple-50 shadow-md shadow-purple-200/30">
-                                    <div className="flex items-center gap-2.5">
-                                      <GraduationCap className="w-7 h-7 flex-shrink-0 transition-all duration-300 text-purple-700" />
-                                      <div className="flex-1">
-                                        <h4 className="font-medium text-xs mb-1 text-purple-700">Subject</h4>
-                                        <div className="flex flex-wrap gap-1">
-                                          <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-red-300 text-red-800">History</span>
-                                          <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-yellow-300 text-yellow-800">Polity</span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-
-                                  {/* Class Selection */}
-                                  <div className="p-3 rounded-xl group cursor-pointer transition-all duration-300 flex-shrink-0 min-w-[160px] bg-gradient-to-br from-emerald-50 to-emerald-100 hover:from-emerald-25 hover:to-emerald-50 shadow-md shadow-emerald-200/30">
-                                    <div className="flex items-center gap-2.5">
-                                      <BookOpen className="w-7 h-7 flex-shrink-0 transition-all duration-300 text-emerald-700" />
-                                      <div className="flex-1">
-                                        <h4 className="font-medium text-xs mb-1 text-emerald-700">NCERT</h4>
-                                        <div className="flex flex-wrap gap-1">
-                                          <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-blue-300 text-blue-800">6-10th</span>
-                                          <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-green-300 text-green-800">11-12th</span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-
-                                  {/* Answer Length */}
-                                  <div className="p-3 rounded-xl group cursor-pointer transition-all duration-300 flex-shrink-0 min-w-[160px] bg-gradient-to-br from-blue-50 to-blue-100 hover:from-blue-25 hover:to-blue-50 shadow-md shadow-blue-200/30">
-                                    <div className="flex items-center gap-2.5">
-                                      <Sliders className="w-7 h-7 flex-shrink-0 transition-all duration-300 text-blue-700" />
-                                      <div className="flex-1">
-                                        <h4 className="font-medium text-xs mb-1 text-blue-700">Length</h4>
-                                        <div className="flex flex-wrap gap-1">
-                                          <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-amber-300 text-amber-800">Short</span>
-                                          <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-indigo-300 text-indigo-800">Detailed</span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-
-                                  {/* Quick Response */}
-                                  <div className="p-3 rounded-xl group cursor-pointer transition-all duration-300 flex-shrink-0 min-w-[140px] bg-gradient-to-br from-rose-50 to-rose-100 hover:from-rose-25 hover:to-rose-50 shadow-md shadow-rose-200/30">
-                                    <div className="flex items-center gap-2.5">
-                                      <Zap className="w-7 h-7 flex-shrink-0 transition-all duration-300 text-rose-700" />
-                                      <div className="flex-1">
-                                        <h4 className="font-medium text-xs mb-1 text-rose-700">Quick</h4>
-                                        <div className="flex justify-start">
-                                          <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-yellow-300 text-yellow-800">Instant</span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </Fragment>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
                       </div>
                     </div>
                   </div>

@@ -1463,40 +1463,51 @@ def generate_with_model_routing(query: str, context: str, answer_profile: dict, 
     # 2) Fallback: Groq
     groq_client = search_components.get('client')
     if groq_client:
-        try:
-            response = groq_client.chat.completions.create(
-                messages=[
-                    {"role": "system", "content": "You are a precise and helpful educational assistant."},
-                    {"role": "user", "content": prompt},
-                ],
-                model=search_components.get('groq_model', os.getenv('GROQ_MODEL_NAME', 'llama-3.1-8b-instant')),
-                max_tokens=max_tokens,
-                temperature=llm_temperature,
-                top_p=llm_top_p,
-            )
-            content = (response.choices[0].message.content or "").strip()
-            if content:
-                enable_expansion = os.getenv("ENABLE_ANSWER_EXPANSION", "0").lower() in {"1", "true", "yes"}
-                if enable_expansion and _needs_answer_expansion(content, answer_profile):
-                    try:
-                        refine = groq_client.chat.completions.create(
-                            messages=[
-                                {"role": "system", "content": "You are a precise and helpful educational assistant."},
-                                {"role": "user", "content": _build_expansion_prompt(query, content, answer_mode, answer_profile)},
-                            ],
-                            model=search_components.get('groq_model', os.getenv('GROQ_MODEL_NAME', 'llama-3.1-8b-instant')),
-                            max_tokens=max_tokens,
-                            temperature=min(llm_temperature, 0.25),
-                            top_p=llm_top_p,
-                        )
-                        refined_content = (refine.choices[0].message.content or "").strip()
-                        if refined_content:
-                            content = refined_content
-                    except Exception:
-                        pass
-                return content, "groq", None
-        except Exception as e:
-            return None, None, f"All LLM providers failed: {e}"
+        primary_model = search_components.get('groq_model', os.getenv('GROQ_MODEL_NAME', 'openai/gpt-oss-120b'))
+        candidate_models = [primary_model] + [
+            m for m in ['openai/gpt-oss-120b', 'openai/gpt-oss-20b', 'qwen/qwen3.8-27b', 'qwen/qwen3.6-27b']
+            if m != primary_model
+        ]
+        last_error = None
+        for model_candidate in candidate_models:
+            try:
+                response = groq_client.chat.completions.create(
+                    messages=[
+                        {"role": "system", "content": "You are a precise and helpful educational assistant."},
+                        {"role": "user", "content": prompt},
+                    ],
+                    model=model_candidate,
+                    max_tokens=max_tokens,
+                    temperature=llm_temperature,
+                    top_p=llm_top_p,
+                )
+                content = (response.choices[0].message.content or "").strip()
+                if content:
+                    enable_expansion = os.getenv("ENABLE_ANSWER_EXPANSION", "0").lower() in {"1", "true", "yes"}
+                    if enable_expansion and _needs_answer_expansion(content, answer_profile):
+                        try:
+                            refine = groq_client.chat.completions.create(
+                                messages=[
+                                    {"role": "system", "content": "You are a precise and helpful educational assistant."},
+                                    {"role": "user", "content": _build_expansion_prompt(query, content, answer_mode, answer_profile)},
+                                ],
+                                model=model_candidate,
+                                max_tokens=max_tokens,
+                                temperature=min(llm_temperature, 0.25),
+                                top_p=llm_top_p,
+                            )
+                            refined_content = (refine.choices[0].message.content or "").strip()
+                            if refined_content:
+                                content = refined_content
+                        except Exception:
+                            pass
+                    return content, f"groq:{model_candidate}", None
+            except Exception as e:
+                last_error = e
+                app.logger.warning(f"Groq generation failed with {model_candidate}: {e}")
+                continue
+        if last_error:
+            return None, None, f"All LLM providers failed: {last_error}"
 
     return None, None, "No LLM provider configured"
 
@@ -1599,7 +1610,7 @@ def initialize_search_system():
             try:
                 client = Groq(api_key=groq_api_key)
                 search_components['client'] = client
-                search_components['groq_model'] = os.getenv('GROQ_MODEL_NAME', 'llama-3.1-8b-instant')
+                search_components['groq_model'] = os.getenv('GROQ_MODEL_NAME', 'openai/gpt-oss-120b')
                 
                 if is_production:
                     app.logger.info("✅ Groq client initialized")
@@ -3841,29 +3852,36 @@ def generate_pyq_explanation():
         # 2) Fallback: Groq
         groq_client = search_components.get('client')
         if groq_client:
-            try:
-                response = groq_client.chat.completions.create(
-                    messages=[
-                        {"role": "system", "content": "You are a precise educational assistant."},
-                        {"role": "user", "content": prompt},
-                    ],
-                    model=search_components.get('groq_model', os.getenv('GROQ_MODEL_NAME', 'llama-3.1-8b-instant')),
-                    max_tokens=140,
-                    temperature=0.2,
-                    top_p=0.9,
-                )
-                content = (response.choices[0].message.content or '').strip()
-                if content:
-                    _set_cached_value(explanation_cache_key, content, ttl_seconds=86400)
-                    return jsonify({
-                        'status': 'success',
-                        'provider': 'groq',
-                        'explanation': content,
-                        'request_id': request_id,
-                        'elapsed_ms': int((time.time() - started_at) * 1000),
-                    }), 200
-            except Exception as e:
-                app.logger.warning(f"Groq PYQ explanation failed: {e}")
+            primary_model = search_components.get('groq_model', os.getenv('GROQ_MODEL_NAME', 'openai/gpt-oss-120b'))
+            candidate_models = [primary_model] + [
+                m for m in ['openai/gpt-oss-120b', 'openai/gpt-oss-20b', 'qwen/qwen3.8-27b']
+                if m != primary_model
+            ]
+            for model_candidate in candidate_models:
+                try:
+                    response = groq_client.chat.completions.create(
+                        messages=[
+                            {"role": "system", "content": "You are a precise educational assistant."},
+                            {"role": "user", "content": prompt},
+                        ],
+                        model=model_candidate,
+                        max_tokens=140,
+                        temperature=0.2,
+                        top_p=0.9,
+                    )
+                    content = (response.choices[0].message.content or '').strip()
+                    if content:
+                        _set_cached_value(explanation_cache_key, content, ttl_seconds=86400)
+                        return jsonify({
+                            'status': 'success',
+                            'provider': f'groq:{model_candidate}',
+                            'explanation': content,
+                            'request_id': request_id,
+                            'elapsed_ms': int((time.time() - started_at) * 1000),
+                        }), 200
+                except Exception as e:
+                    app.logger.warning(f"Groq PYQ explanation failed with {model_candidate}: {e}")
+                    continue
 
         fallback_explanation = existing_explanation or (
             f"Correct answer: {correct_answer_text}. "

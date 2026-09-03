@@ -1,12 +1,11 @@
 import { useState, useEffect, lazy, Suspense } from 'react'
-import { LogIn, UserPlus, Home, BarChart3, Info, Phone, LogOut, ChevronLeft, User, ChevronRight, Sparkles, Settings, MoreVertical, BookOpen, MessageSquare } from 'lucide-react'
+import { LogIn, UserPlus, Home, BarChart3, Info, Phone, LogOut, ChevronLeft, User, ChevronRight, Settings, MoreVertical, BookOpen, MessageSquare } from 'lucide-react'
 import { AppBar, Toolbar, Box, Typography, Button, Avatar, Stack, Container, IconButton, Divider, MenuItem, Popover } from '@mui/material'
 import PropTypes from 'prop-types'
 const AuthModal = lazy(() => import('./AuthModal'))
 const AboutUsModal = lazy(() => import('./AboutUsModal'))
 const ContactModal = lazy(() => import('./ContactModal'))
 const EditProfileModal = lazy(() => import('./EditProfileModal'))
-const WhatsNewModal = lazy(() => import('./WhatsNewModal'))
 import { useAuth } from '../contexts/AuthContext'
 import { useLayout } from '../contexts/LayoutContext'
 import { CircleHelp } from './icons/CircleHelp'
@@ -20,7 +19,6 @@ const Navbar = ({ onViewChange, currentView }) => {
   const [showAboutModal, setShowAboutModal] = useState(false)
   const [showContactModal, setShowContactModal] = useState(false)
   const [showEditProfile, setShowEditProfile] = useState(false)
-  const [showWhatsNew, setShowWhatsNew] = useState(false)
   const [menuAnchorEl, setMenuAnchorEl] = useState(null)
   const isMenuOpen = Boolean(menuAnchorEl)
 
@@ -471,23 +469,6 @@ const Navbar = ({ onViewChange, currentView }) => {
           </MenuItem>
 
           <MenuItem
-            onClick={() => handleOpenModal(setShowWhatsNew)}
-            sx={{
-              borderRadius: 2,
-              py: 0.85,
-              px: 1.2,
-              gap: 1.5,
-              color: '#e5e7eb',
-              fontSize: '0.82rem',
-              fontWeight: 500,
-              '&:hover': { backgroundColor: 'rgba(255,255,255,0.08)' }
-            }}
-          >
-            <Sparkles size={17} strokeWidth={2} style={{ color: '#fbbf24' }} />
-            <span>Features & What's New</span>
-          </MenuItem>
-
-          <MenuItem
             onClick={() => handleOpenModal(setShowAboutModal)}
             sx={{
               borderRadius: 2,
@@ -655,12 +636,6 @@ const Navbar = ({ onViewChange, currentView }) => {
           <EditProfileModal
             isOpen={showEditProfile}
             onClose={() => setShowEditProfile(false)}
-          />
-        )}
-        {showWhatsNew && (
-          <WhatsNewModal
-            isOpen={showWhatsNew}
-            onClose={() => setShowWhatsNew(false)}
           />
         )}
       </Suspense>
