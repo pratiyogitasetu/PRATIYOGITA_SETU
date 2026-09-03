@@ -118,11 +118,16 @@ function AppContent() {
       setCurrentView('chat')
     }
 
+    const handleSwitchToDashboard = () => {
+      setCurrentView('dashboard')
+    }
+
     window.addEventListener('switchToEligibility', handleSwitchToEligibility)
     window.addEventListener('switchToSyllabus', handleSwitchToSyllabus)
     window.addEventListener('switchToQuiz', handleSwitchToQuiz)
     window.addEventListener('switchToGDTopics', handleSwitchToGDTopics)
     window.addEventListener('switchToChat', handleSwitchToChat)
+    window.addEventListener('switchToDashboard', handleSwitchToDashboard)
 
     return () => {
       window.removeEventListener('switchToEligibility', handleSwitchToEligibility)
@@ -130,6 +135,7 @@ function AppContent() {
       window.removeEventListener('switchToQuiz', handleSwitchToQuiz)
       window.removeEventListener('switchToGDTopics', handleSwitchToGDTopics)
       window.removeEventListener('switchToChat', handleSwitchToChat)
+      window.removeEventListener('switchToDashboard', handleSwitchToDashboard)
     }
   }, [])
 

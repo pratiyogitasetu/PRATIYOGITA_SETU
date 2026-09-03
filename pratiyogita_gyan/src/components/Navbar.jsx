@@ -61,6 +61,8 @@ const Navbar = ({ onViewChange, currentView }) => {
     handleCloseMenu()
   }
 
+  const handleNavigate = handleNavigation
+
   const handleHomeClick = () => {
     handleNavigation('chat')
   }

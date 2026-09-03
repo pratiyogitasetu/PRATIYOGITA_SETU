@@ -727,6 +727,12 @@ const Dashboard = () => {
               >
                 Go to Login
               </button>
+              <button
+                onClick={() => window.dispatchEvent(new CustomEvent('switchToChat'))}
+                className="w-full py-2.5 px-4 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition-colors text-sm"
+              >
+                Return to Home
+              </button>
               <p className="text-sm text-gray-500">
                 Track your quiz scores, study streaks, and subject progress
               </p>
