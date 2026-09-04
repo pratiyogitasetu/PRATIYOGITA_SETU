@@ -20,6 +20,7 @@ import {
   ArrowLeft,
   X,
   Star,
+  ZoomIn,
 } from "lucide-react";
 import { useTheme } from "../contexts/ThemeContext";
 import { useAuth } from "../contexts/AuthContext";
@@ -71,6 +72,7 @@ const Dashboard = ({ onClose }) => {
   const [savedPyqs, setSavedPyqs] = useState([]);
   const [loadingSavedPyqs, setLoadingSavedPyqs] = useState(false);
   const [expandedSavedExplanations, setExpandedSavedExplanations] = useState({});
+  const [previewImage, setPreviewImage] = useState(null);
 
   // Handle close
   const handleClose = () => {
@@ -716,18 +718,16 @@ const Dashboard = ({ onClose }) => {
                               }
 
                               return (
-                                <div className="flex flex-col-reverse sm:flex-row items-center gap-3 mb-3">
+                                <div className="flex flex-row items-center gap-2 mb-3">
                                   {renderOptions()}
-                                  <div 
-                                    className="w-full sm:w-48 shrink-0 p-1.5 rounded-lg border border-gray-200 bg-gray-50 flex flex-col items-center justify-center cursor-pointer hover:border-gray-300 transition-colors"
-                                    onClick={() => window.open(formattedImg, '_blank', 'noopener,noreferrer')}
-                                    title="Click to view full image in new tab"
-                                  >
+                                  <div className="w-[46%] sm:w-48 shrink-0 flex flex-col items-center justify-center p-0">
                                     <img
                                       src={formattedImg}
                                       alt="Question Reference"
                                       loading="lazy"
-                                      className="max-h-36 max-w-full object-contain rounded-md"
+                                      className="max-h-36 max-w-full object-contain rounded-lg cursor-pointer shadow-sm"
+                                      onClick={() => setPreviewImage(formattedImg)}
+                                      title="Click to enlarge"
                                       onError={(e) => {
                                         if (!e.target.dataset.triedFallback) {
                                           e.target.dataset.triedFallback = 'true';
@@ -736,11 +736,19 @@ const Dashboard = ({ onClose }) => {
                                             e.target.src = `https://drive.google.com/thumbnail?id=${fileDMatch[1]}&sz=w1000`;
                                           }
                                         } else {
-                                          e.target.parentElement.style.display = 'none';
+                                          e.target.style.display = 'none';
                                         }
                                       }}
                                     />
-                                    <span className="text-[10px] text-gray-500 mt-1">View figure ↗</span>
+                                    <button
+                                      type="button"
+                                      onClick={() => setPreviewImage(formattedImg)}
+                                      className="inline-flex items-center gap-1 text-[11px] font-semibold text-amber-600 hover:text-amber-700 mt-1"
+                                      title="Click to enlarge"
+                                    >
+                                      <ZoomIn className="w-3 h-3 text-amber-600" />
+                                      <span>View figure</span>
+                                    </button>
                                   </div>
                                 </div>
                               );
@@ -782,10 +790,35 @@ const Dashboard = ({ onClose }) => {
                 </div>
               )}
             </div>
-
           </div>
         </div>
       </div>
+
+      {/* Enlarged Image Lightbox Modal with Cross Button */}
+      {previewImage && (
+        <div
+          onClick={() => setPreviewImage(null)}
+          className="fixed inset-0 z-[999999] bg-black/85 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative max-w-[92vw] max-h-[90vh] flex flex-col items-center justify-center"
+          >
+            <button
+              onClick={() => setPreviewImage(null)}
+              title="Close image"
+              className="absolute -top-3 -right-3 sm:-top-4 sm:-right-4 w-8 h-8 rounded-full bg-white text-gray-900 shadow-xl flex items-center justify-center hover:bg-gray-100 hover:scale-105 transition-all z-10"
+            >
+              <X className="w-4 h-4 text-gray-800" />
+            </button>
+            <img
+              src={previewImage}
+              alt="Enlarged figure"
+              className="max-w-full max-h-[84vh] object-contain rounded-xl shadow-2xl bg-white"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

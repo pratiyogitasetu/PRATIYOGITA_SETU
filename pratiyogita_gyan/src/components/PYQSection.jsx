@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react'
-import { ChevronDown, FileText, ChevronLeft, ChevronRight, Star, RefreshCw, MessageSquare, Target, Sparkles } from 'lucide-react'
+import { ChevronDown, FileText, ChevronLeft, ChevronRight, Star, RefreshCw, MessageSquare, Target, Sparkles, ZoomIn, X } from 'lucide-react'
 import { Box, Paper, Stack, Typography, IconButton, Chip, Divider, Button, Menu, MenuItem } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 import { useLayout } from '../contexts/LayoutContext'
@@ -103,6 +103,7 @@ const PYQSection = () => {
   const [filteredQuestions, setFilteredQuestions] = useState([])
   const [userAnswers, setUserAnswers] = useState({}) // Track user selections for each question
   const [expandedExplanations, setExpandedExplanations] = useState({}) // Track expanded explanations
+  const [previewImage, setPreviewImage] = useState(null) // Track full-screen image preview lightbox
   const [expandedQueries, setExpandedQueries] = useState({})
   const [aiExplanations, setAiExplanations] = useState({})
   const [loadingExplanations, setLoadingExplanations] = useState({})
@@ -1908,54 +1909,46 @@ const PYQSection = () => {
                                                 sx={{
                                                   mt: 0.75,
                                                   display: 'flex',
-                                                  flexDirection: { xs: 'column-reverse', sm: 'row' },
+                                                  flexDirection: 'row',
                                                   alignItems: 'center',
-                                                  gap: 1.5
+                                                  gap: 1
                                                 }}
                                               >
-                                                {/* Options on Left */}
+                                                {/* Options on Left (~50%) */}
                                                 {renderOptions()}
 
-                                                {/* Image on Right Side of Options */}
+                                                {/* Image directly on Right Side (~50%, no outer container box) */}
                                                 <Box
                                                   sx={{
-                                                    width: { xs: '100%', sm: '42%', md: '40%' },
-                                                    maxWidth: { xs: '100%', sm: '260px' },
-                                                    minWidth: { sm: '160px' },
+                                                    width: { xs: '48%', sm: '48%' },
+                                                    maxWidth: { xs: '180px', sm: '260px' },
                                                     flexShrink: 0,
-                                                    p: 0.75,
-                                                    borderRadius: 2,
-                                                    border: '1px solid',
-                                                    borderColor: isDarkMode ? 'rgba(255,255,255,0.1)' : '#e2e8f0',
-                                                    backgroundColor: isDarkMode ? 'rgba(0,0,0,0.25)' : '#f8fafc',
                                                     display: 'flex',
                                                     flexDirection: 'column',
                                                     alignItems: 'center',
                                                     justifyContent: 'center',
-                                                    cursor: 'pointer',
-                                                    transition: 'all 0.2s ease',
-                                                    '&:hover': {
-                                                      borderColor: isDarkMode ? 'rgba(255,255,255,0.25)' : '#cbd5e1',
-                                                      boxShadow: '0 2px 10px rgba(0,0,0,0.06)'
-                                                    }
+                                                    p: 0
                                                   }}
-                                                  onClick={() => {
-                                                    window.open(formattedImg, '_blank', 'noopener,noreferrer');
-                                                  }}
-                                                  title="Click to view full image in new tab"
                                                 >
                                                   <img
                                                     src={formattedImg}
                                                     alt="Question Figure"
                                                     loading="lazy"
                                                     style={{
-                                                      maxHeight: '160px',
+                                                      maxHeight: '175px',
                                                       maxWidth: '100%',
                                                       width: 'auto',
                                                       height: 'auto',
                                                       objectFit: 'contain',
-                                                      borderRadius: '6px'
+                                                      borderRadius: '8px',
+                                                      cursor: 'pointer',
+                                                      boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
                                                     }}
+                                                    onClick={(e) => {
+                                                      e.stopPropagation();
+                                                      setPreviewImage(formattedImg);
+                                                    }}
+                                                    title="Click to enlarge"
                                                     onError={(e) => {
                                                       if (!e.target.dataset.triedFallback) {
                                                         e.target.dataset.triedFallback = 'true';
@@ -1964,23 +1957,41 @@ const PYQSection = () => {
                                                           e.target.src = `https://drive.google.com/thumbnail?id=${fileDMatch[1]}&sz=w1000`;
                                                         }
                                                       } else {
-                                                        e.target.parentElement.style.display = 'none';
+                                                        e.target.style.display = 'none';
                                                       }
                                                     }}
                                                   />
-                                                  <Typography
-                                                    variant="caption"
-                                                    sx={{
-                                                      display: 'block',
-                                                      mt: 0.5,
-                                                      fontSize: '0.62rem',
-                                                      color: isDarkMode ? '#9ca3af' : '#64748b',
-                                                      textAlign: 'center',
-                                                      userSelect: 'none'
+                                                  <Box
+                                                    onClick={(e) => {
+                                                      e.stopPropagation();
+                                                      setPreviewImage(formattedImg);
                                                     }}
+                                                    sx={{
+                                                      display: 'inline-flex',
+                                                      alignItems: 'center',
+                                                      gap: 0.4,
+                                                      mt: 0.6,
+                                                      cursor: 'pointer',
+                                                      userSelect: 'none',
+                                                      color: '#E4572E',
+                                                      transition: 'transform 0.15s ease, opacity 0.15s ease',
+                                                      '&:hover': { opacity: 0.85, transform: 'scale(1.03)' }
+                                                    }}
+                                                    title="Click to enlarge"
                                                   >
-                                                    View figure ↗
-                                                  </Typography>
+                                                    <ZoomIn size={12} color="#E4572E" />
+                                                    <Typography
+                                                      variant="caption"
+                                                      sx={{
+                                                        fontSize: '0.66rem',
+                                                        fontWeight: 700,
+                                                        color: '#E4572E',
+                                                        lineHeight: 1
+                                                      }}
+                                                    >
+                                                      View figure
+                                                    </Typography>
+                                                  </Box>
                                                 </Box>
                                               </Box>
                                             );
@@ -2124,6 +2135,74 @@ const PYQSection = () => {
           </Box>
         </Box>
       </Paper>
+
+      {/* Enlarged Image Lightbox Modal with Cross Button */}
+      {previewImage && (
+        <Box
+          onClick={() => setPreviewImage(null)}
+          sx={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 999999,
+            backgroundColor: 'rgba(0, 0, 0, 0.85)',
+            backdropFilter: 'blur(6px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            p: { xs: 1.5, sm: 3 }
+          }}
+        >
+          <Box
+            onClick={(e) => e.stopPropagation()}
+            sx={{
+              position: 'relative',
+              maxWidth: '92vw',
+              maxHeight: '90vh',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            {/* Close Button */}
+            <IconButton
+              onClick={() => setPreviewImage(null)}
+              title="Close image"
+              sx={{
+                position: 'absolute',
+                top: { xs: -12, sm: -16 },
+                right: { xs: -12, sm: -16 },
+                backgroundColor: '#ffffff',
+                color: '#111827',
+                boxShadow: '0 4px 16px rgba(0,0,0,0.4)',
+                zIndex: 10,
+                '&:hover': {
+                  backgroundColor: '#f3f4f6',
+                  transform: 'scale(1.08)'
+                },
+                transition: 'all 0.15s ease'
+              }}
+              size="small"
+            >
+              <X size={18} />
+            </IconButton>
+
+            {/* Enlarged Image */}
+            <img
+              src={previewImage}
+              alt="Enlarged figure"
+              style={{
+                maxWidth: '100%',
+                maxHeight: '84vh',
+                objectFit: 'contain',
+                borderRadius: '12px',
+                boxShadow: '0 12px 40px rgba(0,0,0,0.5)',
+                backgroundColor: '#ffffff'
+              }}
+            />
+          </Box>
+        </Box>
+      )}
     </Box>
   )
 }
