@@ -26,6 +26,24 @@ import { useAuth } from "../contexts/AuthContext";
 import { useLayout } from "../contexts/LayoutContext";
 import { useDashboard } from "../contexts/DashboardContext";
 
+const formatImageUrl = (url) => {
+  if (!url || typeof url !== 'string') return '';
+  const trimmed = url.trim();
+  if (!trimmed) return '';
+
+  const fileDMatch = trimmed.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
+  if (fileDMatch && fileDMatch[1]) {
+    return `https://lh3.googleusercontent.com/d/${fileDMatch[1]}`;
+  }
+
+  const idMatch = trimmed.match(/drive\.google\.com\/.*[?&]id=([a-zA-Z0-9_-]+)/);
+  if (idMatch && idMatch[1]) {
+    return `https://lh3.googleusercontent.com/d/${idMatch[1]}`;
+  }
+
+  return trimmed;
+};
+
 const Dashboard = ({ onClose }) => {
   const { theme } = useTheme();
   const { currentUser, getStarredPyqQuestions, removeStarredPyqQuestion } = useAuth();
@@ -650,42 +668,83 @@ const Dashboard = ({ onClose }) => {
                             </div>
 
                             {/* Question Text */}
-                            <p className="text-sm font-semibold text-gray-900 mb-3 leading-relaxed">
+                            <p className="text-sm font-semibold text-gray-900 mb-2 leading-relaxed">
                               {q.question || q.text}
                             </p>
 
-                            {/* Options */}
-                            {Array.isArray(q.options) && q.options.length > 0 && (
-                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3">
-                                {q.options.map((opt, optIdx) => {
-                                  const isCorrect = q.correct_answer === optIdx;
-                                  return (
-                                    <div
-                                      key={optIdx}
-                                      className={`p-2 rounded-lg text-xs flex items-start gap-2 border transition-colors ${
-                                        isCorrect 
-                                          ? 'bg-green-50/80 border-green-300 text-green-900 font-medium' 
-                                          : 'bg-gray-50 border-gray-200 text-gray-700'
-                                      }`}
-                                    >
-                                      <span className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 text-[10px] font-bold ${
-                                        isCorrect 
-                                          ? 'bg-green-600 text-white' 
-                                          : 'bg-gray-200 text-gray-600'
-                                      }`}>
-                                        {String.fromCharCode(65 + optIdx)}
-                                      </span>
-                                      <span className="flex-1 mt-0.5 leading-snug">{opt}</span>
-                                      {isCorrect && (
-                                        <span className="text-[10px] font-semibold text-green-700 bg-green-100 px-1.5 py-0.5 rounded shrink-0">
-                                          Correct
-                                        </span>
-                                      )}
-                                    </div>
-                                  );
-                                })}
-                              </div>
-                            )}
+                            {/* Options and Image Side-by-Side */}
+                            {(() => {
+                              const rawImg = q.img || q.image_url || q.metadata?.img || q.metadata?.image_url;
+                              const formattedImg = formatImageUrl(rawImg);
+
+                              const renderOptions = () => (
+                                Array.isArray(q.options) && q.options.length > 0 ? (
+                                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 flex-1 min-w-0">
+                                    {q.options.map((opt, optIdx) => {
+                                      const isCorrect = q.correct_answer === optIdx;
+                                      return (
+                                        <div
+                                          key={optIdx}
+                                          className={`p-2 rounded-lg text-xs flex items-start gap-2 border transition-colors ${
+                                            isCorrect 
+                                              ? 'bg-green-50/80 border-green-300 text-green-900 font-medium' 
+                                              : 'bg-gray-50 border-gray-200 text-gray-700'
+                                          }`}
+                                        >
+                                          <span className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 text-[10px] font-bold ${
+                                            isCorrect 
+                                              ? 'bg-green-600 text-white' 
+                                              : 'bg-gray-200 text-gray-600'
+                                          }`}>
+                                            {String.fromCharCode(65 + optIdx)}
+                                          </span>
+                                          <span className="flex-1 mt-0.5 leading-snug">{opt}</span>
+                                          {isCorrect && (
+                                            <span className="text-[10px] font-semibold text-green-700 bg-green-100 px-1.5 py-0.5 rounded shrink-0">
+                                              Correct
+                                            </span>
+                                          )}
+                                        </div>
+                                      );
+                                    })}
+                                  </div>
+                                ) : null
+                              );
+
+                              if (!formattedImg) {
+                                return <div className="mb-3">{renderOptions()}</div>;
+                              }
+
+                              return (
+                                <div className="flex flex-col-reverse sm:flex-row items-center gap-3 mb-3">
+                                  {renderOptions()}
+                                  <div 
+                                    className="w-full sm:w-48 shrink-0 p-1.5 rounded-lg border border-gray-200 bg-gray-50 flex flex-col items-center justify-center cursor-pointer hover:border-gray-300 transition-colors"
+                                    onClick={() => window.open(formattedImg, '_blank', 'noopener,noreferrer')}
+                                    title="Click to view full image in new tab"
+                                  >
+                                    <img
+                                      src={formattedImg}
+                                      alt="Question Reference"
+                                      loading="lazy"
+                                      className="max-h-36 max-w-full object-contain rounded-md"
+                                      onError={(e) => {
+                                        if (!e.target.dataset.triedFallback) {
+                                          e.target.dataset.triedFallback = 'true';
+                                          const fileDMatch = (rawImg || '').match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
+                                          if (fileDMatch && fileDMatch[1]) {
+                                            e.target.src = `https://drive.google.com/thumbnail?id=${fileDMatch[1]}&sz=w1000`;
+                                          }
+                                        } else {
+                                          e.target.parentElement.style.display = 'none';
+                                        }
+                                      }}
+                                    />
+                                    <span className="text-[10px] text-gray-500 mt-1">View figure ↗</span>
+                                  </div>
+                                </div>
+                              );
+                            })()}
 
                             {/* Explanation Toggle */}
                             {hasExplanation && (

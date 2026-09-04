@@ -37,6 +37,27 @@ const getStableQuestionId = (question, index = 0) => {
     .join('__')
 }
 
+const formatImageUrl = (url) => {
+  if (!url || typeof url !== 'string') return ''
+  const trimmed = url.trim()
+  if (!trimmed) return ''
+
+  // Match Google Drive links
+  // Pattern 1: https://drive.google.com/file/d/{id}/...
+  const fileDMatch = trimmed.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/)
+  if (fileDMatch && fileDMatch[1]) {
+    return `https://lh3.googleusercontent.com/d/${fileDMatch[1]}`
+  }
+
+  // Pattern 2: https://drive.google.com/open?id={id} or uc?id={id}
+  const idMatch = trimmed.match(/drive\.google\.com\/.*[?&]id=([a-zA-Z0-9_-]+)/)
+  if (idMatch && idMatch[1]) {
+    return `https://lh3.googleusercontent.com/d/${idMatch[1]}`
+  }
+
+  return trimmed
+}
+
 const buildStarredQuestionPayload = (question, questionId) => ({
   id: questionId,
   question: question?.question || question?.text || '',
@@ -47,6 +68,7 @@ const buildStarredQuestionPayload = (question, questionId) => ({
   subject: question?.subject || question?.metadata?.subject || '',
   year: question?.year || question?.metadata?.year || question?.metadata?.exam_year || '',
   term: question?.term || question?.metadata?.term || question?.metadata?.exam_term || '',
+  img: question?.img || question?.image_url || question?.metadata?.img || question?.metadata?.image_url || '',
   metadata: question?.metadata || {},
   source: question?.source || '',
   score: question?.score ?? null
@@ -1794,78 +1816,175 @@ const PYQSection = () => {
                                             </Stack>
                                           </Box>
 
-                                          {/* Options */}
-                                          <Stack spacing={0.5} sx={{ mt: 0.5 }}>
-                                            {question.options?.map((option, optionIndex) => {
-                                              const isUserSelected = userAnswer === optionIndex
-                                              const isCorrectAnswer = question.correct_answer === optionIndex
+                                          {/* Options and Image Layout (Options on Left, Image on Right) */}
+                                          {(() => {
+                                            const rawImg = question.img || question.image_url || question.metadata?.img || question.metadata?.image_url;
+                                            const formattedImg = formatImageUrl(rawImg);
 
-                                              let borderColor = isDarkMode ? '#374151' : '#e5e7eb'
-                                              let backgroundColor = 'transparent'
-                                              if (!hasAnswered) {
-                                                backgroundColor = 'transparent'
-                                              } else if (isUserSelected) {
-                                                borderColor = isCorrect ? 'rgba(34,197,94,0.4)' : 'rgba(239,68,68,0.4)'
-                                                backgroundColor = isCorrect ? 'rgba(34,197,94,0.08)' : 'rgba(239,68,68,0.08)'
-                                              } else if (isCorrectAnswer) {
-                                                borderColor = 'rgba(34,197,94,0.4)'
-                                                backgroundColor = 'rgba(34,197,94,0.08)'
-                                              }
+                                            const renderOptions = () => (
+                                              <Stack spacing={0.5} sx={{ flex: 1, minWidth: 0, justifyContent: 'center' }}>
+                                                {question.options?.map((option, optionIndex) => {
+                                                  const isUserSelected = userAnswer === optionIndex
+                                                  const isCorrectAnswer = question.correct_answer === optionIndex
 
-                                              return (
-                                                <Box
-                                                  key={optionIndex}
-                                                  onClick={(e) => {
-                                                    if (!hasAnswered) {
-                                                      e.preventDefault();
-                                                      e.stopPropagation();
-                                                      handleOptionSelect(question, questionId, optionIndex);
-                                                    }
-                                                  }}
-                                                  sx={{
-                                                    display: 'flex',
-                                                    alignItems: 'flex-start',
-                                                    p: 0.6,
-                                                    borderRadius: 1,
-                                                    border: '1px solid',
-                                                    borderColor,
-                                                    backgroundColor,
-                                                    cursor: hasAnswered ? 'default' : 'pointer',
-                                                    transition: 'background-color 0.2s, border-color 0.2s',
-                                                    '&:hover': !hasAnswered ? { backgroundColor: isDarkMode ? '#1e293b' : '#f9fafb' } : undefined
-                                                  }}
-                                                >
-                                                  <Box sx={{ mr: 1, mt: 0.25 }}>
+                                                  let borderColor = isDarkMode ? '#374151' : '#e5e7eb'
+                                                  let backgroundColor = 'transparent'
+                                                  if (!hasAnswered) {
+                                                    backgroundColor = 'transparent'
+                                                  } else if (isUserSelected) {
+                                                    borderColor = isCorrect ? 'rgba(34,197,94,0.4)' : 'rgba(239,68,68,0.4)'
+                                                    backgroundColor = isCorrect ? 'rgba(34,197,94,0.08)' : 'rgba(239,68,68,0.08)'
+                                                  } else if (isCorrectAnswer) {
+                                                    borderColor = 'rgba(34,197,94,0.4)'
+                                                    backgroundColor = 'rgba(34,197,94,0.08)'
+                                                  }
+
+                                                  return (
                                                     <Box
+                                                      key={optionIndex}
+                                                      onClick={(e) => {
+                                                        if (!hasAnswered) {
+                                                          e.preventDefault();
+                                                          e.stopPropagation();
+                                                          handleOptionSelect(question, questionId, optionIndex);
+                                                        }
+                                                      }}
                                                       sx={{
-                                                        width: 16,
-                                                        height: 16,
-                                                        borderRadius: '50%',
-                                                        border: '1px solid',
-                                                        borderColor: isUserSelected ? '#3b82f6' : '#d1d5db',
-                                                        backgroundColor: isUserSelected ? '#3b82f6' : 'transparent',
                                                         display: 'flex',
-                                                        alignItems: 'center',
-                                                        justifyContent: 'center'
+                                                        alignItems: 'flex-start',
+                                                        p: 0.6,
+                                                        borderRadius: 1,
+                                                        border: '1px solid',
+                                                        borderColor,
+                                                        backgroundColor,
+                                                        cursor: hasAnswered ? 'default' : 'pointer',
+                                                        transition: 'background-color 0.2s, border-color 0.2s',
+                                                        '&:hover': !hasAnswered ? { backgroundColor: isDarkMode ? '#1e293b' : '#f9fafb' } : undefined
                                                       }}
                                                     >
-                                                      {isUserSelected && <Box sx={{ width: 8, height: 8, borderRadius: '50%', backgroundColor: '#ffffff' }} />}
-                                                    </Box>
-                                                  </Box>
-                                                  <Typography variant="body2" sx={{ fontSize: '0.7rem', color: isDarkMode ? '#d1d5db' : '#111827', flex: 1 }}>
-                                                    {option}
-                                                  </Typography>
-                                                  {hasAnswered && isCorrectAnswer && !isUserSelected && (
-                                                    <Box sx={{ ml: 1 }}>
-                                                      <Box sx={{ width: 16, height: 16, borderRadius: '50%', backgroundColor: 'rgba(34,197,94,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                                        <Box sx={{ width: 8, height: 8, borderRadius: '50%', backgroundColor: '#16a34a' }} />
+                                                      <Box sx={{ mr: 1, mt: 0.25 }}>
+                                                        <Box
+                                                          sx={{
+                                                            width: 16,
+                                                            height: 16,
+                                                            borderRadius: '50%',
+                                                            border: '1px solid',
+                                                            borderColor: isUserSelected ? '#3b82f6' : '#d1d5db',
+                                                            backgroundColor: isUserSelected ? '#3b82f6' : 'transparent',
+                                                            display: 'flex',
+                                                            alignItems: 'center',
+                                                            justifyContent: 'center'
+                                                          }}
+                                                        >
+                                                          {isUserSelected && <Box sx={{ width: 8, height: 8, borderRadius: '50%', backgroundColor: '#ffffff' }} />}
+                                                        </Box>
                                                       </Box>
+                                                      <Typography variant="body2" sx={{ fontSize: '0.7rem', color: isDarkMode ? '#d1d5db' : '#111827', flex: 1 }}>
+                                                        {option}
+                                                      </Typography>
+                                                      {hasAnswered && isCorrectAnswer && !isUserSelected && (
+                                                        <Box sx={{ ml: 1 }}>
+                                                          <Box sx={{ width: 16, height: 16, borderRadius: '50%', backgroundColor: 'rgba(34,197,94,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                                            <Box sx={{ width: 8, height: 8, borderRadius: '50%', backgroundColor: '#16a34a' }} />
+                                                          </Box>
+                                                        </Box>
+                                                      )}
                                                     </Box>
-                                                  )}
+                                                  )
+                                                })}
+                                              </Stack>
+                                            );
+
+                                            if (!formattedImg) {
+                                              return (
+                                                <Box sx={{ mt: 0.5 }}>
+                                                  {renderOptions()}
                                                 </Box>
-                                              )
-                                            })}
-                                          </Stack>
+                                              );
+                                            }
+
+                                            return (
+                                              <Box
+                                                sx={{
+                                                  mt: 0.75,
+                                                  display: 'flex',
+                                                  flexDirection: { xs: 'column-reverse', sm: 'row' },
+                                                  alignItems: 'center',
+                                                  gap: 1.5
+                                                }}
+                                              >
+                                                {/* Options on Left */}
+                                                {renderOptions()}
+
+                                                {/* Image on Right Side of Options */}
+                                                <Box
+                                                  sx={{
+                                                    width: { xs: '100%', sm: '42%', md: '40%' },
+                                                    maxWidth: { xs: '100%', sm: '260px' },
+                                                    minWidth: { sm: '160px' },
+                                                    flexShrink: 0,
+                                                    p: 0.75,
+                                                    borderRadius: 2,
+                                                    border: '1px solid',
+                                                    borderColor: isDarkMode ? 'rgba(255,255,255,0.1)' : '#e2e8f0',
+                                                    backgroundColor: isDarkMode ? 'rgba(0,0,0,0.25)' : '#f8fafc',
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    cursor: 'pointer',
+                                                    transition: 'all 0.2s ease',
+                                                    '&:hover': {
+                                                      borderColor: isDarkMode ? 'rgba(255,255,255,0.25)' : '#cbd5e1',
+                                                      boxShadow: '0 2px 10px rgba(0,0,0,0.06)'
+                                                    }
+                                                  }}
+                                                  onClick={() => {
+                                                    window.open(formattedImg, '_blank', 'noopener,noreferrer');
+                                                  }}
+                                                  title="Click to view full image in new tab"
+                                                >
+                                                  <img
+                                                    src={formattedImg}
+                                                    alt="Question Figure"
+                                                    loading="lazy"
+                                                    style={{
+                                                      maxHeight: '160px',
+                                                      maxWidth: '100%',
+                                                      width: 'auto',
+                                                      height: 'auto',
+                                                      objectFit: 'contain',
+                                                      borderRadius: '6px'
+                                                    }}
+                                                    onError={(e) => {
+                                                      if (!e.target.dataset.triedFallback) {
+                                                        e.target.dataset.triedFallback = 'true';
+                                                        const fileDMatch = (rawImg || '').match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
+                                                        if (fileDMatch && fileDMatch[1]) {
+                                                          e.target.src = `https://drive.google.com/thumbnail?id=${fileDMatch[1]}&sz=w1000`;
+                                                        }
+                                                      } else {
+                                                        e.target.parentElement.style.display = 'none';
+                                                      }
+                                                    }}
+                                                  />
+                                                  <Typography
+                                                    variant="caption"
+                                                    sx={{
+                                                      display: 'block',
+                                                      mt: 0.5,
+                                                      fontSize: '0.62rem',
+                                                      color: isDarkMode ? '#9ca3af' : '#64748b',
+                                                      textAlign: 'center',
+                                                      userSelect: 'none'
+                                                    }}
+                                                  >
+                                                    View figure ↗
+                                                  </Typography>
+                                                </Box>
+                                              </Box>
+                                            );
+                                          })()}
                                         </Box>
 
                                         {/* Question Footer with Metadata */}

@@ -2584,6 +2584,7 @@ def get_questions():
                     question_hash = hashlib.md5(question_text.encode()).hexdigest()[:8]
                     unique_id = f"{int(time.time() * 1000)}_{question_hash}_{i}_{namespace}"
                     
+                    img_val = full_question_data.get('img') or metadata.get('img') or full_question_data.get('image_url') or metadata.get('image_url') or ''
                     # Extract question data with required fields only
                     question_data = {
                         "id": unique_id,
@@ -2599,6 +2600,8 @@ def get_questions():
                         "term": exam_term,
                         "subject": subject,
                         "explanation": explanation,
+                        "img": img_val,
+                        "image_url": img_val,
                         "metadata": {
                             "exam": exam_name,
                             "exam_name": exam_name,
@@ -2606,7 +2609,8 @@ def get_questions():
                             "exam_term": exam_term,
                             "term": exam_term,
                             "year": exam_year,
-                            "subject": subject
+                            "subject": subject,
+                            "img": img_val
                         }
                     }
                     all_questions.append(question_data)
@@ -3193,6 +3197,7 @@ def query_mcq(mcq_index, mcq_model, query_text, similarity_threshold=0.2, top_k=
             # Generate a stable unique ID for persistence on frontend
             stable_id_source = f"{exam_name}|{exam_year}|{exam_term}|{subject}|{question_text}".lower().strip()
             unique_id = hashlib.md5(stable_id_source.encode()).hexdigest()
+            img_val = full_question_data.get('img') or metadata.get('img') or full_question_data.get('image_url') or metadata.get('image_url') or ''
             
             formatted_mcqs.append({
                 'id': unique_id,
@@ -3207,6 +3212,8 @@ def query_mcq(mcq_index, mcq_model, query_text, similarity_threshold=0.2, top_k=
                 'term': exam_term,
                 'exam_term': exam_term,
                 'subject': subject,
+                'img': img_val,
+                'image_url': img_val,
                 'metadata': {
                     'exam_name': exam_name,
                     'exam_term': exam_term,
@@ -3214,7 +3221,8 @@ def query_mcq(mcq_index, mcq_model, query_text, similarity_threshold=0.2, top_k=
                     'subject': subject,
                     'exam': exam_name,
                     'term': exam_term,
-                    'year': exam_year
+                    'year': exam_year,
+                    'img': img_val
                 },
                 'explanation': explanation,
                 'topic': full_question_data.get('topic', metadata.get('topic', '')),
@@ -3611,6 +3619,7 @@ def _fetch_pyq_questions(query='', exam_filter=None, subject_filter=None, year_f
                     if str(year_filter) != str(exam_year):
                         continue
                 
+                img_val = full_data.get('img') or metadata.get('img') or full_data.get('image_url') or metadata.get('image_url') or ''
                 question_obj = {
                     'id': match['id'],
                     'question': question_text,
@@ -3623,6 +3632,8 @@ def _fetch_pyq_questions(query='', exam_filter=None, subject_filter=None, year_f
                     'term': exam_term,
                     'subject': subject,
                     'namespace': namespace,
+                    'img': img_val,
+                    'image_url': img_val,
                     'score': match.get('score', 0)
                 }
                 all_questions.append(question_obj)
@@ -4051,7 +4062,7 @@ if __name__ == "__main__":
     # In production, Gunicorn will handle the server
     # This is only for local development
     if not is_production:
-        app.run(host="0.0.0.0", port=port, debug=True)
+        app.run(host="0.0.0.0", port=port, debug=False, use_reloader=False)
     else:
         # For production, just initialize and let Gunicorn handle it
         app.logger.info("✅ Application ready for Gunicorn")
