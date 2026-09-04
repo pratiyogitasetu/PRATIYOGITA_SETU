@@ -54,7 +54,9 @@ const PYQSection = () => {
     currentUser,
     getStarredPyqQuestions,
     saveStarredPyqQuestion,
-    removeStarredPyqQuestion
+    removeStarredPyqQuestion,
+    saveUserPracticeAnswer,
+    getUserPracticeAnswers
   } = useAuth()
   const [searchResults, setSearchResults] = useState([])
   const [lastSearchQuery, setLastSearchQuery] = useState('')
@@ -97,23 +99,70 @@ const PYQSection = () => {
     }
   }, [lastSearchQuery, searchResults])
 
+  // Load previously answered questions from localStorage and Firestore
   useEffect(() => {
-    // Load previously answered questions from localStorage on mount
-    try {
-      const storedAnswers = JSON.parse(localStorage.getItem('pyq_user_answers') || '{}')
-      if (storedAnswers && typeof storedAnswers === 'object') {
-        const answersMap = {}
-        Object.entries(storedAnswers).forEach(([qId, val]) => {
-          answersMap[qId] = typeof val === 'object' && val !== null ? val.selectedOption : val
-        })
-        if (Object.keys(answersMap).length > 0) {
-          setUserAnswers(prev => ({ ...answersMap, ...prev }))
+    const loadUserAnswers = async () => {
+      let mergedAnswers = {}
+      try {
+        const storedAnswers = JSON.parse(localStorage.getItem('pyq_user_answers') || '{}')
+        if (storedAnswers && typeof storedAnswers === 'object') {
+          Object.entries(storedAnswers).forEach(([qId, val]) => {
+            mergedAnswers[qId] = typeof val === 'object' && val !== null ? val.selectedOption : val
+          })
+        }
+      } catch (e) {
+        console.error('Failed to load user answers from localStorage:', e)
+      }
+
+      // Fetch from Firestore if user is logged in
+      if (currentUser && getUserPracticeAnswers) {
+        try {
+          const cloudAnswers = await getUserPracticeAnswers()
+          if (cloudAnswers && typeof cloudAnswers === 'object') {
+            Object.entries(cloudAnswers).forEach(([qId, opt]) => {
+              if (opt !== undefined && opt !== null) {
+                mergedAnswers[qId] = typeof opt === 'object' && opt !== null ? opt.selectedOption : opt
+              }
+            })
+            // Keep localStorage updated with merged answers
+            try {
+              const currentLocal = JSON.parse(localStorage.getItem('pyq_user_answers') || '{}')
+              localStorage.setItem('pyq_user_answers', JSON.stringify({ ...currentLocal, ...mergedAnswers }))
+            } catch (err) {}
+          }
+        } catch (err) {
+          console.warn('Failed to load user answers from cloud:', err)
         }
       }
-    } catch (e) {
-      console.error('Failed to load user answers from localStorage:', e)
+
+      if (Object.keys(mergedAnswers).length > 0) {
+        setUserAnswers(prev => ({ ...mergedAnswers, ...prev }))
+      }
     }
 
+    loadUserAnswers()
+  }, [currentUser, getUserPracticeAnswers])
+
+  // Listen for external updates to starred PYQs (e.g. from Dashboard)
+  useEffect(() => {
+    const handleStarredUpdate = (e) => {
+      const { questionId, isStarred } = e.detail || {}
+      if (!questionId) return
+      setImportantQuestions(prev => {
+        const next = new Set(prev)
+        if (isStarred) {
+          next.add(questionId)
+        } else {
+          next.delete(questionId)
+        }
+        return next
+      })
+    }
+    window.addEventListener('starredPyqsUpdated', handleStarredUpdate)
+    return () => window.removeEventListener('starredPyqsUpdated', handleStarredUpdate)
+  }, [])
+
+  useEffect(() => {
     const loadImportantQuestions = async () => {
       try {
         if (currentUser) {
@@ -362,32 +411,43 @@ const PYQSection = () => {
           if (!id || existingIds.has(id)) return false
           existingIds.add(id)
           return true
-        })
+        }).map(q => ({
+          ...q,
+          originatingQuery: q.originatingQuery || query || 'Search Results'
+        }))
 
         setSearchResults(uniqueMcqs)
         setFilteredQuestions(uniqueMcqs)
         if (query) setLastSearchQuery(query)
 
-        // Restore user answers for these questions from localStorage
+        // Expand query accordion so questions are visible immediately
+        const initialExpanded = {}
+        uniqueMcqs.forEach(q => {
+          if (q.originatingQuery) initialExpanded[q.originatingQuery] = true
+        })
+        if (query) initialExpanded[query] = true
+        setExpandedQueries(initialExpanded)
+
+        // Restore user answers for these questions from memory / localStorage
         try {
           const storedAnswers = JSON.parse(localStorage.getItem('pyq_user_answers') || '{}')
           const restoredAnswers = {}
           uniqueMcqs.forEach((q, idx) => {
             const qId = getStableQuestionId(q, idx)
-            if (storedAnswers[qId] !== undefined) {
+            if (userAnswers[qId] !== undefined) {
+              restoredAnswers[qId] = userAnswers[qId]
+            } else if (storedAnswers[qId] !== undefined) {
               restoredAnswers[qId] = typeof storedAnswers[qId] === 'object' && storedAnswers[qId] !== null ? storedAnswers[qId].selectedOption : storedAnswers[qId]
             } else if (q.id && storedAnswers[String(q.id)] !== undefined) {
               restoredAnswers[qId] = typeof storedAnswers[String(q.id)] === 'object' && storedAnswers[String(q.id)] !== null ? storedAnswers[String(q.id)].selectedOption : storedAnswers[String(q.id)]
             }
           })
-          setUserAnswers(restoredAnswers)
+          setUserAnswers(prev => ({ ...prev, ...restoredAnswers }))
         } catch (e) {
           console.error('Failed to restore answers from localStorage:', e)
-          setUserAnswers({})
         }
 
         setExpandedExplanations({})
-        setExpandedQueries({})
         setSelectedExam('all')
         setSelectedSubject('all')
         setShowImportantOnly(false)
@@ -592,6 +652,13 @@ const PYQSection = () => {
       console.error('Failed to save answer to localStorage:', e)
     }
 
+    // Save answer to cloud (Firestore) for cross-device sync
+    if (currentUser && saveUserPracticeAnswer) {
+      saveUserPracticeAnswer(questionId, optionIndex).catch(err => {
+        console.warn('Failed to sync answer to cloud:', err)
+      })
+    }
+
     // Find the question to check if answer is correct
     const targetQuestion = question || searchResults.find(q =>
       (q.id && String(q.id) === String(questionId)) ||
@@ -747,8 +814,15 @@ const PYQSection = () => {
             }
             return reverted
           })
+          window.dispatchEvent(new CustomEvent('starredPyqsUpdated', {
+            detail: { questionId, isStarred: isCurrentlyImportant }
+          }))
+          return
         }
 
+        window.dispatchEvent(new CustomEvent('starredPyqsUpdated', {
+          detail: { questionId, isStarred: !isCurrentlyImportant, question: payload }
+        }))
         return
       }
 
@@ -769,6 +843,9 @@ const PYQSection = () => {
       }
 
       localStorage.setItem(STARRED_PYQ_LOCAL_STORAGE_KEY, JSON.stringify(Object.values(map)))
+      window.dispatchEvent(new CustomEvent('starredPyqsUpdated', {
+        detail: { questionId, isStarred: !isCurrentlyImportant, question: payload }
+      }))
     } catch (error) {
       console.warn('Failed to sync important question:', error)
       // Revert optimistic update on failure
@@ -781,6 +858,9 @@ const PYQSection = () => {
         }
         return reverted
       })
+      window.dispatchEvent(new CustomEvent('starredPyqsUpdated', {
+        detail: { questionId, isStarred: isCurrentlyImportant }
+      }))
     }
   }
 

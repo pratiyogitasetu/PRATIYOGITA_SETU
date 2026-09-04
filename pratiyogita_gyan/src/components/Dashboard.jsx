@@ -19,6 +19,7 @@ import {
   User,
   ArrowLeft,
   X,
+  Star,
 } from "lucide-react";
 import { useTheme } from "../contexts/ThemeContext";
 import { useAuth } from "../contexts/AuthContext";
@@ -27,7 +28,7 @@ import { useDashboard } from "../contexts/DashboardContext";
 
 const Dashboard = ({ onClose }) => {
   const { theme } = useTheme();
-  const { currentUser } = useAuth();
+  const { currentUser, getStarredPyqQuestions, removeStarredPyqQuestion } = useAuth();
   const { contentOffsetLeft, isMobile } = useLayout();
   const {
     stats,
@@ -45,7 +46,13 @@ const Dashboard = ({ onClose }) => {
     overview: true,
     mcqBreakdown: true,
     subjectAnalysis: true,
+    savedPyqs: true,
   });
+
+  // Saved PYQs state
+  const [savedPyqs, setSavedPyqs] = useState([]);
+  const [loadingSavedPyqs, setLoadingSavedPyqs] = useState(false);
+  const [expandedSavedExplanations, setExpandedSavedExplanations] = useState({});
 
   // Handle close
   const handleClose = () => {
@@ -55,6 +62,62 @@ const Dashboard = ({ onClose }) => {
       window.dispatchEvent(new CustomEvent('switchToChat'));
     }
   };
+
+  // Load saved PYQs
+  const loadSavedPyqs = async () => {
+    setLoadingSavedPyqs(true);
+    try {
+      if (currentUser && getStarredPyqQuestions) {
+        const questions = await getStarredPyqQuestions();
+        setSavedPyqs(Array.isArray(questions) ? questions : []);
+      } else {
+        const localRaw = localStorage.getItem('pyqPracticeStarredQuestions');
+        if (localRaw) {
+          const parsed = JSON.parse(localRaw);
+          setSavedPyqs(Array.isArray(parsed) ? parsed : []);
+        } else {
+          setSavedPyqs([]);
+        }
+      }
+    } catch (e) {
+      console.warn('Failed to load saved PYQs in dashboard:', e);
+    } finally {
+      setLoadingSavedPyqs(false);
+    }
+  };
+
+  // Remove saved PYQ
+  const handleRemoveSavedPyq = async (questionId) => {
+    if (!questionId) return;
+    setSavedPyqs(prev => prev.filter(q => (q.id || q._id) !== questionId));
+    try {
+      if (currentUser && removeStarredPyqQuestion) {
+        await removeStarredPyqQuestion(questionId);
+      } else {
+        const localRaw = localStorage.getItem('pyqPracticeStarredQuestions');
+        const parsed = localRaw ? JSON.parse(localRaw) : [];
+        const next = Array.isArray(parsed) ? parsed.filter(q => (q.id || q._id) !== questionId) : [];
+        localStorage.setItem('pyqPracticeStarredQuestions', JSON.stringify(next));
+      }
+    } catch (err) {
+      console.warn('Failed to remove saved PYQ:', err);
+    }
+    window.dispatchEvent(new CustomEvent('starredPyqsUpdated', {
+      detail: { questionId, isStarred: false }
+    }));
+  };
+
+  useEffect(() => {
+    loadSavedPyqs();
+  }, [currentUser]);
+
+  useEffect(() => {
+    const handleStarredUpdate = () => {
+      loadSavedPyqs();
+    };
+    window.addEventListener('starredPyqsUpdated', handleStarredUpdate);
+    return () => window.removeEventListener('starredPyqsUpdated', handleStarredUpdate);
+  }, [currentUser]);
 
   // Refresh dashboard data on mount
   useEffect(() => {
@@ -522,6 +585,141 @@ const Dashboard = ({ onClose }) => {
                       <SubjectCard key={index} subject={subject} />
                     ))}
                   </div>
+                </div>
+              )}
+            </div>
+
+            {/* Saved PYQs Section - Expandable */}
+            <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+              <SectionHeader 
+                title="Saved PYQs"
+                icon={Star}
+                isExpanded={expandedSections.savedPyqs}
+                onToggle={() => toggleSection('savedPyqs')}
+                badge={`${savedPyqs.length} saved`}
+              />
+              {expandedSections.savedPyqs && (
+                <div className="p-4 space-y-3">
+                  {loadingSavedPyqs ? (
+                    <div className="flex items-center justify-center py-8">
+                      <RefreshCw className="w-5 h-5 animate-spin text-amber-500 mr-2" />
+                      <span className="text-sm text-gray-500">Loading saved PYQs...</span>
+                    </div>
+                  ) : savedPyqs.length > 0 ? (
+                    <div className="space-y-3">
+                      {savedPyqs.map((q, idx) => {
+                        const qId = q.id || q._id || `saved_${idx}`;
+                        const exam = q.exam_name || q.metadata?.exam_name || q.metadata?.exam;
+                        const subject = q.subject || q.metadata?.subject;
+                        const year = q.year || q.metadata?.year || q.metadata?.exam_year;
+                        const hasExplanation = Boolean(q.explanation && q.explanation.trim());
+                        const isExplanationOpen = expandedSavedExplanations[qId];
+
+                        return (
+                          <div 
+                            key={qId} 
+                            className="p-3 sm:p-4 rounded-xl border border-gray-200 bg-white hover:border-amber-300 hover:shadow-sm transition-all duration-200"
+                          >
+                            {/* Header with badges and unstar button */}
+                            <div className="flex items-center justify-between gap-2 mb-2">
+                              <div className="flex items-center gap-1.5 flex-wrap">
+                                {exam && (
+                                  <span className="px-2 py-0.5 text-[11px] font-semibold bg-blue-50 text-blue-700 border border-blue-200 rounded-md">
+                                    {exam}
+                                  </span>
+                                )}
+                                {subject && (
+                                  <span className="px-2 py-0.5 text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-md">
+                                    {subject}
+                                  </span>
+                                )}
+                                {year && (
+                                  <span className="px-2 py-0.5 text-[11px] font-semibold bg-gray-100 text-gray-700 border border-gray-200 rounded-md">
+                                    {year}
+                                  </span>
+                                )}
+                              </div>
+                              <button
+                                onClick={() => handleRemoveSavedPyq(qId)}
+                                title="Remove from saved"
+                                className="p-1.5 text-amber-500 hover:text-amber-600 bg-amber-50 hover:bg-amber-100 rounded-lg transition-colors flex items-center gap-1 text-xs font-medium shrink-0"
+                              >
+                                <Star className="w-4 h-4 fill-amber-400 text-amber-500" />
+                                <span className="hidden sm:inline text-amber-700 font-semibold">Saved</span>
+                              </button>
+                            </div>
+
+                            {/* Question Text */}
+                            <p className="text-sm font-semibold text-gray-900 mb-3 leading-relaxed">
+                              {q.question || q.text}
+                            </p>
+
+                            {/* Options */}
+                            {Array.isArray(q.options) && q.options.length > 0 && (
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3">
+                                {q.options.map((opt, optIdx) => {
+                                  const isCorrect = q.correct_answer === optIdx;
+                                  return (
+                                    <div
+                                      key={optIdx}
+                                      className={`p-2 rounded-lg text-xs flex items-start gap-2 border transition-colors ${
+                                        isCorrect 
+                                          ? 'bg-green-50/80 border-green-300 text-green-900 font-medium' 
+                                          : 'bg-gray-50 border-gray-200 text-gray-700'
+                                      }`}
+                                    >
+                                      <span className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 text-[10px] font-bold ${
+                                        isCorrect 
+                                          ? 'bg-green-600 text-white' 
+                                          : 'bg-gray-200 text-gray-600'
+                                      }`}>
+                                        {String.fromCharCode(65 + optIdx)}
+                                      </span>
+                                      <span className="flex-1 mt-0.5 leading-snug">{opt}</span>
+                                      {isCorrect && (
+                                        <span className="text-[10px] font-semibold text-green-700 bg-green-100 px-1.5 py-0.5 rounded shrink-0">
+                                          Correct
+                                        </span>
+                                      )}
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            )}
+
+                            {/* Explanation Toggle */}
+                            {hasExplanation && (
+                              <div>
+                                <button
+                                  onClick={() => setExpandedSavedExplanations(prev => ({ ...prev, [qId]: !prev[qId] }))}
+                                  className="text-xs font-medium text-blue-600 hover:text-blue-700 hover:underline flex items-center gap-1"
+                                >
+                                  {isExplanationOpen ? 'Hide Explanation' : 'View Explanation'}
+                                  <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isExplanationOpen ? 'rotate-180' : ''}`} />
+                                </button>
+                                {isExplanationOpen && (
+                                  <div className="mt-2 p-3 bg-blue-50/60 border border-blue-100 rounded-lg text-xs text-gray-700 leading-relaxed">
+                                    <span className="font-semibold text-blue-900 block mb-1">Explanation:</span>
+                                    {q.explanation}
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <div className="text-center py-8 px-4 bg-gray-50 rounded-xl border border-dashed border-gray-200">
+                      <div className="w-10 h-10 mx-auto mb-2 rounded-full bg-amber-100 text-amber-500 flex items-center justify-center">
+                        <Star className="w-5 h-5" />
+                      </div>
+                      <p className="text-sm font-semibold text-gray-700">No Saved PYQs Yet</p>
+                      <p className="text-xs text-gray-500 mt-1 max-w-md mx-auto">
+                        Click the star icon (★) on any question in the PYQ panel while practicing to bookmark it here for quick revision!
+                      </p>
+                    </div>
+                  )}
                 </div>
               )}
             </div>

@@ -1274,6 +1274,42 @@ export function AuthProvider({ children }) {
     }
   }
 
+  // ===== User Practice Answers (Cross-device sync) =====
+  async function saveUserPracticeAnswer(questionId, selectedOption) {
+    if (!currentUser || !questionId) return false;
+
+    try {
+      const answersDocRef = doc(db, 'userPracticeAnswers', currentUser.uid);
+      await setDoc(answersDocRef, {
+        [String(questionId)]: selectedOption,
+        updatedAt: serverTimestamp()
+      }, { merge: true });
+      return true;
+    } catch (error) {
+      console.warn('⚠️ Could not sync practice answer to cloud:', error);
+      return false;
+    }
+  }
+
+  async function getUserPracticeAnswers() {
+    if (!currentUser) return {};
+
+    try {
+      const answersDocRef = doc(db, 'userPracticeAnswers', currentUser.uid);
+      const snap = await getDoc(answersDocRef);
+      if (snap.exists()) {
+        const data = snap.data();
+        const answers = { ...data };
+        delete answers.updatedAt;
+        return answers;
+      }
+      return {};
+    } catch (error) {
+      console.warn('⚠️ Could not fetch practice answers from cloud:', error);
+      return {};
+    }
+  }
+
   // Migrate guest data (chats, messages, and starred PYQs) from localStorage to Firebase
   async function migrateGuestDataToFirebase(user) {
     if (!user) return;
@@ -1469,6 +1505,8 @@ export function AuthProvider({ children }) {
     saveStarredPyqQuestion,
     removeStarredPyqQuestion,
     clearAllStarredPyqQuestions,
+    saveUserPracticeAnswer,
+    getUserPracticeAnswers,
   };
 
   return (

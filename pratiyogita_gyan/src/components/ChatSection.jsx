@@ -701,7 +701,10 @@ const ChatSection = () => {
               const qKey = q.id || q.question
               if (qKey && !seenIds.has(qKey)) {
                 seenIds.add(qKey)
-                allChatPyqs.push(q)
+                allChatPyqs.push({
+                  ...q,
+                  originatingQuery: q.originatingQuery || title || 'Search Results'
+                })
               }
             })
           }
@@ -733,7 +736,10 @@ const ChatSection = () => {
             const qKey = q.id || q.question
             if (qKey && !seenGuestIds.has(qKey)) {
               seenGuestIds.add(qKey)
-              allGuestPyqs.push(q)
+              allGuestPyqs.push({
+                ...q,
+                originatingQuery: q.originatingQuery || title || 'Search Results'
+              })
             }
           })
         }
@@ -1051,10 +1057,14 @@ const ChatSection = () => {
     apiService.fastMatchPyq(query, SEARCH_SETTINGS.mcqThreshold, SEARCH_SETTINGS.mcqLimit)
       .then(fastRes => {
         if (fastRes && Array.isArray(fastRes.mcqs) && fastRes.mcqs.length > 0) {
-          currentQueryPyqsRef.current = fastRes.mcqs
+          const taggedFastMcqs = fastRes.mcqs.map(q => ({
+            ...q,
+            originatingQuery: query
+          }))
+          currentQueryPyqsRef.current = taggedFastMcqs
           window.dispatchEvent(new CustomEvent('newMcqResults', {
             detail: {
-              mcqs: fastRes.mcqs,
+              mcqs: taggedFastMcqs,
               query: query
             }
           }))
@@ -1078,9 +1088,24 @@ const ChatSection = () => {
         }
       })
 
-      if (response?.mcq_results && Array.isArray(response.mcq_results) && response.mcq_results.length > 0) {
-        currentQueryPyqsRef.current = response.mcq_results
-      }
+      // Merge results without overwriting the fast search results!
+      const existingPyqs = currentQueryPyqsRef.current || []
+      const existingIds = new Set(existingPyqs.map(q => q.id || q.question))
+      const additionalFromSearch = (response?.mcq_results || [])
+        .filter(q => {
+          const id = q.id || q.question
+          return id && !existingIds.has(id)
+        })
+        .map(q => ({
+          ...q,
+          originatingQuery: query
+        }))
+
+      const combinedPyqs = [...existingPyqs, ...additionalFromSearch].map(q => ({
+        ...q,
+        originatingQuery: q.originatingQuery || query
+      }))
+      currentQueryPyqsRef.current = combinedPyqs
 
       // Track successful search interaction
       trackInteraction('search', {
@@ -1161,11 +1186,11 @@ const ChatSection = () => {
         handleGuestChatSave(updatedMessages, titleSource)
       }
 
-      if (response.mcq_results && response.mcq_results.length > 0) {
+      if (additionalFromSearch && additionalFromSearch.length > 0) {
         setTimeout(() => {
           window.dispatchEvent(new CustomEvent('newMcqResults', {
             detail: {
-              mcqs: response.mcq_results,
+              mcqs: additionalFromSearch,
               query: query
             }
           }))
