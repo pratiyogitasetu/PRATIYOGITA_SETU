@@ -660,6 +660,51 @@ const ChatSection = () => {
     }
   }, [isLoading])
 
+  // Listen for answered PYQs to keep current chat messages updated with selectedOption
+  useEffect(() => {
+    const handlePyqAnswer = (e) => {
+      const { questionId, question, selectedOption } = e.detail || {}
+      if (selectedOption === undefined || selectedOption === null) return
+
+      const qTargetId = String(question?.id || questionId || '')
+      const qTargetText = String(question?.question || question?.text || '').trim().slice(0, 60)
+
+      setMessages(prevMessages => {
+        let changed = false
+        const updated = prevMessages.map(msg => {
+          if (msg.type === 'bot' && Array.isArray(msg.related_pyqs)) {
+            const newPyqs = msg.related_pyqs.map(q => {
+              const matchesId = q.id && String(q.id) === qTargetId
+              const matchesText = qTargetText && String(q.question || q.text || '').trim().slice(0, 60) === qTargetText
+              if (matchesId || matchesText) {
+                changed = true
+                return { ...q, selectedOption, userAnswer: selectedOption }
+              }
+              return q
+            })
+            if (changed) return { ...msg, related_pyqs: newPyqs }
+          }
+          return msg
+        })
+        return changed ? updated : prevMessages
+      })
+
+      if (currentQueryPyqsRef.current) {
+        currentQueryPyqsRef.current = currentQueryPyqsRef.current.map(q => {
+          const matchesId = q.id && String(q.id) === qTargetId
+          const matchesText = qTargetText && String(q.question || q.text || '').trim().slice(0, 60) === qTargetText
+          if (matchesId || matchesText) {
+            return { ...q, selectedOption, userAnswer: selectedOption }
+          }
+          return q
+        })
+      }
+    }
+
+    window.addEventListener('pyqAnswerUpdated', handlePyqAnswer)
+    return () => window.removeEventListener('pyqAnswerUpdated', handlePyqAnswer)
+  }, [])
+
   // Listen for chat events from Sidebar
   useEffect(() => {
     const handleNewChat = (event) => {
@@ -703,7 +748,8 @@ const ChatSection = () => {
                 seenIds.add(qKey)
                 allChatPyqs.push({
                   ...q,
-                  originatingQuery: q.originatingQuery || title || 'Search Results'
+                  originatingQuery: q.originatingQuery || title || 'Search Results',
+                  selectedOption: q.selectedOption !== undefined ? q.selectedOption : q.userAnswer
                 })
               }
             })
@@ -713,13 +759,13 @@ const ChatSection = () => {
           detail: { mcqs: allChatPyqs, query: title, chatId }
         }))
       } catch (error) {
-        console.error('❌ Failed to load chat messages:', error)
-        setMessages([])
+        console.error('❌ Failed to load chat history:', error)
       }
     }
 
     const handleLoadGuestChat = (event) => {
       const { chatId, title, messages } = event.detail
+      console.log('🔄 Loading guest chat:', chatId, title, 'messages:', messages.length)
       sessionStorage.removeItem(PENDING_CHAT_LOAD_STORAGE_KEY)
       setCurrentChatId(chatId)
       setCurrentChatTitle(title)
@@ -738,7 +784,8 @@ const ChatSection = () => {
               seenGuestIds.add(qKey)
               allGuestPyqs.push({
                 ...q,
-                originatingQuery: q.originatingQuery || title || 'Search Results'
+                originatingQuery: q.originatingQuery || title || 'Search Results',
+                selectedOption: q.selectedOption !== undefined ? q.selectedOption : q.userAnswer
               })
             }
           })

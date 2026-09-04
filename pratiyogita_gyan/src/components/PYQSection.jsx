@@ -14,6 +14,13 @@ import { ThinkingOrb } from 'thinking-orbs'
 const PYQ_IMPORTANT_STORAGE_KEY = 'pyqImportantQuestionIds'
 const STARRED_PYQ_LOCAL_STORAGE_KEY = 'pyqPracticeStarredQuestions'
 
+const makeSafeFirestoreKey = (rawId) => {
+  return String(rawId || '')
+    .replace(/[./\\~*\[\]]/g, '_')
+    .replace(/\s+/g, '_')
+    .slice(0, 150);
+}
+
 const getStableQuestionId = (question, index = 0) => {
   if (question?.id !== undefined && question?.id !== null && String(question.id).trim() !== '') {
     return String(question.id)
@@ -361,11 +368,10 @@ const PYQSection = () => {
     }
 
     const handleLoadChat = () => {
-      // Reset PYQ state when loading an existing chat (similar to new chat)
+      // Reset PYQ search view when loading an existing chat, but keep answered question status
       setSearchResults([])
       setLastSearchQuery('')
       setFilteredQuestions([])
-      setUserAnswers({})
       setExpandedExplanations({})
       setExpandedQueries({})
       setAiExplanations({})
@@ -378,15 +384,14 @@ const PYQSection = () => {
       setAvailableExams([])
       setAvailableSubjects([])
       setLoadingFilters(false)
-      console.log('🔄 PYQ Section reset for loaded chat')
+      console.log('🔄 PYQ Section reset for loaded chat (retaining user answers)')
     }
 
     const handleLoadGuestChat = () => {
-      // Reset PYQ state when loading a guest chat
+      // Reset PYQ search view when loading a guest chat, but keep answered question status
       setSearchResults([])
       setLastSearchQuery('')
       setFilteredQuestions([])
-      setUserAnswers({})
       setExpandedExplanations({})
       setExpandedQueries({})
       setAiExplanations({})
@@ -399,7 +404,7 @@ const PYQSection = () => {
       setAvailableExams([])
       setAvailableSubjects([])
       setLoadingFilters(false)
-      console.log('🔄 PYQ Section reset for loaded guest chat')
+      console.log('🔄 PYQ Section reset for loaded guest chat (retaining user answers)')
     }
 
     const handleRestoreChatPyqs = (event) => {
@@ -428,23 +433,91 @@ const PYQSection = () => {
         if (query) initialExpanded[query] = true
         setExpandedQueries(initialExpanded)
 
-        // Restore user answers for these questions from memory / localStorage
+        // Restore user answers for these questions from memory, question payload & localStorage
         try {
           const storedAnswers = JSON.parse(localStorage.getItem('pyq_user_answers') || '{}')
           const restoredAnswers = {}
+
+          const resolveAns = (map, key) => {
+            if (!key || !map || map[key] === undefined) return undefined
+            const val = map[key]
+            return typeof val === 'object' && val !== null ? val.selectedOption : val
+          }
+
           uniqueMcqs.forEach((q, idx) => {
             const qId = getStableQuestionId(q, idx)
-            if (userAnswers[qId] !== undefined) {
-              restoredAnswers[qId] = userAnswers[qId]
-            } else if (storedAnswers[qId] !== undefined) {
-              restoredAnswers[qId] = typeof storedAnswers[qId] === 'object' && storedAnswers[qId] !== null ? storedAnswers[qId].selectedOption : storedAnswers[qId]
-            } else if (q.id && storedAnswers[String(q.id)] !== undefined) {
-              restoredAnswers[qId] = typeof storedAnswers[String(q.id)] === 'object' && storedAnswers[String(q.id)] !== null ? storedAnswers[String(q.id)].selectedOption : storedAnswers[String(q.id)]
+            const safeId = makeSafeFirestoreKey(qId)
+            const rawId = q.id ? String(q.id) : null
+            const safeRawId = rawId ? makeSafeFirestoreKey(rawId) : null
+
+            // 1. Direct answer on question object (from chat message)
+            if (q.selectedOption !== undefined && q.selectedOption !== null) {
+              restoredAnswers[qId] = q.selectedOption
+              if (safeId) restoredAnswers[safeId] = q.selectedOption
+              if (rawId) restoredAnswers[rawId] = q.selectedOption
+              return
+            }
+            if (q.userAnswer !== undefined && q.userAnswer !== null) {
+              restoredAnswers[qId] = q.userAnswer
+              if (safeId) restoredAnswers[safeId] = q.userAnswer
+              if (rawId) restoredAnswers[rawId] = q.userAnswer
+              return
+            }
+
+            // 2. In-memory userAnswers state
+            let found = resolveAns(userAnswers, qId) ?? resolveAns(userAnswers, safeId) ?? resolveAns(userAnswers, rawId) ?? resolveAns(userAnswers, safeRawId)
+            if (found !== undefined) {
+              restoredAnswers[qId] = found
+              return
+            }
+
+            // 3. LocalStorage
+            found = resolveAns(storedAnswers, qId) ?? resolveAns(storedAnswers, safeId) ?? resolveAns(storedAnswers, rawId) ?? resolveAns(storedAnswers, safeRawId)
+            if (found !== undefined) {
+              restoredAnswers[qId] = found
+              return
             }
           })
-          setUserAnswers(prev => ({ ...prev, ...restoredAnswers }))
+
+          if (Object.keys(restoredAnswers).length > 0) {
+            setUserAnswers(prev => ({ ...prev, ...restoredAnswers }))
+          }
         } catch (e) {
           console.error('Failed to restore answers from localStorage:', e)
+        }
+
+        // 4. Also asynchronously pull fresh practice answers from Firestore for cross-device accuracy
+        if (currentUser && getUserPracticeAnswers) {
+          getUserPracticeAnswers().then(cloudAnswers => {
+            if (cloudAnswers && typeof cloudAnswers === 'object' && Object.keys(cloudAnswers).length > 0) {
+              const cloudRestored = {}
+              const resolveAns = (map, key) => {
+                if (!key || !map || map[key] === undefined) return undefined
+                const val = map[key]
+                return typeof val === 'object' && val !== null ? val.selectedOption : val
+              }
+
+              uniqueMcqs.forEach((q, idx) => {
+                const qId = getStableQuestionId(q, idx)
+                const safeId = makeSafeFirestoreKey(qId)
+                const rawId = q.id ? String(q.id) : null
+                const safeRawId = rawId ? makeSafeFirestoreKey(rawId) : null
+
+                const found = resolveAns(cloudAnswers, qId) ?? resolveAns(cloudAnswers, safeId) ?? resolveAns(cloudAnswers, rawId) ?? resolveAns(cloudAnswers, safeRawId)
+                if (found !== undefined) {
+                  cloudRestored[qId] = found
+                  if (safeId) cloudRestored[safeId] = found
+                  if (rawId) cloudRestored[rawId] = found
+                }
+              })
+
+              if (Object.keys(cloudRestored).length > 0) {
+                setUserAnswers(prev => ({ ...prev, ...cloudRestored }))
+              }
+            }
+          }).catch(err => {
+            console.warn('Notice: cross-device answer fetch:', err)
+          })
         }
 
         setExpandedExplanations({})
@@ -631,22 +704,26 @@ const PYQSection = () => {
 
     if (!questionId || optionIndex === undefined || optionIndex === null) return
 
-    // If already answered this question, do not count again
-    if (userAnswers[questionId] !== undefined) return
+    const safeKey = makeSafeFirestoreKey(questionId)
+    const rawId = (question?.id || question?._id) ? String(question.id || question._id) : null
 
-    // Immediately update in-memory state
+    // If already answered this question, do not count again
+    if (userAnswers[questionId] !== undefined || (safeKey && userAnswers[safeKey] !== undefined) || (rawId && userAnswers[rawId] !== undefined)) return
+
+    // Immediately update in-memory state with all lookup keys
     setUserAnswers(prev => ({
       ...prev,
-      [questionId]: optionIndex
+      [questionId]: optionIndex,
+      ...(safeKey ? { [safeKey]: optionIndex } : {}),
+      ...(rawId ? { [rawId]: optionIndex } : {})
     }))
 
     // Save answer to localStorage immediately
     try {
       const storedAnswers = JSON.parse(localStorage.getItem('pyq_user_answers') || '{}')
-      storedAnswers[questionId] = {
-        selectedOption: optionIndex,
-        timestamp: Date.now()
-      }
+      storedAnswers[questionId] = { selectedOption: optionIndex, timestamp: Date.now() }
+      if (safeKey) storedAnswers[safeKey] = { selectedOption: optionIndex, timestamp: Date.now() }
+      if (rawId) storedAnswers[rawId] = { selectedOption: optionIndex, timestamp: Date.now() }
       localStorage.setItem('pyq_user_answers', JSON.stringify(storedAnswers))
     } catch (e) {
       console.error('Failed to save answer to localStorage:', e)
@@ -669,6 +746,15 @@ const PYQSection = () => {
       getStableQuestionId(q) === questionId ||
       q._id === questionId
     )
+
+    // Notify chat and other components of answered question
+    window.dispatchEvent(new CustomEvent('pyqAnswerUpdated', {
+      detail: {
+        questionId,
+        question: targetQuestion || question,
+        selectedOption: optionIndex
+      }
+    }))
 
     if (targetQuestion) {
       const isCorrect = optionIndex === targetQuestion.correct_answer
@@ -1628,7 +1714,7 @@ const PYQSection = () => {
                             </Box>
 
                             {/* Accordion Content */}
-                            {isExpanded && (
+{isExpanded && (
                               <Stack spacing={1.5} sx={{ p: 1, backgroundColor: isDarkMode ? '#1f2937' : '#ffffff' }}>
                                 {applyFiltersToQuestions(questions).length === 0 ? (
                                   <Typography variant="caption" sx={{ display: 'block', py: 1.5, px: 1, color: isDarkMode ? '#9ca3af' : '#6b7280', textAlign: 'center', fontStyle: 'italic' }}>
@@ -1638,9 +1724,22 @@ const PYQSection = () => {
                                   applyFiltersToQuestions(questions).map((question, qIdx) => {
                                     const questionIndex = currentQuestions.indexOf(question)
                                     const questionId = getStableQuestionId(question, questionIndex)
-                                    const userAnswer = userAnswers[questionId]
+                                    const safeKey = makeSafeFirestoreKey(questionId)
+                                    const rawId = (question?.id || question?._id) ? String(question.id || question._id) : null
+                                    const safeRawId = rawId ? makeSafeFirestoreKey(rawId) : null
+
+                                    const userAnswer = userAnswers[questionId] !== undefined
+                                      ? userAnswers[questionId]
+                                      : (userAnswers[safeKey] !== undefined
+                                          ? userAnswers[safeKey]
+                                          : (rawId && userAnswers[rawId] !== undefined
+                                              ? userAnswers[rawId]
+                                              : (safeRawId && userAnswers[safeRawId] !== undefined
+                                                  ? userAnswers[safeRawId]
+                                                  : (question.selectedOption !== undefined ? question.selectedOption : question.userAnswer))))
+
                                     const isCorrect = userAnswer === question.correct_answer
-                                    const hasAnswered = userAnswer !== undefined
+                                    const hasAnswered = userAnswer !== undefined && userAnswer !== null
 
                                     return (
                                       <Paper

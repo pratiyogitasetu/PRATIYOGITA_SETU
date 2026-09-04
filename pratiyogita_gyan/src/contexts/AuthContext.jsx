@@ -1274,40 +1274,115 @@ export function AuthProvider({ children }) {
     }
   }
 
-  // ===== User Practice Answers (Cross-device sync) =====
+  // Helper to sanitize Firestore field keys
+  function makeSafeFirestoreKey(rawId) {
+    return String(rawId || '')
+      .replace(/[./\\~*\[\]]/g, '_')
+      .replace(/\s+/g, '_')
+      .slice(0, 150);
+  }
+
+  // ===== User Practice Answers (Cross-device sync under users/{uid}) =====
   async function saveUserPracticeAnswer(questionId, selectedOption) {
     if (!currentUser || !questionId) return false;
 
+    const safeKey = makeSafeFirestoreKey(questionId);
+
     try {
-      const answersDocRef = doc(db, 'userPracticeAnswers', currentUser.uid);
-      await setDoc(answersDocRef, {
-        [String(questionId)]: selectedOption,
-        updatedAt: serverTimestamp()
+      // 1. Update users/{uid} document with practiceAnswers map
+      const userRef = doc(db, 'users', currentUser.uid);
+      await setDoc(userRef, {
+        practiceAnswers: {
+          [safeKey]: selectedOption
+        },
+        lastPracticeAt: serverTimestamp()
       }, { merge: true });
+
+      // 2. Also save into users/{uid}/practiceAnswers/{safeKey} subcollection for persistence
+      try {
+        const answerDocRef = doc(db, 'users', currentUser.uid, 'practiceAnswers', safeKey);
+        await setDoc(answerDocRef, {
+          questionId: String(questionId),
+          safeKey: safeKey,
+          selectedOption: selectedOption,
+          updatedAt: serverTimestamp()
+        }, { merge: true });
+      } catch (subErr) {
+        console.warn('Subcollection answer write notice:', subErr);
+      }
+
       return true;
     } catch (error) {
-      console.warn('⚠️ Could not sync practice answer to cloud:', error);
-      return false;
+      console.warn('⚠️ Could not sync practice answer to user doc:', error);
+      // Fallback: try practiceData subdoc
+      try {
+        const fallbackRef = doc(db, 'users', currentUser.uid, 'practiceData', 'answers');
+        await setDoc(fallbackRef, {
+          [safeKey]: selectedOption,
+          updatedAt: serverTimestamp()
+        }, { merge: true });
+        return true;
+      } catch (err2) {
+        console.warn('⚠️ Fallback cloud sync failed:', err2);
+        return false;
+      }
     }
   }
 
   async function getUserPracticeAnswers() {
     if (!currentUser) return {};
 
+    const answers = {};
+
+    // 1. Read from users/{uid} document (fastest)
     try {
-      const answersDocRef = doc(db, 'userPracticeAnswers', currentUser.uid);
-      const snap = await getDoc(answersDocRef);
-      if (snap.exists()) {
-        const data = snap.data();
-        const answers = { ...data };
-        delete answers.updatedAt;
-        return answers;
+      const userRef = doc(db, 'users', currentUser.uid);
+      const userSnap = await getDoc(userRef);
+      if (userSnap.exists()) {
+        const userData = userSnap.data();
+        if (userData?.practiceAnswers && typeof userData.practiceAnswers === 'object') {
+          Object.entries(userData.practiceAnswers).forEach(([k, v]) => {
+            answers[k] = typeof v === 'object' && v !== null ? v.selectedOption : v;
+          });
+        }
       }
-      return {};
-    } catch (error) {
-      console.warn('⚠️ Could not fetch practice answers from cloud:', error);
-      return {};
+    } catch (e) {
+      console.warn('Could not read practice answers from user document:', e);
     }
+
+    // 2. Read from users/{uid}/practiceData/answers subdoc
+    try {
+      const practiceDataRef = doc(db, 'users', currentUser.uid, 'practiceData', 'answers');
+      const pSnap = await getDoc(practiceDataRef);
+      if (pSnap.exists()) {
+        const pData = pSnap.data();
+        Object.entries(pData).forEach(([k, v]) => {
+          if (k !== 'updatedAt') {
+            answers[k] = typeof v === 'object' && v !== null ? v.selectedOption : v;
+          }
+        });
+      }
+    } catch (e) {
+      // Ignored
+    }
+
+    // 3. Read from users/{uid}/practiceAnswers subcollection
+    try {
+      const collRef = collection(db, 'users', currentUser.uid, 'practiceAnswers');
+      const snap = await getDocs(collRef);
+      snap.forEach((docItem) => {
+        const data = docItem.data();
+        const qId = data.questionId || docItem.id;
+        if (qId && data.selectedOption !== undefined) {
+          answers[qId] = data.selectedOption;
+          answers[docItem.id] = data.selectedOption;
+        }
+      });
+    } catch (e) {
+      // Harmless if subcollection doesn't exist
+    }
+
+    return answers;
   }
 
   // Migrate guest data (chats, messages, and starred PYQs) from localStorage to Firebase
