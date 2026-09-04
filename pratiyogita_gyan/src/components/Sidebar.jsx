@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, lazy, Suspense, useMemo } from 'react'
-import { MessageCircle, Search, BookOpen, FileText, Trash2, Clock, PenTool, Home, Plus } from 'lucide-react'
+import { MessageCircle, Search, BookOpen, FileText, Trash2, Clock, Home, Plus } from 'lucide-react'
 import { Box, Paper, Stack, Typography, Button, IconButton, Divider } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 import { useLayout } from '../contexts/LayoutContext'
@@ -189,12 +189,6 @@ const Sidebar = () => {
     setShowHelpModal(true)
   }, [closeTransientOverlays, isMobile])
 
-  const handleQuizClick = () => {
-    if (isMobile) closeTransientOverlays()
-    // Emit event to switch to quiz view
-    window.dispatchEvent(new CustomEvent('switchToQuiz'))
-  }
-
   const handleHomeClick = () => {
     if (isMobile) closeTransientOverlays()
     window.dispatchEvent(new CustomEvent('switchToChat'))
@@ -222,11 +216,9 @@ const Sidebar = () => {
       closeTransientOverlays()
     }
     window.addEventListener('switchToChat', handleNavigation)
-    window.addEventListener('switchToQuiz', handleNavigation)
     window.addEventListener('switchToGDTopics', handleNavigation)
     return () => {
       window.removeEventListener('switchToChat', handleNavigation)
-      window.removeEventListener('switchToQuiz', handleNavigation)
       window.removeEventListener('switchToGDTopics', handleNavigation)
     }
   }, [closeTransientOverlays, isMobile])
@@ -612,9 +604,6 @@ const Sidebar = () => {
             <Box sx={{ p: isMobile ? 1 : 0.75 }}>
               {isMobile ? (
                 <Stack spacing={0.5}>
-                  <Button onClick={() => { handleQuizClick(); toggleSidebar(); }} variant="contained" startIcon={<PenTool className="w-4 h-4" />} sx={{ backgroundColor: 'primary.main', color: 'primary.contrastText', py: 0.5, fontSize: '0.7rem', '&:hover': { backgroundColor: 'primary.dark' } }}>
-                    Attempt Quiz
-                  </Button>
                   <Button
                     onClick={() => { handleHomeClick(); toggleSidebar(); }}
                     variant="contained"
@@ -632,9 +621,6 @@ const Sidebar = () => {
                 </Stack>
               ) : (
                 <Stack spacing={0.5}>
-                  <Button onClick={handleQuizClick} variant="contained" startIcon={<PenTool className="w-4 h-4" />} sx={{ backgroundColor: 'primary.main', color: 'primary.contrastText', py: 0.4, minHeight: 26, fontSize: '0.68rem', '&:hover': { backgroundColor: 'primary.dark' } }}>
-                    Attempt Quiz
-                  </Button>
                   <Button onClick={handleHelpClick} variant="contained" startIcon={<CircleHelp width={16} height={16} strokeWidth={2} stroke="currentColor" />} sx={{ backgroundColor: 'primary.main', color: 'primary.contrastText', py: 0.4, minHeight: 26, fontSize: '0.68rem', '&:hover': { backgroundColor: 'primary.dark' } }}>
                     Help & Support
                   </Button>
@@ -686,16 +672,6 @@ const Sidebar = () => {
 
             {/* Bottom Icons */}
             <Box sx={{ p: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
-              <button
-                onClick={handleQuizClick}
-                className="p-1 rounded-lg transition-colors"
-                style={{ color: '#000000' }}
-                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(58, 124, 165, 0.12)'}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
-                title="Attempt Quiz"
-              >
-                <PenTool className="w-4 h-4" />
-              </button>
               <button
                 onClick={handleHelpClick}
                 className="p-1 rounded-lg transition-colors"

@@ -11,10 +11,10 @@ export const SEARCH_SETTINGS = {
   nResults: toNumber(import.meta.env.VITE_SEARCH_N_RESULTS, 5),
 
   // PYQ matching controls
-  // Threshold range: 0.0 to 1.0
-  mcqThreshold: toNumber(import.meta.env.VITE_MCQ_THRESHOLD, 0.65),
+  // Threshold range: 0.0 to 1.0 (0.35 captures all relevant topic matches)
+  mcqThreshold: toNumber(import.meta.env.VITE_MCQ_THRESHOLD, 0.35),
   // 0 means "no hard limit" (return all matches above threshold)
-  mcqLimit: toNumber(import.meta.env.VITE_MCQ_LIMIT, 20),
+  mcqLimit: toNumber(import.meta.env.VITE_MCQ_LIMIT, 0),
 
   // Answer-generation controls (forwarded to backend)
   answerGeneration: {

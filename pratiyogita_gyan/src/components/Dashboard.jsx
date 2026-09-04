@@ -25,7 +25,7 @@ import { useDashboard } from "../contexts/DashboardContext";
 
 const Dashboard = () => {
   const { theme } = useTheme();
-  const { currentUser, getUserQuizHistory, getQuizStatistics } = useAuth();
+  const { currentUser } = useAuth();
   const { contentOffsetLeft, isMobile } = useLayout();
   const {
     stats,
@@ -39,14 +39,10 @@ const Dashboard = () => {
   } = useDashboard();
 
   const [selectedTimeframe, setSelectedTimeframe] = useState("week");
-  const [quizStats, setQuizStats] = useState(null);
-  const [quizHistory, setQuizHistory] = useState([]);
-  const [loadingQuizData, setLoadingQuizData] = useState(false);
 
   // Expandable sections state
   const [expandedSections, setExpandedSections] = useState({
     overview: true,
-    quizPerformance: true,
     subjectAnalysis: true,
     mcqBreakdown: false,
     weakAreas: false,
@@ -78,29 +74,6 @@ const Dashboard = () => {
       window.removeEventListener('chatDeleted', handleChatDeleted);
     };
   }, [refreshDashboardData]);
-
-  // Fetch quiz statistics
-  useEffect(() => {
-    const fetchQuizData = async () => {
-      if (currentUser) {
-        setLoadingQuizData(true);
-        try {
-          const [stats, history] = await Promise.all([
-            getQuizStatistics(),
-            getUserQuizHistory(5),
-          ]);
-          setQuizStats(stats);
-          setQuizHistory(history);
-        } catch (error) {
-          console.error("Failed to fetch quiz data:", error);
-        } finally {
-          setLoadingQuizData(false);
-        }
-      }
-    };
-
-    fetchQuizData();
-  }, [currentUser, getUserQuizHistory, getQuizStatistics]);
 
   // Handle refresh
   const handleRefresh = () => {
@@ -208,21 +181,7 @@ const Dashboard = () => {
       .slice(0, 3)
   }
 
-  const calculateQuizTrends = () => {
-    if (!quizHistory || quizHistory.length < 2) return null
-    
-    const recentScores = quizHistory.slice(0, 5).map(q => q.score).reverse()
-    const trend = recentScores[recentScores.length - 1] > recentScores[0] ? 'improving' : 'declining'
-    
-    return {
-      scores: recentScores,
-      trend,
-      improvement: recentScores[recentScores.length - 1] - recentScores[0]
-    }
-  }
-
   const weakAreas = identifyWeakAreas()
-  const quizTrends = calculateQuizTrends()
 
   // Component for expandable section header
   const SectionHeader = ({ title, icon: Icon, isExpanded, onToggle, badge }) => (
@@ -471,120 +430,7 @@ const Dashboard = () => {
               />
             </div>
 
-
-
-            {/* Quiz Performance - Expandable */}
-            {quizStats && quizStats.totalQuizzes > 0 && (
-              <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-                <SectionHeader 
-                  title="Quiz Performance Analytics"
-                  icon={Trophy}
-                  isExpanded={expandedSections.quizPerformance}
-                  onToggle={() => toggleSection('quizPerformance')}
-                  badge={`${quizStats.totalQuizzes} quizzes`}
-                />
-                {expandedSections.quizPerformance && (
-                  <div className="p-4 space-y-4">
-                    {/* Quiz Stats Grid */}
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                      <div className="text-center p-3 bg-blue-50 rounded-lg">
-                        <div className="text-2xl font-bold text-blue-600">{quizStats.totalQuizzes}</div>
-                        <p className="text-xs text-gray-600">Quizzes Taken</p>
-                      </div>
-                      <div className="text-center p-3 bg-green-50 rounded-lg">
-                        <div className="text-2xl font-bold text-green-600">{quizStats.averageScore}%</div>
-                        <p className="text-xs text-gray-600">Avg Score</p>
-                      </div>
-                      <div className="text-center p-3 bg-purple-50 rounded-lg">
-                        <div className="text-2xl font-bold text-purple-600">{quizStats.totalQuizQuestions}</div>
-                        <p className="text-xs text-gray-600">Total Questions</p>
-                      </div>
-                      <div className="text-center p-3 bg-yellow-50 rounded-lg">
-                        <div className="text-2xl font-bold text-yellow-600">{quizStats.totalCorrectAnswers}</div>
-                        <p className="text-xs text-gray-600">Correct Answers</p>
-                      </div>
-                    </div>
-
-                    {/* Score Trend Visualization */}
-                    {quizTrends && (
-                      <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-4">
-                        <div className="flex items-center justify-between mb-3">
-                          <h4 className="text-sm font-semibold text-gray-900">Score Trend</h4>
-                          <span className={`text-sm font-medium flex items-center ${quizTrends.trend === 'improving' ? 'text-green-600' : 'text-orange-600'}`}>
-                            {quizTrends.trend === 'improving' ? <TrendingUp className="w-4 h-4 mr-1" /> : <TrendingDown className="w-4 h-4 mr-1" />}
-                            {quizTrends.trend === 'improving' ? 'Improving' : 'Needs Attention'}
-                          </span>
-                        </div>
-                        <div className="flex items-end space-x-2 h-20">
-                          {quizTrends.scores.map((score, idx) => (
-                            <div key={idx} className="flex-1 flex flex-col justify-end items-center">
-                              <div 
-                                className={`w-full rounded-t-lg transition-all duration-300 ${score >= 80 ? 'bg-green-500' : score >= 60 ? 'bg-yellow-500' : 'bg-red-500'}`}
-                                style={{ height: `${score}%` }}
-                              />
-                              <span className="text-xs text-gray-600 mt-1">{score}%</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Recent Quiz History */}
-                    {quizHistory.length > 0 && (
-                      <div>
-                        <h4 className="text-sm font-semibold text-gray-900 mb-2">Recent Quiz Attempts</h4>
-                        <div className="space-y-2">
-                          {quizHistory.map((quiz, index) => (
-                            <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                              <div className="flex items-center space-x-3">
-                                <div className={`w-3 h-3 rounded-full ${quiz.score >= 80 ? 'bg-green-500' : quiz.score >= 60 ? 'bg-yellow-500' : 'bg-red-500'}`} />
-                                <div>
-                                  <p className="text-sm font-medium text-gray-900">{quiz.examName}</p>
-                                  <p className="text-xs text-gray-500">
-                                    {new Date(quiz.completedAt).toLocaleDateString('en-US', { 
-                                      month: 'short', 
-                                      day: 'numeric',
-                                      hour: '2-digit',
-                                      minute: '2-digit'
-                                    })}
-                                  </p>
-                                </div>
-                              </div>
-                              <div className="flex items-center space-x-4">
-                                <div className="text-right">
-                                  <p className="text-lg font-bold" style={{ 
-                                    color: quiz.score >= 80 ? '#10B981' : quiz.score >= 60 ? '#F59E0B' : '#EF4444'
-                                  }}>
-                                    {quiz.score}%
-                                  </p>
-                                  <p className="text-xs text-gray-500">{quiz.correct}/{quiz.totalQuestions}</p>
-                                </div>
-                                <div className="flex items-center space-x-2">
-                                  <div className="flex items-center">
-                                    <CheckCircle className="w-4 h-4 text-green-500 mr-1" />
-                                    <span className="text-sm text-gray-700">{quiz.correct}</span>
-                                  </div>
-                                  <div className="flex items-center">
-                                    <XCircle className="w-4 h-4 text-red-500 mr-1" />
-                                    <span className="text-sm text-gray-700">{quiz.wrong}</span>
-                                  </div>
-                                  <div className="flex items-center">
-                                    <Circle className="w-4 h-4 text-gray-400 mr-1" />
-                                    <span className="text-sm text-gray-700">{quiz.skipped}</span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* Subject Analysis - Expandable */}
+            {/* Subject Analysis - Expandable */}
             <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
               <SectionHeader 
                 title="Subject-wise Analysis"

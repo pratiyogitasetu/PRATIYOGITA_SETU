@@ -16,7 +16,6 @@ import EmbeddedSearchBar from './components/EmbeddedSearchBar'
 const Sidebar = lazy(() => import('./components/Sidebar'))
 const PYQSection = lazy(() => import('./components/PYQSection'))
 const Dashboard = lazy(() => import('./components/Dashboard'))
-const QuizSection = lazy(() => import('./components/QuizSection'))
 const EligibilitySection = lazy(() => import('./components/EligibilitySection'))
 const SyllabusSection = lazy(() => import('./components/SyllabusSection'))
 const GDTopicsSection = lazy(() => import('./components/GDTopicsSection'))
@@ -69,7 +68,7 @@ const muiTheme = createTheme({
 })
 
 function AppContent() {
-  const [currentView, setCurrentView] = useState('chat') // 'chat', 'dashboard', 'eligibility', 'syllabus', 'quiz', 'gd-topics'
+  const [currentView, setCurrentView] = useState('chat') // 'chat', 'dashboard', 'eligibility', 'syllabus', 'gd-topics'
   const { theme } = useTheme()
   const { isMobile } = useLayout()
   const [isChatLoading, setIsChatLoading] = useState(false)
@@ -106,10 +105,6 @@ function AppContent() {
       setCurrentView('syllabus')
     }
 
-    const handleSwitchToQuiz = () => {
-      setCurrentView('quiz')
-    }
-
     const handleSwitchToGDTopics = () => {
       setCurrentView('gd-topics')
     }
@@ -124,7 +119,6 @@ function AppContent() {
 
     window.addEventListener('switchToEligibility', handleSwitchToEligibility)
     window.addEventListener('switchToSyllabus', handleSwitchToSyllabus)
-    window.addEventListener('switchToQuiz', handleSwitchToQuiz)
     window.addEventListener('switchToGDTopics', handleSwitchToGDTopics)
     window.addEventListener('switchToChat', handleSwitchToChat)
     window.addEventListener('switchToDashboard', handleSwitchToDashboard)
@@ -132,7 +126,6 @@ function AppContent() {
     return () => {
       window.removeEventListener('switchToEligibility', handleSwitchToEligibility)
       window.removeEventListener('switchToSyllabus', handleSwitchToSyllabus)
-      window.removeEventListener('switchToQuiz', handleSwitchToQuiz)
       window.removeEventListener('switchToGDTopics', handleSwitchToGDTopics)
       window.removeEventListener('switchToChat', handleSwitchToChat)
       window.removeEventListener('switchToDashboard', handleSwitchToDashboard)
@@ -203,17 +196,6 @@ function AppContent() {
             }
           >
             <SyllabusSection />
-          </Suspense>
-        ) : currentView === 'quiz' ? (
-          <Suspense
-            fallback={
-              <Box sx={{ flex: 1, p: 2 }}>
-                <Skeleton variant="rounded" height={120} sx={{ mb: 2 }} />
-                <Skeleton variant="rounded" height={300} />
-              </Box>
-            }
-          >
-            <QuizSection />
           </Suspense>
         ) : currentView === 'gd-topics' ? (
           <Suspense

@@ -966,6 +966,21 @@ const ChatSection = () => {
 
     setMessages(prev => [...prev, tempBotMessage])
 
+    // ⚡ INSTANT PARALLEL PYQ SEARCH:
+    // Query Pinecone immediately in parallel so questions appear instantly without waiting for chat LLM!
+    apiService.fastMatchPyq(query, SEARCH_SETTINGS.mcqThreshold, SEARCH_SETTINGS.mcqLimit)
+      .then(fastRes => {
+        if (fastRes && Array.isArray(fastRes.mcqs) && fastRes.mcqs.length > 0) {
+          window.dispatchEvent(new CustomEvent('newMcqResults', {
+            detail: {
+              mcqs: fastRes.mcqs,
+              query: query
+            }
+          }))
+        }
+      })
+      .catch(err => console.warn('Instant PYQ search notice:', err))
+
     try {
       const response = await apiService.search(query, {
         subject: selectedSubject,

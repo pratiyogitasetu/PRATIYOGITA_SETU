@@ -2007,8 +2007,8 @@ def search():
                     search_components['mcq_index'],
                     search_components['mcq_model'],
                     query,
-                    similarity_threshold=0.01,
-                    top_k=max(mcq_limit, 5) if mcq_limit > 0 else 5
+                    similarity_threshold=mcq_threshold,
+                    top_k=mcq_limit
                 )
             else:
                 mcq_results = []
@@ -3032,7 +3032,7 @@ def query_mcq(mcq_index, mcq_model, query_text, similarity_threshold=0.2, top_k=
 
         normalized_top_k = int(top_k) if top_k is not None else 0
         unlimited_results = normalized_top_k <= 0
-        per_namespace_top_k = min(20, max(5, normalized_top_k * 2)) if not unlimited_results else 20
+        per_namespace_top_k = 100 if unlimited_results else max(5, min(normalized_top_k * 2, 100))
 
         def _query_namespace(namespace):
             response = mcq_index.query(
@@ -3560,11 +3560,49 @@ def _fetch_pyq_questions(query='', exam_filter=None, subject_filter=None, year_f
             continue
     
     all_questions.sort(key=lambda x: x['score'], reverse=True)
-    return all_questions[:limit]
+    return all_questions[:limit] if limit > 0 else all_questions
 
 # ============================================
 # PYQ Practice API Endpoints
 # ============================================
+
+@app.route("/api/pyq/fast-match", methods=["POST"])
+def fast_match_pyq():
+    """Fast lightweight PYQ matching that returns immediately from Pinecone without waiting for chat LLM generation."""
+    global search_components
+    if not system_initialized:
+        return jsonify({"mcqs": [], "total": 0, "error": "Search system not initialized"}), 500
+    
+    try:
+        data = request.get_json() or {}
+        query = data.get("query", "").strip()
+        if not query:
+            return jsonify({"mcqs": [], "total": 0}), 200
+        
+        threshold = safe_float(data.get("threshold", 0.60), default=0.60, min_value=0.0, max_value=1.0)
+        limit = safe_int(data.get("limit", 0), default=0, min_value=0, max_value=200)
+        
+        mcq_index = search_components.get('mcq_index')
+        mcq_model = search_components.get('mcq_model')
+        if not mcq_index or not mcq_model:
+            return jsonify({"mcqs": [], "total": 0, "error": "MCQ system not available"}), 500
+        
+        mcq_results = query_mcq(
+            mcq_index,
+            mcq_model,
+            query,
+            similarity_threshold=threshold,
+            top_k=limit
+        )
+        
+        return jsonify({
+            "mcqs": mcq_results,
+            "total": len(mcq_results),
+            "status": "success"
+        }), 200
+    except Exception as e:
+        app.logger.warning(f"Fast PYQ match warning: {e}")
+        return jsonify({"mcqs": [], "total": 0, "error": str(e)}), 200
 
 @app.route("/api/pyq/search", methods=["POST"])
 @rate_limit(max_requests=30, window_seconds=60)

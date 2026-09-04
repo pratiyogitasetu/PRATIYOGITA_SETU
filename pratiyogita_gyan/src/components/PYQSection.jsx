@@ -85,11 +85,17 @@ const PYQSection = () => {
   const isDateMenuOpen = Boolean(dateAnchorEl)
   const isTopicMenuOpen = Boolean(topicAnchorEl)
 
+  const lastScrolledQueryRef = useRef('')
+
+  // When a new search query arrives, ensure we stay/scroll to the top question
   useEffect(() => {
-    if (pyqScrollContainerRef.current) {
-      pyqScrollContainerRef.current.scrollTop = pyqScrollContainerRef.current.scrollHeight
+    if (lastSearchQuery && lastSearchQuery !== lastScrolledQueryRef.current) {
+      lastScrolledQueryRef.current = lastSearchQuery
+      if (pyqScrollContainerRef.current) {
+        pyqScrollContainerRef.current.scrollTop = 0
+      }
     }
-  }, [searchResults])
+  }, [lastSearchQuery, searchResults])
 
   useEffect(() => {
     const loadImportantQuestions = async () => {
@@ -265,6 +271,7 @@ const PYQSection = () => {
 
     const handleNewChat = () => {
       // Reset all PYQ state when a new chat is started
+      lastScrolledQueryRef.current = ''
       setSearchResults([])
       setLastSearchQuery('')
       setFilteredQuestions([])

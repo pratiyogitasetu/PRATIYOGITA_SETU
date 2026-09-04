@@ -442,6 +442,25 @@ class ApiService {
   }
 
   /**
+   * Fast parallel PYQ match directly from Pinecone without waiting for chat LLM
+   */
+  async fastMatchPyq(query, threshold = 0.35, limit = 50) {
+    try {
+      const response = await this.searchPyqQuestions({
+        query,
+        limit: limit > 0 ? limit : 50
+      });
+      return {
+        mcqs: response?.questions || [],
+        total: response?.total || 0
+      };
+    } catch (error) {
+      console.warn('Fast PYQ match warning:', error);
+      return { mcqs: [], total: 0 };
+    }
+  }
+
+  /**
    * Get available filter options for PYQ practice
    */
   async getPyqFilters() {
