@@ -147,8 +147,22 @@ export const DashboardProvider = ({ children }) => {
 
   // Load dashboard data
   const loadDashboardData = async () => {
+    // Read local cache as starting point
+    let localStats = null;
+    let localSubjectStats = null;
+    try {
+      localStats = JSON.parse(localStorage.getItem('dashboard_stats') || 'null');
+      localSubjectStats = JSON.parse(localStorage.getItem('dashboard_subject_stats') || 'null');
+    } catch (e) {}
+
     if (!currentUser) {
-      setDashboardData(prev => ({ ...prev, loading: false }));
+      setDashboardData(prev => ({
+        ...prev,
+        stats: localStats || prev.stats,
+        subjectStats: localSubjectStats || (prev.subjectStats.length > 0 ? prev.subjectStats : getDefaultSubjects()),
+        loading: false,
+        error: null
+      }));
       return;
     }
 
@@ -171,7 +185,7 @@ export const DashboardProvider = ({ children }) => {
       ]);
 
       // Calculate accuracy if we have MCQ data
-      const stats = firebaseStats || {
+      const baseStats = firebaseStats || localStats || {
         totalChats: 0,
         totalQuestions: 0,
         totalMcqAttempted: 0,
@@ -180,12 +194,24 @@ export const DashboardProvider = ({ children }) => {
         mcqAccuracy: 0
       };
 
+      const stats = {
+        totalChats: Math.max(Number(baseStats.totalChats || 0), Number(localStats?.totalChats || 0)),
+        totalQuestions: Math.max(Number(baseStats.totalQuestions || 0), Number(localStats?.totalQuestions || 0)),
+        totalMcqAttempted: Math.max(Number(baseStats.totalMcqAttempted || 0), Number(localStats?.totalMcqAttempted || 0)),
+        mcqCorrect: Math.max(Number(baseStats.mcqCorrect || 0), Number(localStats?.mcqCorrect || 0)),
+        mcqWrong: Math.max(Number(baseStats.mcqWrong || 0), Number(localStats?.mcqWrong || 0)),
+        mcqAccuracy: 0
+      };
+
       if (stats.totalMcqAttempted > 0) {
         stats.mcqAccuracy = Math.round((stats.mcqCorrect / stats.totalMcqAttempted) * 100);
       }
 
       const derivedSubjectStats = deriveSubjectStatsFromActivity(firebaseActivity || []);
-      const resolvedSubjectStats = mergeSubjectStats(firebaseSubjectStats || [], derivedSubjectStats);
+      const resolvedSubjectStats = mergeSubjectStats(
+        mergeSubjectStats(firebaseSubjectStats || [], localSubjectStats || []),
+        derivedSubjectStats
+      );
 
       setDashboardData({
         stats,
@@ -197,33 +223,32 @@ export const DashboardProvider = ({ children }) => {
         error: null
       });
 
-      console.log('✅ Dashboard data loaded from Firebase');
+      // Save to localStorage for instant load next time
+      try {
+        localStorage.setItem('dashboard_stats', JSON.stringify(stats));
+        localStorage.setItem('dashboard_subject_stats', JSON.stringify(resolvedSubjectStats));
+      } catch (e) {}
+
+      console.log('✅ Dashboard data loaded and synchronized');
     } catch (error) {
       if (isPermissionDeniedError(error)) {
-        console.warn('⚠️ Dashboard permission denied. Falling back to empty dynamic state.');
-        setDashboardData({
-          stats: {
-            totalChats: 0,
-            totalQuestions: 0,
-            totalMcqAttempted: 0,
-            mcqCorrect: 0,
-            mcqWrong: 0,
-            mcqAccuracy: 0
-          },
-          subjectStats: [],
-          achievements: [],
-          learningGoals: [],
-          recentActivity: [],
+        console.warn('⚠️ Dashboard permission denied. Falling back to local state.');
+        setDashboardData(prev => ({
+          ...prev,
+          stats: localStats || prev.stats,
+          subjectStats: localSubjectStats || getDefaultSubjects(),
           loading: false,
           error: null
-        });
+        }));
         return;
       }
       console.error('❌ Error loading dashboard data:', error);
       setDashboardData(prev => ({
         ...prev,
+        stats: localStats || prev.stats,
+        subjectStats: localSubjectStats || getDefaultSubjects(),
         loading: false,
-        error: error.message
+        error: null
       }));
     }
   };
@@ -235,8 +260,6 @@ export const DashboardProvider = ({ children }) => {
 
   // Track user interaction and update stats
   const trackInteraction = async (type, data = {}) => {
-    if (!currentUser) return;
-
     try {
       const subject = (() => {
         if (typeof data.subject === 'string') return data.subject;
@@ -249,21 +272,15 @@ export const DashboardProvider = ({ children }) => {
 
       const shouldUpdateSubjectStats = ['question', 'mcq_attempt', 'mcq_correct', 'mcq_wrong'].includes(type);
 
-      // Track subject-specific counters only for subject-relevant events
-      if (shouldUpdateSubjectStats) {
-        // trackSubjectInteraction also records general interaction internally
-        await trackSubjectInteraction(subject, type, data);
-      } else {
-        // For non-subject events (e.g., search/chat), only log interaction activity
-        await trackUserInteraction({
-          type,
-          subject,
-          ...data
-        });
-      }
-
-      // Update global stats based on interaction type
-      const currentStats = dashboardData.stats;
+      // 1. Calculate new global stats immediately
+      const currentStats = dashboardData.stats || {
+        totalChats: 0,
+        totalQuestions: 0,
+        totalMcqAttempted: 0,
+        mcqCorrect: 0,
+        mcqWrong: 0,
+        mcqAccuracy: 0
+      };
       let newStats = { ...currentStats };
 
       switch (type) {
@@ -291,13 +308,53 @@ export const DashboardProvider = ({ children }) => {
         newStats.mcqAccuracy = Math.round((newStats.mcqCorrect / newStats.totalMcqAttempted) * 100);
       }
 
-      // Save updated stats to Firebase
-      await saveDashboardStats(newStats);
+      // 2. Update subject-wise stats immediately
+      const currentSubjects = (dashboardData.subjectStats && dashboardData.subjectStats.length > 0)
+        ? dashboardData.subjectStats
+        : getDefaultSubjects();
+      const normSubject = normalizeSubjectName(subject);
+      const updatedSubjects = currentSubjects.map(s => {
+        if (s.name === normSubject || (normSubject === 'Others' && s.name === 'Others')) {
+          const sQ = Number(s.questions || 0) + (type === 'question' ? 1 : 0);
+          const sAtt = Number(s.mcqAttempted || 0) + (['mcq_attempt', 'mcq_correct', 'mcq_wrong'].includes(type) ? 1 : 0);
+          const sCorr = Number(s.mcqCorrect || 0) + (type === 'mcq_correct' ? 1 : 0);
+          const sWrong = Math.max(0, sAtt - sCorr);
+          return { ...s, questions: sQ, mcqAttempted: sAtt, mcqCorrect: sCorr, mcqWrong: sWrong };
+        }
+        return s;
+      });
 
-      // Refresh dashboard data
-      refreshDashboardData();
-      
-      console.log('✅ Interaction tracked and stats updated:', type, 'for subject:', subject);
+      // 3. Immediately update in-memory React state for instant UI update
+      setDashboardData(prev => ({
+        ...prev,
+        stats: newStats,
+        subjectStats: updatedSubjects
+      }));
+
+      // 4. Save to localStorage immediately
+      try {
+        localStorage.setItem('dashboard_stats', JSON.stringify(newStats));
+        localStorage.setItem('dashboard_subject_stats', JSON.stringify(updatedSubjects));
+      } catch (e) {}
+
+      // 5. If logged in with Firebase, sync asynchronously
+      if (currentUser) {
+        try {
+          if (shouldUpdateSubjectStats) {
+            await trackSubjectInteraction(subject, type, data);
+          } else {
+            await trackUserInteraction({ type, subject, ...data });
+          }
+          await saveDashboardStats(newStats);
+          if (shouldUpdateSubjectStats) {
+            await saveSubjectStats(updatedSubjects);
+          }
+        } catch (firebaseErr) {
+          console.warn('⚠️ Firebase sync delayed or error:', firebaseErr);
+        }
+      }
+
+      console.log('✅ Interaction tracked & stats updated immediately:', type, 'for subject:', subject);
     } catch (error) {
       console.error('❌ Error tracking interaction:', error);
     }

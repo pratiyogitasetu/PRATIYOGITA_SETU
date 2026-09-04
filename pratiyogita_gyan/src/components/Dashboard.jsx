@@ -17,13 +17,15 @@ import {
   TrendingDown,
   AlertCircle,
   User,
+  ArrowLeft,
+  X,
 } from "lucide-react";
 import { useTheme } from "../contexts/ThemeContext";
 import { useAuth } from "../contexts/AuthContext";
 import { useLayout } from "../contexts/LayoutContext";
 import { useDashboard } from "../contexts/DashboardContext";
 
-const Dashboard = () => {
+const Dashboard = ({ onClose }) => {
   const { theme } = useTheme();
   const { currentUser } = useAuth();
   const { contentOffsetLeft, isMobile } = useLayout();
@@ -43,9 +45,16 @@ const Dashboard = () => {
     overview: true,
     mcqBreakdown: true,
     subjectAnalysis: true,
-    weakAreas: false,
-    progressTrends: false,
   });
+
+  // Handle close
+  const handleClose = () => {
+    if (typeof onClose === 'function') {
+      onClose();
+    } else {
+      window.dispatchEvent(new CustomEvent('switchToChat'));
+    }
+  };
 
   // Refresh dashboard data on mount
   useEffect(() => {
@@ -165,23 +174,6 @@ const Dashboard = () => {
       [section]: !prev[section]
     }))
   }
-
-  // Calculate advanced metrics
-  const identifyWeakAreas = () => {
-    if (!subjectStats || subjectStats.length === 0) return []
-    
-    return subjectStats
-      .filter(s => s.mcqAttempted > 0)
-      .map(s => ({
-        ...s,
-        accuracy: ((s.mcqCorrect || 0) / s.mcqAttempted) * 100
-      }))
-      .filter(s => s.accuracy < 60)
-      .sort((a, b) => a.accuracy - b.accuracy)
-      .slice(0, 3)
-  }
-
-  const weakAreas = identifyWeakAreas()
 
   // Component for expandable section header
   const SectionHeader = ({ title, icon: Icon, isExpanded, onToggle, badge }) => (
@@ -357,35 +349,40 @@ const Dashboard = () => {
       {/* Main Dashboard Container */}
       <div className="flex-1 bg-white border border-gray-400 rounded-lg shadow-sm flex flex-col overflow-hidden">
         {/* Dashboard Header */}
-        <div className="border-b border-gray-200 px-4 py-3 md:px-6 md:py-4">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-0">
-            <div className="w-full">
-              <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-              <p
-                className="text-gray-600 mt-1 leading-snug md:leading-normal w-full"
-                style={
-                  isMobile
-                    ? {
-                        display: "-webkit-box",
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: "vertical",
-                        overflow: "hidden",
-                      }
-                    : undefined
-                }
+        <div className="border-b border-gray-200 px-3 py-2.5 sm:px-6 sm:py-3.5">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2.5 min-w-0">
+              <button
+                onClick={handleClose}
+                className="p-1.5 hover:bg-gray-100 text-gray-700 rounded-lg transition-colors flex items-center justify-center shrink-0 border border-gray-200"
+                title="Back to Practice / Chat"
+                aria-label="Close Dashboard"
               >
-                Welcome back, {currentUser?.displayName || "Student"}! Here's
-                your learning overview.
-              </p>
+                <ArrowLeft className="w-5 h-5 text-gray-700" />
+              </button>
+              <div className="min-w-0">
+                <h1 className="text-xl sm:text-2xl font-bold text-gray-900 leading-tight">Dashboard</h1>
+                <p className="text-gray-600 mt-0.5 text-xs sm:text-sm truncate">
+                  Welcome back, {currentUser?.displayName || "Student"}! Here's your learning overview.
+                </p>
+              </div>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 shrink-0">
               <button
                 onClick={handleRefresh}
-                className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors text-xs sm:text-sm font-medium flex items-center gap-1.5"
+                className="px-2.5 sm:px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors text-xs sm:text-sm font-medium flex items-center gap-1.5"
                 title="Refresh dashboard stats"
               >
-                <RefreshCw className="w-4 h-4 text-gray-600" />
-                <span>Refresh</span>
+                <RefreshCw className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-600" />
+                <span className="hidden sm:inline">Refresh</span>
+              </button>
+              <button
+                onClick={handleClose}
+                className="px-2.5 sm:px-3 py-1.5 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 rounded-lg transition-colors text-xs sm:text-sm font-medium flex items-center gap-1.5"
+                title="Close Dashboard"
+              >
+                <X className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                <span>Close</span>
               </button>
             </div>
           </div>
@@ -394,6 +391,22 @@ const Dashboard = () => {
         {/* Dashboard Content with Expandable Sections */}
         <div className="flex-1 overflow-y-auto p-3">
           <div className="max-w-none mx-0 md:max-w-full md:mx-auto space-y-3">
+            
+            {/* Guest sync notice (non-blocking) */}
+            {!currentUser && (
+              <div className="bg-amber-50 border border-amber-200 rounded-lg p-2.5 sm:p-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+                <div className="flex items-center gap-2 text-xs sm:text-sm text-amber-800">
+                  <User className="w-4 h-4 text-amber-600 shrink-0" />
+                  <span>Viewing local practice stats. Sign in to save and sync your progress permanently across devices.</span>
+                </div>
+                <button
+                  onClick={() => window.dispatchEvent(new CustomEvent('openAuthModal', { detail: { mode: 'login' } }))}
+                  className="px-3 py-1 bg-amber-600 hover:bg-amber-700 text-white font-medium text-xs rounded-md transition-colors shrink-0"
+                >
+                  Sign In
+                </button>
+              </div>
+            )}
             
             {/* Overview Stats - Questions & MCQ Highlights */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
@@ -513,142 +526,9 @@ const Dashboard = () => {
               )}
             </div>
 
-            {/* Weak Areas Identification - Expandable */}
-            {weakAreas.length > 0 && (
-              <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-                <SectionHeader 
-                  title="Areas Needing Improvement"
-                  icon={AlertCircle}
-                  isExpanded={expandedSections.weakAreas}
-                  onToggle={() => toggleSection('weakAreas')}
-                  badge={`${weakAreas.length} subjects`}
-                />
-                {expandedSections.weakAreas && (
-                  <div className="p-4">
-                    <p className="text-sm text-gray-600 mb-3">
-                      Focus on these subjects to improve your overall performance:
-                    </p>
-                    <div className="space-y-3">
-                      {weakAreas.map((subject, index) => (
-                        <div key={index} className="bg-red-50 rounded-lg p-3 border border-red-200">
-                          <div className="flex items-center justify-between mb-2">
-                            <h4 className="font-semibold text-gray-900">{subject.name}</h4>
-                            <span className="text-sm font-bold text-red-600">{subject.accuracy.toFixed(1)}%</span>
-                          </div>
-                          <div className="w-full bg-red-100 rounded-full h-2 mb-2">
-                            <div 
-                              className="bg-red-500 h-2 rounded-full"
-                              style={{ width: `${subject.accuracy}%` }}
-                            />
-                          </div>
-                          <div className="flex justify-between text-xs text-gray-600">
-                            <span>{subject.mcqAttempted} questions attempted</span>
-                            <span>{subject.mcqCorrect} correct</span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* MCQ Performance Breakdown - Expandable */}
-            <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-              <SectionHeader 
-                title="MCQ Performance Breakdown"
-                icon={Target}
-                isExpanded={expandedSections.mcqBreakdown}
-                onToggle={() => toggleSection('mcqBreakdown')}
-              />
-              {expandedSections.mcqBreakdown && (
-                <div className="p-4">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="text-center p-4 bg-blue-50 rounded-lg">
-                      <BookOpen className="w-8 h-8 text-blue-500 mx-auto mb-2" />
-                      <div className="text-3xl font-bold text-blue-600 mb-1">{stats.totalMcqAttempted || 0}</div>
-                      <p className="text-sm text-gray-600">Total Attempted</p>
-                    </div>
-                    <div className="text-center p-4 bg-green-50 rounded-lg">
-                      <CheckCircle className="w-8 h-8 text-green-500 mx-auto mb-2" />
-                      <div className="text-3xl font-bold text-green-600 mb-1">{stats.mcqCorrect || 0}</div>
-                      <p className="text-sm text-gray-600">Correct Answers</p>
-                      <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
-                        <div 
-                          className="bg-green-500 h-2 rounded-full transition-all duration-500"
-                          style={{ width: `${stats.totalMcqAttempted > 0 ? ((stats.mcqCorrect || 0) / stats.totalMcqAttempted) * 100 : 0}%` }}
-                        />
-                      </div>
-                    </div>
-                    <div className="text-center p-4 bg-red-50 rounded-lg">
-                      <XCircle className="w-8 h-8 text-red-500 mx-auto mb-2" />
-                      <div className="text-3xl font-bold text-red-600 mb-1">{stats.mcqWrong || 0}</div>
-                      <p className="text-sm text-gray-600">Wrong Answers</p>
-                      <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
-                        <div 
-                          className="bg-red-500 h-2 rounded-full transition-all duration-500"
-                          style={{ width: `${stats.totalMcqAttempted > 0 ? ((stats.mcqWrong || 0) / stats.totalMcqAttempted) * 100 : 0}%` }}
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Pie Chart Representation */}
-                  <div className="mt-4 bg-gradient-to-br from-gray-50 to-blue-50 rounded-lg p-4">
-                    <h4 className="text-sm font-semibold text-gray-900 mb-3 text-center">Performance Distribution</h4>
-                    <div className="flex items-center justify-center space-x-8">
-                      <div className="flex items-center space-x-2">
-                        <div className="w-4 h-4 bg-green-500 rounded-full" />
-                        <span className="text-sm text-gray-700">Correct ({stats.mcqAccuracy || 0}%)</span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <div className="w-4 h-4 bg-red-500 rounded-full" />
-                        <span className="text-sm text-gray-700">Wrong ({100 - (stats.mcqAccuracy || 0)}%)</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-
           </div>
         </div>
       </div>
-
-      {/* Login Modal Overlay */}
-      {!currentUser && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
-          <div className="relative bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full mx-4 text-center animate-fadeIn">
-            <div className="mb-6">
-              <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <User className="w-10 h-10 text-blue-600" />
-              </div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">Login Required</h2>
-              <p className="text-gray-600">
-                Please log in to track and view your performance metrics
-              </p>
-            </div>
-            <div className="space-y-3">
-              <button
-                onClick={() => window.dispatchEvent(new CustomEvent('openAuthModal', { detail: { mode: 'login' } }))}
-                className="w-full py-3 px-4 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
-              >
-                Go to Login
-              </button>
-              <button
-                onClick={() => window.dispatchEvent(new CustomEvent('switchToChat'))}
-                className="w-full py-2.5 px-4 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition-colors text-sm"
-              >
-                Return to Home
-              </button>
-              <p className="text-sm text-gray-500">
-                Track your quiz scores, study streaks, and subject progress
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

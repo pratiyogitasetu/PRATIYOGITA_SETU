@@ -98,6 +98,22 @@ const PYQSection = () => {
   }, [lastSearchQuery, searchResults])
 
   useEffect(() => {
+    // Load previously answered questions from localStorage on mount
+    try {
+      const storedAnswers = JSON.parse(localStorage.getItem('pyq_user_answers') || '{}')
+      if (storedAnswers && typeof storedAnswers === 'object') {
+        const answersMap = {}
+        Object.entries(storedAnswers).forEach(([qId, val]) => {
+          answersMap[qId] = typeof val === 'object' && val !== null ? val.selectedOption : val
+        })
+        if (Object.keys(answersMap).length > 0) {
+          setUserAnswers(prev => ({ ...answersMap, ...prev }))
+        }
+      }
+    } catch (e) {
+      console.error('Failed to load user answers from localStorage:', e)
+    }
+
     const loadImportantQuestions = async () => {
       try {
         if (currentUser) {
@@ -351,7 +367,25 @@ const PYQSection = () => {
         setSearchResults(uniqueMcqs)
         setFilteredQuestions(uniqueMcqs)
         if (query) setLastSearchQuery(query)
-        setUserAnswers({})
+
+        // Restore user answers for these questions from localStorage
+        try {
+          const storedAnswers = JSON.parse(localStorage.getItem('pyq_user_answers') || '{}')
+          const restoredAnswers = {}
+          uniqueMcqs.forEach((q, idx) => {
+            const qId = getStableQuestionId(q, idx)
+            if (storedAnswers[qId] !== undefined) {
+              restoredAnswers[qId] = typeof storedAnswers[qId] === 'object' && storedAnswers[qId] !== null ? storedAnswers[qId].selectedOption : storedAnswers[qId]
+            } else if (q.id && storedAnswers[String(q.id)] !== undefined) {
+              restoredAnswers[qId] = typeof storedAnswers[String(q.id)] === 'object' && storedAnswers[String(q.id)] !== null ? storedAnswers[String(q.id)].selectedOption : storedAnswers[String(q.id)]
+            }
+          })
+          setUserAnswers(restoredAnswers)
+        } catch (e) {
+          console.error('Failed to restore answers from localStorage:', e)
+          setUserAnswers({})
+        }
+
         setExpandedExplanations({})
         setExpandedQueries({})
         setSelectedExam('all')
@@ -521,20 +555,60 @@ const PYQSection = () => {
   }
 
   // Handle option selection
-  const handleOptionSelect = (questionId, optionIndex) => {
+  const handleOptionSelect = (param1, param2, param3) => {
+    let question = null
+    let questionId = null
+    let optionIndex = null
+
+    if (typeof param1 === 'object' && param1 !== null) {
+      question = param1
+      questionId = param2
+      optionIndex = param3
+    } else {
+      questionId = param1
+      optionIndex = param2
+    }
+
+    if (!questionId || optionIndex === undefined || optionIndex === null) return
+
+    // If already answered this question, do not count again
+    if (userAnswers[questionId] !== undefined) return
+
+    // Immediately update in-memory state
     setUserAnswers(prev => ({
       ...prev,
       [questionId]: optionIndex
     }))
 
+    // Save answer to localStorage immediately
+    try {
+      const storedAnswers = JSON.parse(localStorage.getItem('pyq_user_answers') || '{}')
+      storedAnswers[questionId] = {
+        selectedOption: optionIndex,
+        timestamp: Date.now()
+      }
+      localStorage.setItem('pyq_user_answers', JSON.stringify(storedAnswers))
+    } catch (e) {
+      console.error('Failed to save answer to localStorage:', e)
+    }
+
     // Find the question to check if answer is correct
-    const question = searchResults.find(q => q.id === questionId)
-    if (question) {
-      const isCorrect = optionIndex === question.correct_answer
-      const questionSubject = question.subject || question.metadata?.subject || 'Others'
+    const targetQuestion = question || searchResults.find(q =>
+      (q.id && String(q.id) === String(questionId)) ||
+      getStableQuestionId(q) === questionId ||
+      q._id === questionId
+    ) || filteredQuestions.find(q =>
+      (q.id && String(q.id) === String(questionId)) ||
+      getStableQuestionId(q) === questionId ||
+      q._id === questionId
+    )
+
+    if (targetQuestion) {
+      const isCorrect = optionIndex === targetQuestion.correct_answer
+      const questionSubject = targetQuestion.subject || targetQuestion.metadata?.subject || 'Others'
 
       if (!isCorrect) {
-        void requestAiExplanation(questionId, question)
+        void requestAiExplanation(questionId, targetQuestion)
       }
 
       // Track MCQ attempt with correct/wrong tracking
@@ -542,17 +616,17 @@ const PYQSection = () => {
         trackInteraction('mcq_correct', {
           questionId: questionId,
           subject: questionSubject,
-          exam: question.exam_name || question.metadata?.exam_name || 'Unknown',
+          exam: targetQuestion.exam_name || targetQuestion.metadata?.exam_name || 'Unknown',
           selectedOption: optionIndex,
-          correctOption: question.correct_answer
+          correctOption: targetQuestion.correct_answer
         })
       } else {
         trackInteraction('mcq_wrong', {
           questionId: questionId,
           subject: questionSubject,
-          exam: question.exam_name || question.metadata?.exam_name || 'Unknown',
+          exam: targetQuestion.exam_name || targetQuestion.metadata?.exam_name || 'Unknown',
           selectedOption: optionIndex,
-          correctOption: question.correct_answer
+          correctOption: targetQuestion.correct_answer
         })
       }
 
@@ -1566,7 +1640,7 @@ const PYQSection = () => {
                                                     if (!hasAnswered) {
                                                       e.preventDefault();
                                                       e.stopPropagation();
-                                                      handleOptionSelect(questionId, optionIndex);
+                                                      handleOptionSelect(question, questionId, optionIndex);
                                                     }
                                                   }}
                                                   sx={{

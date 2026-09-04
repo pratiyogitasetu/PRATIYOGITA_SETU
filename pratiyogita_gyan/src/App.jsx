@@ -163,7 +163,42 @@ function AppContent() {
         >
           <Sidebar />
         </Suspense>
-        {currentView === 'dashboard' ? (
+        {/* Keep Chat & PYQ section mounted so conversation and practice state are preserved */}
+        <Box
+          sx={{
+            flex: 1,
+            display: currentView === 'chat' ? 'flex' : 'none',
+            flexDirection: { xs: 'column', md: 'row' },
+            width: '100%',
+            height: '100%',
+            overflow: 'hidden'
+          }}
+        >
+          <Suspense
+            fallback={
+              <Box sx={{ flex: 1, p: 2 }}>
+                <Skeleton variant="rounded" height={40} sx={{ mb: 2 }} />
+                <Skeleton variant="rounded" height={160} sx={{ mb: 2 }} />
+                <Skeleton variant="rounded" height={160} />
+              </Box>
+            }
+          >
+            <PYQSection />
+          </Suspense>
+          <Suspense
+            fallback={
+              <Box sx={{ flex: 1, p: 2 }}>
+                <Skeleton variant="rounded" height={40} sx={{ mb: 2 }} />
+                <Skeleton variant="rounded" height={160} sx={{ mb: 2 }} />
+                <Skeleton variant="rounded" height={160} />
+              </Box>
+            }
+          >
+            <ChatSection />
+          </Suspense>
+        </Box>
+
+        {currentView === 'dashboard' && (
           <Suspense
             fallback={
               <Box sx={{ flex: 1, p: 2 }}>
@@ -173,9 +208,11 @@ function AppContent() {
               </Box>
             }
           >
-            <Dashboard />
+            <Dashboard onClose={() => setCurrentView('chat')} />
           </Suspense>
-        ) : currentView === 'eligibility' ? (
+        )}
+
+        {currentView === 'eligibility' && (
           <Suspense
             fallback={
               <Box sx={{ flex: 1, p: 2 }}>
@@ -186,7 +223,9 @@ function AppContent() {
           >
             <EligibilitySection />
           </Suspense>
-        ) : currentView === 'syllabus' ? (
+        )}
+
+        {currentView === 'syllabus' && (
           <Suspense
             fallback={
               <Box sx={{ flex: 1, p: 2 }}>
@@ -197,7 +236,9 @@ function AppContent() {
           >
             <SyllabusSection />
           </Suspense>
-        ) : currentView === 'gd-topics' ? (
+        )}
+
+        {currentView === 'gd-topics' && (
           <Suspense
             fallback={
               <Box sx={{ flex: 1, p: 2 }}>
@@ -208,31 +249,6 @@ function AppContent() {
           >
             <GDTopicsSection />
           </Suspense>
-        ) : (
-          <>
-            <Suspense
-              fallback={
-                <Box sx={{ flex: 1, p: 2 }}>
-                  <Skeleton variant="rounded" height={40} sx={{ mb: 2 }} />
-                  <Skeleton variant="rounded" height={160} sx={{ mb: 2 }} />
-                  <Skeleton variant="rounded" height={160} />
-                </Box>
-              }
-            >
-              <PYQSection />
-            </Suspense>
-            <Suspense
-              fallback={
-                <Box sx={{ flex: 1, p: 2 }}>
-                  <Skeleton variant="rounded" height={40} sx={{ mb: 2 }} />
-                  <Skeleton variant="rounded" height={160} sx={{ mb: 2 }} />
-                  <Skeleton variant="rounded" height={160} />
-                </Box>
-              }
-            >
-              <ChatSection />
-            </Suspense>
-          </>
         )}
       </div>
 
