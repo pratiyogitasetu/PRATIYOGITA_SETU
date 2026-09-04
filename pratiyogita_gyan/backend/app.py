@@ -2292,8 +2292,8 @@ def get_total_questions():
         if not mcq_index:
             return jsonify({"error": "MCQ index not available"}), 500
         
-        # Get index stats to find total vector count
-        stats = _get_index_stats_cached(mcq_index, 'mcq_index_stats', ttl_seconds=600)
+        # Get index stats directly from Pinecone to find total vector count
+        stats = _get_index_stats_cached(mcq_index, 'mcq_index_stats', ttl_seconds=30)
         total_questions = stats.get('total_vector_count', 0)
         
         res_data = {
@@ -2301,7 +2301,7 @@ def get_total_questions():
             "status": "success",
             "timestamp": time.time()
         }
-        _set_cached_value('api_total_questions_resp', res_data, ttl_seconds=600)
+        _set_cached_value('api_total_questions_resp', res_data, ttl_seconds=30)
         return jsonify(res_data), 200
         
     except Exception as e:

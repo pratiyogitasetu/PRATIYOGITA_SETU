@@ -59,9 +59,8 @@ const PYQSection = () => {
   const [searchResults, setSearchResults] = useState([])
   const [lastSearchQuery, setLastSearchQuery] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const [totalQuestions, setTotalQuestions] = useState(0)
+  const [totalQuestions, setTotalQuestions] = useState(null)
   const [selectedExam, setSelectedExam] = useState('all')
-  const [selectedSubject, setSelectedSubject] = useState('all')
   const [showImportantOnly, setShowImportantOnly] = useState(false) // Filter for important questions only
   const [examAnchorEl, setExamAnchorEl] = useState(null)
   const [subjectAnchorEl, setSubjectAnchorEl] = useState(null)
@@ -224,7 +223,12 @@ const PYQSection = () => {
       try {
         // Get total questions for display only
         const response = await apiService.getTotalQuestions()
-        setTotalQuestions(response.total_questions || 0)
+        if (response?.total_questions) {
+          setTotalQuestions(response.total_questions)
+          try {
+            localStorage.setItem('cached_total_pyqs', String(response.total_questions))
+          } catch {}
+        }
 
         console.log(`✅ Total questions in database: ${response.total_questions || 0}`)
 
@@ -1229,7 +1233,9 @@ const PYQSection = () => {
                                   fontSize: '0.82rem'
                                 }}
                               >
-                                {totalQuestions > 0 ? totalQuestions : 117} PYQ Questions
+                                {totalQuestions !== null
+                                  ? `${Number(totalQuestions).toLocaleString()} PYQ Questions`
+                                  : 'Loading PYQ Questions...'}
                               </Typography>
                               <Typography
                                 variant="caption"
