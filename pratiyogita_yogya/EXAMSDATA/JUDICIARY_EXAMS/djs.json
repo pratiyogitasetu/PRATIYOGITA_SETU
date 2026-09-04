@@ -1,0 +1,126 @@
+{
+  "_id": "JUDICIARY_EXAMS__djs",
+  "academies": {
+    "CIVIL_JUDGE_JUNIOR_DIVISION": {
+      "maximum_attempts_allowed": "NO LIMIT (TILL AGE LIMIT)",
+      "age_criteria_type": "BETWEEN_AGE",
+      "starting_age": "21",
+      "ending_age": "32",
+      "between_age": "21 to 32",
+      "minimum_dob": "",
+      "maximum_dob": "",
+      "between_dob": {
+        "2026": "02-01-1994 to 01-01-2005",
+        "2027": "02-01-1995 to 01-01-2006",
+        "2028": "02-01-1996 to 01-01-2007",
+        "2029": "02-01-1997 to 01-01-2008",
+        "2030": "02-01-1998 to 01-01-2009"
+      },
+      "no_age_limit": "",
+      "gender": "MALE, FEMALE, TRANSGENDER",
+      "special_gender_eligibility": "",
+      "marital_status": {
+        "MALE": [
+          "MARRIED",
+          "UNMARRIED"
+        ],
+        "FEMALE": [
+          "MARRIED",
+          "UNMARRIED"
+        ],
+        "TRANSGENDER": [
+          "MARRIED",
+          "UNMARRIED"
+        ]
+      },
+      "nationality": [
+        "INDIAN"
+      ],
+      "domicile": "ALL STATES",
+      "caste_category": "GEN, OBC, EWS, SC, ST",
+      "pwd_status": {
+        "applicability": "APPLICABLE",
+        "marks_percentage_basis": {
+          "GEN": "PASS",
+          "OBC": "PASS",
+          "EWS": "PASS",
+          "SC": "PASS",
+          "ST": "PASS"
+        },
+        "age_relaxation_basis": {
+          "GEN": "10 YEARS",
+          "OBC": "10 YEARS",
+          "EWS": "10 YEARS",
+          "SC": "15 YEARS",
+          "ST": "15 YEARS"
+        }
+      },
+      "age_relaxation": {
+        "GEN": "0 YEARS",
+        "OBC": "0 YEARS",
+        "EWS": "0 YEARS",
+        "SC": "5 YEARS",
+        "ST": "5 YEARS",
+        "EX_SERVICEMEN": "5 YEARS"
+      },
+      "highest_education_qualification": "GRADUATION",
+      "education_levels": {
+        "graduation": {
+          "course": {
+            "options": [
+              "LLB",
+              "BA LLB",
+              "BBA LLB",
+              "BSC LLB",
+              "BCOM LLB",
+              "LAW GRADUATION",
+              "OTHER"
+            ],
+            "except_course": []
+          },
+          "subject": "LAW",
+          "mandatory_subject": "LAW",
+          "mandatory_subjects": [
+            "LAW"
+          ],
+          "status": "PASSED",
+          "marks_percentage": {
+            "GEN": "PASS",
+            "OBC": "PASS",
+            "EWS": "PASS",
+            "SC": "PASS",
+            "ST": "PASS"
+          },
+          "mandatory_subject_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subjects_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "completed_year": "",
+          "board_university": "BAR COUNCIL OF INDIA RECOGNISED UNIVERSITY",
+          "active_backlogs_allowed": "NOT APPLICABLE"
+        }
+      },
+      "gap_years_allowed": "NO LIMIT",
+      "educational_stream_restriction": "A person practicing as an Advocate in India or a person qualified to be admitted as an Advocate under the Advocates Act, 1961",
+      "ncc_wing": "",
+      "ncc_certificate": "",
+      "ncc_certificate_grade": ""
+    }
+  },
+  "category": "JUDICIARY_EXAMS",
+  "conducting_body": "HIGH COURT OF DELHI",
+  "exam_code": "DJS",
+  "exam_name": "Delhi Judicial Service Examination",
+  "posts_classes_courses_departments_academies": "CIVIL JUDGE (JUNIOR DIVISION) / METROPOLITAN MAGISTRATE",
+  "source_file": "JUDICIARY_EXAMS/djs.json"
+}

@@ -1,3 +1,258 @@
 {
-  "JUDICIARY_EXAMS": {}
+  "JUDICIARY_EXAMS": {
+    "DJS": {
+      "2023": [
+        {
+          "question": "Under the Code of Civil Procedure (CPC), 1908, which Section embodies the doctrine of 'Res Judicata'?",
+          "options": {
+            "a": "Section 9",
+            "b": "Section 10",
+            "c": "Section 11",
+            "d": "Section 12"
+          },
+          "correct_option": "c",
+          "exam_name": "Delhi Judicial Service",
+          "exam_year": "2023",
+          "exam_term": "Preliminary",
+          "subject": "Code of Civil Procedure",
+          "correct_answer": "Section 11",
+          "explanation": "Section 11 of the CPC bars the court from trying any suit or issue in which the matter directly and substantially in issue has been directly and substantially in issue in a former suit between the same parties.",
+          "topic": "Res Judicata",
+          "keyword_and_metadata": [
+            "DJS",
+            "CPC Section 11",
+            "Res Judicata"
+          ],
+          "img": "",
+          "sector": "Judiciary",
+          "source_url": ""
+        },
+        {
+          "question": "Under Section 25 of the Indian Evidence Act, 1872, a confession made to which of the following is inadmissible and cannot be proved against an accused?",
+          "options": {
+            "a": "A Magistrate",
+            "b": "A Police Officer",
+            "c": "A Medical Doctor",
+            "d": "A village Sarpanch"
+          },
+          "correct_option": "b",
+          "exam_name": "Delhi Judicial Service",
+          "exam_year": "2023",
+          "exam_term": "Preliminary",
+          "subject": "Law of Evidence",
+          "correct_answer": "A Police Officer",
+          "explanation": "Section 25 of the Evidence Act explicitly states: 'No confession made to a police officer shall be proved as against a person accused of any offence.'",
+          "topic": "Confessions under Evidence Act",
+          "keyword_and_metadata": [
+            "DJS",
+            "Evidence Act Section 25",
+            "Confession"
+          ],
+          "img": "",
+          "sector": "Judiciary",
+          "source_url": ""
+        },
+        {
+          "question": "Under the Indian Contract Act, 1872, an agreement made without consideration is void under Section 25, EXCEPT when it is:",
+          "options": {
+            "a": "Expressed in writing and registered on account of natural love and affection between parties standing in near relation",
+            "b": "Made orally between commercial partners",
+            "c": "Concluded through digital electronic signatures",
+            "d": "Witnessed by an advocate of High Court"
+          },
+          "correct_option": "a",
+          "exam_name": "Delhi Judicial Service",
+          "exam_year": "2023",
+          "exam_term": "Preliminary",
+          "subject": "Law of Contracts",
+          "correct_answer": "Expressed in writing and registered on account of natural love and affection between parties standing in near relation",
+          "explanation": "Section 25(1) of the Indian Contract Act provides an exception if the agreement is expressed in writing, registered under the law, and made on account of natural love and affection between parties standing in near relation to each other.",
+          "topic": "Consideration in Contract Law",
+          "keyword_and_metadata": [
+            "DJS",
+            "Contract Act Section 25",
+            "Consideration"
+          ],
+          "img": "",
+          "sector": "Judiciary",
+          "source_url": ""
+        },
+        {
+          "question": "Under which Article of the Constitution of India does a High Court exercise power to issue prerogative writs for the enforcement of Fundamental Rights and for any other purpose?",
+          "options": {
+            "a": "Article 32",
+            "b": "Article 136",
+            "c": "Article 226",
+            "d": "Article 227"
+          },
+          "correct_option": "c",
+          "exam_name": "Delhi Judicial Service",
+          "exam_year": "2023",
+          "exam_term": "Preliminary",
+          "subject": "Constitutional Law",
+          "correct_answer": "Article 226",
+          "explanation": "Article 226 of the Constitution of India empowers High Courts to issue writs (habeas corpus, mandamus, prohibition, quo warranto, and certiorari) for the enforcement of fundamental rights and for any other purpose.",
+          "topic": "Writ Jurisdiction of High Courts",
+          "keyword_and_metadata": [
+            "DJS",
+            "Article 226",
+            "Constitutional Law"
+          ],
+          "img": "",
+          "sector": "Judiciary",
+          "source_url": ""
+        },
+        {
+          "question": "Following the 2018 Amendment to the Specific Relief Act, 1963, the grant of specific performance of a contract by courts has become:",
+          "options": {
+            "a": "Purely discretionary for all contracts",
+            "b": "Mandatory, subject to the statutory exceptions in Sections 11(2), 14, and 16",
+            "c": "Prohibited unless agreed in writing",
+            "d": "Limited only to government infrastructure contracts"
+          },
+          "correct_option": "b",
+          "exam_name": "Delhi Judicial Service",
+          "exam_year": "2023",
+          "exam_term": "Preliminary",
+          "subject": "Specific Relief Act",
+          "correct_answer": "Mandatory, subject to the statutory exceptions in Sections 11(2), 14, and 16",
+          "explanation": "The Specific Relief (Amendment) Act, 2018 amended Section 10 to substitute 'shall be enforced by the court' for 'may be enforced in the discretion of the court', making specific performance mandatory.",
+          "topic": "Specific Performance Amendment 2018",
+          "keyword_and_metadata": [
+            "DJS",
+            "Specific Relief Act Section 10",
+            "2018 Amendment"
+          ],
+          "img": "",
+          "sector": "Judiciary",
+          "source_url": ""
+        },
+        {
+          "question": "Under the Transfer of Property Act, 1882, the doctrine of 'Lis Pendens' is enacted under which Section?",
+          "options": {
+            "a": "Section 43",
+            "b": "Section 52",
+            "c": "Section 53A",
+            "d": "Section 54"
+          },
+          "correct_option": "b",
+          "exam_name": "Delhi Judicial Service",
+          "exam_year": "2023",
+          "exam_term": "Preliminary",
+          "subject": "Transfer of Property Act",
+          "correct_answer": "Section 52",
+          "explanation": "Section 52 of TPA incorporates the doctrine of Lis Pendens, which prohibits the transfer or alienation of immovable property directly and substantially in dispute in a pending suit so as to affect the rights of any other party.",
+          "topic": "Doctrine of Lis Pendens",
+          "keyword_and_metadata": [
+            "DJS",
+            "TPA Section 52",
+            "Lis Pendens"
+          ],
+          "img": "",
+          "sector": "Judiciary",
+          "source_url": ""
+        },
+        {
+          "question": "Under the Code of Criminal Procedure (CrPC), 1973, which Section empowers the High Court or Court of Session to grant 'Anticipatory Bail'?",
+          "options": {
+            "a": "Section 436",
+            "b": "Section 437",
+            "c": "Section 438",
+            "d": "Section 439"
+          },
+          "correct_option": "c",
+          "exam_name": "Delhi Judicial Service",
+          "exam_year": "2023",
+          "exam_term": "Preliminary",
+          "subject": "Criminal Procedure Code",
+          "correct_answer": "Section 438",
+          "explanation": "Section 438 of CrPC empowers the High Court or the Court of Session to give a direction that in the event of arrest, a person accused of a non-bailable offence shall be released on bail.",
+          "topic": "Bail and Anticipatory Bail",
+          "keyword_and_metadata": [
+            "DJS",
+            "CrPC Section 438",
+            "Anticipatory Bail"
+          ],
+          "img": "",
+          "sector": "Judiciary",
+          "source_url": ""
+        },
+        {
+          "question": "Which Section of the Indian Penal Code (IPC) defines the offence of 'Cheating'?",
+          "options": {
+            "a": "Section 405",
+            "b": "Section 415",
+            "c": "Section 420",
+            "d": "Section 425"
+          },
+          "correct_option": "b",
+          "exam_name": "Delhi Judicial Service",
+          "exam_year": "2023",
+          "exam_term": "Preliminary",
+          "subject": "Indian Penal Code",
+          "correct_answer": "Section 415",
+          "explanation": "Section 415 of the IPC defines 'Cheating'. Section 420 prescribes the punishment for cheating and dishonestly inducing delivery of property.",
+          "topic": "Offences Against Property",
+          "keyword_and_metadata": [
+            "DJS",
+            "IPC Section 415",
+            "Cheating"
+          ],
+          "img": "",
+          "sector": "Judiciary",
+          "source_url": ""
+        },
+        {
+          "question": "Under the Limitation Act, 1963, what is the period of limitation for filing a suit for possession of immovable property based on title?",
+          "options": {
+            "a": "3 years",
+            "b": "6 years",
+            "c": "12 years",
+            "d": "30 years"
+          },
+          "correct_option": "c",
+          "exam_name": "Delhi Judicial Service",
+          "exam_year": "2023",
+          "exam_term": "Preliminary",
+          "subject": "Law of Limitation",
+          "correct_answer": "12 years",
+          "explanation": "Under Article 65 of the Schedule to the Limitation Act, 1963, the limitation period for possession of immovable property or any interest therein based on title is 12 years from when the possession of the defendant becomes adverse to the plaintiff.",
+          "topic": "Limitation on Immovable Property",
+          "keyword_and_metadata": [
+            "DJS",
+            "Limitation Act Article 65",
+            "12 Years"
+          ],
+          "img": "",
+          "sector": "Judiciary",
+          "source_url": ""
+        },
+        {
+          "question": "Under the Hindu Marriage Act, 1955, which Section provides for 'Divorce by Mutual Consent'?",
+          "options": {
+            "a": "Section 9",
+            "b": "Section 13",
+            "c": "Section 13B",
+            "d": "Section 14"
+          },
+          "correct_option": "c",
+          "exam_name": "Delhi Judicial Service",
+          "exam_year": "2023",
+          "exam_term": "Preliminary",
+          "subject": "Family Law",
+          "correct_answer": "Section 13B",
+          "explanation": "Section 13B was inserted into the Hindu Marriage Act, 1955 by the Marriage Laws (Amendment) Act, 1976 to provide for divorce by mutual consent.",
+          "topic": "Divorce by Mutual Consent",
+          "keyword_and_metadata": [
+            "DJS",
+            "Hindu Marriage Act Section 13B",
+            "Mutual Consent"
+          ],
+          "img": "",
+          "sector": "Judiciary",
+          "source_url": ""
+        }
+      ]
+    }
+  }
 }

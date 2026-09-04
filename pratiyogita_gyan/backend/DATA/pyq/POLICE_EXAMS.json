@@ -1,3 +1,258 @@
 {
-  "POLICE_EXAMS": {}
+  "POLICE_EXAMS": {
+    "UPSI": {
+      "2021": [
+        {
+          "question": "Under the Indian Penal Code (IPC), which Section defines the 'Right of Private Defence of the Body and of Property'?",
+          "options": {
+            "a": "Section 96",
+            "b": "Section 97",
+            "c": "Section 99",
+            "d": "Section 100"
+          },
+          "correct_option": "b",
+          "exam_name": "UP Police SI",
+          "exam_year": "2021",
+          "exam_term": "Shift 1",
+          "subject": "Mool Vidhi (Basic Law)",
+          "correct_answer": "Section 97",
+          "explanation": "Section 97 of IPC provides that every person has a right to defend his own body, and the body of any other person, against any offence affecting human body, and property against theft, robbery, mischief or criminal trespass.",
+          "topic": "Right of Private Defence",
+          "keyword_and_metadata": [
+            "UPSI",
+            "IPC Section 97",
+            "Mool Vidhi"
+          ],
+          "img": "",
+          "sector": "Police Services",
+          "source_url": ""
+        },
+        {
+          "question": "In which year was the Information Technology Act enacted in India?",
+          "options": {
+            "a": "1998",
+            "b": "2000",
+            "c": "2002",
+            "d": "2005"
+          },
+          "correct_option": "b",
+          "exam_name": "UP Police SI",
+          "exam_year": "2021",
+          "exam_term": "Shift 2",
+          "subject": "General Law and Acts",
+          "correct_answer": "2000",
+          "explanation": "The Information Technology Act, 2000 (also known as ITA-2000, or the IT Act) was notified on October 17, 2000 by the Parliament of India to provide legal recognition to electronic commerce and cyber offences.",
+          "topic": "Cyber Laws and IT Act",
+          "keyword_and_metadata": [
+            "UPSI",
+            "IT Act 2000",
+            "Cyber Law"
+          ],
+          "img": "",
+          "sector": "Police Services",
+          "source_url": ""
+        },
+        {
+          "question": "Under the Code of Criminal Procedure (CrPC), which Section deals with the arrest of a person without warrant by a police officer?",
+          "options": {
+            "a": "Section 41",
+            "b": "Section 42",
+            "c": "Section 43",
+            "d": "Section 44"
+          },
+          "correct_option": "a",
+          "exam_name": "UP Police SI",
+          "exam_year": "2021",
+          "exam_term": "Shift 1",
+          "subject": "CrPC Procedure",
+          "correct_answer": "Section 41",
+          "explanation": "Section 41 of CrPC lays down the circumstances when any police officer may without an order from a Magistrate and without a warrant arrest any person.",
+          "topic": "Powers of Police and Arrest",
+          "keyword_and_metadata": [
+            "UPSI",
+            "CrPC Section 41",
+            "Arrest without warrant"
+          ],
+          "img": "",
+          "sector": "Police Services",
+          "source_url": ""
+        },
+        {
+          "question": "Which Article of the Constitution of India provides for the establishment of the Finance Commission?",
+          "options": {
+            "a": "Article 268",
+            "b": "Article 280",
+            "c": "Article 312",
+            "d": "Article 324"
+          },
+          "correct_option": "b",
+          "exam_name": "UP Police SI",
+          "exam_year": "2021",
+          "exam_term": "Shift 1",
+          "subject": "Indian Constitution",
+          "correct_answer": "Article 280",
+          "explanation": "Article 280 of the Indian Constitution mandates the President of India to constitute a Finance Commission every five years to recommend tax devolution and grants-in-aid.",
+          "topic": "Constitutional Bodies",
+          "keyword_and_metadata": [
+            "UPSI",
+            "Article 280",
+            "Finance Commission"
+          ],
+          "img": "",
+          "sector": "Police Services",
+          "source_url": ""
+        },
+        {
+          "question": "The National Human Rights Commission (NHRC) was established under which Act?",
+          "options": {
+            "a": "Protection of Civil Rights Act, 1955",
+            "b": "Protection of Human Rights Act, 1993",
+            "c": "Human Rights Safeguard Act, 1990",
+            "d": "Commission for Human Rights Act, 2001"
+          },
+          "correct_option": "b",
+          "exam_name": "UP Police SI",
+          "exam_year": "2021",
+          "exam_term": "Shift 2",
+          "subject": "Mool Vidhi",
+          "correct_answer": "Protection of Human Rights Act, 1993",
+          "explanation": "NHRC is a statutory body constituted on 12 October 1993 under the Protection of Human Rights Act (PHRA), 1993.",
+          "topic": "Human Rights and NHRC",
+          "keyword_and_metadata": [
+            "UPSI",
+            "NHRC",
+            "Human Rights Act 1993"
+          ],
+          "img": "",
+          "sector": "Police Services",
+          "source_url": ""
+        },
+        {
+          "question": "Which Schedule of the Constitution of India contains provisions regarding the administration and control of Scheduled Areas and Scheduled Tribes?",
+          "options": {
+            "a": "Fourth Schedule",
+            "b": "Fifth Schedule",
+            "c": "Sixth Schedule",
+            "d": "Seventh Schedule"
+          },
+          "correct_option": "b",
+          "exam_name": "UP Police SI",
+          "exam_year": "2021",
+          "exam_term": "Shift 3",
+          "subject": "Indian Constitution",
+          "correct_answer": "Fifth Schedule",
+          "explanation": "The Fifth Schedule of the Constitution deals with the administration and control of Scheduled Areas and Scheduled Tribes in states other than Assam, Meghalaya, Tripura, and Mizoram.",
+          "topic": "Schedules of Constitution",
+          "keyword_and_metadata": [
+            "UPSI",
+            "Fifth Schedule",
+            "Scheduled Areas"
+          ],
+          "img": "",
+          "sector": "Police Services",
+          "source_url": ""
+        },
+        {
+          "question": "Under Section 300 of the IPC, which of the following is an exception where culpable homicide is not murder?",
+          "options": {
+            "a": "Grave and sudden provocation",
+            "b": "Pre-planned retaliation",
+            "c": "Act committed under voluntary intoxication",
+            "d": "Act committed against a public servant lawfully executing duty"
+          },
+          "correct_option": "a",
+          "exam_name": "UP Police SI",
+          "exam_year": "2021",
+          "exam_term": "Shift 1",
+          "subject": "Mool Vidhi (IPC)",
+          "correct_answer": "Grave and sudden provocation",
+          "explanation": "Exception 1 to Section 300 of IPC states that culpable homicide is not murder if the offender causes death whilst deprived of the power of self-control by grave and sudden provocation.",
+          "topic": "Offences Against Human Body",
+          "keyword_and_metadata": [
+            "UPSI",
+            "Section 300 IPC",
+            "Murder vs Culpable Homicide"
+          ],
+          "img": "",
+          "sector": "Police Services",
+          "source_url": ""
+        },
+        {
+          "question": "Who is the supreme commander of the Armed Forces in India?",
+          "options": {
+            "a": "Prime Minister",
+            "b": "Chief of Defence Staff",
+            "c": "The President of India",
+            "d": "Minister of Defence"
+          },
+          "correct_option": "c",
+          "exam_name": "UP Police SI",
+          "exam_year": "2021",
+          "exam_term": "Shift 2",
+          "subject": "General Knowledge & Constitution",
+          "correct_answer": "The President of India",
+          "explanation": "According to Article 53(2) of the Indian Constitution, the Supreme Command of the Defence Forces of the Union is vested in the President.",
+          "topic": "Executive Powers of President",
+          "keyword_and_metadata": [
+            "UPSI",
+            "President",
+            "Armed Forces"
+          ],
+          "img": "",
+          "sector": "Police Services",
+          "source_url": ""
+        },
+        {
+          "question": "Which writ is issued by the High Court or Supreme Court to produce a person who is detained illegally before the court?",
+          "options": {
+            "a": "Mandamus",
+            "b": "Certiorari",
+            "c": "Habeas Corpus",
+            "d": "Quo Warranto"
+          },
+          "correct_option": "c",
+          "exam_name": "UP Police SI",
+          "exam_year": "2021",
+          "exam_term": "Shift 1",
+          "subject": "Indian Constitution",
+          "correct_answer": "Habeas Corpus",
+          "explanation": "The Latin term 'Habeas Corpus' literally means 'to have the body'. It is an order issued by court to release a person who has been detained unlawfully.",
+          "topic": "Constitutional Writs",
+          "keyword_and_metadata": [
+            "UPSI",
+            "Habeas Corpus",
+            "Writs"
+          ],
+          "img": "",
+          "sector": "Police Services",
+          "source_url": ""
+        },
+        {
+          "question": "In the State Police hierarchy, which gazetted rank immediately succeeds the Inspector of Police?",
+          "options": {
+            "a": "Sub-Inspector",
+            "b": "Deputy Superintendent of Police (DSP)",
+            "c": "Superintendent of Police (SP)",
+            "d": "Additional SP"
+          },
+          "correct_option": "b",
+          "exam_name": "UP Police SI",
+          "exam_year": "2021",
+          "exam_term": "Shift 2",
+          "subject": "Police Organization and Administration",
+          "correct_answer": "Deputy Superintendent of Police (DSP)",
+          "explanation": "Above the Inspector of Police is the rank of Deputy Superintendent of Police (DSP) / Assistant Commissioner of Police (ACP), which is a gazetted police rank.",
+          "topic": "Police Hierarchy",
+          "keyword_and_metadata": [
+            "UPSI",
+            "Police Hierarchy",
+            "DSP"
+          ],
+          "img": "",
+          "sector": "Police Services",
+          "source_url": ""
+        }
+      ]
+    }
+  }
 }

@@ -1,3 +1,258 @@
 {
-  "CUET_AND_UG_ENTRANCE_EXAMS": {}
+  "CUET_AND_UG_ENTRANCE_EXAMS": {
+    "CUET_UG": {
+      "2023": [
+        {
+          "question": "If 15th August 2023 was a Tuesday, on which day of the week did 15th August 2024 fall?",
+          "options": {
+            "a": "Wednesday",
+            "b": "Thursday",
+            "c": "Friday",
+            "d": "Saturday"
+          },
+          "correct_option": "b",
+          "exam_name": "CUET UG",
+          "exam_year": "2023",
+          "exam_term": "General Test",
+          "subject": "General Mental Ability",
+          "correct_answer": "Thursday",
+          "explanation": "2024 was a leap year with 366 days (52 weeks and 2 odd days). Since February 2024 occurs between August 15, 2023 and August 15, 2024, add 2 days to Tuesday, which gives Thursday.",
+          "topic": "Calendar and Clocks",
+          "keyword_and_metadata": [
+            "CUET UG",
+            "Calendar Reasoning",
+            "General Test"
+          ],
+          "img": "",
+          "sector": "Undergraduate Entrance",
+          "source_url": ""
+        },
+        {
+          "question": "Who composed the Indian national song 'Vande Mataram'?",
+          "options": {
+            "a": "Rabindranath Tagore",
+            "b": "Bankim Chandra Chattopadhyay",
+            "c": "Sarojini Naidu",
+            "d": "Sri Aurobindo"
+          },
+          "correct_option": "b",
+          "exam_name": "CUET UG",
+          "exam_year": "2023",
+          "exam_term": "General Test",
+          "subject": "General Knowledge",
+          "correct_answer": "Bankim Chandra Chattopadhyay",
+          "explanation": "'Vande Mataram' was composed in Sanskrit by Bankim Chandra Chattopadhyay in his 1882 Bengali novel Anandamath.",
+          "topic": "Indian National Symbols and Literature",
+          "keyword_and_metadata": [
+            "CUET UG",
+            "Vande Mataram",
+            "Bankim Chandra"
+          ],
+          "img": "",
+          "sector": "Undergraduate Entrance",
+          "source_url": ""
+        },
+        {
+          "question": "Which cell organelle is famously known as the 'Powerhouse of the Cell'?",
+          "options": {
+            "a": "Ribosome",
+            "b": "Golgi Apparatus",
+            "c": "Mitochondria",
+            "d": "Lysosome"
+          },
+          "correct_option": "c",
+          "exam_name": "CUET UG",
+          "exam_year": "2023",
+          "exam_term": "General Test",
+          "subject": "General Science",
+          "correct_answer": "Mitochondria",
+          "explanation": "Mitochondria are known as the powerhouses of the cell because they generate most of the chemical energy needed to power the cell's biochemical reactions in the form of ATP.",
+          "topic": "Cell Biology",
+          "keyword_and_metadata": [
+            "CUET UG",
+            "Mitochondria",
+            "Cell Powerhouse"
+          ],
+          "img": "",
+          "sector": "Undergraduate Entrance",
+          "source_url": ""
+        },
+        {
+          "question": "Find the missing number in the sequence: 3, 8, 18, 38, 78, ?",
+          "options": {
+            "a": "138",
+            "b": "148",
+            "c": "158",
+            "d": "168"
+          },
+          "correct_option": "c",
+          "exam_name": "CUET UG",
+          "exam_year": "2023",
+          "exam_term": "General Test",
+          "subject": "Numerical Ability",
+          "correct_answer": "158",
+          "explanation": "Pattern: 3 * 2 + 2 = 8, 8 * 2 + 2 = 18, 18 * 2 + 2 = 38, 38 * 2 + 2 = 78, 78 * 2 + 2 = 158.",
+          "topic": "Number Series",
+          "keyword_and_metadata": [
+            "CUET UG",
+            "Number Series",
+            "Reasoning"
+          ],
+          "img": "",
+          "sector": "Undergraduate Entrance",
+          "source_url": ""
+        },
+        {
+          "question": "In which year was the United Nations (UN) established?",
+          "options": {
+            "a": "1942",
+            "b": "1945",
+            "c": "1948",
+            "d": "1950"
+          },
+          "correct_option": "b",
+          "exam_name": "CUET UG",
+          "exam_year": "2023",
+          "exam_term": "General Test",
+          "subject": "General Knowledge",
+          "correct_answer": "1945",
+          "explanation": "The United Nations is an international organization founded on 24 October 1945 after World War II to maintain international peace and security.",
+          "topic": "International Organizations",
+          "keyword_and_metadata": [
+            "CUET UG",
+            "United Nations 1945",
+            "GK"
+          ],
+          "img": "",
+          "sector": "Undergraduate Entrance",
+          "source_url": ""
+        },
+        {
+          "question": "Which line of latitude passes almost halfway through India?",
+          "options": {
+            "a": "Equator",
+            "b": "Tropic of Capricorn",
+            "c": "Tropic of Cancer",
+            "d": "Arctic Circle"
+          },
+          "correct_option": "c",
+          "exam_name": "CUET UG",
+          "exam_year": "2023",
+          "exam_term": "General Test",
+          "subject": "Geography",
+          "correct_answer": "Tropic of Cancer",
+          "explanation": "The Tropic of Cancer (23°30' N) passes through 8 Indian states: Gujarat, Rajasthan, Madhya Pradesh, Chhattisgarh, Jharkhand, West Bengal, Tripura, and Mizoram.",
+          "topic": "Indian Geography",
+          "keyword_and_metadata": [
+            "CUET UG",
+            "Tropic of Cancer",
+            "Geography"
+          ],
+          "img": "",
+          "sector": "Undergraduate Entrance",
+          "source_url": ""
+        },
+        {
+          "question": "What kind of unemployment occurs when workers are in the process of moving between jobs or searching for new employment?",
+          "options": {
+            "a": "Disguised unemployment",
+            "b": "Frictional unemployment",
+            "c": "Structural unemployment",
+            "d": "Cyclical unemployment"
+          },
+          "correct_option": "b",
+          "exam_name": "CUET UG",
+          "exam_year": "2023",
+          "exam_term": "General Test",
+          "subject": "Economics",
+          "correct_answer": "Frictional unemployment",
+          "explanation": "Frictional unemployment is the voluntary transition period during which workers search for a new job or transition from one job to another.",
+          "topic": "Employment and Labour Economics",
+          "keyword_and_metadata": [
+            "CUET UG",
+            "Frictional Unemployment",
+            "Economics"
+          ],
+          "img": "",
+          "sector": "Undergraduate Entrance",
+          "source_url": ""
+        },
+        {
+          "question": "Which Harappan archaeological site is located in Gujarat and famous for having a tidal dockyard?",
+          "options": {
+            "a": "Harappa",
+            "b": "Mohenjo-daro",
+            "c": "Lothal",
+            "d": "Kalibangan"
+          },
+          "correct_option": "c",
+          "exam_name": "CUET UG",
+          "exam_year": "2023",
+          "exam_term": "General Test",
+          "subject": "History",
+          "correct_answer": "Lothal",
+          "explanation": "Lothal, located in the Bhal region of Gujarat, was one of the southernmost cities of the ancient Indus Valley Civilization, possessing the world's earliest known dockyard connected to the Sabarmati river.",
+          "topic": "Ancient Indian History",
+          "keyword_and_metadata": [
+            "CUET UG",
+            "Lothal",
+            "Dockyard"
+          ],
+          "img": "",
+          "sector": "Undergraduate Entrance",
+          "source_url": ""
+        },
+        {
+          "question": "Select the antonym of the word 'BENEVOLENT':",
+          "options": {
+            "a": "Kind",
+            "b": "Generous",
+            "c": "Malevolent",
+            "d": "Charitable"
+          },
+          "correct_option": "c",
+          "exam_name": "CUET UG",
+          "exam_year": "2023",
+          "exam_term": "Language Test",
+          "subject": "English Language",
+          "correct_answer": "Malevolent",
+          "explanation": "'Benevolent' means well-meaning and kindly. 'Malevolent' means having or showing a wish to do evil to others, which is the exact opposite.",
+          "topic": "Vocabulary - Antonyms",
+          "keyword_and_metadata": [
+            "CUET UG",
+            "English",
+            "Vocabulary"
+          ],
+          "img": "",
+          "sector": "Undergraduate Entrance",
+          "source_url": ""
+        },
+        {
+          "question": "The historic 'Chipko Movement' in Uttarakhand was organized primarily to protect:",
+          "options": {
+            "a": "Rivers and water bodies",
+            "b": "Trees and forest cover",
+            "c": "Wildlife sanctuaries",
+            "d": "Agricultural farmlands"
+          },
+          "correct_option": "b",
+          "exam_name": "CUET UG",
+          "exam_year": "2023",
+          "exam_term": "General Test",
+          "subject": "Environmental Studies",
+          "correct_answer": "Trees and forest cover",
+          "explanation": "The Chipko movement began in the early 1970s in the Garhwal Himalayas where villagers, particularly women led by Gaura Devi and Sunderlal Bahuguna, hugged trees to prevent commercial logging.",
+          "topic": "Environmental Movements",
+          "keyword_and_metadata": [
+            "CUET UG",
+            "Chipko Movement",
+            "Environment"
+          ],
+          "img": "",
+          "sector": "Undergraduate Entrance",
+          "source_url": ""
+        }
+      ]
+    }
+  }
 }

@@ -1,3 +1,262 @@
 {
-  "CIVIL_SERVICES_EXAMS": {}
+  "CIVIL_SERVICES_EXAMS": {
+    "UPSC": {
+      "2023": [
+        {
+          "question": "In India, which one of the following compiles information on industrial disputes, closures, retrenchments and lay-offs in factories employing workers?",
+          "options": {
+            "a": "Central Statistics Office",
+            "b": "Department for Promotion of Industry and Internal Trade",
+            "c": "Labour Bureau",
+            "d": "National Technical Manpower Information System"
+          },
+          "correct_option": "c",
+          "exam_name": "UPSC CSE",
+          "exam_year": "2023",
+          "exam_term": "Prelims",
+          "subject": "Indian Economy",
+          "correct_answer": "Labour Bureau",
+          "explanation": "Labour Bureau, an attached office under the Ministry of Labour and Employment, compiles and disseminates statistics on industrial disputes, closures, retrenchments, and lay-offs.",
+          "topic": "Labour and Employment Statistics",
+          "keyword_and_metadata": [
+            "UPSC",
+            "Labour Bureau",
+            "Industrial Disputes",
+            "Economy"
+          ],
+          "img": "",
+          "sector": "Civil Services",
+          "source_url": ""
+        },
+        {
+          "question": "Consider the following statements regarding Aadhaar in India: 1. Aadhaar metadata cannot be stored for more than three months. 2. State cannot enter into any contract with private corporations for sharing of Aadhaar data. 3. Aadhaar is mandatory for obtaining insurance products. 4. Aadhaar is mandatory for getting benefits funded out of the Consolidated Fund of India. Which of the statements given above is/are correct?",
+          "options": {
+            "a": "1 and 4 only",
+            "b": "2 and 4 only",
+            "c": "3 only",
+            "d": "1, 2 and 3 only"
+          },
+          "correct_option": "b",
+          "exam_name": "UPSC CSE",
+          "exam_year": "2023",
+          "exam_term": "Prelims",
+          "subject": "Indian Polity",
+          "correct_answer": "2 and 4 only",
+          "explanation": "In Justice K.S. Puttaswamy (Retd.) vs Union Of India (2018), SC ruled Section 57 allowing private entities to seek Aadhaar unconstitutional, and upheld Section 7 making Aadhaar mandatory for welfare schemes funded via Consolidated Fund of India.",
+          "topic": "Judicial Precedents & Aadhaar Act",
+          "keyword_and_metadata": [
+            "UPSC",
+            "Aadhaar",
+            "Polity",
+            "Fundamental Rights"
+          ],
+          "img": "",
+          "sector": "Civil Services",
+          "source_url": ""
+        },
+        {
+          "question": "With reference to the Indian economy, demand-pull inflation can be caused/increased by which of the following? 1. Expansionary policies 2. Fiscal stimulus 3. Inflation-indexing wages 4. Higher purchasing power 5. Rising interest rates. Select the correct answer using the code given below:",
+          "options": {
+            "a": "1, 2 and 4 only",
+            "b": "3, 4 and 5 only",
+            "c": "1, 2, 3 and 5 only",
+            "d": "1, 2, 3, 4 and 5"
+          },
+          "correct_option": "a",
+          "exam_name": "UPSC CSE",
+          "exam_year": "2023",
+          "exam_term": "Prelims",
+          "subject": "Indian Economy",
+          "correct_answer": "1, 2 and 4 only",
+          "explanation": "Expansionary policies, fiscal stimulus, and higher purchasing power increase aggregate demand in the economy leading to demand-pull inflation. Rising interest rates curb inflation rather than causing it.",
+          "topic": "Inflation Dynamics",
+          "keyword_and_metadata": [
+            "UPSC",
+            "Inflation",
+            "Macroeconomics"
+          ],
+          "img": "",
+          "sector": "Civil Services",
+          "source_url": ""
+        },
+        {
+          "question": "With reference to the Constitution of India, which one of the following Articles provides that no person shall be deprived of his life or personal liberty except according to procedure established by law?",
+          "options": {
+            "a": "Article 19",
+            "b": "Article 20",
+            "c": "Article 21",
+            "d": "Article 22"
+          },
+          "correct_option": "c",
+          "exam_name": "UPSC CSE",
+          "exam_year": "2023",
+          "exam_term": "Prelims",
+          "subject": "Indian Polity",
+          "correct_answer": "Article 21",
+          "explanation": "Article 21 of the Indian Constitution guarantees protection of life and personal liberty, stating that no person shall be deprived of life or personal liberty except according to procedure established by law.",
+          "topic": "Fundamental Rights",
+          "keyword_and_metadata": [
+            "UPSC",
+            "Article 21",
+            "Constitution"
+          ],
+          "img": "",
+          "sector": "Civil Services",
+          "source_url": ""
+        },
+        {
+          "question": "Which one of the following is not a bird?",
+          "options": {
+            "a": "Golden Mahseer",
+            "b": "Indian Nightjar",
+            "c": "Spoonbill",
+            "d": "White Ibis"
+          },
+          "correct_option": "a",
+          "exam_name": "UPSC CSE",
+          "exam_year": "2023",
+          "exam_term": "Prelims",
+          "subject": "Environment and Ecology",
+          "correct_answer": "Golden Mahseer",
+          "explanation": "The Golden Mahseer (Tor putitora) is an endangered species of freshwater cyprinid fish found in rapid streams and river pools in the Himalayan region, not a bird.",
+          "topic": "Biodiversity and Fauna",
+          "keyword_and_metadata": [
+            "UPSC",
+            "Golden Mahseer",
+            "Ecology"
+          ],
+          "img": "",
+          "sector": "Civil Services",
+          "source_url": ""
+        },
+        {
+          "question": "With reference to the 'Money Bill' in the Indian Parliament, which of the following statements is not correct?",
+          "options": {
+            "a": "A Bill shall be deemed to be a Money Bill if it contains only provisions dealing with imposition, abolition, remission, alteration or regulation of any tax",
+            "b": "A Money Bill has provisions for the custody of the Consolidated Fund of India or the Contingency Fund of India",
+            "c": "A Money Bill cannot be introduced in the Council of States",
+            "d": "The Rajya Sabha can amend or reject a Money Bill"
+          },
+          "correct_option": "d",
+          "exam_name": "UPSC CSE",
+          "exam_year": "2023",
+          "exam_term": "Prelims",
+          "subject": "Indian Polity",
+          "correct_answer": "The Rajya Sabha can amend or reject a Money Bill",
+          "explanation": "Under Article 109 of the Indian Constitution, the Rajya Sabha cannot reject or amend a Money Bill. It can only make recommendations, which the Lok Sabha may accept or reject within 14 days.",
+          "topic": "Parliamentary Procedures",
+          "keyword_and_metadata": [
+            "UPSC",
+            "Money Bill",
+            "Rajya Sabha",
+            "Lok Sabha"
+          ],
+          "img": "",
+          "sector": "Civil Services",
+          "source_url": ""
+        },
+        {
+          "question": "In the context of Indian history, the Rakhmabai case of 1884 revolved around: 1. women's right to gain education 2. age of consent 3. restitution of conjugal rights. Select the correct answer using the code given below:",
+          "options": {
+            "a": "1 and 2 only",
+            "b": "2 and 3 only",
+            "c": "1 and 3 only",
+            "d": "1, 2 and 3"
+          },
+          "correct_option": "b",
+          "exam_name": "UPSC CSE",
+          "exam_year": "2023",
+          "exam_term": "Prelims",
+          "subject": "Modern Indian History",
+          "correct_answer": "2 and 3 only",
+          "explanation": "The 1884 Rakhmabai case involved a child bride who refused to live with her husband, leading to nationwide debate on restitution of conjugal rights and the enactment of the Age of Consent Act, 1891.",
+          "topic": "Social Reform Movements",
+          "keyword_and_metadata": [
+            "UPSC",
+            "Rakhmabai",
+            "Modern History"
+          ],
+          "img": "",
+          "sector": "Civil Services",
+          "source_url": ""
+        },
+        {
+          "question": "Which one of the following ancient towns is well-known for its elaborate system of water harvesting and management by building a series of dams and channelizing water into connected reservoirs?",
+          "options": {
+            "a": "Dholavira",
+            "b": "Kalibangan",
+            "c": "Rakhigarhi",
+            "d": "Ropar"
+          },
+          "correct_option": "a",
+          "exam_name": "UPSC CSE",
+          "exam_year": "2023",
+          "exam_term": "Prelims",
+          "subject": "Ancient Indian History",
+          "correct_answer": "Dholavira",
+          "explanation": "Dholavira, a prominent Harappan city located in Kutch district, Gujarat, had a sophisticated hydraulic engineering and water conservation system with massive rock-cut reservoirs.",
+          "topic": "Indus Valley Civilization",
+          "keyword_and_metadata": [
+            "UPSC",
+            "Dholavira",
+            "Harappa",
+            "Ancient History"
+          ],
+          "img": "",
+          "sector": "Civil Services",
+          "source_url": ""
+        },
+        {
+          "question": "Under the Indian Constitution, concentration of wealth violates:",
+          "options": {
+            "a": "The Right to Equality",
+            "b": "The Directive Principles of State Policy",
+            "c": "The Right to Freedom",
+            "d": "The Concept of Welfare"
+          },
+          "correct_option": "b",
+          "exam_name": "UPSC CSE",
+          "exam_year": "2023",
+          "exam_term": "Prelims",
+          "subject": "Indian Polity",
+          "correct_answer": "The Directive Principles of State Policy",
+          "explanation": "Article 39(c) in the Directive Principles of State Policy (Part IV) states that the operation of the economic system should not result in the concentration of wealth and means of production to common detriment.",
+          "topic": "Directive Principles of State Policy",
+          "keyword_and_metadata": [
+            "UPSC",
+            "DPSP",
+            "Article 39c"
+          ],
+          "img": "",
+          "sector": "Civil Services",
+          "source_url": ""
+        },
+        {
+          "question": "In the Government of India Act 1919, the functions of Provincial Government were divided into 'Reserved' and 'Transferred' subjects. Which of the following were treated as 'Reserved' subjects? 1. Administration of Justice 2. Local Self-Government 3. Land Revenue 4. Police. Select the correct answer using the code given below:",
+          "options": {
+            "a": "1, 2 and 3",
+            "b": "2, 3 and 4",
+            "c": "1, 3 and 4",
+            "d": "1, 2 and 4"
+          },
+          "correct_option": "c",
+          "exam_name": "UPSC CSE",
+          "exam_year": "2023",
+          "exam_term": "Prelims",
+          "subject": "Modern Indian History",
+          "correct_answer": "1, 3 and 4",
+          "explanation": "Under the Montagu-Chelmsford Reforms (GoI Act 1919), Dyarchy was introduced. Reserved subjects administered by the Governor and executive council included Police, Justice, and Land Revenue. Local Self-Government was a transferred subject.",
+          "topic": "Constitutional Development",
+          "keyword_and_metadata": [
+            "UPSC",
+            "GoI Act 1919",
+            "Dyarchy"
+          ],
+          "img": "",
+          "sector": "Civil Services",
+          "source_url": ""
+        }
+      ]
+    }
+  }
 }

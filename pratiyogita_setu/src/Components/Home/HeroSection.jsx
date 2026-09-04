@@ -5,7 +5,7 @@ const defaultStats = [
   {
     key: "categories",
     label: "Exam Categories",
-    value: "14",
+    value: "12",
     textColor: "#E4572E",
     gradient: "linear-gradient(135deg, rgba(228,87,46,0.5) 0%, rgba(228,87,46,0.28) 55%, rgba(43,30,23,0.2) 100%)",
     border: "rgba(228,87,46,0.55)",
@@ -13,7 +13,7 @@ const defaultStats = [
   {
     key: "exams",
     label: "Total Exams",
-    value: "20",
+    value: "12",
     textColor: "#FBF6EE",
     gradient: "linear-gradient(135deg, rgba(251,246,238,0.18) 0%, rgba(232,216,195,0.14) 55%, rgba(43,30,23,0.2) 100%)",
     border: "rgba(232,216,195,0.35)",
@@ -21,7 +21,7 @@ const defaultStats = [
   {
     key: "pyqs",
     label: "Total PYQs",
-    value: "117+",
+    value: "4,190+",
     textColor: "#E4572E",
     gradient: "linear-gradient(135deg, rgba(228,87,46,0.55) 0%, rgba(228,87,46,0.3) 55%, rgba(43,30,23,0.2) 100%)",
     border: "rgba(228,87,46,0.5)",
@@ -30,13 +30,13 @@ const defaultStats = [
 
 const PRATIYOGITA_YOGYA_URL =
   import.meta.env.VITE_PRATIYOGITA_YOGYA_URL ||
-  (typeof window !== "undefined" && window.location.hostname === "localhost"
+  (typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
     ? "http://localhost:3000"
-    : "https://pratiyogitayogya.vercel.app");
+    : "https://yogya-sigma.vercel.app");
 const PRATIYOGITA_MARG_URL = null; // Coming Soon
 const PRATIYOGITA_GYAN_URL =
   import.meta.env.VITE_PRATIYOGITA_GYAN_URL ||
-  (typeof window !== "undefined" && window.location.hostname === "localhost"
+  (typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
     ? "http://localhost:5000"
     : "https://pratiyogitagyan.vercel.app");
 
@@ -52,25 +52,43 @@ const HeroSection = () => {
         let categoryCount = null;
         let totalExamCount = null;
 
-        const statsRes = await fetch(`${PRATIYOGITA_YOGYA_URL}/api/exams/stats`).catch(() => null);
-        if (statsRes && statsRes.ok) {
-          const statsData = await statsRes.json();
-          if (statsData.total_categories !== undefined) categoryCount = statsData.total_categories;
-          if (statsData.total_exams !== undefined) totalExamCount = statsData.total_exams;
-        } else {
-          // Fallback to /api/exams/catalog from MongoDB
-          const catRes = await fetch(`${PRATIYOGITA_YOGYA_URL}/api/exams/catalog`).catch(() => null);
-          if (catRes && catRes.ok) {
-            const catData = await catRes.json();
-            categoryCount = Object.keys(catData).length;
-            let sum = 0;
-            Object.values(catData).forEach((arr) => {
-              if (Array.isArray(arr)) {
-                sum += arr.filter((e) => e && e.linked_json_file).length;
-              }
-            });
-            if (sum > 0) totalExamCount = sum;
-          }
+        const candidateYogyaUrls = [
+          PRATIYOGITA_YOGYA_URL,
+          "http://localhost:3000",
+          "http://localhost:3001",
+          "https://yogya-sigma.vercel.app",
+          "https://pratiyogitayogya.vercel.app"
+        ].filter(Boolean);
+
+        for (const yogyaUrl of candidateYogyaUrls) {
+          if (categoryCount !== null) break;
+          const cleanUrl = yogyaUrl.replace(/\/+$/, "");
+
+          try {
+            const statsRes = await fetch(`${cleanUrl}/api/exams/stats`, { signal: AbortSignal.timeout(3000) });
+            if (statsRes.ok) {
+              const statsData = await statsRes.json();
+              if (statsData.total_categories !== undefined) categoryCount = statsData.total_categories;
+              if (statsData.total_exams !== undefined) totalExamCount = statsData.total_exams;
+              if (categoryCount !== null) break;
+            }
+          } catch {}
+
+          try {
+            const catRes = await fetch(`${cleanUrl}/api/exams/catalog`, { signal: AbortSignal.timeout(3000) });
+            if (catRes.ok) {
+              const catData = await catRes.json();
+              categoryCount = Object.keys(catData).length;
+              let sum = 0;
+              Object.values(catData).forEach((arr) => {
+                if (Array.isArray(arr)) {
+                  sum += arr.filter((e) => e && e.linked_json_file).length;
+                }
+              });
+              if (sum > 0) totalExamCount = sum;
+              if (categoryCount !== null) break;
+            }
+          } catch {}
         }
 
         if (isMounted && categoryCount !== null) {
@@ -93,23 +111,66 @@ const HeroSection = () => {
       // 2. Fetch Total PYQs directly from Pratiyogita Gyan backend / Pinecone
       try {
         let pyqCount = null;
-        const gyanStatsRes = await fetch(`${PRATIYOGITA_GYAN_URL}/api/stats`).catch(() => null);
-        if (gyanStatsRes && gyanStatsRes.ok) {
-          const gyanData = await gyanStatsRes.json();
-          if (gyanData.total_pyqs !== undefined) pyqCount = gyanData.total_pyqs;
-        } else {
-          const insertedRes = await fetch(`${PRATIYOGITA_GYAN_URL}/api/inserted-pyqs`).catch(() => null);
-          if (insertedRes && insertedRes.ok) {
-            const insertedData = await insertedRes.json();
-            if (insertedData.total_questions !== undefined) pyqCount = insertedData.total_questions;
-          }
+
+        const candidateGyanUrls = [
+          PRATIYOGITA_GYAN_URL,
+          "http://localhost:5000",
+          "http://127.0.0.1:5000",
+          import.meta.env.VITE_API_BASE_URL,
+          "https://pratiyogita-chatbot-backend-f6c4aa866f64.herokuapp.com",
+          "https://pratiyogitagyan.vercel.app"
+        ].filter(Boolean);
+
+        for (const gyanUrl of candidateGyanUrls) {
+          if (pyqCount !== null && pyqCount > 0) break;
+          const cleanUrl = gyanUrl.replace(/\/+$/, "");
+
+          // Try /api/total-questions first (fastest live Pinecone count)
+          try {
+            const res = await fetch(`${cleanUrl}/api/total-questions`, { signal: AbortSignal.timeout(3000) });
+            if (res.ok) {
+              const data = await res.json();
+              const val = data.total_questions ?? data.total_pyqs;
+              if (typeof val === "number" && val > 0) {
+                pyqCount = val;
+                break;
+              }
+            }
+          } catch {}
+
+          // Try /api/stats
+          try {
+            const res = await fetch(`${cleanUrl}/api/stats`, { signal: AbortSignal.timeout(3000) });
+            if (res.ok) {
+              const data = await res.json();
+              const val = data.total_questions ?? data.total_pyqs;
+              if (typeof val === "number" && val > 0) {
+                pyqCount = val;
+                break;
+              }
+            }
+          } catch {}
+
+          // Try /api/inserted-pyqs as fallback
+          try {
+            const res = await fetch(`${cleanUrl}/api/inserted-pyqs`, { signal: AbortSignal.timeout(4000) });
+            if (res.ok) {
+              const data = await res.json();
+              const val = data.total_questions ?? data.total_pyqs;
+              if (typeof val === "number" && val > 0) {
+                pyqCount = val;
+                break;
+              }
+            }
+          } catch {}
         }
 
         if (isMounted && pyqCount !== null && pyqCount > 0) {
+          const formatted = Number(pyqCount).toLocaleString();
           setStats((prev) =>
             prev.map((s) => {
               if (s.key === "pyqs") {
-                return { ...s, value: `${pyqCount}+` };
+                return { ...s, value: `${formatted}+` };
               }
               return s;
             })

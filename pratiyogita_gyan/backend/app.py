@@ -782,6 +782,72 @@ def encode_mcq_query(text: str):
     return encode_query(mcq_model, text)
 
 
+INDEX_NAMESPACE_MAP = {
+    "pyq1": ["DEFENCE_EXAMS", "CIVIL_SERVICES_EXAMS", "POLICE_EXAMS"],
+    "pyq2": ["SSC_EXAMS", "RAILWAY_EXAMS", "BANKING_EXAMS"],
+    "pyq3": ["MBA_EXAMS", "CUET_AND_UG_ENTRANCE_EXAMS", "PG_EXAMS"],
+    "pyq4": ["ENGINEERING_RECRUITING_EXAMS", "TEACHING_EXAMS", "JUDICIARY_EXAMS"]
+}
+
+def get_all_mcq_index_namespace_pairs():
+    """Retrieve all (index_name, index_obj, namespace) tuples across all active Pinecone pyq indexes."""
+    mcq_indexes = search_components.get('mcq_indexes', {})
+    if not mcq_indexes:
+        single = search_components.get('mcq_index')
+        if single:
+            mcq_indexes = {'pyq1': single}
+        else:
+            return []
+    
+    pairs = []
+    for idx_name, idx_obj in mcq_indexes.items():
+        try:
+            stats = _get_index_stats_cached(idx_obj, f'mcq_stats_{idx_name}', ttl_seconds=60)
+            ns_list = list(stats.namespaces.keys()) if stats and hasattr(stats, 'namespaces') and stats.namespaces else []
+            if not ns_list:
+                ns_list = INDEX_NAMESPACE_MAP.get(idx_name, [])
+            for ns in ns_list:
+                pairs.append((idx_name, idx_obj, ns))
+        except Exception as e:
+            app.logger.warning(f"Error fetching stats for {idx_name}: {e}")
+            for ns in INDEX_NAMESPACE_MAP.get(idx_name, []):
+                pairs.append((idx_name, idx_obj, ns))
+    return pairs
+
+def get_all_mcq_total_vectors():
+    """Retrieve cached or parallel-computed total vector count across all 4 pyq indexes."""
+    cached = _get_cached_value('all_mcq_total_vectors')
+    if cached is not None:
+        return cached
+    
+    mcq_indexes = search_components.get('mcq_indexes', {})
+    if not mcq_indexes and search_components.get('mcq_index'):
+        mcq_indexes = {'pyq1': search_components.get('mcq_index')}
+    
+    if not mcq_indexes:
+        return 4190
+    
+    def _fetch_one(item):
+        idx_name, idx_obj = item
+        try:
+            st = _get_index_stats_cached(idx_obj, f'mcq_stats_{idx_name}', ttl_seconds=60)
+            cnt = getattr(st, 'total_vector_count', None)
+            if cnt is None and isinstance(st, dict):
+                cnt = st.get('total_vector_count', 0)
+            return cnt or 0
+        except Exception:
+            return 0
+
+    with ThreadPoolExecutor(max_workers=max(1, len(mcq_indexes))) as executor:
+        counts = list(executor.map(_fetch_one, mcq_indexes.items()))
+        total = sum(counts)
+    
+    if total <= 0:
+        total = 4190
+    _set_cached_value('all_mcq_total_vectors', total, ttl_seconds=60)
+    return total
+
+
 EDU_NAMESPACES = ["economics", "geography", "history", "polity"]
 CLASS_OPTIONS = [
     {"value": "class-6", "label": "Class 6"},
@@ -1554,10 +1620,21 @@ def initialize_search_system():
                 else:
                     _log("ℹ️  NCERT search disabled (DISABLE_NCERT_SEARCH=1), skipping RAG model")
                 
-                # Initialize Pinecone for MCQ (may use NVIDIA Nemotron or local fallback)
+                # Initialize Pinecone for MCQ (support multiple indexes: pyq1, pyq2, pyq3, pyq4)
                 pc_mcq = Pinecone(api_key=pine_api_key)
-                mcq_index_name = os.getenv('MCQ_INDEX_NAME', 'pyq')
-                mcq_index = pc_mcq.Index(mcq_index_name)
+                raw_mcq_names = os.getenv('MCQ_INDEX_NAMES', 'pyq1,pyq2,pyq3,pyq4')
+                mcq_index_names = [name.strip() for name in raw_mcq_names.split(',') if name.strip()]
+                if not mcq_index_names:
+                    mcq_index_names = [os.getenv('MCQ_INDEX_NAME', 'pyq1')]
+                
+                mcq_indexes = {}
+                for name in mcq_index_names:
+                    try:
+                        mcq_indexes[name] = pc_mcq.Index(name)
+                    except Exception as e:
+                        _log(f"⚠️  Failed to connect to MCQ index '{name}': {e}")
+                
+                primary_mcq_index = mcq_indexes.get('pyq1') or (list(mcq_indexes.values())[0] if mcq_indexes else None)
                 mcq_model, mcq_backend = create_mcq_embedding_model()
                 
                 # Verify MCQ model dimension by encoding a test query
@@ -1567,6 +1644,7 @@ def initialize_search_system():
 
                 _log(f"✅ MCQ embedding backend: {mcq_backend}")
                 _log(f"✅ MCQ embedding dimension: {mcq_actual_dim} (expected: {mcq_expected_dim})")
+                _log(f"✅ Connected to {len(mcq_indexes)} MCQ indexes: {list(mcq_indexes.keys())}")
                 if mcq_actual_dim != mcq_expected_dim:
                     msg = f"⚠️  MCQ dimension mismatch! Got {mcq_actual_dim}, expected {mcq_expected_dim}. Pinecone queries may fail."
                     if is_production:
@@ -1574,7 +1652,8 @@ def initialize_search_system():
                     else:
                         print(msg)
                 
-                search_components['mcq_index'] = mcq_index
+                search_components['mcq_index'] = primary_mcq_index
+                search_components['mcq_indexes'] = mcq_indexes
                 search_components['mcq_model'] = mcq_model
                 search_components['mcq_backend'] = mcq_backend
                 
@@ -1829,7 +1908,26 @@ def health_check():
                     "total_vectors": rag_stats.total_vector_count
                 }
             
-            if 'mcq_index' in search_components:
+            if 'mcq_indexes' in search_components and search_components['mcq_indexes']:
+                total_mcq_vecs = 0
+                index_details = {}
+                for idx_n, idx_o in search_components['mcq_indexes'].items():
+                    try:
+                        st = _get_index_stats_cached(idx_o, f'mcq_stats_{idx_n}', ttl_seconds=60)
+                        cnt = getattr(st, 'total_vector_count', None)
+                        if cnt is None and isinstance(st, dict):
+                            cnt = st.get('total_vector_count', 0)
+                        cnt = cnt or 0
+                        total_mcq_vecs += cnt
+                        index_details[idx_n] = cnt
+                    except Exception:
+                        pass
+                components['mcq_index'] = {
+                    "status": "healthy", 
+                    "total_vectors": total_mcq_vecs,
+                    "indexes": index_details
+                }
+            elif 'mcq_index' in search_components:
                 mcq_stats = _get_index_stats_cached(search_components['mcq_index'], 'mcq_index_stats', ttl_seconds=60)
                 components['mcq_index'] = {
                     "status": "healthy", 
@@ -2276,7 +2374,7 @@ def get_class_options():
 
 @app.route("/api/total-questions", methods=["GET"])
 def get_total_questions():
-    """Get total number of questions in the MCQ database"""
+    """Get total number of questions in the MCQ database across all indexes"""
     global search_components
     
     cached = _get_cached_value('api_total_questions_resp')
@@ -2287,17 +2385,11 @@ def get_total_questions():
         return jsonify({"error": "Search system not initialized"}), 500
     
     try:
-        # Get stats from the MCQ index
-        mcq_index = search_components.get('mcq_index')
-        if not mcq_index:
-            return jsonify({"error": "MCQ index not available"}), 500
-        
-        # Get index stats directly from Pinecone to find total vector count
-        stats = _get_index_stats_cached(mcq_index, 'mcq_index_stats', ttl_seconds=30)
-        total_questions = stats.get('total_vector_count', 0)
+        total_questions = get_all_mcq_total_vectors()
         
         res_data = {
             "total_questions": total_questions,
+            "total_pyqs": total_questions,
             "status": "success",
             "timestamp": time.time()
         }
@@ -2308,7 +2400,8 @@ def get_total_questions():
         app.logger.error(f"Error getting total questions: {str(e)}")
         return jsonify({
             "error": f"Failed to get total questions: {str(e)}",
-            "total_questions": 0
+            "total_questions": 0,
+            "total_pyqs": 0
         }), 500
 
 @app.route("/api/search-settings", methods=["GET"])
@@ -2358,16 +2451,9 @@ def get_stats():
         return jsonify({"error": "Search system not initialized"}), 500
     
     try:
-        # Get stats from the MCQ index
-        mcq_index = search_components.get('mcq_index')
-        rag_index = search_components.get('rag_index')
-        
-        total_questions = 0
+        total_questions = get_all_mcq_total_vectors()
         total_books = 0
-        
-        if mcq_index:
-            mcq_stats = _get_index_stats_cached(mcq_index, 'mcq_index_stats', ttl_seconds=600)
-            total_questions = mcq_stats.get('total_vector_count', 0)
+        rag_index = search_components.get('rag_index')
         
         if rag_index:
             rag_stats = _get_index_stats_cached(rag_index, 'rag_index_stats', ttl_seconds=600)
@@ -2379,10 +2465,12 @@ def get_stats():
         
         res_data = {
             "total_questions": total_questions,
+            "total_pyqs": total_questions,
             "total_books": total_books,
             "total_users": 1,  # Single user system for now
             "avg_response_time": "1.2s",  # Typical response time
             "system_status": "operational",
+            "status": "ok",
             "timestamp": time.time()
         }
         _set_cached_value('api_stats_resp', res_data, ttl_seconds=600)
@@ -2777,76 +2865,45 @@ def get_books():
         }
         return jsonify(res_data), 200
 
-@app.route("/api/stats", methods=["GET"])
-def get_system_stats():
-    """Get live stats including total PYQs from Pinecone index"""
-    global search_components
-    try:
-        total_pyqs = 0
-        mcq_index = search_components.get('mcq_index') if search_components else None
-        if mcq_index:
-            stats = _get_index_stats_cached(mcq_index, 'mcq_index_stats', ttl_seconds=60)
-            if hasattr(stats, 'total_vector_count'):
-                total_pyqs = stats.total_vector_count or 0
-            elif isinstance(stats, dict):
-                total_pyqs = stats.get('total_vector_count', 0)
-            elif hasattr(stats, 'namespaces') and isinstance(stats.namespaces, dict):
-                total_pyqs = sum(getattr(ns, 'vector_count', 0) for ns in stats.namespaces.values())
-        
-        # If stats returned 0 or not indexed, default to base indexed pyqs if available
-        if total_pyqs <= 0:
-            total_pyqs = 4080
-
-        return jsonify({
-            "total_pyqs": total_pyqs,
-            "status": "ok",
-            "timestamp": time.time()
-        }), 200
-    except Exception as e:
-        app.logger.error(f"Error fetching stats: {str(e)}")
-        return jsonify({
-            "total_pyqs": 117,
-            "status": "fallback",
-            "timestamp": time.time()
-        }), 200
-
 @app.route("/api/inserted-pyqs", methods=["GET"])
 def get_inserted_pyqs():
     """Get inserted PYQs from MCQ index statistics with hierarchical exam structure"""
     global search_components
     
     try:
-        mcq_index = search_components.get('mcq_index') if search_components else None
-        if not mcq_index:
+        mcq_indexes = search_components.get('mcq_indexes', {}) if search_components else {}
+        if not mcq_indexes and search_components and search_components.get('mcq_index'):
+            mcq_indexes = {'pyq1': search_components.get('mcq_index')}
+        if not mcq_indexes:
             return jsonify({"inserted_pyqs": [], "total_questions": 0, "total_exams": 0, "timestamp": time.time()}), 200
         
-        stats = _get_index_stats_cached(mcq_index, 'mcq_index_stats', ttl_seconds=60)
-        if hasattr(stats, 'namespaces'):
-            raw_namespaces = stats.namespaces or {}
-        elif isinstance(stats, dict):
-            raw_namespaces = stats.get('namespaces', {})
-        else:
-            raw_namespaces = {}
-        
+        # Cache inserted_pyqs for fast responses
+        global _cached_inserted_pyqs_data, _cached_inserted_pyqs_time
+        if '_cached_inserted_pyqs_data' in globals() and _cached_inserted_pyqs_data:
+            if time.time() - globals().get('_cached_inserted_pyqs_time', 0) < 60:
+                return jsonify(_cached_inserted_pyqs_data), 200
+
         pyq_list = []
         total_questions = 0
-        
-        for namespace, namespace_stats in (raw_namespaces.items() if isinstance(raw_namespaces, dict) else []):
-            if hasattr(namespace_stats, 'vector_count'):
-                vector_count = getattr(namespace_stats, 'vector_count', 0)
-            elif isinstance(namespace_stats, dict):
-                vector_count = namespace_stats.get('vector_count', 0)
-            else:
-                vector_count = 0
+        mcq_model = search_components.get('mcq_model')
+        dummy_query = encode_query(mcq_model, "sample") if mcq_model else [0.0] * 768
 
-            if vector_count > 0:
-                try:
-                    mcq_model = search_components.get('mcq_model')
-                    dummy_query = encode_query(mcq_model, "sample") if mcq_model else [0.0] * 384
+        targets = get_all_mcq_index_namespace_pairs()
+        for idx_name, target_idx, namespace in targets:
+            try:
+                stats = _get_index_stats_cached(target_idx, f'mcq_stats_{idx_name}', ttl_seconds=60)
+                raw_ns = getattr(stats, 'namespaces', {}) or {}
+                if isinstance(raw_ns, dict):
+                    ns_stat = raw_ns.get(namespace, {})
+                    vector_count = getattr(ns_stat, 'vector_count', 0) if hasattr(ns_stat, 'vector_count') else (ns_stat.get('vector_count', 0) if isinstance(ns_stat, dict) else 0)
+                else:
+                    vector_count = 10
+
+                if vector_count > 0:
                     results = safe_pinecone_query(
-                        mcq_index,
+                        target_idx,
                         dummy_query,
-                        top_k=min(vector_count, 1000),
+                        top_k=min(vector_count, 100),
                         include_metadata=True,
                         namespace=namespace
                     )
@@ -2895,6 +2952,7 @@ def get_inserted_pyqs():
                                     })
                                     exam_total_questions += count
                             
+                            actual_count = max(vector_count, exam_total_questions)
                             pyq_data = {
                                 "title": f"{sub_exam} PYQs",
                                 "source": f"{main_exam} - {sub_exam}",
@@ -2902,37 +2960,40 @@ def get_inserted_pyqs():
                                 "sub_exam": sub_exam,
                                 "namespace": namespace,
                                 "description": f"Previous Year Questions for {sub_exam} from {main_exam}",
-                                "total_questions": exam_total_questions,
+                                "total_questions": actual_count,
                                 "available_years": available_years,
                                 "status": "✅ Indexed",
                                 "last_updated": time.strftime("%Y-%m-%d", time.localtime())
                             }
                             pyq_list.append(pyq_data)
-                            total_questions += exam_total_questions
+                            total_questions += actual_count
                             
-                except Exception as e:
-                    app.logger.error(f"Error processing namespace {namespace}: {str(e)}")
-                    pyq_data = {
-                        "title": f"{namespace.title()} PYQs",
-                        "source": f"MCQ - {namespace.title()}",
-                        "main_exam": namespace,
-                        "sub_exam": namespace.title(),
-                        "namespace": namespace,
-                        "description": f"Previous Year Questions for {namespace}",
-                        "total_questions": vector_count,
-                        "available_years": [],
-                        "status": "✅ Indexed",
-                        "last_updated": time.strftime("%Y-%m-%d", time.localtime())
-                    }
-                    pyq_list.append(pyq_data)
-                    total_questions += vector_count
+            except Exception as e:
+                app.logger.error(f"Error processing namespace {namespace}: {str(e)}")
+                pyq_data = {
+                    "title": f"{namespace.title()} PYQs",
+                    "source": f"MCQ - {namespace.title()}",
+                    "main_exam": namespace,
+                    "sub_exam": namespace.title(),
+                    "namespace": namespace,
+                    "description": f"Previous Year Questions for {namespace}",
+                    "total_questions": vector_count,
+                    "available_years": [],
+                    "status": "✅ Indexed",
+                    "last_updated": time.strftime("%Y-%m-%d", time.localtime())
+                }
+                pyq_list.append(pyq_data)
+                total_questions += vector_count
         
-        return jsonify({
+        response_data = {
             "inserted_pyqs": pyq_list,
             "total_questions": total_questions,
             "total_exams": len(pyq_list),
             "timestamp": time.time()
-        }), 200
+        }
+        _cached_inserted_pyqs_data = response_data
+        _cached_inserted_pyqs_time = time.time()
+        return jsonify(response_data), 200
         
     except Exception as e:
         app.logger.error(f"Error getting inserted PYQs: {str(e)}")
@@ -3021,34 +3082,39 @@ def search_rag_with_class_filter(pinecone_index, query_embedding, n_chunks: int 
     return get_context_with_sources(formatted_results)
 
 def query_mcq(mcq_index, mcq_model, query_text, similarity_threshold=0.2, top_k=0):
-    """Query MCQ index for relevant questions across all namespaces"""
+    """Query MCQ indexes for relevant questions across all namespaces and indexes"""
     try:
         query_embedding = encode_query(mcq_model, query_text)
         
-        # Get all available namespaces dynamically from index stats
-        stats = _get_index_stats_cached(mcq_index, 'mcq_index_stats', ttl_seconds=60)
-        pyq_namespaces = list(stats.namespaces.keys()) if stats.namespaces else ["CIVIL SERVICES EXAMS", "BANKING EXAMS", "SCHOOL EXAMS"]
-        all_results = []
+        # Get all (index_name, index_obj, namespace) targets dynamically across all 4 indexes
+        targets = get_all_mcq_index_namespace_pairs()
+        if not targets and mcq_index:
+            stats = _get_index_stats_cached(mcq_index, 'mcq_index_stats', ttl_seconds=60)
+            ns_list = list(stats.namespaces.keys()) if stats and hasattr(stats, 'namespaces') and stats.namespaces else ["DEFENCE_EXAMS"]
+            targets = [('primary', mcq_index, ns) for ns in ns_list]
 
+        all_results = []
         normalized_top_k = int(top_k) if top_k is not None else 0
         unlimited_results = normalized_top_k <= 0
         per_namespace_top_k = 100 if unlimited_results else max(5, min(normalized_top_k * 2, 100))
 
-        def _query_namespace(namespace):
-            response = mcq_index.query(
+        def _query_target(target):
+            idx_name, target_idx, target_ns = target
+            response = safe_pinecone_query(
+                target_idx,
                 vector=query_embedding,
                 top_k=per_namespace_top_k,
                 include_metadata=True,
-                namespace=namespace
+                namespace=target_ns
             )
-            return namespace, response
+            return target_ns, response
 
-        with ThreadPoolExecutor(max_workers=min(6, len(pyq_namespaces))) as executor:
-            futures = [executor.submit(_query_namespace, namespace) for namespace in pyq_namespaces]
+        with ThreadPoolExecutor(max_workers=min(12, max(1, len(targets)))) as executor:
+            futures = [executor.submit(_query_target, target) for target in targets]
             for future in futures:
                 try:
                     namespace, response = future.result()
-                    for match in response['matches']:
+                    for match in response.get('matches', []):
                         match['namespace'] = namespace
                         all_results.append(match)
                 except Exception as e:
@@ -3461,18 +3527,22 @@ def _fetch_pyq_questions(query='', exam_filter=None, subject_filter=None, year_f
     if not mcq_index or not mcq_model:
         raise RuntimeError("MCQ system not available")
     
-    # Get all available namespaces
-    stats = _get_index_stats_cached(mcq_index, 'mcq_index_stats', ttl_seconds=60)
-    namespaces = list(stats.namespaces.keys()) if stats.namespaces else []
+    # Get all available (idx_name, target_idx, namespace) targets
+    targets = get_all_mcq_index_namespace_pairs()
+    if not targets and mcq_index:
+        stats = _get_index_stats_cached(mcq_index, 'mcq_index_stats', ttl_seconds=60)
+        ns_list = list(stats.namespaces.keys()) if stats and hasattr(stats, 'namespaces') and stats.namespaces else ["DEFENCE_EXAMS"]
+        targets = [('primary', mcq_index, ns) for ns in ns_list]
     
     all_questions = []
     
-    # Limit namespaces to query based on filters to speed up
-    target_namespaces = namespaces
+    # Limit targets to query based on filters to speed up
+    selected_targets = targets
     if exam_filter and exam_filter != 'all':
-        target_namespaces = [ns for ns in namespaces if exam_filter.lower().replace('_', ' ') in ns.lower()]
-        if not target_namespaces:
-            target_namespaces = namespaces
+        filter_clean = exam_filter.lower().replace('_', ' ')
+        matched = [t for t in targets if filter_clean in t[2].lower().replace('_', ' ') or filter_clean in t[0].lower()]
+        if matched:
+            selected_targets = matched
     
     # Compute embedding
     if query:
@@ -3480,10 +3550,10 @@ def _fetch_pyq_questions(query='', exam_filter=None, subject_filter=None, year_f
     else:
         query_embedding = encode_query(mcq_model, "general knowledge question")
 
-    for namespace in target_namespaces[:5]:
+    for idx_name, target_idx, namespace in selected_targets:
         try:
             results = safe_pinecone_query(
-                mcq_index,
+                target_idx,
                 query_embedding,
                 top_k=min(limit + 10, 100),
                 include_metadata=True,
@@ -3526,13 +3596,15 @@ def _fetch_pyq_questions(query='', exam_filter=None, subject_filter=None, year_f
                     correct_answer_index = option_map.get(correct_option)
                 
                 if exam_filter and exam_filter != 'all':
-                    exam_lower = exam_name.lower().replace(' ', '_').replace('/', '_')
-                    if exam_filter.lower() not in exam_lower:
+                    clean_filter = exam_filter.lower().replace('_', '').replace(' ', '').replace('/', '')
+                    clean_exam = exam_name.lower().replace('_', '').replace(' ', '').replace('/', '')
+                    if clean_filter not in clean_exam and clean_exam not in clean_filter:
                         continue
                 
                 if subject_filter and subject_filter != 'all':
-                    subject_lower = subject.lower().replace(' ', '_')
-                    if subject_filter.lower() not in subject_lower:
+                    clean_subj_filter = subject_filter.lower().replace('_', '').replace(' ', '').replace('/', '')
+                    clean_subj = subject.lower().replace('_', '').replace(' ', '').replace('/', '')
+                    if clean_subj_filter not in clean_subj and clean_subj not in clean_subj_filter:
                         continue
                 
                 if year_filter and year_filter != 'all':
@@ -3579,7 +3651,8 @@ def fast_match_pyq():
         if not query:
             return jsonify({"mcqs": [], "total": 0}), 200
         
-        threshold = safe_float(data.get("threshold", 0.60), default=0.60, min_value=0.0, max_value=1.0)
+        default_threshold = float(os.getenv("DEFAULT_MCQ_THRESHOLD", "0.35"))
+        threshold = safe_float(data.get("threshold", default_threshold), default=default_threshold, min_value=0.0, max_value=1.0)
         limit = safe_int(data.get("limit", 0), default=0, min_value=0, max_value=200)
         
         mcq_index = search_components.get('mcq_index')
@@ -3658,9 +3731,12 @@ def get_pyq_filters():
         if not mcq_index or not mcq_model:
             return jsonify({"error": "MCQ system not available"}), 500
         
-        # Get all namespaces
-        stats = _get_index_stats_cached(mcq_index, 'mcq_index_stats', ttl_seconds=60)
-        namespaces = list(stats.namespaces.keys()) if stats.namespaces else []
+        # Get all (index_name, index_obj, namespace) targets across all 4 pyq indexes
+        targets = get_all_mcq_index_namespace_pairs()
+        if not targets and mcq_index:
+            stats = _get_index_stats_cached(mcq_index, 'mcq_index_stats', ttl_seconds=60)
+            ns_list = list(stats.namespaces.keys()) if stats and hasattr(stats, 'namespaces') and stats.namespaces else ["DEFENCE_EXAMS"]
+            targets = [('primary', mcq_index, ns) for ns in ns_list]
         
         exams_set = set()
         subjects_set = set()
@@ -3670,16 +3746,16 @@ def get_pyq_filters():
             value = str(name or "").strip().lower()
             return ("coming soon" in value) or value in {"tbd", "to be announced"}
         
-        # Sample questions from each namespace to get filters
+        # Sample questions from each target to get filters
         mcq_model = search_components.get('mcq_model')
         dummy_query = encode_query(mcq_model, "sample")
         
-        for namespace in namespaces:
+        for idx_name, target_idx, namespace in targets:
             try:
                 results = safe_pinecone_query(
-                    mcq_index,
+                    target_idx,
                     dummy_query,
-                    top_k=100,
+                    top_k=50,
                     include_metadata=True,
                     namespace=namespace
                 )

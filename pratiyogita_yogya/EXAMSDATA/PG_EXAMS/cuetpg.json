@@ -1,0 +1,250 @@
+{
+  "_id": "PG_EXAMS__cuetpg",
+  "age_criteria_type": "NO_AGE_LIMIT",
+  "age_relaxation": {
+    "GEN": "",
+    "OBC": "",
+    "EWS": "",
+    "SC": "",
+    "ST": "",
+    "EX_SERVICEMEN": ""
+  },
+  "between_age": "",
+  "between_dob": {
+    "2026": "",
+    "2027": "",
+    "2028": "",
+    "2029": "",
+    "2030": ""
+  },
+  "caste_category": "GEN, OBC, EWS, SC, ST",
+  "category": "PG_EXAMS",
+  "conducting_body": "NTA (National Testing Agency)",
+  "domicile": "ALL STATES",
+  "education_levels": {
+    "post_doctorate": "",
+    "phd": "",
+    "post_graduation": {
+      "course": {
+        "options": []
+      },
+      "subject": "",
+      "mandatory_subject": "",
+      "status": "",
+      "marks_percentage": {
+        "GEN": "",
+        "OBC": "",
+        "EWS": "",
+        "SC": "",
+        "ST": ""
+      },
+      "mandatory_subject_marks_percentage": {
+        "GEN": "",
+        "OBC": "",
+        "EWS": "",
+        "SC": "",
+        "ST": ""
+      },
+      "completed_year": "",
+      "board_university": "",
+      "active_backlogs_allowed": ""
+    },
+    "graduation": {
+      "course": {
+        "options": [
+          "ALL COURSES"
+        ],
+        "except_course": []
+      },
+      "subject": "ALL SUBJECTS",
+      "mandatory_subject": "",
+      "mandatory_subjects": [],
+      "status": "ALL STATUS",
+      "marks_percentage": {
+        "GEN": "33%",
+        "OBC": "33%",
+        "EWS": "33%",
+        "SC": "33%",
+        "ST": "33%"
+      },
+      "mandatory_subject_marks_percentage": {
+        "GEN": "",
+        "OBC": "",
+        "EWS": "",
+        "SC": "",
+        "ST": ""
+      },
+      "mandatory_subjects_marks_percentage": {
+        "GEN": "",
+        "OBC": "",
+        "EWS": "",
+        "SC": "",
+        "ST": ""
+      },
+      "completed_year": "",
+      "board_university": "",
+      "active_backlogs_allowed": "NOT APPLICABLE"
+    },
+    "diploma": "",
+    "12th_higher_secondary": {
+      "course": {
+        "options": [
+          "Science",
+          "Commerce",
+          "Arts"
+        ]
+      },
+      "subject": "ALL SUBJECTS",
+      "mandatory_subject": "",
+      "mandatory_subjects": [],
+      "status": {
+        "options": [
+          "PASSED",
+          "APPEARING"
+        ]
+      },
+      "marks_percentage": {
+        "GEN": "33%",
+        "OBC": "33%",
+        "EWS": "33%",
+        "SC": "33%",
+        "ST": "33%"
+      },
+      "mandatory_subject_marks_percentage": {
+        "GEN": "",
+        "OBC": "",
+        "EWS": "",
+        "SC": "",
+        "ST": ""
+      },
+      "mandatory_subjects_marks_percentage": {
+        "GEN": "",
+        "OBC": "",
+        "EWS": "",
+        "SC": "",
+        "ST": ""
+      },
+      "completed_year": "",
+      "board_university": {
+        "options": [
+          "CBSE",
+          "ICSE",
+          "STATE BOARD",
+          "NIOS",
+          "OTHER"
+        ]
+      }
+    },
+    "10th_secondary": {
+      "course_stream": {
+        "options": [
+          "(10TH) SECONDARY"
+        ]
+      },
+      "subject": "Science, Mathematics, Social Science, Languages",
+      "mandatory_subject": "",
+      "mandatory_subjects": [],
+      "status": {
+        "options": [
+          "PASSED",
+          "APPEARING"
+        ]
+      },
+      "marks_percentage": {
+        "GEN": "33%",
+        "OBC": "33%",
+        "EWS": "33%",
+        "SC": "33%",
+        "ST": "33%"
+      },
+      "mandatory_subject_marks_percentage": {
+        "GEN": "",
+        "OBC": "",
+        "EWS": "",
+        "SC": "",
+        "ST": ""
+      },
+      "mandatory_subjects_marks_percentage": {
+        "GEN": "",
+        "OBC": "",
+        "EWS": "",
+        "SC": "",
+        "ST": ""
+      },
+      "completed_year": "",
+      "board_university": {
+        "options": [
+          "CBSE",
+          "ICSE",
+          "STATE BOARD",
+          "NIOS",
+          "OTHER"
+        ]
+      }
+    },
+    "CLASS_VI": "",
+    "CLASS_VIII": "",
+    "no_education": ""
+  },
+  "educational_stream_restriction": "",
+  "ending_age": "",
+  "exam_code": "CUET-PG",
+  "exam_name": "Common University Entrance Test (PG) 2026",
+  "gap_years_allowed": "NO LIMIT",
+  "gender": "MALE, FEMALE, TRANSGENDER",
+  "highest_education_qualification": "GRADUATION",
+  "marital_status": {
+    "MALE": [
+      "UNMARRIED",
+      "MARRIED",
+      "SEPARATED",
+      "DIVORCED",
+      "WIDOWER"
+    ],
+    "FEMALE": [
+      "UNMARRIED",
+      "MARRIED",
+      "SEPARATED",
+      "DIVORCED",
+      "DIVORCEE",
+      "WIDOW"
+    ],
+    "TRANSGENDER": [
+      "UNMARRIED",
+      "MARRIED",
+      "SEPARATED",
+      "DIVORCED",
+      "WIDOW",
+      "WIDOWER"
+    ]
+  },
+  "maximum_attempts_allowed": "NO LIMIT",
+  "maximum_dob": "",
+  "minimum_dob": "",
+  "nationality": "ALL ELIGIBLE",
+  "ncc_certificate": "",
+  "ncc_certificate_grade": "",
+  "ncc_wing": "",
+  "no_age_limit": "YES",
+  "posts_classes_courses_departments_academies": "",
+  "pwd_status": {
+    "applicability": "APPLICABLE",
+    "marks_percentage_basis": {
+      "GEN": "65%",
+      "OBC": "65%",
+      "EWS": "65%",
+      "SC": "55%",
+      "ST": "55%"
+    },
+    "age_relaxation_basis": {
+      "GEN": "",
+      "OBC": "",
+      "EWS": "",
+      "SC": "",
+      "ST": ""
+    }
+  },
+  "source_file": "PG_EXAMS/cuetpg.json",
+  "special_gender_eligibility": "",
+  "starting_age": ""
+}

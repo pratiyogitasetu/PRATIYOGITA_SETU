@@ -109,13 +109,15 @@ const EXAM_FOLDERS = [
   'DEFENCE_EXAMS',
   'ENGINEERING_RECRUITING_EXAMS',
   'MBA_EXAMS',
-  'NURSING_EXAMS',
   'PG_EXAMS',
   'POLICE_EXAMS',
   'RAILWAY_EXAMS',
   'SSC_EXAMS',
   'TEACHING_EXAMS',
+  'JUDICIARY_EXAMS',
 ];
+
+
 
 async function uploadAll() {
   let uri = process.env.MONGODB_URI;

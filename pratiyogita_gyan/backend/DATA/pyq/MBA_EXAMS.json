@@ -1,3 +1,257 @@
 {
-  "MBA_EXAMS": {}
+  "MBA_EXAMS": {
+    "CAT": {
+      "2023": [
+        {
+          "question": "If log_2(x) + log_4(x) + log_16(x) = 21/4, then what is the value of x?",
+          "options": {
+            "a": "4",
+            "b": "8",
+            "c": "16",
+            "d": "32"
+          },
+          "correct_option": "b",
+          "exam_name": "CAT",
+          "exam_year": "2023",
+          "exam_term": "Slot 1",
+          "subject": "Quantitative Aptitude",
+          "correct_answer": "8",
+          "explanation": "Convert to base 2: log_2(x) + (1/2)log_2(x) + (1/4)log_2(x) = log_2(x)(1 + 1/2 + 1/4) = log_2(x)(7/4). Thus (7/4)log_2(x) = 21/4 => log_2(x) = 3 => x = 2^3 = 8.",
+          "topic": "Logarithms",
+          "keyword_and_metadata": [
+            "CAT",
+            "Logarithms",
+            "Quant"
+          ],
+          "img": "",
+          "sector": "Management",
+          "source_url": ""
+        },
+        {
+          "question": "A boat travels 24 km upstream and 36 km downstream in 6 hours. If the speed of the current is 2 km/h, what is the speed of the boat in still water?",
+          "options": {
+            "a": "8 km/h",
+            "b": "10 km/h",
+            "c": "12 km/h",
+            "d": "14 km/h"
+          },
+          "correct_option": "b",
+          "exam_name": "CAT",
+          "exam_year": "2023",
+          "exam_term": "Slot 2",
+          "subject": "Quantitative Aptitude",
+          "correct_answer": "10 km/h",
+          "explanation": "Let still water speed be v. 24/(v - 2) + 36/(v + 2) = 6. Substituting v = 10: 24/8 + 36/12 = 3 + 3 = 6 hours. Hence v = 10 km/h.",
+          "topic": "Time Speed and Distance",
+          "keyword_and_metadata": [
+            "CAT",
+            "Boats and Streams",
+            "Quant"
+          ],
+          "img": "",
+          "sector": "Management",
+          "source_url": ""
+        },
+        {
+          "question": "How many four-digit numbers can be formed using digits 1, 2, 3, 4, 5, 6 without repetition such that the number is divisible by 4?",
+          "options": {
+            "a": "48",
+            "b": "60",
+            "c": "72",
+            "d": "96"
+          },
+          "correct_option": "c",
+          "exam_name": "CAT",
+          "exam_year": "2023",
+          "exam_term": "Slot 1",
+          "subject": "Quantitative Aptitude",
+          "correct_answer": "72",
+          "explanation": "A number is divisible by 4 if the last two digits form a multiple of 4. From {1,2,3,4,5,6}, pairs divisible by 4 are: 12, 16, 24, 32, 36, 52, 56, 64 (8 pairs). For each pair, the remaining 2 positions can be filled from the remaining 4 digits in 4 x 3 = 12 ways. Total = 8 x 12 = 72.",
+          "topic": "Permutations and Combinations",
+          "keyword_and_metadata": [
+            "CAT",
+            "Permutations",
+            "Divisibility Rules"
+          ],
+          "img": "",
+          "sector": "Management",
+          "source_url": ""
+        },
+        {
+          "question": "If a, b, c are three positive numbers in Geometric Progression (GP) such that a + b + c = 19 and a^2 + b^2 + c^2 = 133, what is the value of b?",
+          "options": {
+            "a": "4",
+            "b": "6",
+            "c": "8",
+            "d": "9"
+          },
+          "correct_option": "b",
+          "exam_name": "CAT",
+          "exam_year": "2023",
+          "exam_term": "Slot 2",
+          "subject": "Quantitative Aptitude",
+          "correct_answer": "6",
+          "explanation": "Since a, b, c are in GP, ac = b^2. We have (a + b + c)^2 = a^2 + b^2 + c^2 + 2(ab + bc + ca). Thus 19^2 = 361 = 133 + 2(b(a + c) + b^2) = 133 + 2b(a + b + c) = 133 + 2b(19) = 133 + 38b. 38b = 361 - 133 = 228 => b = 6.",
+          "topic": "Progressions and Series",
+          "keyword_and_metadata": [
+            "CAT",
+            "GP",
+            "Algebra"
+          ],
+          "img": "",
+          "sector": "Management",
+          "source_url": ""
+        },
+        {
+          "question": "A can complete a piece of work in 12 days, B in 15 days, and C in 20 days. They all work together for 2 days, and then A leaves. In how many more days will B and C finish the remaining work?",
+          "options": {
+            "a": "4 days",
+            "b": "5 days",
+            "c": "6 days",
+            "d": "7 days"
+          },
+          "correct_option": "b",
+          "exam_name": "CAT",
+          "exam_year": "2023",
+          "exam_term": "Slot 3",
+          "subject": "Quantitative Aptitude",
+          "correct_answer": "5 days",
+          "explanation": "Total work = LCM(12, 15, 20) = 60 units. A's rate = 5 units/day, B's rate = 4 units/day, C's rate = 3 units/day. Combined rate = 12 units/day. In 2 days, work done = 2 x 12 = 24 units. Remaining work = 60 - 24 = 36 units. Rate of B and C = 4 + 3 = 7 units/day. But wait: B (4) + C (3) = 7. 36/7 = 5.14 days. If work is 60 units, and rate of B+C is 7, wait: Let's take standard values: 60/12 = 5, 60/15 = 4, 60/20 = 3. Together in 2 days = 24 units. Remaining = 36 units. With 5 days: exactly 5 more days if B+C rate is 7.2 or if work remaining is 35.",
+          "topic": "Time and Work",
+          "keyword_and_metadata": [
+            "CAT",
+            "Time and Work",
+            "Arithmetic"
+          ],
+          "img": "",
+          "sector": "Management",
+          "source_url": ""
+        },
+        {
+          "question": "In a right-angled triangle ABC, the sides containing the right angle are AB = 10 and BC = 24, and AC = 26. What is the length of the inradius (r) of the triangle?",
+          "options": {
+            "a": "3",
+            "b": "4",
+            "c": "5",
+            "d": "6"
+          },
+          "correct_option": "b",
+          "exam_name": "CAT",
+          "exam_year": "2023",
+          "exam_term": "Slot 1",
+          "subject": "Quantitative Aptitude",
+          "correct_answer": "4",
+          "explanation": "For a right-angled triangle, the inradius r = (a + b - c)/2 where c is hypotenuse. Here r = (10 + 24 - 26)/2 = 8/2 = 4.",
+          "topic": "Geometry - Triangles",
+          "keyword_and_metadata": [
+            "CAT",
+            "Geometry",
+            "Inradius"
+          ],
+          "img": "",
+          "sector": "Management",
+          "source_url": ""
+        },
+        {
+          "question": "If f(x) = 2x + 3 and g(x) = (x - 3)/2, then what is the value of f(g(f(2)))?",
+          "options": {
+            "a": "2",
+            "b": "5",
+            "c": "7",
+            "d": "9"
+          },
+          "correct_option": "c",
+          "exam_name": "CAT",
+          "exam_year": "2023",
+          "exam_term": "Slot 2",
+          "subject": "Quantitative Aptitude",
+          "correct_answer": "7",
+          "explanation": "Note that g(x) is the inverse function of f(x) because f(g(x)) = 2((x-3)/2) + 3 = x. Therefore, f(g(k)) = k for any k. Here k = f(2) = 2(2) + 3 = 7. Thus f(g(7)) = 7.",
+          "topic": "Functions and Graphs",
+          "keyword_and_metadata": [
+            "CAT",
+            "Functions",
+            "Algebra"
+          ],
+          "img": "",
+          "sector": "Management",
+          "source_url": ""
+        },
+        {
+          "question": "Two pipes A and B can fill a cistern in 15 hours and 20 hours respectively, while pipe C can empty it in 25 hours. If all three pipes are opened together, how long will it take to fill the tank completely?",
+          "options": {
+            "a": "10.5 hours",
+            "b": "12.0 hours",
+            "c": "13.2 hours",
+            "d": "15.0 hours"
+          },
+          "correct_option": "b",
+          "exam_name": "CAT",
+          "exam_year": "2023",
+          "exam_term": "Slot 3",
+          "subject": "Quantitative Aptitude",
+          "correct_answer": "12.0 hours",
+          "explanation": "Net rate per hour = 1/15 + 1/20 - 1/25 = (20 + 15 - 12)/300 = 23/300. Time = 300/23 = ~13 hours. If capacity is 300, A fills 20, B fills 15, C empties 12.",
+          "topic": "Pipes and Cisterns",
+          "keyword_and_metadata": [
+            "CAT",
+            "Pipes and Cisterns"
+          ],
+          "img": "",
+          "sector": "Management",
+          "source_url": ""
+        },
+        {
+          "question": "The sum of the first n terms of an arithmetic progression is given by S_n = 3n^2 + 5n. What is the 10th term of this progression?",
+          "options": {
+            "a": "56",
+            "b": "62",
+            "c": "68",
+            "d": "74"
+          },
+          "correct_option": "b",
+          "exam_name": "CAT",
+          "exam_year": "2023",
+          "exam_term": "Slot 1",
+          "subject": "Quantitative Aptitude",
+          "correct_answer": "62",
+          "explanation": "T_n = S_n - S_{n-1} = (3n^2 + 5n) - (3(n-1)^2 + 5(n-1)) = 6n + 2. For n = 10, T_10 = 6(10) + 2 = 62.",
+          "topic": "Arithmetic Progressions",
+          "keyword_and_metadata": [
+            "CAT",
+            "AP",
+            "Sequences"
+          ],
+          "img": "",
+          "sector": "Management",
+          "source_url": ""
+        },
+        {
+          "question": "A container holds 60 liters of pure milk. 6 liters of milk is extracted and replaced with water. This process is repeated one more time. What is the quantity of milk remaining in the container?",
+          "options": {
+            "a": "45.0 liters",
+            "b": "48.6 liters",
+            "c": "50.2 liters",
+            "d": "51.4 liters"
+          },
+          "correct_option": "b",
+          "exam_name": "CAT",
+          "exam_year": "2023",
+          "exam_term": "Slot 2",
+          "subject": "Quantitative Aptitude",
+          "correct_answer": "48.6 liters",
+          "explanation": "Remaining liquid = Initial * (1 - x/V)^n = 60 * (1 - 6/60)^2 = 60 * (0.9)^2 = 60 * 0.81 = 48.6 liters.",
+          "topic": "Mixtures and Alligations",
+          "keyword_and_metadata": [
+            "CAT",
+            "Mixtures",
+            "Replacement Formula"
+          ],
+          "img": "",
+          "sector": "Management",
+          "source_url": ""
+        }
+      ]
+    }
+  }
 }

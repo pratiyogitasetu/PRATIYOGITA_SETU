@@ -1,3 +1,258 @@
 {
-  "RAILWAY_EXAMS": {}
+  "RAILWAY_EXAMS": {
+    "RRB_NTPC": {
+      "2021": [
+        {
+          "question": "In which year did the first passenger train run in India between Bombay (Bori Bunder) and Thane?",
+          "options": {
+            "a": "1848",
+            "b": "1853",
+            "c": "1857",
+            "d": "1861"
+          },
+          "correct_option": "b",
+          "exam_name": "RRB NTPC",
+          "exam_year": "2021",
+          "exam_term": "CBT 1",
+          "subject": "Railway History & GK",
+          "correct_answer": "1853",
+          "explanation": "On 16 April 1853, the first passenger train in India ran between Bori Bunder (Mumbai) and Thane, covering a distance of 34 km with 14 carriages hauled by three locomotives: Sahib, Sindh, and Sultan.",
+          "topic": "History of Indian Railways",
+          "keyword_and_metadata": [
+            "RRB NTPC",
+            "First Train 1853",
+            "Railway GK"
+          ],
+          "img": "",
+          "sector": "Railways",
+          "source_url": ""
+        },
+        {
+          "question": "Where is the headquarters of the Northern Railway zone situated?",
+          "options": {
+            "a": "Gorakhpur",
+            "b": "New Delhi",
+            "c": "Prayagraj",
+            "d": "Jaipur"
+          },
+          "correct_option": "b",
+          "exam_name": "RRB NTPC",
+          "exam_year": "2021",
+          "exam_term": "CBT 1",
+          "subject": "Railway Organization",
+          "correct_answer": "New Delhi",
+          "explanation": "The headquarters of the Northern Railway (NR) zone is located at Baroda House, New Delhi. It is one of the largest zones of Indian Railways.",
+          "topic": "Railway Zones and Headquarters",
+          "keyword_and_metadata": [
+            "RRB NTPC",
+            "Northern Railway",
+            "Headquarters"
+          ],
+          "img": "",
+          "sector": "Railways",
+          "source_url": ""
+        },
+        {
+          "question": "Which instrument is used to measure the rate of flow of a fluid in a pipe?",
+          "options": {
+            "a": "Barometer",
+            "b": "Venturimeter",
+            "c": "Hydrometer",
+            "d": "Anemometer"
+          },
+          "correct_option": "b",
+          "exam_name": "RRB NTPC",
+          "exam_year": "2021",
+          "exam_term": "CBT 1",
+          "subject": "General Science - Physics",
+          "correct_answer": "Venturimeter",
+          "explanation": "A Venturimeter is a device based on Bernoulli's principle used for measuring the discharge rate or flow rate of fluids through a pipe.",
+          "topic": "Scientific Instruments",
+          "keyword_and_metadata": [
+            "RRB NTPC",
+            "Venturimeter",
+            "Physics"
+          ],
+          "img": "",
+          "sector": "Railways",
+          "source_url": ""
+        },
+        {
+          "question": "What is the official National Aquatic Animal of India?",
+          "options": {
+            "a": "Gharial",
+            "b": "Olive Ridley Sea Turtle",
+            "c": "Ganges River Dolphin",
+            "d": "Blue Whale"
+          },
+          "correct_option": "c",
+          "exam_name": "RRB NTPC",
+          "exam_year": "2021",
+          "exam_term": "CBT 1",
+          "subject": "General Awareness",
+          "correct_answer": "Ganges River Dolphin",
+          "explanation": "The Ministry of Environment and Forests declared the Ganges River Dolphin (Platanista gangetica) as the National Aquatic Animal of India in 2009.",
+          "topic": "National Symbols of India",
+          "keyword_and_metadata": [
+            "RRB NTPC",
+            "Ganges Dolphin",
+            "National Aquatic Animal"
+          ],
+          "img": "",
+          "sector": "Railways",
+          "source_url": ""
+        },
+        {
+          "question": "Which Indian physicist was awarded the Nobel Prize in 1930 for the discovery of the Raman Effect?",
+          "options": {
+            "a": "Homi J. Bhabha",
+            "b": "Satyendra Nath Bose",
+            "c": "C. V. Raman",
+            "d": "Meghnad Saha"
+          },
+          "correct_option": "c",
+          "exam_name": "RRB NTPC",
+          "exam_year": "2021",
+          "exam_term": "CBT 1",
+          "subject": "General Science & History",
+          "correct_answer": "C. V. Raman",
+          "explanation": "Sir Chandrasekhara Venkata Raman received the 1930 Nobel Prize in Physics for his work on the scattering of light and the discovery of the Raman effect on February 28, 1928 (National Science Day).",
+          "topic": "Nobel Laureates of India",
+          "keyword_and_metadata": [
+            "RRB NTPC",
+            "C V Raman",
+            "Raman Effect"
+          ],
+          "img": "",
+          "sector": "Railways",
+          "source_url": ""
+        },
+        {
+          "question": "To whom is the Council of Ministers in an Indian State collectively responsible?",
+          "options": {
+            "a": "The Governor",
+            "b": "The Chief Minister",
+            "c": "The State Legislative Assembly (Vidhan Sabha)",
+            "d": "The High Court"
+          },
+          "correct_option": "c",
+          "exam_name": "RRB NTPC",
+          "exam_year": "2021",
+          "exam_term": "CBT 1",
+          "subject": "Indian Polity",
+          "correct_answer": "The State Legislative Assembly (Vidhan Sabha)",
+          "explanation": "Under Article 164(2) of the Constitution of India, the Council of Ministers shall be collectively responsible to the Legislative Assembly of the State.",
+          "topic": "State Executive and Legislature",
+          "keyword_and_metadata": [
+            "RRB NTPC",
+            "Council of Ministers",
+            "Legislative Assembly"
+          ],
+          "img": "",
+          "sector": "Railways",
+          "source_url": ""
+        },
+        {
+          "question": "Which vitamin plays an indispensable role in blood coagulation (clotting)?",
+          "options": {
+            "a": "Vitamin A",
+            "b": "Vitamin C",
+            "c": "Vitamin D",
+            "d": "Vitamin K"
+          },
+          "correct_option": "d",
+          "exam_name": "RRB NTPC",
+          "exam_year": "2021",
+          "exam_term": "CBT 1",
+          "subject": "Biology",
+          "correct_answer": "Vitamin K",
+          "explanation": "Vitamin K is essential for the synthesis of prothrombin and clotting factors II, VII, IX, and X in the liver, which are vital for blood clotting.",
+          "topic": "Vitamins and Deficiency Diseases",
+          "keyword_and_metadata": [
+            "RRB NTPC",
+            "Vitamin K",
+            "Blood Clotting"
+          ],
+          "img": "",
+          "sector": "Railways",
+          "source_url": ""
+        },
+        {
+          "question": "What is the capital city of Kazakhstan?",
+          "options": {
+            "a": "Almaty",
+            "b": "Astana",
+            "c": "Tashkent",
+            "d": "Bishkek"
+          },
+          "correct_option": "b",
+          "exam_name": "RRB NTPC",
+          "exam_year": "2021",
+          "exam_term": "CBT 1",
+          "subject": "World Geography",
+          "correct_answer": "Astana",
+          "explanation": "The capital of Kazakhstan is Astana. It was temporarily named Nur-Sultan from 2019 to 2022 before being renamed back to Astana.",
+          "topic": "World Capitals",
+          "keyword_and_metadata": [
+            "RRB NTPC",
+            "Astana",
+            "Kazakhstan"
+          ],
+          "img": "",
+          "sector": "Railways",
+          "source_url": ""
+        },
+        {
+          "question": "Who is famously referred to as the 'Metro Man' of India?",
+          "options": {
+            "a": "E. Sreedharan",
+            "b": "M. Visvesvaraya",
+            "c": "Verghese Kurien",
+            "d": "Sam Pitroda"
+          },
+          "correct_option": "a",
+          "exam_name": "RRB NTPC",
+          "exam_year": "2021",
+          "exam_term": "CBT 1",
+          "subject": "Railway GK",
+          "correct_answer": "E. Sreedharan",
+          "explanation": "Elattuvalapil Sreedharan is known as the 'Metro Man' of India for his leadership in building the Konkan Railway and the Delhi Metro.",
+          "topic": "Prominent Personalities",
+          "keyword_and_metadata": [
+            "RRB NTPC",
+            "Metro Man",
+            "E Sreedharan"
+          ],
+          "img": "",
+          "sector": "Railways",
+          "source_url": ""
+        },
+        {
+          "question": "Rourkela Steel Plant in Odisha was set up with technical collaboration from which foreign country?",
+          "options": {
+            "a": "Soviet Union (USSR)",
+            "b": "United Kingdom",
+            "c": "Germany (West Germany)",
+            "d": "United States"
+          },
+          "correct_option": "c",
+          "exam_name": "RRB NTPC",
+          "exam_year": "2021",
+          "exam_term": "CBT 1",
+          "subject": "Indian Economy and Geography",
+          "correct_answer": "Germany (West Germany)",
+          "explanation": "Rourkela Steel Plant (RSP) was the first integrated steel plant in the public sector in India, established during the Second Five-Year Plan in 1955 with West German collaboration (Krupp and Demag).",
+          "topic": "Major Industries in India",
+          "keyword_and_metadata": [
+            "RRB NTPC",
+            "Rourkela Steel Plant",
+            "Germany"
+          ],
+          "img": "",
+          "sector": "Railways",
+          "source_url": ""
+        }
+      ]
+    }
+  }
 }

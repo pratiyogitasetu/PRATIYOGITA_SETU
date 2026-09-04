@@ -295,11 +295,15 @@ export const formatCategoryName = (category) => {
         'CIVIL_SERVICES_EXAMS': 'Civil Services',
         'POLICE_EXAMS': 'Police Exams',
         'ENGINEERING_RECRUITING_EXAMS': 'Engineering Recruitment',
+        'CUET_AND_UG_ENTRANCE_EXAMS': 'CUET & UG Entrance Exams',
         'INSURANCES_EXAMS': 'Insurance Exams',
         'MBA_EXAMS': 'MBA Exams',
         'SCHOOL_EXAMS': 'School Level Exams',
-        'NURSING_EXAMS': 'Nursing Exams'
+        'NURSING_EXAMS': 'Nursing Exams',
+        'JUDICIARY_EXAMS': 'Judiciary Exams'
     };
+
+
 
     return categoryMap[category] || category
         .replace(/_EXAMS$/i, '')

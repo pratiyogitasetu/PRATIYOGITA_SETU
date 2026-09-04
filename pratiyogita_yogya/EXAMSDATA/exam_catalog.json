@@ -1,206 +1,42 @@
 {
   "_id": "master_catalog",
   "categories": {
-    "SSC_EXAMS": [
-      {
-        "exam_name": "SSC GD Constable",
-        "exam_code": "SSC/SGC/01",
-        "linked_json_file": "SSC_EXAMS/ssc-gd-constable.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "SSC CGL",
-        "exam_code": "SSC/SC/02",
-        "linked_json_file": "SSC_EXAMS/ssc-cgl.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "SSC Selection Post",
-        "exam_code": "SSC/SSP/03",
-        "linked_json_file": "SSC_EXAMS/ssc-selection-post.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "SSC CPO",
-        "exam_code": "SSC/SC/05",
-        "linked_json_file": "SSC_EXAMS/ssc-cpo.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "SSC MTS",
-        "exam_code": "SSC/SM/06",
-        "linked_json_file": "SSC_EXAMS/ssc-mts.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "Delhi Police Constable",
-        "exam_code": "SSC/DPC/07",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "SSC Stenographer",
-        "exam_code": "SSC/SS/08",
-        "linked_json_file": "SSC_EXAMS/ssc-stenographer.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "Delhi Police HeadConstable",
-        "exam_code": "SSC/DPH/09",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "SSC HeadConstableAWO TPO",
-        "exam_code": "SSC/SHT/10",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "SSC JE CE",
-        "exam_code": "SSC/SJC/11",
-        "linked_json_file": "SSC_EXAMS/ssc-je-ce.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "SSC JE EE",
-        "exam_code": "SSC/SJE/12",
-        "linked_json_file": "SSC_EXAMS/ssc-je-ee.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "SSC JE ME",
-        "exam_code": "SSC/SJM/13",
-        "linked_json_file": "SSC_EXAMS/ssc-je-me.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "RSMSSB JE",
-        "exam_code": "SSC/RJ/14",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "SSC JHT",
-        "exam_code": "SSC/SJ/15",
-        "linked_json_file": "SSC_EXAMS/ssc-jht.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "CSIR ASO",
-        "exam_code": "SSC/CA/16",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "IB ACIO",
-        "exam_code": "SSC/IA/17",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "SSC Scientific Assistant",
-        "exam_code": "SSC/SSA/18",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "IB Security Assistant",
-        "exam_code": "SSC/ISA/19",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Supreme Court Junior Court Assis...",
-        "exam_code": "SSC/SCJCA/20",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Delhi Forest Guard",
-        "exam_code": "SSC/DFG/21",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "NBE",
-        "exam_code": "SSC/N/22",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "SSC JE",
-        "exam_code": "SSC/SJ/23",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Supreme Court Law Clerk",
-        "exam_code": "SSC/SCLC/24",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "SSC Havaldar",
-        "exam_code": "SSC/SH/25",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "NTA ARPIT",
-        "exam_code": "SSC/NA/26",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Delhi Police MTS",
-        "exam_code": "SSC/DPM/27",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Delhi Police Driver",
-        "exam_code": "SSC/DPD/28",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "NTA Delhi University Non-Teaching",
-        "exam_code": "SSC/NDUN/29",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "SSC CHSL",
-        "exam_code": "SSC/SC/04",
-        "linked_json_file": "SSC_EXAMS/ssc-chsl.json",
-        "has_divisions": false
-      }
-    ],
     "BANKING_EXAMS": [
       {
         "exam_name": "SBI Clerk",
         "exam_code": "BANKING/SC/01",
-        "linked_json_file": "BANKING_EXAMS/sbi-clerk.json",
-        "has_divisions": false
+        "linked_json_file": ""
       },
       {
         "exam_name": "SBI PO",
         "exam_code": "BANKING/SP/02",
-        "linked_json_file": "BANKING_EXAMS/sbi-po.json",
+        "linked_json_file": "BANKING_EXAMS/sbipo.json",
         "has_divisions": false
       },
       {
         "exam_name": "IBPS PO",
         "exam_code": "BANKING/IP/03",
-        "linked_json_file": "BANKING_EXAMS/ibps-po.json",
-        "has_divisions": false
+        "linked_json_file": ""
       },
       {
         "exam_name": "IBPS Clerk",
         "exam_code": "BANKING/IC/04",
-        "linked_json_file": "BANKING_EXAMS/ibps-clerk.json",
-        "has_divisions": false
+        "linked_json_file": ""
       },
       {
         "exam_name": "RRB Office Assistant",
         "exam_code": "BANKING/ROA/05",
-        "linked_json_file": "BANKING_EXAMS/ibps-rrb-office-assistant.json",
-        "has_divisions": false
+        "linked_json_file": ""
       },
       {
         "exam_name": "RRB OFFicer Scale -I",
         "exam_code": "BANKING/ROSI/06",
-        "linked_json_file": "BANKING_EXAMS/ibps-rrb-officer-scale-i.json",
-        "has_divisions": false
+        "linked_json_file": ""
       },
       {
         "exam_name": "IDBI Executive",
         "exam_code": "BANKING/IE/07",
-        "linked_json_file": "BANKING_EXAMS/idbi-executive.json",
-        "has_divisions": false
+        "linked_json_file": ""
       },
       {
         "exam_name": "Bank of India PO",
@@ -220,8 +56,7 @@
       {
         "exam_name": "RBI Grade B",
         "exam_code": "BANKING/RGB/11",
-        "linked_json_file": "BANKING_EXAMS/rbi-grade-b.json",
-        "has_divisions": false
+        "linked_json_file": ""
       },
       {
         "exam_name": "MP Cooperative Bank Committee ...",
@@ -306,8 +141,7 @@
       {
         "exam_name": "IBPS SO",
         "exam_code": "BANKING/IS/28",
-        "linked_json_file": "BANKING_EXAMS/ibps-so.json",
-        "has_divisions": false
+        "linked_json_file": ""
       },
       {
         "exam_name": "Bank of Maharashtra Generalist 0...",
@@ -337,8 +171,7 @@
       {
         "exam_name": "SEBI Grade A",
         "exam_code": "BANKING/SGA/34",
-        "linked_json_file": "BANKING_EXAMS/sebi-grade-a.json",
-        "has_divisions": false
+        "linked_json_file": ""
       },
       {
         "exam_name": "Agricultural Field Officer - Scale I",
@@ -349,50 +182,39 @@
         "exam_name": "ITOfficer - Scale I",
         "exam_code": "BANKING/ISI/36",
         "linked_json_file": ""
-      },
-      {
-        "exam_name": "NABARD Grade A",
-        "exam_code": "BANKING/NGA/37",
-        "linked_json_file": "BANKING_EXAMS/nabard-grade-a.json",
-        "has_divisions": false
       }
     ],
     "CIVIL_SERVICES_EXAMS": [
       {
         "exam_name": "UPSC Civil Services",
         "exam_code": "CIVIL/UCS/01",
-        "linked_json_file": "CIVIL_SERVICES_EXAMS/upsc-civil-services.json",
-        "has_divisions": false
+        "linked_json_file": "CIVIL_SERVICES_EXAMS/upsc.json",
+        "has_divisions": true
       },
       {
         "exam_name": "BPSC Exam",
         "exam_code": "CIVIL/BE/02",
-        "linked_json_file": "CIVIL_SERVICES_EXAMS/bpsc-combined-competitive.json",
-        "has_divisions": false
+        "linked_json_file": ""
       },
       {
         "exam_name": "UPPSC",
         "exam_code": "CIVIL/U/03",
-        "linked_json_file": "CIVIL_SERVICES_EXAMS/uppsc-pcs.json",
-        "has_divisions": false
+        "linked_json_file": ""
       },
       {
         "exam_name": "MPPSC State Service",
         "exam_code": "CIVIL/MSS/04",
-        "linked_json_file": "CIVIL_SERVICES_EXAMS/mppsc-state-service.json",
-        "has_divisions": false
+        "linked_json_file": ""
       },
       {
         "exam_name": "RPSC RAS",
         "exam_code": "CIVIL/RR/05",
-        "linked_json_file": "CIVIL_SERVICES_EXAMS/rpsc-ras.json",
-        "has_divisions": false
+        "linked_json_file": ""
       },
       {
         "exam_name": "UPSC CAPF AC",
         "exam_code": "CIVIL/UCA/06",
-        "linked_json_file": "CIVIL_SERVICES_EXAMS/upsc-capf-ac.json",
-        "has_divisions": false
+        "linked_json_file": ""
       },
       {
         "exam_name": "MPSC State Service",
@@ -412,8 +234,7 @@
       {
         "exam_name": "WBCS",
         "exam_code": "CIVIL/W/10",
-        "linked_json_file": "CIVIL_SERVICES_EXAMS/wbcs.json",
-        "has_divisions": false
+        "linked_json_file": ""
       },
       {
         "exam_name": "JPSC Civil Services",
@@ -533,8 +354,7 @@
       {
         "exam_name": "UPSC IFS",
         "exam_code": "CIVIL/UI/34",
-        "linked_json_file": "CIVIL_SERVICES_EXAMS/upsc-ifs.json",
-        "has_divisions": false
+        "linked_json_file": ""
       },
       {
         "exam_name": "UPSC Combined Geo Scientist",
@@ -554,8 +374,7 @@
       {
         "exam_name": "UPSC IES ISS",
         "exam_code": "CIVIL/UII/38",
-        "linked_json_file": "CIVIL_SERVICES_EXAMS/upsc-ies-iss.json",
-        "has_divisions": false
+        "linked_json_file": ""
       },
       {
         "exam_name": "UPSC Assistant Labour Commission...",
@@ -565,8 +384,7 @@
       {
         "exam_name": "UPSC CMS",
         "exam_code": "CIVIL/UC/40",
-        "linked_json_file": "CIVIL_SERVICES_EXAMS/upsc-cms.json",
-        "has_divisions": false
+        "linked_json_file": ""
       },
       {
         "exam_name": "UPSC Air Safety Officer",
@@ -584,239 +402,15 @@
         "linked_json_file": ""
       }
     ],
-    "RAILWAY_EXAMS": [
+    "CUET_AND_UG_ENTRANCE_EXAMS": [
       {
-        "exam_name": "RRB Group D",
-        "exam_code": "RAILWAY/RGD/01",
-        "linked_json_file": "RAILWAY_EXAMS/rrb-group-d.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "RRB NTPC",
-        "exam_code": "RAILWAY/RN/02",
-        "linked_json_file": "RAILWAY_EXAMS/rrb-ntpc.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "RPF Constable",
-        "exam_code": "RAILWAY/RC/03",
-        "linked_json_file": "RAILWAY_EXAMS/rpf-constable.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "RRB ALP",
-        "exam_code": "RAILWAY/RA/04",
-        "linked_json_file": "RAILWAY_EXAMS/rrb-alp.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "RRB Technician",
-        "exam_code": "RAILWAY/RT/05",
-        "linked_json_file": "RAILWAY_EXAMS/rrb-technician.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "RPF SI",
-        "exam_code": "RAILWAY/RS/06",
-        "linked_json_file": "RAILWAY_EXAMS/rpf-si.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "RRB JE",
-        "exam_code": "RAILWAY/RJ/07",
-        "linked_json_file": "RAILWAY_EXAMS/rrb-je.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "RRB Technician Grade1",
-        "exam_code": "RAILWAY/RTG/08",
-        "linked_json_file": "RAILWAY_EXAMS/rrb-technician-grade-1.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "Railway GDCE",
-        "exam_code": "RAILWAY/RG/09",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "RRB Junior Translator",
-        "exam_code": "RAILWAY/RJT/10",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "RRB Ministerial and Isolated Cate",
-        "exam_code": "RAILWAY/RMAIC/11",
-        "linked_json_file": "RAILWAY_EXAMS/rrb-ministerial-isolated.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "RRB Junior Stenographer",
-        "exam_code": "RAILWAY/RJS/12",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "DFCCIL Executive",
-        "exam_code": "RAILWAY/DE/13",
-        "linked_json_file": "RAILWAY_EXAMS/dfccil-executive.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "RPSF",
-        "exam_code": "RAILWAY/R/14",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "DFCCIL MTS",
-        "exam_code": "RAILWAY/DM/15",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Railway TTE",
-        "exam_code": "RAILWAY/RT/16",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "RRB JE EC",
-        "exam_code": "RAILWAY/RJE/17",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Railway TC",
-        "exam_code": "RAILWAY/RT/18",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "RRB ASM",
-        "exam_code": "RAILWAY/RA/19",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "RITES Junior Assistant",
-        "exam_code": "RAILWAY/RJA/20",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "RRB JE EE",
-        "exam_code": "RAILWAY/RJE/21",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "RRB JE ME",
-        "exam_code": "RAILWAY/RJM/22",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "RRB JE CE",
-        "exam_code": "RAILWAY/RJC/23",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "DFCCIL Operations BD",
-        "exam_code": "RAILWAY/DOB/24",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "MPMRCL Supervisor",
-        "exam_code": "RAILWAY/MS/25",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "RRB JE IT",
-        "exam_code": "RAILWAY/RJI/26",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "IRCON JE",
-        "exam_code": "RAILWAY/IJ/27",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "IRCON AE",
-        "exam_code": "RAILWAY/IA/28",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "RITES Engineer",
-        "exam_code": "RAILWAY/RE/29",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "RailTel Deputy Manager",
-        "exam_code": "RAILWAY/RDM/30",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "RailTel Corporation of India Limited",
-        "exam_code": "RAILWAY/RCOIL/31",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "RPF",
-        "exam_code": "RAILWAY/R/32",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Railway Pharmacist",
-        "exam_code": "RAILWAY/RP/33",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "DFCCIL Junior Executive",
-        "exam_code": "RAILWAY/DJE/34",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "RRB Paramedical Staff",
-        "exam_code": "RAILWAY/RPS/35",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Gujarat Metro SCTO",
-        "exam_code": "RAILWAY/GMS/36",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Railway Lab Assistant",
-        "exam_code": "RAILWAY/RLA/37",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "DFCCIL Junior Manager",
-        "exam_code": "RAILWAY/DJM/38",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "DMRC CRA",
-        "exam_code": "RAILWAY/DC/39",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "RRB Health and Malaria Inspector",
-        "exam_code": "RAILWAY/RHAMI/40",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "UPMRC Station Controller",
-        "exam_code": "RAILWAY/USC/41",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Gujarat Metro",
-        "exam_code": "RAILWAY/GM/42",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "DFCCILRecruitment",
-        "exam_code": "RAILWAY/D/43",
-        "linked_json_file": ""
+        "exam_name": "Common University Entrance Test (UG)",
+        "exam_code": "CUET",
+        "linked_json_file": "CUET_AND_UG_ENTRANCE_EXAMS/cuet.json",
+        "has_divisions": true
       }
     ],
     "DEFENCE_EXAMS": [
-      {
-        "exam_name": "Indian Coast Guard Assistant Commandant",
-        "exam_code": "DEFENCE/ICGAC/01",
-        "linked_json_file": ""
-      },
       {
         "exam_name": "(CDS)Combined Defence Services Examination",
         "exam_code": "DEFENCE/CDS/02",
@@ -829,12 +423,6 @@
         "linked_json_file": ""
       },
       {
-        "exam_name": "NDA",
-        "exam_code": "DEFENCE/NDA/04",
-        "linked_json_file": "DEFENCE_EXAMS/nda.json",
-        "has_divisions": false
-      },
-      {
         "exam_name": "Airforce Group Y",
         "exam_code": "DEFENCE/AGY/05",
         "linked_json_file": ""
@@ -842,8 +430,7 @@
       {
         "exam_name": "Army GD Agniveer",
         "exam_code": "DEFENCE/AGA/06",
-        "linked_json_file": "DEFENCE_EXAMS/army-gd-agniveer.json",
-        "has_divisions": false
+        "linked_json_file": ""
       },
       {
         "exam_name": "BSF Head Constable",
@@ -856,13 +443,6 @@
         "linked_json_file": ""
       },
       {
-        "exam_name": "AFCAT",
-        "exam_code": "DEFENCE/A/09",
-        "exam_code_lower": "defence/a/09",
-        "linked_json_file": "DEFENCE_EXAMS/afcat.json",
-        "has_divisions": false
-      },
-      {
         "exam_name": "CISF Constable",
         "exam_code": "DEFENCE/CC/10",
         "linked_json_file": ""
@@ -870,8 +450,7 @@
       {
         "exam_name": "UPSC CAPF AC",
         "exam_code": "DEFENCE/UCA/11",
-        "linked_json_file": "DEFENCE_EXAMS/upsc-capf-ac.json",
-        "has_divisions": false
+        "linked_json_file": ""
       },
       {
         "exam_name": "Army Tradesman Agniveer",
@@ -886,20 +465,17 @@
       {
         "exam_name": "Indian Airforce Agniveer",
         "exam_code": "DEFENCE/IAA/14",
-        "linked_json_file": "DEFENCE_EXAMS/indian-airforce-agniveer.json",
-        "has_divisions": false
+        "linked_json_file": ""
       },
       {
         "exam_name": "Indian Army Agniveer",
         "exam_code": "DEFENCE/IAA/15",
-        "linked_json_file": "DEFENCE_EXAMS/indian-army-agniveer.json",
-        "has_divisions": false
+        "linked_json_file": ""
       },
       {
         "exam_name": "Army Technical Agniveer",
         "exam_code": "DEFENCE/ATA/16",
-        "linked_json_file": "DEFENCE_EXAMS/army-technical-agniveer.json",
-        "has_divisions": false
+        "linked_json_file": ""
       },
       {
         "exam_name": "Indian Army Nursing Assistant",
@@ -954,8 +530,7 @@
       {
         "exam_name": "Navy MR Agniveer",
         "exam_code": "DEFENCE/NMA/27",
-        "linked_json_file": "DEFENCE_EXAMS/navy-mr-agniveer.json",
-        "has_divisions": false
+        "linked_json_file": ""
       },
       {
         "exam_name": "SSB Service Selection Board",
@@ -970,8 +545,7 @@
       {
         "exam_name": "Indian Coast Guard Navik GD",
         "exam_code": "DEFENCE/ICGNG/30",
-        "linked_json_file": "DEFENCE_EXAMS/coast-guard-navik-gd.json",
-        "has_divisions": false
+        "linked_json_file": ""
       },
       {
         "exam_name": "CISF Tradesman",
@@ -1036,8 +610,7 @@
       {
         "exam_name": "Indian Navy Agniveer",
         "exam_code": "DEFENCE/INA/43",
-        "linked_json_file": "DEFENCE_EXAMS/indian-navy-agniveer.json",
-        "has_divisions": false
+        "linked_json_file": ""
       },
       {
         "exam_name": "Navy AA",
@@ -1135,11 +708,6 @@
         "linked_json_file": ""
       },
       {
-        "exam_name": "Army NCC Special Entry",
-        "exam_code": "DEFENCE/ARMYNCC/63",
-        "linked_json_file": ""
-      },
-      {
         "exam_name": "Navy NCC Entry",
         "exam_code": "DEFENCE/NAVYNCC/64",
         "linked_json_file": "",
@@ -1152,2387 +720,12 @@
         "has_divisions": true
       }
     ],
-    "PG_EXAMS": [
-      {
-        "exam_name": "CUET PG",
-        "exam_code": "PG/CUETPG/01",
-        "linked_json_file": "PG_EXAMS/cuet-pg.json",
-        "has_divisions": false
-      }
-    ],
-    "MBA_EXAMS": [
-      {
-        "exam_name": "CAT Exam",
-        "exam_code": "MBA/CE/01",
-        "linked_json_file": "MBA_EXAMS/cat.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "CMAT Exam",
-        "exam_code": "MBA/CE/02",
-        "linked_json_file": "MBA_EXAMS/cmat.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "MAH MBA CET",
-        "exam_code": "MBA/MMC/03",
-        "linked_json_file": "MBA_EXAMS/mah-mba-cet.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "XAT Exam",
-        "exam_code": "MBA/XE/04",
-        "linked_json_file": "MBA_EXAMS/xat.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "SNAP Exam",
-        "exam_code": "MBA/SE/05",
-        "linked_json_file": "MBA_EXAMS/snap.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "Karnataka PGCET",
-        "exam_code": "MBA/KP/06",
-        "linked_json_file": "MBA_EXAMS/karnataka-pgcet.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "TANCET",
-        "exam_code": "MBA/T/07",
-        "linked_json_file": "MBA_EXAMS/tancet.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "KMAT Kerala",
-        "exam_code": "MBA/KK/08",
-        "linked_json_file": "MBA_EXAMS/kmat-kerala.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "NMAT Exam",
-        "exam_code": "MBA/NE/09",
-        "linked_json_file": "MBA_EXAMS/nmat.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "MAT Exam",
-        "exam_code": "MBA/ME/10",
-        "linked_json_file": "MBA_EXAMS/mat.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "ATMA Exam",
-        "exam_code": "MBA/AE/11",
-        "linked_json_file": "MBA_EXAMS/atma.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "PGDBA Exam",
-        "exam_code": "MBA/PE/12",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "TISSNET Exam",
-        "exam_code": "MBA/TE/13",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "llFT MBA Exam",
-        "exam_code": "MBA/LME/14",
-        "linked_json_file": ""
-      }
-    ],
-    "UG_EXAMS": [
-      {
-        "exam_name": "NEET",
-        "exam_code": "UG/NEET/01",
-        "linked_json_file": "UG_EXAMS/neet.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "JEE Main",
-        "exam_code": "UG/JM/02",
-        "linked_json_file": "UG_EXAMS/jee-main.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "JEE Advanced",
-        "exam_code": "UG/JA/03",
-        "linked_json_file": "UG_EXAMS/jee-advanced.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "CUET",
-        "exam_code": "UG/C/04",
-        "linked_json_file": "UG_EXAMS/cuet-ug.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "WB JEE",
-        "exam_code": "UG/WJ/05",
-        "linked_json_file": "UG_EXAMS/wbjee.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "AP ICET Exam",
-        "exam_code": "UG/AIE/06",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "TS ICET Exam",
-        "exam_code": "UG/TIE/07",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "MHT CET",
-        "exam_code": "UG/MC/08",
-        "linked_json_file": "UG_EXAMS/mht-cet.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "COMEDK UGET",
-        "exam_code": "UG/CU/09",
-        "linked_json_file": "UG_EXAMS/comedk-uget.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "VITEEE",
-        "exam_code": "UG/V/10",
-        "linked_json_file": "UG_EXAMS/viteee.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "IIT JAM",
-        "exam_code": "UG/IJ/11",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "NCET",
-        "exam_code": "UG/N/12",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "TS EAMCET",
-        "exam_code": "UG/TE/13",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "KCET",
-        "exam_code": "UG/K/14",
-        "linked_json_file": "UG_EXAMS/kcet.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "KEAM",
-        "exam_code": "UG/K/15",
-        "linked_json_file": "UG_EXAMS/keam.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "AP EAPCET",
-        "exam_code": "UG/AE/16",
-        "linked_json_file": "UG_EXAMS/ap-eapcet.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "CLAT",
-        "exam_code": "UG/C/17",
-        "linked_json_file": "UG_EXAMS/clat.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "SRMJEEE",
-        "exam_code": "UG/S/18",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Odisha B.Ed",
-        "exam_code": "UG/OB/19",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "UP Polytechnic JEECUP",
-        "exam_code": "UG/UPJ/20",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "GUJCET",
-        "exam_code": "UG/G/21",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "OUAT",
-        "exam_code": "UG/O/22",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "MP PPT",
-        "exam_code": "UG/MP/23",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "TS PGECET",
-        "exam_code": "UG/TP/24",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "KVPY",
-        "exam_code": "UG/K/25",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "BCECE",
-        "exam_code": "UG/B/26",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Uttarakhand D.El.Ed",
-        "exam_code": "UG/UD/27",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Jamia Millia Islamia B.Ed",
-        "exam_code": "UG/JMIB/28",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "RIE CEE",
-        "exam_code": "UG/RC/29",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "HPU B.Ed",
-        "exam_code": "UG/HB/30",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "HPCET",
-        "exam_code": "UG/H/31",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Karnataka B.Ed",
-        "exam_code": "UG/KB/32",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "JKBOPEE B.Ed",
-        "exam_code": "UG/JB/33",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "TS EDCET",
-        "exam_code": "UG/TE/34",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "AP EDCET",
-        "exam_code": "UG/AE/35",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "MH CET LAW",
-        "exam_code": "UG/MCL/36",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Punjab B.Ed",
-        "exam_code": "UG/PB/37",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Chandigarh B.Ed",
-        "exam_code": "UG/CB/38",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Dibrugarh University B.Ed CET",
-        "exam_code": "UG/DUBC/39",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "NHTET",
-        "exam_code": "UG/N/40",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "VMOU B.Ed",
-        "exam_code": "UG/VB/41",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "MAH MCA CET",
-        "exam_code": "UG/MMC/42",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "LPUNEST",
-        "exam_code": "UG/L/43",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "DU LLB",
-        "exam_code": "UG/DL/44",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "AIAPGET",
-        "exam_code": "UG/A/45",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "MICAT",
-        "exam_code": "UG/M/46",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "AEEE",
-        "exam_code": "UG/A/47",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "JMI Entrance Exam",
-        "exam_code": "UG/JEE/48",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "NIPER JEE",
-        "exam_code": "UG/NJ/49",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "NEST",
-        "exam_code": "UG/N/50",
-        "linked_json_file": "UG_EXAMS/nest.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "CEED",
-        "exam_code": "UG/C/51",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "PU LLB",
-        "exam_code": "UG/PL/52",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "WBJEE JELET",
-        "exam_code": "UG/WJ/53",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "ICMAI",
-        "exam_code": "UG/I/54",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "AP PGECET",
-        "exam_code": "UG/AP/55",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "IISER IAT",
-        "exam_code": "UG/II/56",
-        "linked_json_file": "UG_EXAMS/iiser-iat.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "AILET",
-        "exam_code": "UG/A/57",
-        "linked_json_file": "UG_EXAMS/ailet.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "TS LAWCET",
-        "exam_code": "UG/TL/58",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "ICAR AIEEA",
-        "exam_code": "UG/IA/59",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "AP ECET",
-        "exam_code": "UG/AE/60",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "AIIMS MBBS",
-        "exam_code": "UG/AM/61",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "AMUEEE",
-        "exam_code": "UG/A/62",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "IIMC",
-        "exam_code": "UG/I/63",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "JCECE",
-        "exam_code": "UG/J/64",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "JEXPO",
-        "exam_code": "UG/J/65",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "IGNOU MBA",
-        "exam_code": "UG/IM/66",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "MP PAT",
-        "exam_code": "UG/MP/67",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "CMC Vellore",
-        "exam_code": "UG/CV/68",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "VSAT",
-        "exam_code": "UG/V/69",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "NPAT",
-        "exam_code": "UG/N/70",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "GPAT",
-        "exam_code": "UG/G/71",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "UCEED",
-        "exam_code": "UG/U/72",
-        "linked_json_file": "UG_EXAMS/uceed.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "PU CET",
-        "exam_code": "UG/PC/73",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "IPMAT",
-        "exam_code": "UG/I/74",
-        "linked_json_file": "UG_EXAMS/ipmat.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "HP PAT",
-        "exam_code": "UG/HP/75",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "HPU MAT",
-        "exam_code": "UG/HM/76",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "NATA",
-        "exam_code": "UG/N/77",
-        "linked_json_file": "UG_EXAMS/nata.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "AP POLYCET",
-        "exam_code": "UG/AP/78",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "CG PET",
-        "exam_code": "UG/CP/79",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "AP LAWCET",
-        "exam_code": "UG/AL/80",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "CUSAT CAT",
-        "exam_code": "UG/CC/81",
-        "linked_json_file": "UG_EXAMS/cusat-cat.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "AP DEECET",
-        "exam_code": "UG/AD/82",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "JKCET",
-        "exam_code": "UG/J/83",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "HITSEEE",
-        "exam_code": "UG/H/84",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "CG PPT",
-        "exam_code": "UG/CP/85",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "JUET",
-        "exam_code": "UG/J/86",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "HSEE",
-        "exam_code": "UG/H/87",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "IICD Entrance Exam",
-        "exam_code": "UG/IEE/88",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "CG PAT",
-        "exam_code": "UG/CP/89",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "AGRICET",
-        "exam_code": "UG/A/90",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "TS POLYCET",
-        "exam_code": "UG/TP/91",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "ACET",
-        "exam_code": "UG/A/92",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "NCHMCT JEE Exam",
-        "exam_code": "UG/NJE/93",
-        "linked_json_file": "UG_EXAMS/nchmct-jee.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "Bihar Diploma DECE-LE",
-        "exam_code": "UG/BDD/94",
-        "linked_json_file": ""
-      }
-    ],
-    "POLICE_EXAMS": [
-      {
-        "exam_name": "Delhi Police Constable",
-        "exam_code": "POLICE/DPC/01",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Delhi Police Head Constable",
-        "exam_code": "POLICE/DPHC/02",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "UP Police Constable",
-        "exam_code": "POLICE/UPC/03",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Bihar Police SI",
-        "exam_code": "POLICE/BPS/04",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "UP Police Sub Inspector",
-        "exam_code": "POLICE/UPSI/05",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Delhi Police Driver",
-        "exam_code": "POLICE/DPD/06",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Delhi Police MTS",
-        "exam_code": "POLICE/DPM/07",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Maharashtra Police Constable",
-        "exam_code": "POLICE/MPC/08",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Odisha Police SI",
-        "exam_code": "POLICE/OPS/09",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Bihar Police Prohibition Sub Inspector",
-        "exam_code": "POLICE/BPPSI/10",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Bihar Police Constable",
-        "exam_code": "POLICE/BPC/11",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "UP Police ASI",
-        "exam_code": "POLICE/UPA/12",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "WB Police Constable",
-        "exam_code": "POLICE/WPC/13",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Kolkata Police Constable",
-        "exam_code": "POLICE/KPC/14",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "MP Police Constable",
-        "exam_code": "POLICE/MPC/15",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Rajasthan Police Constable",
-        "exam_code": "POLICE/RPC/16",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "WB Police SI",
-        "exam_code": "POLICE/WPS/17",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Bihar Police ASI Steno",
-        "exam_code": "POLICE/BPAS/18",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "UP Police Head Operator",
-        "exam_code": "POLICE/UPHO/19",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "AP Police Constable",
-        "exam_code": "POLICE/APC/20",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Gujarat Police Constable",
-        "exam_code": "POLICE/GPC/21",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "UP Police Assistant Operator",
-        "exam_code": "POLICE/UPAO/22",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Bihar Police Prohibition Constable",
-        "exam_code": "POLICE/BPPC/23",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Rajasthan Police SI",
-        "exam_code": "POLICE/RPS/24",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "MP Police SI",
-        "exam_code": "POLICE/MPS/25",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "HP Police Constable",
-        "exam_code": "POLICE/HPC/26",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "UP Police Workshop Staff",
-        "exam_code": "POLICE/UPWS/27",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Odisha Police Constable",
-        "exam_code": "POLICE/OPC/28",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Telangana Police SI",
-        "exam_code": "POLICE/TPS/29",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "UK Police Constable",
-        "exam_code": "POLICE/UPC/30",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "KSP Constable",
-        "exam_code": "POLICE/KC/31",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "KSP SI",
-        "exam_code": "POLICE/KS/32",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "HSSC Haryana Police Constable",
-        "exam_code": "POLICE/HHPC/33",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "DSSSB Jail warder",
-        "exam_code": "POLICE/DJW/34",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "WBPSC Food SI",
-        "exam_code": "POLICE/WFS/35",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "JKSSB Sub Inspector",
-        "exam_code": "POLICE/JSI/36",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Gujarat Police LRB Constable",
-        "exam_code": "POLICE/GPLC/37",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "MPSC PSI",
-        "exam_code": "POLICE/MP/38",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Telangana Police Constable",
-        "exam_code": "POLICE/TPC/39",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "TNUSRB SI",
-        "exam_code": "POLICE/TS/40",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Kolkata Police SI",
-        "exam_code": "POLICE/KPS/41",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "UP Police Jail Warder",
-        "exam_code": "POLICE/UPJW/42",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "UP police computer operator",
-        "exam_code": "POLICE/UPCO/43",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "JSSC SI",
-        "exam_code": "POLICE/JS/44",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "CG Police SI",
-        "exam_code": "POLICE/CPS/45",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "CG Police Constable",
-        "exam_code": "POLICE/CPC/46",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "West Bengal Police Warder",
-        "exam_code": "POLICE/WBPW/47",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Punjab Police Constable",
-        "exam_code": "POLICE/PPC/48",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "HSSC SI",
-        "exam_code": "POLICE/HS/49",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "HP Police SI",
-        "exam_code": "POLICE/HPS/50",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Haryana Police",
-        "exam_code": "POLICE/HP/51",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Odisha Police Jail Warder",
-        "exam_code": "POLICE/OPJW/52",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "OSSC Traffic Constable",
-        "exam_code": "POLICE/OTC/53",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "HP Police Jail Warder",
-        "exam_code": "POLICE/HPJW/54",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "OSSC Excise SI",
-        "exam_code": "POLICE/OES/55",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "AP Police SI",
-        "exam_code": "POLICE/APS/56",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Bihar Police Fireman",
-        "exam_code": "POLICE/BPF/57",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Odisha Police ASI",
-        "exam_code": "POLICE/OPA/58",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "UP police programmer Grade 2",
-        "exam_code": "POLICE/UPPG2/59",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "OSAP IRB Constable",
-        "exam_code": "POLICE/OIC/60",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "UKSSSC Fireman",
-        "exam_code": "POLICE/UF/61",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Punjab Police SI",
-        "exam_code": "POLICE/PPS/62",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "CG Vyapam SI",
-        "exam_code": "POLICE/CVS/63",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "TNUSRB Police Constable",
-        "exam_code": "POLICE/TPC/64",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Bihar Police Forest Guard",
-        "exam_code": "POLICE/BPFG/65",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "UKSSSC Chief Constable",
-        "exam_code": "POLICE/UCC/66",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Rajasthan Police",
-        "exam_code": "POLICE/RP/67",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Bihar Police Enforcement Sub Inspector",
-        "exam_code": "POLICE/BPESI/68",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Uttarakhand Fire Officer",
-        "exam_code": "POLICE/UFO/69",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Haryana Police Commando",
-        "exam_code": "POLICE/HPC/70",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Chandigarh Police Constable",
-        "exam_code": "POLICE/CPC/71",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Gujarat PSI",
-        "exam_code": "POLICE/GP/72",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "UP Police",
-        "exam_code": "POLICE/UP/73",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "UP Police Fireman",
-        "exam_code": "POLICE/UPF/74",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Punjab Police Head Constable",
-        "exam_code": "POLICE/PPHC/75",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Uttarakhand Jail Warder",
-        "exam_code": "POLICE/UJW/76",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "UKSSSC Jail Guard",
-        "exam_code": "POLICE/UJG/77",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Uttarakhand Police Head Constable",
-        "exam_code": "POLICE/UPHC/78",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "APSSB Constable",
-        "exam_code": "POLICE/AC/79",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Gujarat Police",
-        "exam_code": "POLICE/GP/80",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "KSP SOCO",
-        "exam_code": "POLICE/KS/81",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "JK Police Constable",
-        "exam_code": "POLICE/JPC/82",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Gujarat PSI Technical Operator",
-        "exam_code": "POLICE/GPTO/83",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Gujarat Police ASI",
-        "exam_code": "POLICE/GPA/84",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Punjab Police Jail Warder",
-        "exam_code": "POLICE/PPJW/85",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "WB Police Wireless Supervisor",
-        "exam_code": "POLICE/WPWS/86",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "MPPSC DSP",
-        "exam_code": "POLICE/MD/87",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "WB Police Wireless Operator",
-        "exam_code": "POLICE/WPWO/88",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "WB Excise Constable",
-        "exam_code": "POLICE/WEC/89",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "WB Police",
-        "exam_code": "POLICE/WP/90",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Assam Police Constable",
-        "exam_code": "POLICE/APC/91",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "WB Police Agragami",
-        "exam_code": "POLICE/WPA/92",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "WB Police Staff Officer-cum-Instructor",
-        "exam_code": "POLICE/WPSO/93",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Assam Police SI",
-        "exam_code": "POLICE/APS/94",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "PPSC Cooperative Inspector",
-        "exam_code": "POLICE/PCI/95",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Bihar Police CSBC Forester",
-        "exam_code": "POLICE/BPCF/96",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Meghalaya Police Constable",
-        "exam_code": "POLICE/MPC/97",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Bihar Home Guard",
-        "exam_code": "POLICE/BHG/98",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "TELANGANA POLICE",
-        "exam_code": "POLICE/TP/99",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Maharashtra Police Driver Constable",
-        "exam_code": "POLICE/MPDC/100",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Punjab Police Fireman",
-        "exam_code": "POLICE/PPF/101",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Meghalaya Police SI",
-        "exam_code": "POLICE/MPS/102",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Punjab Police Intelligence Assistant",
-        "exam_code": "POLICE/PPIA/103",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Punjab Police Civilian Support Staff",
-        "exam_code": "POLICE/PPCSS/104",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Punjab Police IT",
-        "exam_code": "POLICE/PPI/105",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Kerala Police Driver",
-        "exam_code": "POLICE/KPD/106",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Meghalaya Police Driver",
-        "exam_code": "POLICE/MPD/107",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "TPSC SI",
-        "exam_code": "POLICE/TS/108",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Manipur Police SI",
-        "exam_code": "POLICE/MPS/109",
-        "linked_json_file": ""
-      }
-    ],
-    "SCHOOL_EXAMS": [
-      {
-        "exam_name": "All India Sainik Schools Entrance Exam (AISSEE)",
-        "exam_code": "SCHOOL/AISSEEA/01",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Navodaya Vidyalaya Selection Test (NVST)",
-        "exam_code": "SCHOOL/NVSTN/02",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Kendriya Vidyalaya Sangathan (KVS) Admission Test",
-        "exam_code": "SCHOOL/KVSKAT/03",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Rashtriya Military School Entrance Exam",
-        "exam_code": "SCHOOL/RMSEE/04",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Rashtriya Indian Military College Entrance Exam (RIMC)",
-        "exam_code": "SCHOOL/RIMCEER/05",
-        "linked_json_file": ""
-      }
-    ],
-    "TEACHING_EXAMS": [
-      {
-        "exam_name": "CTET",
-        "exam_code": "TEACHING/C/01",
-        "linked_json_file": "TEACHING_EXAMS/ctet.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "GATE",
-        "exam_code": "TEACHING/GATE/02",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "REET",
-        "exam_code": "TEACHING/R/03",
-        "linked_json_file": "TEACHING_EXAMS/reet.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "Bihar D.El.Ed",
-        "exam_code": "TEACHING/BD/04",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "UGC NET",
-        "exam_code": "TEACHING/UN/05",
-        "linked_json_file": "TEACHING_EXAMS/ugc-net.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "Bihar Primary Teacher",
-        "exam_code": "TEACHING/BPT/06",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "MPPSC Assistant Professor",
-        "exam_code": "TEACHING/MAP/07",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "UP TGT",
-        "exam_code": "TEACHING/UT/08",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Railway Teacher",
-        "exam_code": "TEACHING/RT/09",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "DSSSB TGT",
-        "exam_code": "TEACHING/DT/10",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "KVS TGT",
-        "exam_code": "TEACHING/KT/11",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Bihar Upper Primary Teacher",
-        "exam_code": "TEACHING/BUPT/12",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "KVS PGT",
-        "exam_code": "TEACHING/KP/13",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Bihar Secondary Teacher",
-        "exam_code": "TEACHING/BST/14",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Bihar STET",
-        "exam_code": "TEACHING/BS/15",
-        "linked_json_file": "TEACHING_EXAMS/bihar-stet.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "KVS PRT",
-        "exam_code": "TEACHING/KP/16",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "DSSSB PGT",
-        "exam_code": "TEACHING/DP/17",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Bihar Senior Secondary Teacher",
-        "exam_code": "TEACHING/BSST/18",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "HTET PRT",
-        "exam_code": "TEACHING/HP/19",
-        "linked_json_file": "TEACHING_EXAMS/htet-prt.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "HTET PGT",
-        "exam_code": "TEACHING/HP/20",
-        "linked_json_file": "TEACHING_EXAMS/htet-pgt.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "Rajasthan 3rd Grade Teacher",
-        "exam_code": "TEACHING/R3GT/21",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "UP PGT",
-        "exam_code": "TEACHING/UP/22",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "DSSSB PRT",
-        "exam_code": "TEACHING/DP/23",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "BPSC Head Master",
-        "exam_code": "TEACHING/BHM/24",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "SUPER TET",
-        "exam_code": "TEACHING/ST/25",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "NVS TGT",
-        "exam_code": "TEACHING/NT/26",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "NTA Delhi University NonTeaching",
-        "exam_code": "TEACHING/NDUN/27",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "BPSC Head Teacher",
-        "exam_code": "TEACHING/BHT/28",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "UPTET",
-        "exam_code": "TEACHING/U/29",
-        "linked_json_file": "TEACHING_EXAMS/uptet.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "MP SET",
-        "exam_code": "TEACHING/MS/30",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "KVS",
-        "exam_code": "TEACHING/K/31",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "HTET TGT",
-        "exam_code": "TEACHING/HT/32",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "MPTET Varg 3",
-        "exam_code": "TEACHING/MV3/33",
-        "linked_json_file": "TEACHING_EXAMS/mptet-varg-3.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "Bihar CET B.Ed",
-        "exam_code": "TEACHING/BCB/34",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "OSSTET Exam",
-        "exam_code": "TEACHING/OE/35",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "KVS Librarian",
-        "exam_code": "TEACHING/KL/36",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "UP B.Ed JEE",
-        "exam_code": "TEACHING/UBJ/37",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "EMRS TGT",
-        "exam_code": "TEACHING/ET/38",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Bihar TET",
-        "exam_code": "TEACHING/BT/39",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "UPPSC Lecturer",
-        "exam_code": "TEACHING/UL/40",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "CSIR NET",
-        "exam_code": "TEACHING/CN/41",
-        "linked_json_file": "TEACHING_EXAMS/csir-net.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "HSSC TGT",
-        "exam_code": "TEACHING/HT/42",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "MAHA TAIT",
-        "exam_code": "TEACHING/MT/43",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "UKPSC Lecturer",
-        "exam_code": "TEACHING/UL/44",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Rajasthan Computer Teacher",
-        "exam_code": "TEACHING/RCT/45",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "RPSC Senior Teacher Grade II",
-        "exam_code": "TEACHING/RSTGI/46",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "KTET",
-        "exam_code": "TEACHING/K/47",
-        "linked_json_file": "TEACHING_EXAMS/ktet.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "Rajasthan PTET",
-        "exam_code": "TEACHING/RP/48",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "UP LT Grade Teacher",
-        "exam_code": "TEACHING/ULGT/49",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "EMRS PGT",
-        "exam_code": "TEACHING/EP/50",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "EMRS Librarian",
-        "exam_code": "TEACHING/EL/51",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Assam TET",
-        "exam_code": "TEACHING/AT/52",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "BSSTET",
-        "exam_code": "TEACHING/B/53",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Chhattisgarh Teacher",
-        "exam_code": "TEACHING/CT/54",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "JKPSC Assistant Professor",
-        "exam_code": "TEACHING/JAP/55",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "TS TET",
-        "exam_code": "TEACHING/TT/56",
-        "linked_json_file": "TEACHING_EXAMS/ts-tet.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "UP Junior High School Teacher",
-        "exam_code": "TEACHING/UJHST/57",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "JTET Exam",
-        "exam_code": "TEACHING/JE/58",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "EMRS Lab Attendant",
-        "exam_code": "TEACHING/ELA/59",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "OTET",
-        "exam_code": "TEACHING/O/60",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "KVS Junior Secretariat Assistant",
-        "exam_code": "TEACHING/KJSA/61",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "DSE Odisha TGT",
-        "exam_code": "TEACHING/DOT/62",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "EMRS Accountant",
-        "exam_code": "TEACHING/EA/63",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Karnataka TET",
-        "exam_code": "TEACHING/KT/64",
-        "linked_json_file": "TEACHING_EXAMS/karnataka-tet.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "AWES PGT",
-        "exam_code": "TEACHING/AP/65",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Tripura TET",
-        "exam_code": "TEACHING/TT/66",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "NVS Lab Attendant",
-        "exam_code": "TEACHING/NLA/67",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "EMRS Hostel Warden",
-        "exam_code": "TEACHING/EHW/68",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "WB TET",
-        "exam_code": "TEACHING/WT/69",
-        "linked_json_file": "TEACHING_EXAMS/wb-tet.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "EMRS Junior Secretariat Assistant",
-        "exam_code": "TEACHING/EJSA/70",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "PSTET",
-        "exam_code": "TEACHING/P/71",
-        "linked_json_file": "TEACHING_EXAMS/pstet.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "HP TET",
-        "exam_code": "TEACHING/HT/72",
-        "linked_json_file": "TEACHING_EXAMS/hp-tet.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "HSSC JBT Teacher",
-        "exam_code": "TEACHING/HJT/73",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "AEES TGT",
-        "exam_code": "TEACHING/AT/74",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "MAHA TET",
-        "exam_code": "TEACHING/MT/75",
-        "linked_json_file": "TEACHING_EXAMS/maha-tet.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "AWES Army Public School",
-        "exam_code": "TEACHING/AAPS/76",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Telangana TGT",
-        "exam_code": "TEACHING/TT/77",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Punjab PTI",
-        "exam_code": "TEACHING/PP/78",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "AWES TGT",
-        "exam_code": "TEACHING/AT/79",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "KVS Stenographer",
-        "exam_code": "TEACHING/KS/80",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "UTET",
-        "exam_code": "TEACHING/U/81",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "AP TET",
-        "exam_code": "TEACHING/AT/82",
-        "linked_json_file": "TEACHING_EXAMS/ap-tet.json",
-        "has_divisions": false
-      },
-      {
-        "exam_name": "CG TET",
-        "exam_code": "TEACHING/CT/83",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Allahabad University Group C Non-Teaching",
-        "exam_code": "TEACHING/AUGCN/84",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "TNSET",
-        "exam_code": "TEACHING/T/85",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "KVS Assistant Section Officer",
-        "exam_code": "TEACHING/KASO/86",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "AWES PRT",
-        "exam_code": "TEACHING/AP/87",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Telangana KGBV CRT",
-        "exam_code": "TEACHING/TKC/88",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "TN TET",
-        "exam_code": "TEACHING/TT/89",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Punjab Pre-Primary Teacher",
-        "exam_code": "TEACHING/PPT/90",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Gujarat TAT Higher Secondary",
-        "exam_code": "TEACHING/GTHS/91",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Telangana Junior Lecturer",
-        "exam_code": "TEACHING/TJL/92",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Rajasthan Teacher",
-        "exam_code": "TEACHING/RT/93",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "KEA Principal",
-        "exam_code": "TEACHING/KP/94",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "MAH B.Ed-M.Ed CET",
-        "exam_code": "TEACHING/MBC/95",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "EMRS Principal",
-        "exam_code": "TEACHING/EP/96",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Odisha Special OTET",
-        "exam_code": "TEACHING/OSO/97",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Gujarat TET Exam",
-        "exam_code": "TEACHING/GTE/98",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "TN TRB CE",
-        "exam_code": "TEACHING/TTC/99",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "AEES PRT",
-        "exam_code": "TEACHING/AP/100",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Telangana Degree Lecturer",
-        "exam_code": "TEACHING/TDL/101",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "NVS Mess Helper",
-        "exam_code": "TEACHING/NMH/102",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "TN TRB PG Assistant",
-        "exam_code": "TEACHING/TTPA/103",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Telangana PGT",
-        "exam_code": "TEACHING/TP/104",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "TN TRB ME",
-        "exam_code": "TEACHING/TTM/105",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "TN TRB EE",
-        "exam_code": "TEACHING/TTE/106",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Navodaya Vidyalaya Samiti",
-        "exam_code": "TEACHING/NVS/107",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "KPSC Teacher",
-        "exam_code": "TEACHING/KT/108",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "SSA Chandigarh JBT",
-        "exam_code": "TEACHING/SCJ/109",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "DU B.Ed.",
-        "exam_code": "TEACHING/DB/110",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "MP B.Ed.",
-        "exam_code": "TEACHING/MB/111",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "TN TRB EC",
-        "exam_code": "TEACHING/TTE/112",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "TS DEECET",
-        "exam_code": "TEACHING/TD/113",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "NVS Catering Assistant",
-        "exam_code": "TEACHING/NCA/114",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "TN TRB CS",
-        "exam_code": "TEACHING/TTC/115",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "KVS Principal",
-        "exam_code": "TEACHING/KP/116",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "KVS Vice Principal",
-        "exam_code": "TEACHING/KVP/117",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "CG B.Ed.",
-        "exam_code": "TEACHING/CB/118",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "AP ICET Exam",
-        "exam_code": "TEACHING/AIE/119",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "HPSSC JBT",
-        "exam_code": "TEACHING/HJ/120",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "TS ICET Exam",
-        "exam_code": "TEACHING/TIE/121",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "DSSSB PGT Computer Science",
-        "exam_code": "TEACHING/DPCS/122",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "AEES PGT",
-        "exam_code": "TEACHING/AP/123",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Tripura PGT",
-        "exam_code": "TEACHING/TP/124",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "NVS Assistant Section Officer",
-        "exam_code": "TEACHING/NASO/125",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "NVS Group C",
-        "exam_code": "TEACHING/NGC/126",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "AEES Teacher",
-        "exam_code": "TEACHING/AT/127",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "NCTE",
-        "exam_code": "TEACHING/N/128",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Arunachal Pradesh PSC PGT",
-        "exam_code": "TEACHING/APPP/129",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "NVS Group B",
-        "exam_code": "TEACHING/NGB/130",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "TN TRB",
-        "exam_code": "TEACHING/TT/131",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Arunachal Pradesh TGT",
-        "exam_code": "TEACHING/APT/132",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Punjab Assistant Professor",
-        "exam_code": "TEACHING/PAP/133",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "TN TRB BEO",
-        "exam_code": "TEACHING/TTB/134",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Meghalaya TET",
-        "exam_code": "TEACHING/MT/135",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "TRB Tripura Teacher",
-        "exam_code": "TEACHING/TTT/136",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "TN TRB Lecturer",
-        "exam_code": "TEACHING/TTL/137",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "TN TRB Special Teacher",
-        "exam_code": "TEACHING/TTST/138",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Mizoram TET",
-        "exam_code": "TEACHING/MT/139",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "TREIRB",
-        "exam_code": "TEACHING/T/140",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "MPTET Varg 2",
-        "exam_code": "TEACHING/MV2/141",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "RPSC School Lecturer",
-        "exam_code": "TEACHING/RSL/142",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "RPSC Assistant Professor",
-        "exam_code": "TEACHING/RAP/143",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "NCET",
-        "exam_code": "TEACHING/N/144",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "HPSC Assistant Professor",
-        "exam_code": "TEACHING/HAP/145",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Bihar Sakshamta Pariksha",
-        "exam_code": "TEACHING/BSP/146",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Bihar Elementary Teacher",
-        "exam_code": "TEACHING/BET/147",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "MH SET",
-        "exam_code": "TEACHING/MS/148",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "MPTET Varg 1",
-        "exam_code": "TEACHING/MV1/149",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Bihar Special Teacher",
-        "exam_code": "TEACHING/BST/150",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Haryana PGT",
-        "exam_code": "TEACHING/HP/151",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "WB SET Exam",
-        "exam_code": "TEACHING/WSE/152",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "SSB Odisha TGT",
-        "exam_code": "TEACHING/SOT/153",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "UPPSC GIC Lecturer",
-        "exam_code": "TEACHING/UGL/154",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Rajasthan SET",
-        "exam_code": "TEACHING/RS/155",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Chandigarh TGT",
-        "exam_code": "TEACHING/CT/156",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "RPSC Librarian",
-        "exam_code": "TEACHING/RL/157",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "RSMSSB Lab Assistant",
-        "exam_code": "TEACHING/RLA/158",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "JSSC TGT",
-        "exam_code": "TEACHING/JT/159",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "AP DSC SGT",
-        "exam_code": "TEACHING/ADS/160",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Swayam Exam",
-        "exam_code": "TEACHING/SE/161",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "MP Vyapam Middle School Teacher",
-        "exam_code": "TEACHING/MVMST/162",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "NVS Junior Secretariat Assistant",
-        "exam_code": "TEACHING/NJSA/163",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "UPHESC Assistant Professor",
-        "exam_code": "TEACHING/UAP/164",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Rajasthan Pre D.EL.ED.",
-        "exam_code": "TEACHING/RPD/165",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "DSSSB Librarian",
-        "exam_code": "TEACHING/DL/166",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "NVS Staff Nurse",
-        "exam_code": "TEACHING/NSN/167",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "KSET",
-        "exam_code": "TEACHING/K/168",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "RSMSSB Librarian",
-        "exam_code": "TEACHING/RL/169",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "GATE Chemistry",
-        "exam_code": "TEACHING/GC/170",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "IGNOU B.Ed.",
-        "exam_code": "TEACHING/IB/171",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "CG SET Exam",
-        "exam_code": "TEACHING/CSE/172",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "CG Vyapam Assistant Teacher",
-        "exam_code": "TEACHING/CVAT/173",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "CG Vyapam Lecturer",
-        "exam_code": "TEACHING/CVL/174",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "SSA Chandigarh TGT",
-        "exam_code": "TEACHING/SCT/175",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "NVS MTS",
-        "exam_code": "TEACHING/NM/176",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "HP TGT",
-        "exam_code": "TEACHING/HT/177",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "APSET",
-        "exam_code": "TEACHING/A/178",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "TN TRB Graduate Teacher",
-        "exam_code": "TEACHING/TTGT/179",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Jharkhand B.Ed",
-        "exam_code": "TEACHING/JB/180",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "GATE Mathematics",
-        "exam_code": "TEACHING/GM/181",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Chandigarh JBT",
-        "exam_code": "TEACHING/CJ/182",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Kerala SET",
-        "exam_code": "TEACHING/KS/183",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "DSSSB Physical Education Teacher",
-        "exam_code": "TEACHING/DPET/184",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "DSSSB Special Educator",
-        "exam_code": "TEACHING/DSE/185",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "NVS Stenographer",
-        "exam_code": "TEACHING/NS/186",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "OSSC TGT",
-        "exam_code": "TEACHING/OT/187",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "JSSC PGT",
-        "exam_code": "TEACHING/JP/188",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "TS SET",
-        "exam_code": "TEACHING/TS/189",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "HP SET",
-        "exam_code": "TEACHING/HS/190",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "DSSSB Nursery Teacher",
-        "exam_code": "TEACHING/DNT/191",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "RSMSSB PTI",
-        "exam_code": "TEACHING/RP/192",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "SLET",
-        "exam_code": "TEACHING/S/193",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "GSET",
-        "exam_code": "TEACHING/G/194",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "KEA Assistant Professor",
-        "exam_code": "TEACHING/KAP/195",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "OAVS",
-        "exam_code": "TEACHING/O/196",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Uttarakhand D.El.Ed",
-        "exam_code": "TEACHING/UD/197",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Jamia Millia Islamia B.Ed",
-        "exam_code": "TEACHING/JMIB/198",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "RPSC 1st Grade",
-        "exam_code": "TEACHING/R1G/199",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "DSSSB Drawing Teacher",
-        "exam_code": "TEACHING/DDT/200",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Haryana D. El.Ed",
-        "exam_code": "TEACHING/HDE/201",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "GATE Physics",
-        "exam_code": "TEACHING/GP/202",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "ASRB NET",
-        "exam_code": "TEACHING/AN/203",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "ICMR JRF",
-        "exam_code": "TEACHING/IJ/204",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "JSSC Lab Assistant",
-        "exam_code": "TEACHING/JLA/205",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "DBT JRF",
-        "exam_code": "TEACHING/DJ/206",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "HPSC Lecturer",
-        "exam_code": "TEACHING/HL/207",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "DSSSB Domestic Science Teacher",
-        "exam_code": "TEACHING/DDST/208",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "UKPSC Assistant Professor",
-        "exam_code": "TEACHING/UAP/209",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "HPPSC Assistant Professor",
-        "exam_code": "TEACHING/HAP/210",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "GATE Life Sciences",
-        "exam_code": "TEACHING/GLS/211",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "GATE Geology and Geophysics Engineering",
-        "exam_code": "TEACHING/GGAGE/212",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "AP DSC School Assistant",
-        "exam_code": "TEACHING/ADSA/213",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "UKSSSC Assistant Teacher",
-        "exam_code": "TEACHING/UAT/214",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Odisha Junior Teacher",
-        "exam_code": "TEACHING/OJT/215",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "USET",
-        "exam_code": "TEACHING/U/216",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "WBSSC Headmaster",
-        "exam_code": "TEACHING/WH/217",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "HP PGT",
-        "exam_code": "TEACHING/HP/218",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Gujarat TAT",
-        "exam_code": "TEACHING/GT/219",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "TS DSC Secondary Grade Teacher",
-        "exam_code": "TEACHING/TDSGT/220",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "KPSC Chief Librarian",
-        "exam_code": "TEACHING/KCL/221",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "WBMSC Assistant Teacher",
-        "exam_code": "TEACHING/WAT/222",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Chandigarh PGT",
-        "exam_code": "TEACHING/CP/223",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "OPSC PGT",
-        "exam_code": "TEACHING/OP/224",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Chandigarh NTT",
-        "exam_code": "TEACHING/CN/225",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "OAVS TGT",
-        "exam_code": "TEACHING/OT/226",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "GSEB Teacher",
-        "exam_code": "TEACHING/GT/227",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "OSSC PET",
-        "exam_code": "TEACHING/OP/228",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "OAVS PGT",
-        "exam_code": "TEACHING/OP/229",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "TS DSC School Assistants",
-        "exam_code": "TEACHING/TDSA/230",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "TS DSC Physical Education Teacher",
-        "exam_code": "TEACHING/TDPET/231",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "TREIRB Librarian",
-        "exam_code": "TEACHING/TL/232",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "JKPSC Lecturer",
-        "exam_code": "TEACHING/JL/233",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "JKSET",
-        "exam_code": "TEACHING/J/234",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "PPSC Lecturer",
-        "exam_code": "TEACHING/PL/235",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "JKPSC PTI",
-        "exam_code": "TEACHING/JP/236",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Chandigarh Special Educator",
-        "exam_code": "TEACHING/CSE/237",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "TN TRB SGT",
-        "exam_code": "TEACHING/TTS/238",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "TNPSC Assistant Professor",
-        "exam_code": "TEACHING/TAP/239",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Kerala PSC High School Teacher",
-        "exam_code": "TEACHING/KPHST/240",
-        "linked_json_file": ""
-      }
-    ],
     "ENGINEERING_RECRUITING_EXAMS": [
       {
         "exam_name": "GATE",
         "exam_code": "ENGINEERING/GATE/01",
-        "linked_json_file": ""
+        "linked_json_file": "ENGINEERING_RECRUITING_EXAMS/gate.json",
+        "has_divisions": true
       },
       {
         "exam_name": "RRB ALP",
@@ -5506,435 +2699,2202 @@
         "linked_json_file": ""
       }
     ],
-    "INSURANCES_EXAMS": [
+    "MBA_EXAMS": [
       {
-        "exam_name": "NIACL Assistant",
-        "exam_code": "INSURANCES/NA/01",
+        "exam_name": "CAT Exam",
+        "exam_code": "MBA/CE/01",
+        "linked_json_file": "MBA_EXAMS/cat.json",
+        "has_divisions": true
+      },
+      {
+        "exam_name": "CMAT Exam",
+        "exam_code": "MBA/CE/02",
         "linked_json_file": ""
       },
       {
-        "exam_name": "LIC Assistant",
-        "exam_code": "INSURANCES/LA/02",
+        "exam_name": "MAH MBA CET",
+        "exam_code": "MBA/MMC/03",
         "linked_json_file": ""
       },
       {
-        "exam_name": "LIC AAO",
-        "exam_code": "INSURANCES/LA/03",
+        "exam_name": "XAT Exam",
+        "exam_code": "MBA/XE/04",
         "linked_json_file": ""
       },
       {
-        "exam_name": "ESIC Paramedical",
-        "exam_code": "INSURANCES/EP/04",
+        "exam_name": "SNAP Exam",
+        "exam_code": "MBA/SE/05",
         "linked_json_file": ""
       },
       {
-        "exam_name": "ESIC IMO",
-        "exam_code": "INSURANCES/EI/05",
+        "exam_name": "Karnataka PGCET",
+        "exam_code": "MBA/KP/06",
         "linked_json_file": ""
       },
       {
-        "exam_name": "LIC ADO",
-        "exam_code": "INSURANCES/LA/06",
+        "exam_name": "TANCET",
+        "exam_code": "MBA/T/07",
         "linked_json_file": ""
       },
       {
-        "exam_name": "NICL AO",
-        "exam_code": "INSURANCES/NA/07",
+        "exam_name": "KMAT Kerala",
+        "exam_code": "MBA/KK/08",
         "linked_json_file": ""
       },
       {
-        "exam_name": "UIIC AO",
-        "exam_code": "INSURANCES/UA/08",
+        "exam_name": "NMAT Exam",
+        "exam_code": "MBA/NE/09",
         "linked_json_file": ""
       },
       {
-        "exam_name": "NIACL AO",
-        "exam_code": "INSURANCES/NA/09",
+        "exam_name": "MAT Exam",
+        "exam_code": "MBA/ME/10",
         "linked_json_file": ""
       },
       {
-        "exam_name": "UllC Assistant",
-        "exam_code": "INSURANCES/UA/10",
+        "exam_name": "ATMA Exam",
+        "exam_code": "MBA/AE/11",
         "linked_json_file": ""
       },
       {
-        "exam_name": "ESIC UDC",
-        "exam_code": "INSURANCES/EU/11",
+        "exam_name": "PGDBA Exam",
+        "exam_code": "MBA/PE/12",
         "linked_json_file": ""
       },
       {
-        "exam_name": "LIC HFL Assistant",
-        "exam_code": "INSURANCES/LHA/12",
+        "exam_name": "TISSNET Exam",
+        "exam_code": "MBA/TE/13",
         "linked_json_file": ""
       },
       {
-        "exam_name": "ESIC SSO",
-        "exam_code": "INSURANCES/ES/13",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "ESIC MTS",
-        "exam_code": "INSURANCES/EM/14",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "ESIC Stenographer",
-        "exam_code": "INSURANCES/ES/15",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "GIC Assistant Manager",
-        "exam_code": "INSURANCES/GAM/16",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "LIC HFL",
-        "exam_code": "INSURANCES/LH/17",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "ESIC",
-        "exam_code": "INSURANCES/E/18",
+        "exam_name": "llFT MBA Exam",
+        "exam_code": "MBA/LME/14",
         "linked_json_file": ""
       }
     ],
-    "NURSING_EXAMS": [
+    "PG_EXAMS": [
       {
-        "exam_name": "AIIMS Nursing Officer",
-        "exam_code": "NURSING/ANO/01",
+        "exam_name": "CUET PG",
+        "exam_code": "PG/CUETPG/01",
+        "linked_json_file": "PG_EXAMS/cuetpg.json",
+        "has_divisions": false
+      }
+    ],
+    "POLICE_EXAMS": [
+      {
+        "exam_name": "Delhi Police Constable",
+        "exam_code": "POLICE/DPC/01",
         "linked_json_file": ""
       },
       {
-        "exam_name": "ESIC Nursing Officer",
-        "exam_code": "NURSING/ENO/02",
+        "exam_name": "Delhi Police Head Constable",
+        "exam_code": "POLICE/DPHC/02",
         "linked_json_file": ""
       },
       {
-        "exam_name": "CRPF Paramedical Staff",
-        "exam_code": "NURSING/CPS/03",
+        "exam_name": "UP Police Constable",
+        "exam_code": "POLICE/UPC/03",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Bihar Police SI",
+        "exam_code": "POLICE/BPS/04",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "UP Police Sub Inspector",
+        "exam_code": "POLICE/UPSI/05",
+        "linked_json_file": "POLICE_EXAMS/upsi.json",
+        "has_divisions": true
+      },
+      {
+        "exam_name": "Delhi Police Driver",
+        "exam_code": "POLICE/DPD/06",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Delhi Police MTS",
+        "exam_code": "POLICE/DPM/07",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Maharashtra Police Constable",
+        "exam_code": "POLICE/MPC/08",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Odisha Police SI",
+        "exam_code": "POLICE/OPS/09",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Bihar Police Prohibition Sub Inspector",
+        "exam_code": "POLICE/BPPSI/10",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Bihar Police Constable",
+        "exam_code": "POLICE/BPC/11",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "UP Police ASI",
+        "exam_code": "POLICE/UPA/12",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "WB Police Constable",
+        "exam_code": "POLICE/WPC/13",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Kolkata Police Constable",
+        "exam_code": "POLICE/KPC/14",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "MP Police Constable",
+        "exam_code": "POLICE/MPC/15",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Rajasthan Police Constable",
+        "exam_code": "POLICE/RPC/16",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "WB Police SI",
+        "exam_code": "POLICE/WPS/17",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Bihar Police ASI Steno",
+        "exam_code": "POLICE/BPAS/18",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "UP Police Head Operator",
+        "exam_code": "POLICE/UPHO/19",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "AP Police Constable",
+        "exam_code": "POLICE/APC/20",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Gujarat Police Constable",
+        "exam_code": "POLICE/GPC/21",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "UP Police Assistant Operator",
+        "exam_code": "POLICE/UPAO/22",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Bihar Police Prohibition Constable",
+        "exam_code": "POLICE/BPPC/23",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Rajasthan Police SI",
+        "exam_code": "POLICE/RPS/24",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "MP Police SI",
+        "exam_code": "POLICE/MPS/25",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "HP Police Constable",
+        "exam_code": "POLICE/HPC/26",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "UP Police Workshop Staff",
+        "exam_code": "POLICE/UPWS/27",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Odisha Police Constable",
+        "exam_code": "POLICE/OPC/28",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Telangana Police SI",
+        "exam_code": "POLICE/TPS/29",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "UK Police Constable",
+        "exam_code": "POLICE/UPC/30",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "KSP Constable",
+        "exam_code": "POLICE/KC/31",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "KSP SI",
+        "exam_code": "POLICE/KS/32",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "HSSC Haryana Police Constable",
+        "exam_code": "POLICE/HHPC/33",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "DSSSB Jail warder",
+        "exam_code": "POLICE/DJW/34",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "WBPSC Food SI",
+        "exam_code": "POLICE/WFS/35",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "JKSSB Sub Inspector",
+        "exam_code": "POLICE/JSI/36",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Gujarat Police LRB Constable",
+        "exam_code": "POLICE/GPLC/37",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "MPSC PSI",
+        "exam_code": "POLICE/MP/38",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Telangana Police Constable",
+        "exam_code": "POLICE/TPC/39",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "TNUSRB SI",
+        "exam_code": "POLICE/TS/40",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Kolkata Police SI",
+        "exam_code": "POLICE/KPS/41",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "UP Police Jail Warder",
+        "exam_code": "POLICE/UPJW/42",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "UP police computer operator",
+        "exam_code": "POLICE/UPCO/43",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "JSSC SI",
+        "exam_code": "POLICE/JS/44",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "CG Police SI",
+        "exam_code": "POLICE/CPS/45",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "CG Police Constable",
+        "exam_code": "POLICE/CPC/46",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "West Bengal Police Warder",
+        "exam_code": "POLICE/WBPW/47",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Punjab Police Constable",
+        "exam_code": "POLICE/PPC/48",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "HSSC SI",
+        "exam_code": "POLICE/HS/49",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "HP Police SI",
+        "exam_code": "POLICE/HPS/50",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Haryana Police",
+        "exam_code": "POLICE/HP/51",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Odisha Police Jail Warder",
+        "exam_code": "POLICE/OPJW/52",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "OSSC Traffic Constable",
+        "exam_code": "POLICE/OTC/53",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "HP Police Jail Warder",
+        "exam_code": "POLICE/HPJW/54",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "OSSC Excise SI",
+        "exam_code": "POLICE/OES/55",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "AP Police SI",
+        "exam_code": "POLICE/APS/56",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Bihar Police Fireman",
+        "exam_code": "POLICE/BPF/57",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Odisha Police ASI",
+        "exam_code": "POLICE/OPA/58",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "UP police programmer Grade 2",
+        "exam_code": "POLICE/UPPG2/59",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "OSAP IRB Constable",
+        "exam_code": "POLICE/OIC/60",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "UKSSSC Fireman",
+        "exam_code": "POLICE/UF/61",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Punjab Police SI",
+        "exam_code": "POLICE/PPS/62",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "CG Vyapam SI",
+        "exam_code": "POLICE/CVS/63",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "TNUSRB Police Constable",
+        "exam_code": "POLICE/TPC/64",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Bihar Police Forest Guard",
+        "exam_code": "POLICE/BPFG/65",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "UKSSSC Chief Constable",
+        "exam_code": "POLICE/UCC/66",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Rajasthan Police",
+        "exam_code": "POLICE/RP/67",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Bihar Police Enforcement Sub Inspector",
+        "exam_code": "POLICE/BPESI/68",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Uttarakhand Fire Officer",
+        "exam_code": "POLICE/UFO/69",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Haryana Police Commando",
+        "exam_code": "POLICE/HPC/70",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Chandigarh Police Constable",
+        "exam_code": "POLICE/CPC/71",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Gujarat PSI",
+        "exam_code": "POLICE/GP/72",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "UP Police",
+        "exam_code": "POLICE/UP/73",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "UP Police Fireman",
+        "exam_code": "POLICE/UPF/74",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Punjab Police Head Constable",
+        "exam_code": "POLICE/PPHC/75",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Uttarakhand Jail Warder",
+        "exam_code": "POLICE/UJW/76",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "UKSSSC Jail Guard",
+        "exam_code": "POLICE/UJG/77",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Uttarakhand Police Head Constable",
+        "exam_code": "POLICE/UPHC/78",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "APSSB Constable",
+        "exam_code": "POLICE/AC/79",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Gujarat Police",
+        "exam_code": "POLICE/GP/80",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "KSP SOCO",
+        "exam_code": "POLICE/KS/81",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "JK Police Constable",
+        "exam_code": "POLICE/JPC/82",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Gujarat PSI Technical Operator",
+        "exam_code": "POLICE/GPTO/83",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Gujarat Police ASI",
+        "exam_code": "POLICE/GPA/84",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Punjab Police Jail Warder",
+        "exam_code": "POLICE/PPJW/85",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "WB Police Wireless Supervisor",
+        "exam_code": "POLICE/WPWS/86",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "MPPSC DSP",
+        "exam_code": "POLICE/MD/87",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "WB Police Wireless Operator",
+        "exam_code": "POLICE/WPWO/88",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "WB Excise Constable",
+        "exam_code": "POLICE/WEC/89",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "WB Police",
+        "exam_code": "POLICE/WP/90",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Assam Police Constable",
+        "exam_code": "POLICE/APC/91",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "WB Police Agragami",
+        "exam_code": "POLICE/WPA/92",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "WB Police Staff Officer-cum-Instructor",
+        "exam_code": "POLICE/WPSO/93",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Assam Police SI",
+        "exam_code": "POLICE/APS/94",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "PPSC Cooperative Inspector",
+        "exam_code": "POLICE/PCI/95",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Bihar Police CSBC Forester",
+        "exam_code": "POLICE/BPCF/96",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Meghalaya Police Constable",
+        "exam_code": "POLICE/MPC/97",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Bihar Home Guard",
+        "exam_code": "POLICE/BHG/98",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "TELANGANA POLICE",
+        "exam_code": "POLICE/TP/99",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Maharashtra Police Driver Constable",
+        "exam_code": "POLICE/MPDC/100",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Punjab Police Fireman",
+        "exam_code": "POLICE/PPF/101",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Meghalaya Police SI",
+        "exam_code": "POLICE/MPS/102",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Punjab Police Intelligence Assistant",
+        "exam_code": "POLICE/PPIA/103",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Punjab Police Civilian Support Staff",
+        "exam_code": "POLICE/PPCSS/104",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Punjab Police IT",
+        "exam_code": "POLICE/PPI/105",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Kerala Police Driver",
+        "exam_code": "POLICE/KPD/106",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Meghalaya Police Driver",
+        "exam_code": "POLICE/MPD/107",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "TPSC SI",
+        "exam_code": "POLICE/TS/108",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Manipur Police SI",
+        "exam_code": "POLICE/MPS/109",
+        "linked_json_file": ""
+      }
+    ],
+    "RAILWAY_EXAMS": [
+      {
+        "exam_name": "RRB Group D",
+        "exam_code": "RAILWAY/RGD/01",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "RRB NTPC",
+        "exam_code": "RAILWAY/RN/02",
+        "linked_json_file": "RAILWAY_EXAMS/rrbntpc.json",
+        "has_divisions": true
+      },
+      {
+        "exam_name": "RPF Constable",
+        "exam_code": "RAILWAY/RC/03",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "RRB ALP",
+        "exam_code": "RAILWAY/RA/04",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "RRB Technician",
+        "exam_code": "RAILWAY/RT/05",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "RPF SI",
+        "exam_code": "RAILWAY/RS/06",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "RRB JE",
+        "exam_code": "RAILWAY/RJ/07",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "RRB Technician Grade1",
+        "exam_code": "RAILWAY/RTG/08",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Railway GDCE",
+        "exam_code": "RAILWAY/RG/09",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "RRB Junior Translator",
+        "exam_code": "RAILWAY/RJT/10",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "RRB Ministerial and Isolated Cate",
+        "exam_code": "RAILWAY/RMAIC/11",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "RRB Junior Stenographer",
+        "exam_code": "RAILWAY/RJS/12",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "DFCCIL Executive",
+        "exam_code": "RAILWAY/DE/13",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "RPSF",
+        "exam_code": "RAILWAY/R/14",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "DFCCIL MTS",
+        "exam_code": "RAILWAY/DM/15",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Railway TTE",
+        "exam_code": "RAILWAY/RT/16",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "RRB JE EC",
+        "exam_code": "RAILWAY/RJE/17",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Railway TC",
+        "exam_code": "RAILWAY/RT/18",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "RRB ASM",
+        "exam_code": "RAILWAY/RA/19",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "RITES Junior Assistant",
+        "exam_code": "RAILWAY/RJA/20",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "RRB JE EE",
+        "exam_code": "RAILWAY/RJE/21",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "RRB JE ME",
+        "exam_code": "RAILWAY/RJM/22",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "RRB JE CE",
+        "exam_code": "RAILWAY/RJC/23",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "DFCCIL Operations BD",
+        "exam_code": "RAILWAY/DOB/24",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "MPMRCL Supervisor",
+        "exam_code": "RAILWAY/MS/25",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "RRB JE IT",
+        "exam_code": "RAILWAY/RJI/26",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "IRCON JE",
+        "exam_code": "RAILWAY/IJ/27",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "IRCON AE",
+        "exam_code": "RAILWAY/IA/28",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "RITES Engineer",
+        "exam_code": "RAILWAY/RE/29",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "RailTel Deputy Manager",
+        "exam_code": "RAILWAY/RDM/30",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "RailTel Corporation of India Limited",
+        "exam_code": "RAILWAY/RCOIL/31",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "RPF",
+        "exam_code": "RAILWAY/R/32",
         "linked_json_file": ""
       },
       {
         "exam_name": "Railway Pharmacist",
-        "exam_code": "NURSING/RP/04",
+        "exam_code": "RAILWAY/RP/33",
         "linked_json_file": ""
       },
       {
-        "exam_name": "RRB Staff Nurse",
-        "exam_code": "NURSING/RSN/05",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Bihar ANM",
-        "exam_code": "NURSING/BA/06",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "MP Lab Technician",
-        "exam_code": "NURSING/MLT/07",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "MP Staff Nurse",
-        "exam_code": "NURSING/MSN/08",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "DSSSB Nursing Staff",
-        "exam_code": "NURSING/DNS/09",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "UPUMS Nursing Officer",
-        "exam_code": "NURSING/UNO/10",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "UPSSSC ANM",
-        "exam_code": "NURSING/UA/11",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "ESIC IMO",
-        "exam_code": "NURSING/EI/12",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "ESIC Paramedical",
-        "exam_code": "NURSING/EP/13",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "Maharashtra Arogya Vibhag Grou..",
-        "exam_code": "NURSING/MAVG/14",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "DSSSB ANM",
-        "exam_code": "NURSING/DA/15",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "UPPSC Dental Surgeon",
-        "exam_code": "NURSING/UDS/16",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "NHM MP CHO",
-        "exam_code": "NURSING/NMC/17",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "UP NHM ANM",
-        "exam_code": "NURSING/UNA/18",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "NHM Rajasthan CHO",
-        "exam_code": "NURSING/NRC/19",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "GMCH Nursing Officer",
-        "exam_code": "NURSING/GNO/20",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "ESIC Staff Nurse",
-        "exam_code": "NURSING/ESN/21",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "UPPSC Staff Nurse",
-        "exam_code": "NURSING/USN/22",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "UP NRHM",
-        "exam_code": "NURSING/UN/23",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "DSSSB Nursing Officer",
-        "exam_code": "NURSING/DNO/24",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "NVS Staff Nurse",
-        "exam_code": "NURSING/NSN/25",
+        "exam_name": "DFCCIL Junior Executive",
+        "exam_code": "RAILWAY/DJE/34",
         "linked_json_file": ""
       },
       {
         "exam_name": "RRB Paramedical Staff",
-        "exam_code": "NURSING/RPS/26",
+        "exam_code": "RAILWAY/RPS/35",
         "linked_json_file": ""
       },
       {
-        "exam_name": "Maharashtra NHM Staff Nurse",
-        "exam_code": "NURSING/MNSN/27",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "JIPMER Nursing Officer",
-        "exam_code": "NURSING/JNO/28",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "UP NHM Staff Nurse",
-        "exam_code": "NURSING/UNSN/29",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "BFUHS MPHW",
-        "exam_code": "NURSING/BM/30",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "PGIMER Staff Nurse",
-        "exam_code": "NURSING/PSN/31",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "JSSC ANM",
-        "exam_code": "NURSING/JA/32",
+        "exam_name": "Gujarat Metro SCTO",
+        "exam_code": "RAILWAY/GMS/36",
         "linked_json_file": ""
       },
       {
         "exam_name": "Railway Lab Assistant",
-        "exam_code": "NURSING/RLA/33",
+        "exam_code": "RAILWAY/RLA/37",
         "linked_json_file": ""
       },
       {
-        "exam_name": "UKPSC Veterinary Officer",
-        "exam_code": "NURSING/UVO/34",
+        "exam_name": "DFCCIL Junior Manager",
+        "exam_code": "RAILWAY/DJM/38",
         "linked_json_file": ""
       },
       {
-        "exam_name": "UPUMS Staff Nurse",
-        "exam_code": "NURSING/USN/35",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "MP GNTST PNST",
-        "exam_code": "NURSING/MGP/36",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "GMCH Staff Nurse",
-        "exam_code": "NURSING/GSN/37",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "HPSSSB Staff Nurse",
-        "exam_code": "NURSING/HSN/38",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "BHU Nursing Officer",
-        "exam_code": "NURSING/BNO/39",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "KEA Staff Nurse",
-        "exam_code": "NURSING/KSN/40",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "DGHS Field Worker",
-        "exam_code": "NURSING/DFW/41",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "TN MRB Pharmacist",
-        "exam_code": "NURSING/TMP/42",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "KPSC Staff Nurse",
-        "exam_code": "NURSING/KSN/43",
-        "linked_json_file": ""
-      },
-      {
-        "exam_name": "ESIC Pharmacist",
-        "exam_code": "NURSING/EP/44",
+        "exam_name": "DMRC CRA",
+        "exam_code": "RAILWAY/DC/39",
         "linked_json_file": ""
       },
       {
         "exam_name": "RRB Health and Malaria Inspector",
-        "exam_code": "NURSING/RHAMI/45",
+        "exam_code": "RAILWAY/RHAMI/40",
         "linked_json_file": ""
       },
       {
-        "exam_name": "NHM Rajasthan Pharmacist",
-        "exam_code": "NURSING/NRP/46",
+        "exam_name": "UPMRC Station Controller",
+        "exam_code": "RAILWAY/USC/41",
         "linked_json_file": ""
       },
       {
-        "exam_name": "HSSC Staff Nurse",
-        "exam_code": "NURSING/HSN/47",
+        "exam_name": "Gujarat Metro",
+        "exam_code": "RAILWAY/GM/42",
         "linked_json_file": ""
       },
       {
-        "exam_name": "Kerala PSC Staff Nurse",
-        "exam_code": "NURSING/KPSN/48",
+        "exam_name": "DFCCILRecruitment",
+        "exam_code": "RAILWAY/D/43",
+        "linked_json_file": ""
+      }
+    ],
+    "SSC_EXAMS": [
+      {
+        "exam_name": "SSC CGL",
+        "exam_code": "SSC/SC/02",
+        "linked_json_file": "SSC_EXAMS/ssccgl.json",
+        "has_divisions": true
+      },
+      {
+        "exam_name": "SSC Selection Post",
+        "exam_code": "SSC/SSP/03",
         "linked_json_file": ""
       },
       {
-        "exam_name": "AP MLHP",
-        "exam_code": "NURSING/AM/49",
+        "exam_name": "SSC CPO",
+        "exam_code": "SSC/SC/05",
         "linked_json_file": ""
       },
       {
-        "exam_name": "APPSC Medical Officer",
-        "exam_code": "NURSING/AMO/50",
+        "exam_name": "SSC MTS",
+        "exam_code": "SSC/SM/06",
         "linked_json_file": ""
       },
       {
-        "exam_name": "BFUHS Staff Nurse",
-        "exam_code": "NURSING/BSN/51",
+        "exam_name": "Delhi Police Constable",
+        "exam_code": "SSC/DPC/07",
         "linked_json_file": ""
       },
       {
-        "exam_name": "NHM Haryana CHO",
-        "exam_code": "NURSING/NHC/52",
+        "exam_name": "SSC Stenographer",
+        "exam_code": "SSC/SS/08",
         "linked_json_file": ""
       },
       {
-        "exam_name": "NCL Staff Nurse",
-        "exam_code": "NURSING/NSN/53",
+        "exam_name": "Delhi Police HeadConstable",
+        "exam_code": "SSC/DPH/09",
         "linked_json_file": ""
       },
       {
-        "exam_name": "UPRVUNL Staff Nurse",
-        "exam_code": "NURSING/USN/54",
+        "exam_name": "SSC HeadConstableAWO TPO",
+        "exam_code": "SSC/SHT/10",
         "linked_json_file": ""
       },
       {
-        "exam_name": "BHU Staff Nurse",
-        "exam_code": "NURSING/BSN/55",
+        "exam_name": "SSC JE CE",
+        "exam_code": "SSC/SJC/11",
         "linked_json_file": ""
       },
       {
-        "exam_name": "UP NHM CHO",
-        "exam_code": "NURSING/UNC/56",
+        "exam_name": "SSC JE EE",
+        "exam_code": "SSC/SJE/12",
         "linked_json_file": ""
       },
       {
-        "exam_name": "OSSSC Nursing OOicer",
-        "exam_code": "NURSING/ONO/57",
+        "exam_name": "SSC JE ME",
+        "exam_code": "SSC/SJM/13",
         "linked_json_file": ""
       },
       {
-        "exam_name": "JSSC Grade A Nurse",
-        "exam_code": "NURSING/JGAN/58",
+        "exam_name": "RSMSSB JE",
+        "exam_code": "SSC/RJ/14",
         "linked_json_file": ""
       },
       {
-        "exam_name": "Rajasthan GNM",
-        "exam_code": "NURSING/RG/59",
+        "exam_name": "SSC JHT",
+        "exam_code": "SSC/SJ/15",
         "linked_json_file": ""
       },
       {
-        "exam_name": "NHM HP CHO",
-        "exam_code": "NURSING/NHC/60",
+        "exam_name": "CSIR ASO",
+        "exam_code": "SSC/CA/16",
         "linked_json_file": ""
       },
       {
-        "exam_name": "Rajasthan ANM",
-        "exam_code": "NURSING/RA/61",
+        "exam_name": "IB ACIO",
+        "exam_code": "SSC/IA/17",
         "linked_json_file": ""
       },
       {
-        "exam_name": "UPSSSC Mukhya Sevika",
-        "exam_code": "NURSING/UMS/62",
+        "exam_name": "SSC Scientific Assistant",
+        "exam_code": "SSC/SSA/18",
         "linked_json_file": ""
       },
       {
-        "exam_name": "AP ANM",
-        "exam_code": "NURSING/AA/63",
+        "exam_name": "IB Security Assistant",
+        "exam_code": "SSC/ISA/19",
         "linked_json_file": ""
       },
       {
-        "exam_name": "OPSC Dental Surgeon",
-        "exam_code": "NURSING/ODS/64",
+        "exam_name": "Supreme Court Junior Court Assis...",
+        "exam_code": "SSC/SCJCA/20",
         "linked_json_file": ""
       },
       {
-        "exam_name": "Telangana MPHA",
-        "exam_code": "NURSING/TM/65",
+        "exam_name": "Delhi Forest Guard",
+        "exam_code": "SSC/DFG/21",
         "linked_json_file": ""
       },
       {
-        "exam_name": "AIIMS Bhopal Hospital Attendant",
-        "exam_code": "NURSING/ABHA/66",
+        "exam_name": "NBE",
+        "exam_code": "SSC/N/22",
         "linked_json_file": ""
       },
       {
-        "exam_name": "WBJEE ANM GNM",
-        "exam_code": "NURSING/WAG/67",
+        "exam_name": "SSC JE",
+        "exam_code": "SSC/SJ/23",
         "linked_json_file": ""
+      },
+      {
+        "exam_name": "Supreme Court Law Clerk",
+        "exam_code": "SSC/SCLC/24",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "SSC Havaldar",
+        "exam_code": "SSC/SH/25",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "NTA ARPIT",
+        "exam_code": "SSC/NA/26",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Delhi Police MTS",
+        "exam_code": "SSC/DPM/27",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Delhi Police Driver",
+        "exam_code": "SSC/DPD/28",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "NTA Delhi University Non-Teaching",
+        "exam_code": "SSC/NDUN/29",
+        "linked_json_file": ""
+      }
+    ],
+    "TEACHING_EXAMS": [
+      {
+        "exam_name": "CTET",
+        "exam_code": "TEACHING/C/01",
+        "linked_json_file": "TEACHING_EXAMS/ctet.json",
+        "has_divisions": true
+      },
+      {
+        "exam_name": "GATE",
+        "exam_code": "TEACHING/GATE/02",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "REET",
+        "exam_code": "TEACHING/R/03",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Bihar D.El.Ed",
+        "exam_code": "TEACHING/BD/04",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "UGC NET",
+        "exam_code": "TEACHING/UN/05",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Bihar Primary Teacher",
+        "exam_code": "TEACHING/BPT/06",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "MPPSC Assistant Professor",
+        "exam_code": "TEACHING/MAP/07",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "UP TGT",
+        "exam_code": "TEACHING/UT/08",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Railway Teacher",
+        "exam_code": "TEACHING/RT/09",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "DSSSB TGT",
+        "exam_code": "TEACHING/DT/10",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "KVS TGT",
+        "exam_code": "TEACHING/KT/11",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Bihar Upper Primary Teacher",
+        "exam_code": "TEACHING/BUPT/12",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "KVS PGT",
+        "exam_code": "TEACHING/KP/13",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Bihar Secondary Teacher",
+        "exam_code": "TEACHING/BST/14",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Bihar STET",
+        "exam_code": "TEACHING/BS/15",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "KVS PRT",
+        "exam_code": "TEACHING/KP/16",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "DSSSB PGT",
+        "exam_code": "TEACHING/DP/17",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Bihar Senior Secondary Teacher",
+        "exam_code": "TEACHING/BSST/18",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "HTET PRT",
+        "exam_code": "TEACHING/HP/19",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "HTET PGT",
+        "exam_code": "TEACHING/HP/20",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Rajasthan 3rd Grade Teacher",
+        "exam_code": "TEACHING/R3GT/21",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "UP PGT",
+        "exam_code": "TEACHING/UP/22",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "DSSSB PRT",
+        "exam_code": "TEACHING/DP/23",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "BPSC Head Master",
+        "exam_code": "TEACHING/BHM/24",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "SUPER TET",
+        "exam_code": "TEACHING/ST/25",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "NVS TGT",
+        "exam_code": "TEACHING/NT/26",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "NTA Delhi University NonTeaching",
+        "exam_code": "TEACHING/NDUN/27",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "BPSC Head Teacher",
+        "exam_code": "TEACHING/BHT/28",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "UPTET",
+        "exam_code": "TEACHING/U/29",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "MP SET",
+        "exam_code": "TEACHING/MS/30",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "KVS",
+        "exam_code": "TEACHING/K/31",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "HTET TGT",
+        "exam_code": "TEACHING/HT/32",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "MPTET Varg 3",
+        "exam_code": "TEACHING/MV3/33",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Bihar CET B.Ed",
+        "exam_code": "TEACHING/BCB/34",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "OSSTET Exam",
+        "exam_code": "TEACHING/OE/35",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "KVS Librarian",
+        "exam_code": "TEACHING/KL/36",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "UP B.Ed JEE",
+        "exam_code": "TEACHING/UBJ/37",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "EMRS TGT",
+        "exam_code": "TEACHING/ET/38",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Bihar TET",
+        "exam_code": "TEACHING/BT/39",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "UPPSC Lecturer",
+        "exam_code": "TEACHING/UL/40",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "CSIR NET",
+        "exam_code": "TEACHING/CN/41",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "HSSC TGT",
+        "exam_code": "TEACHING/HT/42",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "MAHA TAIT",
+        "exam_code": "TEACHING/MT/43",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "UKPSC Lecturer",
+        "exam_code": "TEACHING/UL/44",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Rajasthan Computer Teacher",
+        "exam_code": "TEACHING/RCT/45",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "RPSC Senior Teacher Grade II",
+        "exam_code": "TEACHING/RSTGI/46",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "KTET",
+        "exam_code": "TEACHING/K/47",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Rajasthan PTET",
+        "exam_code": "TEACHING/RP/48",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "UP LT Grade Teacher",
+        "exam_code": "TEACHING/ULGT/49",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "EMRS PGT",
+        "exam_code": "TEACHING/EP/50",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "EMRS Librarian",
+        "exam_code": "TEACHING/EL/51",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Assam TET",
+        "exam_code": "TEACHING/AT/52",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "BSSTET",
+        "exam_code": "TEACHING/B/53",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Chhattisgarh Teacher",
+        "exam_code": "TEACHING/CT/54",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "JKPSC Assistant Professor",
+        "exam_code": "TEACHING/JAP/55",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "TS TET",
+        "exam_code": "TEACHING/TT/56",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "UP Junior High School Teacher",
+        "exam_code": "TEACHING/UJHST/57",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "JTET Exam",
+        "exam_code": "TEACHING/JE/58",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "EMRS Lab Attendant",
+        "exam_code": "TEACHING/ELA/59",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "OTET",
+        "exam_code": "TEACHING/O/60",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "KVS Junior Secretariat Assistant",
+        "exam_code": "TEACHING/KJSA/61",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "DSE Odisha TGT",
+        "exam_code": "TEACHING/DOT/62",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "EMRS Accountant",
+        "exam_code": "TEACHING/EA/63",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Karnataka TET",
+        "exam_code": "TEACHING/KT/64",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "AWES PGT",
+        "exam_code": "TEACHING/AP/65",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Tripura TET",
+        "exam_code": "TEACHING/TT/66",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "NVS Lab Attendant",
+        "exam_code": "TEACHING/NLA/67",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "EMRS Hostel Warden",
+        "exam_code": "TEACHING/EHW/68",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "WB TET",
+        "exam_code": "TEACHING/WT/69",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "EMRS Junior Secretariat Assistant",
+        "exam_code": "TEACHING/EJSA/70",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "PSTET",
+        "exam_code": "TEACHING/P/71",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "HP TET",
+        "exam_code": "TEACHING/HT/72",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "HSSC JBT Teacher",
+        "exam_code": "TEACHING/HJT/73",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "AEES TGT",
+        "exam_code": "TEACHING/AT/74",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "MAHA TET",
+        "exam_code": "TEACHING/MT/75",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "AWES Army Public School",
+        "exam_code": "TEACHING/AAPS/76",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Telangana TGT",
+        "exam_code": "TEACHING/TT/77",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Punjab PTI",
+        "exam_code": "TEACHING/PP/78",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "AWES TGT",
+        "exam_code": "TEACHING/AT/79",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "KVS Stenographer",
+        "exam_code": "TEACHING/KS/80",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "UTET",
+        "exam_code": "TEACHING/U/81",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "AP TET",
+        "exam_code": "TEACHING/AT/82",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "CG TET",
+        "exam_code": "TEACHING/CT/83",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Allahabad University Group C Non-Teaching",
+        "exam_code": "TEACHING/AUGCN/84",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "TNSET",
+        "exam_code": "TEACHING/T/85",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "KVS Assistant Section Officer",
+        "exam_code": "TEACHING/KASO/86",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "AWES PRT",
+        "exam_code": "TEACHING/AP/87",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Telangana KGBV CRT",
+        "exam_code": "TEACHING/TKC/88",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "TN TET",
+        "exam_code": "TEACHING/TT/89",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Punjab Pre-Primary Teacher",
+        "exam_code": "TEACHING/PPT/90",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Gujarat TAT Higher Secondary",
+        "exam_code": "TEACHING/GTHS/91",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Telangana Junior Lecturer",
+        "exam_code": "TEACHING/TJL/92",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Rajasthan Teacher",
+        "exam_code": "TEACHING/RT/93",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "KEA Principal",
+        "exam_code": "TEACHING/KP/94",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "MAH B.Ed-M.Ed CET",
+        "exam_code": "TEACHING/MBC/95",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "EMRS Principal",
+        "exam_code": "TEACHING/EP/96",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Odisha Special OTET",
+        "exam_code": "TEACHING/OSO/97",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Gujarat TET Exam",
+        "exam_code": "TEACHING/GTE/98",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "TN TRB CE",
+        "exam_code": "TEACHING/TTC/99",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "AEES PRT",
+        "exam_code": "TEACHING/AP/100",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Telangana Degree Lecturer",
+        "exam_code": "TEACHING/TDL/101",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "NVS Mess Helper",
+        "exam_code": "TEACHING/NMH/102",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "TN TRB PG Assistant",
+        "exam_code": "TEACHING/TTPA/103",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Telangana PGT",
+        "exam_code": "TEACHING/TP/104",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "TN TRB ME",
+        "exam_code": "TEACHING/TTM/105",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "TN TRB EE",
+        "exam_code": "TEACHING/TTE/106",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Navodaya Vidyalaya Samiti",
+        "exam_code": "TEACHING/NVS/107",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "KPSC Teacher",
+        "exam_code": "TEACHING/KT/108",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "SSA Chandigarh JBT",
+        "exam_code": "TEACHING/SCJ/109",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "DU B.Ed.",
+        "exam_code": "TEACHING/DB/110",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "MP B.Ed.",
+        "exam_code": "TEACHING/MB/111",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "TN TRB EC",
+        "exam_code": "TEACHING/TTE/112",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "TS DEECET",
+        "exam_code": "TEACHING/TD/113",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "NVS Catering Assistant",
+        "exam_code": "TEACHING/NCA/114",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "TN TRB CS",
+        "exam_code": "TEACHING/TTC/115",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "KVS Principal",
+        "exam_code": "TEACHING/KP/116",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "KVS Vice Principal",
+        "exam_code": "TEACHING/KVP/117",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "CG B.Ed.",
+        "exam_code": "TEACHING/CB/118",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "AP ICET Exam",
+        "exam_code": "TEACHING/AIE/119",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "HPSSC JBT",
+        "exam_code": "TEACHING/HJ/120",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "TS ICET Exam",
+        "exam_code": "TEACHING/TIE/121",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "DSSSB PGT Computer Science",
+        "exam_code": "TEACHING/DPCS/122",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "AEES PGT",
+        "exam_code": "TEACHING/AP/123",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Tripura PGT",
+        "exam_code": "TEACHING/TP/124",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "NVS Assistant Section Officer",
+        "exam_code": "TEACHING/NASO/125",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "NVS Group C",
+        "exam_code": "TEACHING/NGC/126",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "AEES Teacher",
+        "exam_code": "TEACHING/AT/127",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "NCTE",
+        "exam_code": "TEACHING/N/128",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Arunachal Pradesh PSC PGT",
+        "exam_code": "TEACHING/APPP/129",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "NVS Group B",
+        "exam_code": "TEACHING/NGB/130",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "TN TRB",
+        "exam_code": "TEACHING/TT/131",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Arunachal Pradesh TGT",
+        "exam_code": "TEACHING/APT/132",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Punjab Assistant Professor",
+        "exam_code": "TEACHING/PAP/133",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "TN TRB BEO",
+        "exam_code": "TEACHING/TTB/134",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Meghalaya TET",
+        "exam_code": "TEACHING/MT/135",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "TRB Tripura Teacher",
+        "exam_code": "TEACHING/TTT/136",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "TN TRB Lecturer",
+        "exam_code": "TEACHING/TTL/137",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "TN TRB Special Teacher",
+        "exam_code": "TEACHING/TTST/138",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Mizoram TET",
+        "exam_code": "TEACHING/MT/139",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "TREIRB",
+        "exam_code": "TEACHING/T/140",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "MPTET Varg 2",
+        "exam_code": "TEACHING/MV2/141",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "RPSC School Lecturer",
+        "exam_code": "TEACHING/RSL/142",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "RPSC Assistant Professor",
+        "exam_code": "TEACHING/RAP/143",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "NCET",
+        "exam_code": "TEACHING/N/144",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "HPSC Assistant Professor",
+        "exam_code": "TEACHING/HAP/145",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Bihar Sakshamta Pariksha",
+        "exam_code": "TEACHING/BSP/146",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Bihar Elementary Teacher",
+        "exam_code": "TEACHING/BET/147",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "MH SET",
+        "exam_code": "TEACHING/MS/148",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "MPTET Varg 1",
+        "exam_code": "TEACHING/MV1/149",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Bihar Special Teacher",
+        "exam_code": "TEACHING/BST/150",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Haryana PGT",
+        "exam_code": "TEACHING/HP/151",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "WB SET Exam",
+        "exam_code": "TEACHING/WSE/152",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "SSB Odisha TGT",
+        "exam_code": "TEACHING/SOT/153",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "UPPSC GIC Lecturer",
+        "exam_code": "TEACHING/UGL/154",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Rajasthan SET",
+        "exam_code": "TEACHING/RS/155",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Chandigarh TGT",
+        "exam_code": "TEACHING/CT/156",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "RPSC Librarian",
+        "exam_code": "TEACHING/RL/157",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "RSMSSB Lab Assistant",
+        "exam_code": "TEACHING/RLA/158",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "JSSC TGT",
+        "exam_code": "TEACHING/JT/159",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "AP DSC SGT",
+        "exam_code": "TEACHING/ADS/160",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Swayam Exam",
+        "exam_code": "TEACHING/SE/161",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "MP Vyapam Middle School Teacher",
+        "exam_code": "TEACHING/MVMST/162",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "NVS Junior Secretariat Assistant",
+        "exam_code": "TEACHING/NJSA/163",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "UPHESC Assistant Professor",
+        "exam_code": "TEACHING/UAP/164",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Rajasthan Pre D.EL.ED.",
+        "exam_code": "TEACHING/RPD/165",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "DSSSB Librarian",
+        "exam_code": "TEACHING/DL/166",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "NVS Staff Nurse",
+        "exam_code": "TEACHING/NSN/167",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "KSET",
+        "exam_code": "TEACHING/K/168",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "RSMSSB Librarian",
+        "exam_code": "TEACHING/RL/169",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "GATE Chemistry",
+        "exam_code": "TEACHING/GC/170",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "IGNOU B.Ed.",
+        "exam_code": "TEACHING/IB/171",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "CG SET Exam",
+        "exam_code": "TEACHING/CSE/172",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "CG Vyapam Assistant Teacher",
+        "exam_code": "TEACHING/CVAT/173",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "CG Vyapam Lecturer",
+        "exam_code": "TEACHING/CVL/174",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "SSA Chandigarh TGT",
+        "exam_code": "TEACHING/SCT/175",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "NVS MTS",
+        "exam_code": "TEACHING/NM/176",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "HP TGT",
+        "exam_code": "TEACHING/HT/177",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "APSET",
+        "exam_code": "TEACHING/A/178",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "TN TRB Graduate Teacher",
+        "exam_code": "TEACHING/TTGT/179",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Jharkhand B.Ed",
+        "exam_code": "TEACHING/JB/180",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "GATE Mathematics",
+        "exam_code": "TEACHING/GM/181",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Chandigarh JBT",
+        "exam_code": "TEACHING/CJ/182",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Kerala SET",
+        "exam_code": "TEACHING/KS/183",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "DSSSB Physical Education Teacher",
+        "exam_code": "TEACHING/DPET/184",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "DSSSB Special Educator",
+        "exam_code": "TEACHING/DSE/185",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "NVS Stenographer",
+        "exam_code": "TEACHING/NS/186",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "OSSC TGT",
+        "exam_code": "TEACHING/OT/187",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "JSSC PGT",
+        "exam_code": "TEACHING/JP/188",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "TS SET",
+        "exam_code": "TEACHING/TS/189",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "HP SET",
+        "exam_code": "TEACHING/HS/190",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "DSSSB Nursery Teacher",
+        "exam_code": "TEACHING/DNT/191",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "RSMSSB PTI",
+        "exam_code": "TEACHING/RP/192",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "SLET",
+        "exam_code": "TEACHING/S/193",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "GSET",
+        "exam_code": "TEACHING/G/194",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "KEA Assistant Professor",
+        "exam_code": "TEACHING/KAP/195",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "OAVS",
+        "exam_code": "TEACHING/O/196",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Uttarakhand D.El.Ed",
+        "exam_code": "TEACHING/UD/197",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Jamia Millia Islamia B.Ed",
+        "exam_code": "TEACHING/JMIB/198",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "RPSC 1st Grade",
+        "exam_code": "TEACHING/R1G/199",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "DSSSB Drawing Teacher",
+        "exam_code": "TEACHING/DDT/200",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Haryana D. El.Ed",
+        "exam_code": "TEACHING/HDE/201",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "GATE Physics",
+        "exam_code": "TEACHING/GP/202",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "ASRB NET",
+        "exam_code": "TEACHING/AN/203",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "ICMR JRF",
+        "exam_code": "TEACHING/IJ/204",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "JSSC Lab Assistant",
+        "exam_code": "TEACHING/JLA/205",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "DBT JRF",
+        "exam_code": "TEACHING/DJ/206",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "HPSC Lecturer",
+        "exam_code": "TEACHING/HL/207",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "DSSSB Domestic Science Teacher",
+        "exam_code": "TEACHING/DDST/208",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "UKPSC Assistant Professor",
+        "exam_code": "TEACHING/UAP/209",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "HPPSC Assistant Professor",
+        "exam_code": "TEACHING/HAP/210",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "GATE Life Sciences",
+        "exam_code": "TEACHING/GLS/211",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "GATE Geology and Geophysics Engineering",
+        "exam_code": "TEACHING/GGAGE/212",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "AP DSC School Assistant",
+        "exam_code": "TEACHING/ADSA/213",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "UKSSSC Assistant Teacher",
+        "exam_code": "TEACHING/UAT/214",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Odisha Junior Teacher",
+        "exam_code": "TEACHING/OJT/215",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "USET",
+        "exam_code": "TEACHING/U/216",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "WBSSC Headmaster",
+        "exam_code": "TEACHING/WH/217",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "HP PGT",
+        "exam_code": "TEACHING/HP/218",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Gujarat TAT",
+        "exam_code": "TEACHING/GT/219",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "TS DSC Secondary Grade Teacher",
+        "exam_code": "TEACHING/TDSGT/220",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "KPSC Chief Librarian",
+        "exam_code": "TEACHING/KCL/221",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "WBMSC Assistant Teacher",
+        "exam_code": "TEACHING/WAT/222",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Chandigarh PGT",
+        "exam_code": "TEACHING/CP/223",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "OPSC PGT",
+        "exam_code": "TEACHING/OP/224",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Chandigarh NTT",
+        "exam_code": "TEACHING/CN/225",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "OAVS TGT",
+        "exam_code": "TEACHING/OT/226",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "GSEB Teacher",
+        "exam_code": "TEACHING/GT/227",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "OSSC PET",
+        "exam_code": "TEACHING/OP/228",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "OAVS PGT",
+        "exam_code": "TEACHING/OP/229",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "TS DSC School Assistants",
+        "exam_code": "TEACHING/TDSA/230",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "TS DSC Physical Education Teacher",
+        "exam_code": "TEACHING/TDPET/231",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "TREIRB Librarian",
+        "exam_code": "TEACHING/TL/232",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "JKPSC Lecturer",
+        "exam_code": "TEACHING/JL/233",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "JKSET",
+        "exam_code": "TEACHING/J/234",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "PPSC Lecturer",
+        "exam_code": "TEACHING/PL/235",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "JKPSC PTI",
+        "exam_code": "TEACHING/JP/236",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Chandigarh Special Educator",
+        "exam_code": "TEACHING/CSE/237",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "TN TRB SGT",
+        "exam_code": "TEACHING/TTS/238",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "TNPSC Assistant Professor",
+        "exam_code": "TEACHING/TAP/239",
+        "linked_json_file": ""
+      },
+      {
+        "exam_name": "Kerala PSC High School Teacher",
+        "exam_code": "TEACHING/KPHST/240",
+        "linked_json_file": ""
+      }
+    ],
+    "JUDICIARY_EXAMS": [
+      {
+        "exam_name": "Delhi Judicial Service Examination",
+        "exam_code": "JUDICIARY/DJS/01",
+        "linked_json_file": "JUDICIARY_EXAMS/djs.json",
+        "has_divisions": true
       }
     ]
   },
-  "updated_at": "2026-04-11T08:31:32.026Z"
+  "updated_at": "2026-09-04T14:25:02.383Z"
 }

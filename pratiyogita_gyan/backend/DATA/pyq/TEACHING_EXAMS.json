@@ -1,3 +1,260 @@
 {
-  "TEACHING_EXAMS": {}
+  "TEACHING_EXAMS": {
+    "CTET": {
+      "2023": [
+        {
+          "question": "According to Jean Piaget's theory of cognitive development, in which stage does an infant develop 'Object Permanence'?",
+          "options": {
+            "a": "Sensorimotor stage",
+            "b": "Pre-operational stage",
+            "c": "Concrete operational stage",
+            "d": "Formal operational stage"
+          },
+          "correct_option": "a",
+          "exam_name": "CTET",
+          "exam_year": "2023",
+          "exam_term": "Paper 1",
+          "subject": "Child Development and Pedagogy",
+          "correct_answer": "Sensorimotor stage",
+          "explanation": "Object permanence—the understanding that objects continue to exist even when they cannot be seen or heard—develops during Piaget's sensorimotor stage (birth to 2 years).",
+          "topic": "Piaget Cognitive Development Theory",
+          "keyword_and_metadata": [
+            "CTET",
+            "Piaget",
+            "Object Permanence",
+            "CDP"
+          ],
+          "img": "",
+          "sector": "Teaching",
+          "source_url": ""
+        },
+        {
+          "question": "Lev Vygotsky's socio-cultural perspective of learning emphasizes the primary importance of which concept in a child's cognitive development?",
+          "options": {
+            "a": "Operant conditioning",
+            "b": "Zone of Proximal Development (ZPD)",
+            "c": "Equilibration",
+            "d": "Behavioral shaping"
+          },
+          "correct_option": "b",
+          "exam_name": "CTET",
+          "exam_year": "2023",
+          "exam_term": "Paper 1",
+          "subject": "Child Development and Pedagogy",
+          "correct_answer": "Zone of Proximal Development (ZPD)",
+          "explanation": "Vygotsky introduced the Zone of Proximal Development (ZPD), which is the distance between what a child can achieve independently and what can be achieved with guidance and scaffolding from a More Knowledgeable Other (MKO).",
+          "topic": "Vygotsky Socio-Cultural Theory",
+          "keyword_and_metadata": [
+            "CTET",
+            "Vygotsky",
+            "ZPD",
+            "Scaffolding"
+          ],
+          "img": "",
+          "sector": "Teaching",
+          "source_url": ""
+        },
+        {
+          "question": "What is the core philosophical tenet of 'Inclusive Education' in schools?",
+          "options": {
+            "a": "Separating children with disabilities into special schools",
+            "b": "Providing equal learning opportunities to all children in the same classroom regardless of differences",
+            "c": "Enrolling only gifted children in mainstream classes",
+            "d": "Focusing solely on academic scoring without co-curricular activities"
+          },
+          "correct_option": "b",
+          "exam_name": "CTET",
+          "exam_year": "2023",
+          "exam_term": "Paper 2",
+          "subject": "Child Development and Pedagogy",
+          "correct_answer": "Providing equal learning opportunities to all children in the same classroom regardless of differences",
+          "explanation": "Inclusive education means all children in the same classrooms, in the same schools, with real learning opportunities for groups who have traditionally been excluded.",
+          "topic": "Concept of Inclusive Education",
+          "keyword_and_metadata": [
+            "CTET",
+            "Inclusive Education",
+            "Pedagogy"
+          ],
+          "img": "",
+          "sector": "Teaching",
+          "source_url": ""
+        },
+        {
+          "question": "In classroom assessment, 'Formative Assessment' is primarily intended for:",
+          "options": {
+            "a": "Assigning final grades and ranks at the end of the year",
+            "b": "Ongoing monitoring and providing feedback to improve teaching and learning during the instructional process",
+            "c": "Comparing performance between different schools",
+            "d": "Selecting top students for competitive scholarships"
+          },
+          "correct_option": "b",
+          "exam_name": "CTET",
+          "exam_year": "2023",
+          "exam_term": "Paper 1",
+          "subject": "Child Development and Pedagogy",
+          "correct_answer": "Ongoing monitoring and providing feedback to improve teaching and learning during the instructional process",
+          "explanation": "Formative assessment is assessment for learning; it takes place during instruction to provide continuous feedback to both students and teachers for immediate improvement.",
+          "topic": "Assessment and Evaluation",
+          "keyword_and_metadata": [
+            "CTET",
+            "Formative Assessment",
+            "Evaluation"
+          ],
+          "img": "",
+          "sector": "Teaching",
+          "source_url": ""
+        },
+        {
+          "question": "Howard Gardner's Theory of Multiple Intelligences argues that:",
+          "options": {
+            "a": "Intelligence can be measured accurately by a single General Factor (g)",
+            "b": "Intelligence comprises multiple distinct, relatively independent human intelligences",
+            "c": "Intelligence is determined 100% by heredity",
+            "d": "IQ tests cover all aspects of human capability"
+          },
+          "correct_option": "b",
+          "exam_name": "CTET",
+          "exam_year": "2023",
+          "exam_term": "Paper 2",
+          "subject": "Child Development and Pedagogy",
+          "correct_answer": "Intelligence comprises multiple distinct, relatively independent human intelligences",
+          "explanation": "Howard Gardner proposed 8 distinct types of intelligence (Linguistic, Logical-Mathematical, Spatial, Musical, Bodily-Kinesthetic, Interpersonal, Intrapersonal, Naturalistic).",
+          "topic": "Theories of Intelligence",
+          "keyword_and_metadata": [
+            "CTET",
+            "Howard Gardner",
+            "Multiple Intelligences"
+          ],
+          "img": "",
+          "sector": "Teaching",
+          "source_url": ""
+        },
+        {
+          "question": "Lawrence Kohlberg's Theory of Moral Development delineates how many levels and stages of moral reasoning?",
+          "options": {
+            "a": "2 levels and 4 stages",
+            "b": "3 levels and 6 stages",
+            "c": "4 levels and 8 stages",
+            "d": "5 levels and 10 stages"
+          },
+          "correct_option": "b",
+          "exam_name": "CTET",
+          "exam_year": "2023",
+          "exam_term": "Paper 1",
+          "subject": "Child Development and Pedagogy",
+          "correct_answer": "3 levels and 6 stages",
+          "explanation": "Kohlberg's framework consists of 3 levels (Pre-conventional, Conventional, Post-conventional), with 2 developmental stages in each level, making 6 stages in total.",
+          "topic": "Moral Development Theory",
+          "keyword_and_metadata": [
+            "CTET",
+            "Kohlberg",
+            "Moral Development"
+          ],
+          "img": "",
+          "sector": "Teaching",
+          "source_url": ""
+        },
+        {
+          "question": "Under the Right to Education (RTE) Act 2009, children of which age group are legally entitled to free and compulsory elementary education in India?",
+          "options": {
+            "a": "3 to 6 years",
+            "b": "6 to 14 years",
+            "c": "6 to 18 years",
+            "d": "5 to 15 years"
+          },
+          "correct_option": "b",
+          "exam_name": "CTET",
+          "exam_year": "2023",
+          "exam_term": "Paper 1",
+          "subject": "Educational Policies and Legislation",
+          "correct_answer": "6 to 14 years",
+          "explanation": "Section 3 of the RTE Act 2009 gives every child between 6 and 14 years the fundamental right to free and compulsory elementary education in a neighborhood school.",
+          "topic": "RTE Act 2009",
+          "keyword_and_metadata": [
+            "CTET",
+            "RTE Act 2009",
+            "Free Education"
+          ],
+          "img": "",
+          "sector": "Teaching",
+          "source_url": ""
+        },
+        {
+          "question": "The Constructivist view of learning perceives the learner primarily as:",
+          "options": {
+            "a": "A passive recipient of information from teachers",
+            "b": "An active constructor of knowledge through experiences and social interaction",
+            "c": "A tabula rasa (blank slate) to be programmed",
+            "d": "An entity driven solely by conditioned stimuli"
+          },
+          "correct_option": "b",
+          "exam_name": "CTET",
+          "exam_year": "2023",
+          "exam_term": "Paper 2",
+          "subject": "Pedagogical Principles",
+          "correct_answer": "An active constructor of knowledge through experiences and social interaction",
+          "explanation": "Constructivism posits that learners actively construct knowledge rather than just passively taking in information. People experience the world and reflect upon those experiences to build cognitive models.",
+          "topic": "Constructivism in Learning",
+          "keyword_and_metadata": [
+            "CTET",
+            "Constructivism",
+            "Active Learning"
+          ],
+          "img": "",
+          "sector": "Teaching",
+          "source_url": ""
+        },
+        {
+          "question": "'Dyslexia' is a specific learning disorder characterized by difficulty in:",
+          "options": {
+            "a": "Mathematical calculation",
+            "b": "Motor coordination and balance",
+            "c": "Reading, spelling, and decoding written words",
+            "d": "Social communication and eye contact"
+          },
+          "correct_option": "c",
+          "exam_name": "CTET",
+          "exam_year": "2023",
+          "exam_term": "Paper 1",
+          "subject": "Special Needs and Learning Disabilities",
+          "correct_answer": "Reading, spelling, and decoding written words",
+          "explanation": "Dyslexia is a specific neurodevelopmental learning disability characterized by difficulties with accurate and/or fluent word recognition and by poor spelling and decoding abilities.",
+          "topic": "Learning Disabilities",
+          "keyword_and_metadata": [
+            "CTET",
+            "Dyslexia",
+            "Special Needs"
+          ],
+          "img": "",
+          "sector": "Teaching",
+          "source_url": ""
+        },
+        {
+          "question": "What is the primary objective of Continuous and Comprehensive Evaluation (CCE) implemented in schools?",
+          "options": {
+            "a": "To reduce board examination failure rates",
+            "b": "To assess all aspects of a student's holistic development, covering both scholastic and co-scholastic domains",
+            "c": "To increase homework load on children",
+            "d": "To eliminate the need for any formal testing"
+          },
+          "correct_option": "b",
+          "exam_name": "CTET",
+          "exam_year": "2023",
+          "exam_term": "Paper 2",
+          "subject": "Assessment Systems",
+          "correct_answer": "To assess all aspects of a student's holistic development, covering both scholastic and co-scholastic domains",
+          "explanation": "CCE aims to make evaluation an integral part of the learning-teaching process, focusing on all-round development including cognitive, affective, and psychomotor skills.",
+          "topic": "CCE Framework",
+          "keyword_and_metadata": [
+            "CTET",
+            "CCE",
+            "Scholastic Evaluation"
+          ],
+          "img": "",
+          "sector": "Teaching",
+          "source_url": ""
+        }
+      ]
+    }
+  }
 }

@@ -1,3 +1,259 @@
 {
-  "BANKING_EXAMS": {}
+  "BANKING_EXAMS": {
+    "SBI_PO": {
+      "2023": [
+        {
+          "question": "What does 'CRR' stand for in the context of RBI monetary policy framework?",
+          "options": {
+            "a": "Credit Reserve Ratio",
+            "b": "Cash Reserve Ratio",
+            "c": "Capital Risk Ratio",
+            "d": "Current Repo Rate"
+          },
+          "correct_option": "b",
+          "exam_name": "SBI PO",
+          "exam_year": "2023",
+          "exam_term": "Mains",
+          "subject": "Banking and Financial Awareness",
+          "correct_answer": "Cash Reserve Ratio",
+          "explanation": "Cash Reserve Ratio (CRR) is the specified minimum fraction of the total deposits of customers, which commercial banks have to hold as reserves either in cash or as deposits with the central bank (RBI).",
+          "topic": "Monetary Policy Instruments",
+          "keyword_and_metadata": [
+            "SBI PO",
+            "CRR",
+            "Monetary Policy",
+            "RBI"
+          ],
+          "img": "",
+          "sector": "Banking",
+          "source_url": ""
+        },
+        {
+          "question": "Which committee was appointed by the Reserve Bank of India that recommended the establishment of the Monetary Policy Committee (MPC)?",
+          "options": {
+            "a": "Bimal Jalan Committee",
+            "b": "Urjit Patel Committee",
+            "c": "Raghuram Rajan Committee",
+            "d": "Narasimham Committee"
+          },
+          "correct_option": "b",
+          "exam_name": "SBI PO",
+          "exam_year": "2023",
+          "exam_term": "Mains",
+          "subject": "Banking Awareness",
+          "correct_answer": "Urjit Patel Committee",
+          "explanation": "The Expert Committee to Revise and Strengthen the Monetary Policy Framework headed by Dr. Urjit R. Patel in 2014 recommended establishing a flexible inflation-targeting framework and a six-member Monetary Policy Committee (MPC).",
+          "topic": "Monetary Policy Committee",
+          "keyword_and_metadata": [
+            "SBI PO",
+            "Urjit Patel",
+            "MPC"
+          ],
+          "img": "",
+          "sector": "Banking",
+          "source_url": ""
+        },
+        {
+          "question": "What is the minimum net worth/paid-up equity capital requirement for setting up a Small Finance Bank (SFB) in India as per updated RBI guidelines?",
+          "options": {
+            "a": "Rs. 100 Crore",
+            "b": "Rs. 200 Crore",
+            "c": "Rs. 300 Crore",
+            "d": "Rs. 500 Crore"
+          },
+          "correct_option": "b",
+          "exam_name": "SBI PO",
+          "exam_year": "2023",
+          "exam_term": "Mains",
+          "subject": "Banking Regulations",
+          "correct_answer": "Rs. 200 Crore",
+          "explanation": "As per RBI's guidelines for 'on-tap' licensing of Small Finance Banks, the minimum paid-up voting equity capital/net worth requirement is Rs. 200 crore (Rs. 100 crore for primary urban cooperative banks transitioning to SFB).",
+          "topic": "Small Finance Banks",
+          "keyword_and_metadata": [
+            "SBI PO",
+            "SFB Guidelines",
+            "RBI"
+          ],
+          "img": "",
+          "sector": "Banking",
+          "source_url": ""
+        },
+        {
+          "question": "Under the Basel III regulatory framework, what does 'LCR' stand for?",
+          "options": {
+            "a": "Loan Capital Ratio",
+            "b": "Liquidity Coverage Ratio",
+            "c": "Leverage Credit Ratio",
+            "d": "Long-term Capital Requirement"
+          },
+          "correct_option": "b",
+          "exam_name": "SBI PO",
+          "exam_year": "2023",
+          "exam_term": "Mains",
+          "subject": "Banking Awareness",
+          "correct_answer": "Liquidity Coverage Ratio",
+          "explanation": "The Liquidity Coverage Ratio (LCR) refers to the proportion of highly liquid assets held by financial institutions to ensure their ongoing ability to meet short-term obligations (over a 30-day period) during severe stress.",
+          "topic": "Basel III Norms",
+          "keyword_and_metadata": [
+            "SBI PO",
+            "LCR",
+            "Basel III"
+          ],
+          "img": "",
+          "sector": "Banking",
+          "source_url": ""
+        },
+        {
+          "question": "Which payment system allows continuous real-time settlement of fund transfers individually on an order by order basis with no upper transaction limit?",
+          "options": {
+            "a": "NEFT",
+            "b": "IMPS",
+            "c": "RTGS",
+            "d": "UPI"
+          },
+          "correct_option": "c",
+          "exam_name": "SBI PO",
+          "exam_year": "2023",
+          "exam_term": "Mains",
+          "subject": "Digital Banking",
+          "correct_answer": "RTGS",
+          "explanation": "RTGS stands for Real Time Gross Settlement. Transactions are processed continuously on a gross basis without netting. There is no upper limit on RTGS transactions.",
+          "topic": "Payment Systems in India",
+          "keyword_and_metadata": [
+            "SBI PO",
+            "RTGS",
+            "Payment Systems"
+          ],
+          "img": "",
+          "sector": "Banking",
+          "source_url": ""
+        },
+        {
+          "question": "The Deposit Insurance and Credit Guarantee Corporation (DICGC) insures bank deposits up to a maximum amount of how much per depositor per bank?",
+          "options": {
+            "a": "Rs. 1 Lakh",
+            "b": "Rs. 2 Lakh",
+            "c": "Rs. 5 Lakh",
+            "d": "Rs. 10 Lakh"
+          },
+          "correct_option": "c",
+          "exam_name": "SBI PO",
+          "exam_year": "2023",
+          "exam_term": "Mains",
+          "subject": "Banking Awareness",
+          "correct_answer": "Rs. 5 Lakh",
+          "explanation": "In 2020, the DICGC increased the deposit insurance coverage from Rs. 1 lakh to Rs. 5 lakh per depositor across savings, fixed, current, and recurring accounts in an insured bank.",
+          "topic": "DICGC Insurance",
+          "keyword_and_metadata": [
+            "SBI PO",
+            "DICGC",
+            "Deposit Insurance"
+          ],
+          "img": "",
+          "sector": "Banking",
+          "source_url": ""
+        },
+        {
+          "question": "Which regulatory body regulates commodity derivatives and stock markets in India?",
+          "options": {
+            "a": "RBI",
+            "b": "SEBI",
+            "c": "IRDAI",
+            "d": "PFRDA"
+          },
+          "correct_option": "b",
+          "exam_name": "SBI PO",
+          "exam_year": "2023",
+          "exam_term": "Mains",
+          "subject": "Financial Regulators",
+          "correct_answer": "SEBI",
+          "explanation": "The Securities and Exchange Board of India (SEBI) is the regulatory authority established under SEBI Act 1992 to protect investor interests and regulate both the securities market and commodity derivatives market.",
+          "topic": "Financial Regulators",
+          "keyword_and_metadata": [
+            "SBI PO",
+            "SEBI",
+            "Capital Markets"
+          ],
+          "img": "",
+          "sector": "Banking",
+          "source_url": ""
+        },
+        {
+          "question": "In international banking, a 'Nostro Account' is:",
+          "options": {
+            "a": "An account held by a foreign bank with an Indian bank in Indian rupees",
+            "b": "An account maintained by an Indian bank in a foreign bank in foreign currency",
+            "c": "A joint account operated by two NRI individuals",
+            "d": "An escrow account held for international debt settlement"
+          },
+          "correct_option": "b",
+          "exam_name": "SBI PO",
+          "exam_year": "2023",
+          "exam_term": "Mains",
+          "subject": "Foreign Exchange & Trade Finance",
+          "correct_answer": "An account maintained by an Indian bank in a foreign bank in foreign currency",
+          "explanation": "Nostro comes from the Latin word meaning 'ours'. It is an account that a domestic bank holds in a foreign currency in an overseas bank.",
+          "topic": "Forex and Trade Accounts",
+          "keyword_and_metadata": [
+            "SBI PO",
+            "Nostro Account",
+            "Forex"
+          ],
+          "img": "",
+          "sector": "Banking",
+          "source_url": ""
+        },
+        {
+          "question": "Under the Negotiable Instruments Act, 1881, which Section penalizes the dishonour of cheques for insufficiency of funds?",
+          "options": {
+            "a": "Section 131",
+            "b": "Section 138",
+            "c": "Section 142",
+            "d": "Section 148"
+          },
+          "correct_option": "b",
+          "exam_name": "SBI PO",
+          "exam_year": "2023",
+          "exam_term": "Mains",
+          "subject": "Banking Law",
+          "correct_answer": "Section 138",
+          "explanation": "Section 138 of the Negotiable Instruments Act, 1881 deals with the dishonour of cheque for insufficiency of funds or if it exceeds the amount arranged to be paid.",
+          "topic": "Negotiable Instruments Act",
+          "keyword_and_metadata": [
+            "SBI PO",
+            "Section 138 NI Act",
+            "Cheque Bounce"
+          ],
+          "img": "",
+          "sector": "Banking",
+          "source_url": ""
+        },
+        {
+          "question": "In supervisory banking evaluation, what does the 'CAMELS' rating framework evaluate?",
+          "options": {
+            "a": "Capital, Assets, Management, Earnings, Liquidity, Sensitivity",
+            "b": "Credit, Audit, Management, Equity, Leverage, Solvency",
+            "c": "Collateral, Assets, Market, Earnings, Lending, Stability",
+            "d": "Cash, Allocation, Monitoring, Expenses, Liabilities, Security"
+          },
+          "correct_option": "a",
+          "exam_name": "SBI PO",
+          "exam_year": "2023",
+          "exam_term": "Mains",
+          "subject": "Banking Supervision",
+          "correct_answer": "Capital, Assets, Management, Earnings, Liquidity, Sensitivity",
+          "explanation": "CAMELS is an internationally recognized supervisory rating system used to evaluate the overall condition of a bank: Capital adequacy, Asset quality, Management capability, Earnings quality, Liquidity adequacy, and Sensitivity to market risk.",
+          "topic": "Bank Supervision",
+          "keyword_and_metadata": [
+            "SBI PO",
+            "CAMELS Rating",
+            "Supervision"
+          ],
+          "img": "",
+          "sector": "Banking",
+          "source_url": ""
+        }
+      ]
+    }
+  }
 }

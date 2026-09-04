@@ -1,3 +1,258 @@
 {
-  "PG_EXAMS": {}
+  "PG_EXAMS": {
+    "CUET_PG": {
+      "2023": [
+        {
+          "question": "In Research Methodology, which type of research is designed specifically to test hypotheses and establish cause-and-effect relationships?",
+          "options": {
+            "a": "Descriptive research",
+            "b": "Historical research",
+            "c": "Experimental research",
+            "d": "Exploratory research"
+          },
+          "correct_option": "c",
+          "exam_name": "CUET PG",
+          "exam_year": "2023",
+          "exam_term": "General Paper",
+          "subject": "Research Methodology",
+          "correct_answer": "Experimental research",
+          "explanation": "Experimental research manipulates one or more independent variables and controls extraneous variables to measure their effect on dependent variables, establishing cause-and-effect.",
+          "topic": "Types of Research",
+          "keyword_and_metadata": [
+            "CUET PG",
+            "Research Methodology",
+            "Experimental Research"
+          ],
+          "img": "",
+          "sector": "Postgraduate Entrance",
+          "source_url": ""
+        },
+        {
+          "question": "What is the worst-case time complexity of the QuickSort sorting algorithm?",
+          "options": {
+            "a": "O(n)",
+            "b": "O(n log n)",
+            "c": "O(n^2)",
+            "d": "O(2^n)"
+          },
+          "correct_option": "c",
+          "exam_name": "CUET PG",
+          "exam_year": "2023",
+          "exam_term": "Computer Science",
+          "subject": "Data Structures and Algorithms",
+          "correct_answer": "O(n^2)",
+          "explanation": "QuickSort has an average time complexity of O(n log n), but its worst-case occurs when the chosen pivot is consistently the smallest or largest element (such as in an already sorted array with naive pivot choice), resulting in O(n^2).",
+          "topic": "Sorting Algorithms",
+          "keyword_and_metadata": [
+            "CUET PG",
+            "QuickSort",
+            "Time Complexity"
+          ],
+          "img": "",
+          "sector": "Postgraduate Entrance",
+          "source_url": ""
+        },
+        {
+          "question": "On 1st January 2015, the Government of India established NITI Aayog by replacing which longstanding body?",
+          "options": {
+            "a": "National Development Council",
+            "b": "Planning Commission",
+            "c": "Finance Commission",
+            "d": "Inter-State Council"
+          },
+          "correct_option": "b",
+          "exam_name": "CUET PG",
+          "exam_year": "2023",
+          "exam_term": "General Paper",
+          "subject": "Indian Polity and Governance",
+          "correct_answer": "Planning Commission",
+          "explanation": "The Planning Commission was dissolved and replaced by the National Institution for Transforming India (NITI Aayog) on 1 January 2015 to promote cooperative federalism.",
+          "topic": "Government Institutions",
+          "keyword_and_metadata": [
+            "CUET PG",
+            "NITI Aayog",
+            "Planning Commission"
+          ],
+          "img": "",
+          "sector": "Postgraduate Entrance",
+          "source_url": ""
+        },
+        {
+          "question": "In how many different ways can the letters of the word 'OPTICAL' be arranged so that the vowels always come together?",
+          "options": {
+            "a": "120",
+            "b": "720",
+            "c": "2160",
+            "d": "5040"
+          },
+          "correct_option": "b",
+          "exam_name": "CUET PG",
+          "exam_year": "2023",
+          "exam_term": "General Paper",
+          "subject": "Mathematical Aptitude",
+          "correct_answer": "720",
+          "explanation": "Word 'OPTICAL' has 7 letters: vowels are O, I, A (3 vowels) and consonants are P, T, C, L (4 consonants). Treating vowels as 1 bundle gives 4 + 1 = 5 units, arranged in 5! = 120 ways. The 3 vowels can be arranged among themselves in 3! = 6 ways. Total = 120 * 6 = 720.",
+          "topic": "Permutations and Combinations",
+          "keyword_and_metadata": [
+            "CUET PG",
+            "Permutations",
+            "Reasoning"
+          ],
+          "img": "",
+          "sector": "Postgraduate Entrance",
+          "source_url": ""
+        },
+        {
+          "question": "Who is recognized as the 'Father of Scientific Management' in administrative and management theory?",
+          "options": {
+            "a": "Henri Fayol",
+            "b": "Max Weber",
+            "c": "Frederick Winslow Taylor",
+            "d": "Elton Mayo"
+          },
+          "correct_option": "c",
+          "exam_name": "CUET PG",
+          "exam_year": "2023",
+          "exam_term": "Public Administration",
+          "subject": "Administrative Theory",
+          "correct_answer": "Frederick Winslow Taylor",
+          "explanation": "F.W. Taylor is known as the Father of Scientific Management for his 1911 work 'The Principles of Scientific Management', focusing on time-motion studies and workplace efficiency.",
+          "topic": "Management Theories",
+          "keyword_and_metadata": [
+            "CUET PG",
+            "F W Taylor",
+            "Scientific Management"
+          ],
+          "img": "",
+          "sector": "Postgraduate Entrance",
+          "source_url": ""
+        },
+        {
+          "question": "The landmark Montreal Protocol agreed in 1987 is an international treaty designed to:",
+          "options": {
+            "a": "Reduce greenhouse gas emissions causing global warming",
+            "b": "Phase out the production and consumption of ozone-depleting substances",
+            "c": "Regulate transboundary movements of hazardous wastes",
+            "d": "Preserve wetland ecosystems of international importance"
+          },
+          "correct_option": "b",
+          "exam_name": "CUET PG",
+          "exam_year": "2023",
+          "exam_term": "General Paper",
+          "subject": "People, Development and Environment",
+          "correct_answer": "Phase out the production and consumption of ozone-depleting substances",
+          "explanation": "The Montreal Protocol on Substances that Deplete the Ozone Layer, adopted in 1987, successfully mandates the phase-out of CFCs and halons.",
+          "topic": "Environmental Treaties",
+          "keyword_and_metadata": [
+            "CUET PG",
+            "Montreal Protocol",
+            "Ozone Layer"
+          ],
+          "img": "",
+          "sector": "Postgraduate Entrance",
+          "source_url": ""
+        },
+        {
+          "question": "In microeconomics, a perfectly competitive market structure is distinguished by which of the following?",
+          "options": {
+            "a": "Few large sellers with differentiated goods",
+            "b": "Large number of buyers and sellers trading homogeneous products",
+            "c": "High entry barriers created by legal patents",
+            "d": "Price discrimination practiced by suppliers"
+          },
+          "correct_option": "b",
+          "exam_name": "CUET PG",
+          "exam_year": "2023",
+          "exam_term": "Economics",
+          "subject": "Microeconomics",
+          "correct_answer": "Large number of buyers and sellers trading homogeneous products",
+          "explanation": "Perfect competition is defined by numerous atomistic buyers and sellers, homogeneous goods, perfect market information, and free entry/exit of firms, making all firms price takers.",
+          "topic": "Market Structures",
+          "keyword_and_metadata": [
+            "CUET PG",
+            "Perfect Competition",
+            "Economics"
+          ],
+          "img": "",
+          "sector": "Postgraduate Entrance",
+          "source_url": ""
+        },
+        {
+          "question": "In Bloom's Revised Cognitive Taxonomy (Anderson & Krathwohl), which of the following represents the highest cognitive level?",
+          "options": {
+            "a": "Evaluating",
+            "b": "Analyzing",
+            "c": "Creating",
+            "d": "Applying"
+          },
+          "correct_option": "c",
+          "exam_name": "CUET PG",
+          "exam_year": "2023",
+          "exam_term": "Education / Teaching Aptitude",
+          "subject": "Teaching and Learning Theories",
+          "correct_answer": "Creating",
+          "explanation": "In the 2001 revised Bloom's taxonomy, the hierarchy from lowest to highest is: Remembering, Understanding, Applying, Analyzing, Evaluating, and Creating.",
+          "topic": "Taxonomy of Educational Objectives",
+          "keyword_and_metadata": [
+            "CUET PG",
+            "Bloom Taxonomy",
+            "Creating"
+          ],
+          "img": "",
+          "sector": "Postgraduate Entrance",
+          "source_url": ""
+        },
+        {
+          "question": "Which political philosopher propounded the doctrine of 'Separation of Powers' in his treatise 'The Spirit of the Laws'?",
+          "options": {
+            "a": "John Locke",
+            "b": "Thomas Hobbes",
+            "c": "Montesquieu",
+            "d": "Jean-Jacques Rousseau"
+          },
+          "correct_option": "c",
+          "exam_name": "CUET PG",
+          "exam_year": "2023",
+          "exam_term": "Political Science",
+          "subject": "Western Political Thought",
+          "correct_answer": "Montesquieu",
+          "explanation": "Baron de Montesquieu articulated the theory of separation of powers among the legislative, executive, and judicial branches of government in De l'esprit des lois (1748).",
+          "topic": "Political Concepts",
+          "keyword_and_metadata": [
+            "CUET PG",
+            "Montesquieu",
+            "Separation of Powers"
+          ],
+          "img": "",
+          "sector": "Postgraduate Entrance",
+          "source_url": ""
+        },
+        {
+          "question": "If the statistical variance of a given dataset is 64, what is its standard deviation?",
+          "options": {
+            "a": "4",
+            "b": "8",
+            "c": "16",
+            "d": "32"
+          },
+          "correct_option": "b",
+          "exam_name": "CUET PG",
+          "exam_year": "2023",
+          "exam_term": "General Paper",
+          "subject": "Statistics and Data Interpretation",
+          "correct_answer": "8",
+          "explanation": "Standard deviation is defined as the positive square root of variance. SD = sqrt(64) = 8.",
+          "topic": "Measures of Dispersion",
+          "keyword_and_metadata": [
+            "CUET PG",
+            "Standard Deviation",
+            "Variance"
+          ],
+          "img": "",
+          "sector": "Postgraduate Entrance",
+          "source_url": ""
+        }
+      ]
+    }
+  }
 }
