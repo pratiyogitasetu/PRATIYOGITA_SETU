@@ -61,6 +61,7 @@ const PYQSection = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [totalQuestions, setTotalQuestions] = useState(null)
   const [selectedExam, setSelectedExam] = useState('all')
+  const [selectedSubject, setSelectedSubject] = useState('all')
   const [showImportantOnly, setShowImportantOnly] = useState(false) // Filter for important questions only
   const [examAnchorEl, setExamAnchorEl] = useState(null)
   const [subjectAnchorEl, setSubjectAnchorEl] = useState(null)
