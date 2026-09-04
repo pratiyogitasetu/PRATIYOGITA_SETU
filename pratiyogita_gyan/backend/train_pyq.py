@@ -132,7 +132,7 @@ def initialize_mcq_system(pine_api_key):
     otherwise falls back to local BGE-base.
     """
     pc_mcq = Pinecone(api_key=pine_api_key)
-    mcq_index_name = os.getenv('MCQ_INDEX_NAME', 'pyq-bge-768')
+    mcq_index_name = os.getenv('MCQ_INDEX_NAME', 'pyq')
     dimension = int(os.getenv('NVIDIA_EMBED_DIMENSION', '768'))
     
     # Check if index exists

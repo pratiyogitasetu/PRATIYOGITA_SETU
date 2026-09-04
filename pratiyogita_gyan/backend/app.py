@@ -1556,7 +1556,7 @@ def initialize_search_system():
                 
                 # Initialize Pinecone for MCQ (may use NVIDIA Nemotron or local fallback)
                 pc_mcq = Pinecone(api_key=pine_api_key)
-                mcq_index_name = os.getenv('MCQ_INDEX_NAME', 'pyq-bge-768')
+                mcq_index_name = os.getenv('MCQ_INDEX_NAME', 'pyq')
                 mcq_index = pc_mcq.Index(mcq_index_name)
                 mcq_model, mcq_backend = create_mcq_embedding_model()
                 
@@ -2795,7 +2795,7 @@ def get_system_stats():
         
         # If stats returned 0 or not indexed, default to base indexed pyqs if available
         if total_pyqs <= 0:
-            total_pyqs = 117
+            total_pyqs = 4080
 
         return jsonify({
             "total_pyqs": total_pyqs,
