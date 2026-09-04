@@ -337,15 +337,53 @@ const PYQSection = () => {
       console.log('🔄 PYQ Section reset for loaded guest chat')
     }
 
+    const handleRestoreChatPyqs = (event) => {
+      const { mcqs, query } = event.detail || {}
+      if (Array.isArray(mcqs) && mcqs.length > 0) {
+        const existingIds = new Set()
+        const uniqueMcqs = mcqs.filter(q => {
+          const id = q.id || q.question
+          if (!id || existingIds.has(id)) return false
+          existingIds.add(id)
+          return true
+        })
+
+        setSearchResults(uniqueMcqs)
+        setFilteredQuestions(uniqueMcqs)
+        if (query) setLastSearchQuery(query)
+        setUserAnswers({})
+        setExpandedExplanations({})
+        setExpandedQueries({})
+        setSelectedExam('all')
+        setSelectedSubject('all')
+        setShowImportantOnly(false)
+
+        // Populate available filters from restored questions
+        const exams = Array.from(new Set(uniqueMcqs.map(q => q.exam_name || q.metadata?.exam_name).filter(Boolean))).sort()
+        const subjects = Array.from(new Set(uniqueMcqs.map(q => q.subject || q.metadata?.subject).filter(Boolean))).sort()
+        setAvailableExams(exams)
+        setAvailableSubjects(subjects)
+        console.log(`✅ Restored ${uniqueMcqs.length} PYQs for chat session`)
+      } else {
+        setSearchResults([])
+        setFilteredQuestions([])
+        setLastSearchQuery('')
+        setAvailableExams([])
+        setAvailableSubjects([])
+      }
+    }
+
     window.addEventListener('newMcqResults', handleMcqResults)
     window.addEventListener('newChat', handleNewChat)
     window.addEventListener('loadChat', handleLoadChat)
     window.addEventListener('loadGuestChat', handleLoadGuestChat)
+    window.addEventListener('restoreChatPyqs', handleRestoreChatPyqs)
     return () => {
       window.removeEventListener('newMcqResults', handleMcqResults)
       window.removeEventListener('newChat', handleNewChat)
       window.removeEventListener('loadChat', handleLoadChat)
       window.removeEventListener('loadGuestChat', handleLoadGuestChat)
+      window.removeEventListener('restoreChatPyqs', handleRestoreChatPyqs)
     }
   }, [])
 

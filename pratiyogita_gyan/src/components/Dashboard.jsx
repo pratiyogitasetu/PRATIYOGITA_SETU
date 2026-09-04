@@ -38,13 +38,11 @@ const Dashboard = () => {
     refreshDashboardData,
   } = useDashboard();
 
-  const [selectedTimeframe, setSelectedTimeframe] = useState("week");
-
   // Expandable sections state
   const [expandedSections, setExpandedSections] = useState({
     overview: true,
+    mcqBreakdown: true,
     subjectAnalysis: true,
-    mcqBreakdown: false,
     weakAreas: false,
     progressTrends: false,
   });
@@ -84,8 +82,9 @@ const Dashboard = () => {
   if (loading) {
     return (
       <div
-        className="dashboard-page flex-1 transition-all duration-300 p-2 md:p-4 overflow-y-auto"
+        className="dashboard-page flex-1 transition-all duration-300 px-2 md:px-4 pb-2 md:pb-4 overflow-y-auto"
         style={{
+          paddingTop: isMobile ? '60px' : '64px',
           marginLeft: `${contentOffsetLeft}px`,
           width: `calc(100% - ${contentOffsetLeft + (isMobile ? 0 : 8)}px)`,
           transition: 'margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
@@ -107,8 +106,9 @@ const Dashboard = () => {
   if (error) {
     return (
       <div
-        className="dashboard-page flex-1 transition-all duration-300 p-2 md:p-4 overflow-y-auto"
+        className="dashboard-page flex-1 transition-all duration-300 px-2 md:px-4 pb-2 md:pb-4 overflow-y-auto"
         style={{
+          paddingTop: isMobile ? '60px' : '64px',
           marginLeft: `${contentOffsetLeft}px`,
           width: `calc(100% - ${contentOffsetLeft + (isMobile ? 0 : 8)}px)`,
           transition: 'margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
@@ -229,45 +229,50 @@ const Dashboard = () => {
     </div>
   )
 
-  const SubjectCard = ({ subject }) => (
-    <div className="bg-white rounded-lg border border-gray-200 p-2 hover:shadow-sm transition-shadow">
-      <div className="flex items-center justify-between mb-1">
-        <h4 className="font-medium text-gray-900 text-xs">{subject.name}</h4>
-        <div
-          className="w-2 h-2 rounded-full"
-          style={{ backgroundColor: subject.color }}
-        ></div>
-      </div>
-      <div className="space-y-1">
-        <div>
-          <div className="text-sm font-semibold text-gray-700">
-            {subject.mcqAttempted || 0}
+  const SubjectCard = ({ subject }) => {
+    const attempted = subject.mcqAttempted || 0;
+    const correct = subject.mcqCorrect || 0;
+    const wrong = subject.mcqWrong || 0;
+    const accuracy = attempted > 0 ? Math.round((correct / attempted) * 100) : 0;
+
+    return (
+      <div className="bg-white rounded-lg border border-gray-200 p-3 hover:shadow-sm transition-shadow">
+        <div className="flex items-center justify-between mb-1.5">
+          <h4 className="font-semibold text-gray-900 text-xs sm:text-sm truncate">{subject.name}</h4>
+          <div
+            className="w-2.5 h-2.5 rounded-full shrink-0"
+            style={{ backgroundColor: subject.color || '#3B82F6' }}
+          ></div>
+        </div>
+        <div className="space-y-1">
+          <div className="flex justify-between items-baseline">
+            <span className="text-base font-bold text-gray-800">{attempted}</span>
+            <span className="text-[11px] text-gray-500">Attempted</span>
           </div>
-          <p className="text-xs text-gray-500">MCQs attempted</p>
-          {subject.mcqAttempted > 0 && (
-            <div className="mt-1">
-              <div className="text-xs font-medium text-green-600">
-                {Math.round(
-                  ((subject.mcqCorrect || 0) / subject.mcqAttempted) * 100
-                )}
-                % accuracy
+          {attempted > 0 ? (
+            <div>
+              <div className="flex justify-between text-[11px] font-medium text-gray-600 mb-0.5">
+                <span className="text-green-600 font-semibold">{correct} correct</span>
+                <span className="text-red-500 font-semibold">{wrong} wrong</span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-1 mt-1">
+              <div className="flex items-center justify-between text-xs font-semibold text-green-700">
+                <span>{accuracy}%</span>
+                <span className="text-[10px] text-gray-400 font-normal">accuracy</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-1.5 mt-0.5">
                 <div
-                  className="bg-green-600 h-1 rounded-full transition-all duration-300"
-                  style={{
-                    width: `${
-                      ((subject.mcqCorrect || 0) / subject.mcqAttempted) * 100
-                    }%`,
-                  }}
+                  className="bg-green-600 h-1.5 rounded-full transition-all duration-300"
+                  style={{ width: `${accuracy}%` }}
                 ></div>
               </div>
             </div>
+          ) : (
+            <p className="text-[11px] text-gray-400 italic">No MCQs attempted</p>
           )}
         </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   const ProgressCard = ({ title, items, icon: Icon }) => (
     <div className="bg-white rounded-lg border border-gray-200 p-3">
@@ -343,6 +348,7 @@ const Dashboard = () => {
     <div
       className="dashboard-page flex-1 mr-0 flex flex-col h-full overflow-hidden pl-2 pr-2 pb-2"
       style={{
+        paddingTop: isMobile ? '60px' : '64px',
         marginLeft: `${contentOffsetLeft}px`,
         width: `calc(100% - ${contentOffsetLeft + (isMobile ? 0 : 8)}px)`,
         transition: 'margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
@@ -372,19 +378,14 @@ const Dashboard = () => {
                 your learning overview.
               </p>
             </div>
-            <div className="flex items-center gap-2 w-full md:w-auto flex-nowrap">
-              <select
-                value={selectedTimeframe}
-                onChange={(e) => setSelectedTimeframe(e.target.value)}
-                className="flex-1 md:flex-none min-w-0 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handleRefresh}
+                className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors text-xs sm:text-sm font-medium flex items-center gap-1.5"
+                title="Refresh dashboard stats"
               >
-                <option value="week">This Week</option>
-                <option value="month">This Month</option>
-                <option value="year">This Year</option>
-              </select>
-              <button className="shrink-0 px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm flex items-center">
-                <Download className="w-4 h-4 mr-2" />
-                Export
+                <RefreshCw className="w-4 h-4 text-gray-600" />
+                <span>Refresh</span>
               </button>
             </div>
           </div>
@@ -394,23 +395,14 @@ const Dashboard = () => {
         <div className="flex-1 overflow-y-auto p-3">
           <div className="max-w-none mx-0 md:max-w-full md:mx-auto space-y-3">
             
-            {/* Overview Stats - Always Visible */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
-              <StatCard
-                title="Total Conversations"
-                value={stats.totalChats || 0}
-                subtitle="Active chats"
-                icon={MessageCircle}
-                color={theme.colors.primary}
-                trend={5}
-              />
+            {/* Overview Stats - Questions & MCQ Highlights */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
               <StatCard
                 title="Questions Asked"
                 value={stats.totalQuestions || 0}
-                subtitle="All time"
+                subtitle="Total across all chats"
                 icon={Brain}
-                color="#10B981"
-                trend={12}
+                color="#3B82F6"
               />
               <StatCard
                 title="MCQs Attempted"
@@ -418,16 +410,87 @@ const Dashboard = () => {
                 subtitle="Previous year questions"
                 icon={BookOpen}
                 color="#8B5CF6"
-                trend={8}
               />
               <StatCard
-                title="MCQ Accuracy"
-                value={`${stats.mcqAccuracy || 0}%`}
-                subtitle={`${stats.mcqCorrect || 0} correct, ${stats.mcqWrong || 0} wrong`}
-                icon={Target}
-                color="#F59E0B"
-                trend={3}
+                title="Correct Answers"
+                value={stats.mcqCorrect || 0}
+                subtitle={stats.totalMcqAttempted > 0 ? `${Math.round(((stats.mcqCorrect || 0) / stats.totalMcqAttempted) * 100)}% accuracy` : "0% accuracy"}
+                icon={CheckCircle}
+                color="#10B981"
               />
+              <StatCard
+                title="Wrong Answers"
+                value={stats.mcqWrong || 0}
+                subtitle={stats.totalMcqAttempted > 0 ? `${Math.round(((stats.mcqWrong || 0) / stats.totalMcqAttempted) * 100)}% error rate` : "0% error"}
+                icon={XCircle}
+                color="#EF4444"
+              />
+            </div>
+
+            {/* MCQ Performance Breakdown Section */}
+            <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+              <SectionHeader 
+                title="MCQ Performance Breakdown"
+                icon={Target}
+                isExpanded={expandedSections.mcqBreakdown}
+                onToggle={() => toggleSection('mcqBreakdown')}
+                badge={`${stats.mcqAccuracy || 0}% Accuracy`}
+              />
+              {expandedSections.mcqBreakdown && (
+                <div className="p-4 space-y-4">
+                  {/* Detailed Metric Pills */}
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div className="bg-purple-50 border border-purple-200 rounded-lg p-3 text-center">
+                      <p className="text-xs text-purple-700 font-medium">Total Attempted</p>
+                      <p className="text-xl font-bold text-purple-900 mt-0.5">{stats.totalMcqAttempted || 0}</p>
+                    </div>
+                    <div className="bg-green-50 border border-green-200 rounded-lg p-3 text-center">
+                      <p className="text-xs text-green-700 font-medium">Correct</p>
+                      <p className="text-xl font-bold text-green-900 mt-0.5">{stats.mcqCorrect || 0}</p>
+                    </div>
+                    <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-center">
+                      <p className="text-xs text-red-700 font-medium">Wrong</p>
+                      <p className="text-xl font-bold text-red-900 mt-0.5">{stats.mcqWrong || 0}</p>
+                    </div>
+                    <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 text-center">
+                      <p className="text-xs text-amber-700 font-medium">Overall Accuracy</p>
+                      <p className="text-xl font-bold text-amber-900 mt-0.5">{stats.mcqAccuracy || 0}%</p>
+                    </div>
+                  </div>
+
+                  {/* Visual Proportion Bar */}
+                  {stats.totalMcqAttempted > 0 ? (
+                    <div>
+                      <div className="flex justify-between text-xs text-gray-600 mb-1">
+                        <span className="flex items-center gap-1 font-medium text-green-700">
+                          <span className="w-2 h-2 rounded-full bg-green-500 inline-block"></span>
+                          Correct: {stats.mcqCorrect || 0} ({Math.round(((stats.mcqCorrect || 0) / stats.totalMcqAttempted) * 100)}%)
+                        </span>
+                        <span className="flex items-center gap-1 font-medium text-red-700">
+                          <span className="w-2 h-2 rounded-full bg-red-500 inline-block"></span>
+                          Wrong: {stats.mcqWrong || 0} ({Math.round(((stats.mcqWrong || 0) / stats.totalMcqAttempted) * 100)}%)
+                        </span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden flex">
+                        <div 
+                          className="bg-green-500 h-full transition-all duration-500" 
+                          style={{ width: `${Math.round(((stats.mcqCorrect || 0) / stats.totalMcqAttempted) * 100)}%` }}
+                          title={`Correct: ${stats.mcqCorrect || 0}`}
+                        />
+                        <div 
+                          className="bg-red-500 h-full transition-all duration-500" 
+                          style={{ width: `${Math.round(((stats.mcqWrong || 0) / stats.totalMcqAttempted) * 100)}%` }}
+                          title={`Wrong: ${stats.mcqWrong || 0}`}
+                        />
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="text-center py-4 bg-gray-50 rounded-lg border border-dashed border-gray-300">
+                      <p className="text-sm text-gray-500">No MCQs attempted yet. Practice previous year questions from the PYQ panel to see your accuracy breakdown!</p>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
 
             {/* Subject Analysis - Expandable */}

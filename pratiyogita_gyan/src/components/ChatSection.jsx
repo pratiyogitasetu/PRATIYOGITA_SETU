@@ -589,6 +589,7 @@ const ChatSection = () => {
   const typingTimersRef = useRef({})
   const typedMessageIdsRef = useRef(new Set())
   const pendingBotIdRef = useRef(null)
+  const currentQueryPyqsRef = useRef([])
 
   const toggleSources = useCallback((sourceKey) => {
     setExpandedSources(prev => {
@@ -689,6 +690,25 @@ const ChatSection = () => {
         const chatMessages = await getChatMessages(chatId)
         console.log('✅ Loaded chat history for chatId:', chatId, 'messages:', chatMessages.length)
         setMessages(chatMessages)
+
+        // Restore PYQs from the loaded chat messages into PYQ section
+        const allChatPyqs = []
+        const seenIds = new Set()
+        ;(chatMessages || []).forEach(msg => {
+          const list = msg.related_pyqs || msg.mcqs || []
+          if (Array.isArray(list)) {
+            list.forEach(q => {
+              const qKey = q.id || q.question
+              if (qKey && !seenIds.has(qKey)) {
+                seenIds.add(qKey)
+                allChatPyqs.push(q)
+              }
+            })
+          }
+        })
+        window.dispatchEvent(new CustomEvent('restoreChatPyqs', {
+          detail: { mcqs: allChatPyqs, query: title, chatId }
+        }))
       } catch (error) {
         console.error('❌ Failed to load chat messages:', error)
         setMessages([])
@@ -702,6 +722,25 @@ const ChatSection = () => {
       setCurrentChatTitle(title)
       setMessages(messages || [])
       console.log('✅ Loaded guest chat:', { chatId, title, messageCount: messages?.length || 0 })
+
+      // Restore PYQs from guest chat messages
+      const allGuestPyqs = []
+      const seenGuestIds = new Set()
+      ;(messages || []).forEach(msg => {
+        const list = msg.related_pyqs || msg.mcqs || []
+        if (Array.isArray(list)) {
+          list.forEach(q => {
+            const qKey = q.id || q.question
+            if (qKey && !seenGuestIds.has(qKey)) {
+              seenGuestIds.add(qKey)
+              allGuestPyqs.push(q)
+            }
+          })
+        }
+      })
+      window.dispatchEvent(new CustomEvent('restoreChatPyqs', {
+        detail: { mcqs: allGuestPyqs, query: title, chatId }
+      }))
     }
 
     const handleChatDeleted = (event) => {
@@ -712,6 +751,9 @@ const ChatSection = () => {
         setCurrentChatId(null)
         setCurrentChatTitle('New Chat')
         console.log('🗑️ Cleared active chat after deletion:', chatId)
+        window.dispatchEvent(new CustomEvent('restoreChatPyqs', {
+          detail: { mcqs: [], query: '', chatId: null }
+        }))
       }
     }
 
@@ -748,6 +790,24 @@ const ChatSection = () => {
           setCurrentChatTitle(pending.title || 'New Chat')
           setMessages(pending.messages || [])
           sessionStorage.removeItem(PENDING_CHAT_LOAD_STORAGE_KEY)
+
+          const allGuestPyqs = []
+          const seenGuestIds = new Set()
+          ;(pending.messages || []).forEach(msg => {
+            const list = msg.related_pyqs || msg.mcqs || []
+            if (Array.isArray(list)) {
+              list.forEach(q => {
+                const qKey = q.id || q.question
+                if (qKey && !seenGuestIds.has(qKey)) {
+                  seenGuestIds.add(qKey)
+                  allGuestPyqs.push(q)
+                }
+              })
+            }
+          })
+          window.dispatchEvent(new CustomEvent('restoreChatPyqs', {
+            detail: { mcqs: allGuestPyqs, query: pending.title, chatId: pending.id }
+          }))
           return
         }
 
@@ -756,6 +816,24 @@ const ChatSection = () => {
         setMessages([])
         const chatMessages = await getChatMessages(pending.id)
         setMessages(chatMessages || [])
+
+        const allChatPyqs = []
+        const seenIds = new Set()
+        ;(chatMessages || []).forEach(msg => {
+          const list = msg.related_pyqs || msg.mcqs || []
+          if (Array.isArray(list)) {
+            list.forEach(q => {
+              const qKey = q.id || q.question
+              if (qKey && !seenIds.has(qKey)) {
+                seenIds.add(qKey)
+                allChatPyqs.push(q)
+              }
+            })
+          }
+        })
+        window.dispatchEvent(new CustomEvent('restoreChatPyqs', {
+          detail: { mcqs: allChatPyqs, query: pending.title, chatId: pending.id }
+        }))
       } catch (error) {
         console.error('❌ Failed to load pending chat:', error)
       } finally {
@@ -966,11 +1044,14 @@ const ChatSection = () => {
 
     setMessages(prev => [...prev, tempBotMessage])
 
+    currentQueryPyqsRef.current = []
+
     // ⚡ INSTANT PARALLEL PYQ SEARCH:
     // Query Pinecone immediately in parallel so questions appear instantly without waiting for chat LLM!
     apiService.fastMatchPyq(query, SEARCH_SETTINGS.mcqThreshold, SEARCH_SETTINGS.mcqLimit)
       .then(fastRes => {
         if (fastRes && Array.isArray(fastRes.mcqs) && fastRes.mcqs.length > 0) {
+          currentQueryPyqsRef.current = fastRes.mcqs
           window.dispatchEvent(new CustomEvent('newMcqResults', {
             detail: {
               mcqs: fastRes.mcqs,
@@ -996,6 +1077,10 @@ const ChatSection = () => {
           max_tokens: SEARCH_SETTINGS.answerGeneration.maxTokens
         }
       })
+
+      if (response?.mcq_results && Array.isArray(response.mcq_results) && response.mcq_results.length > 0) {
+        currentQueryPyqsRef.current = response.mcq_results
+      }
 
       // Track successful search interaction
       trackInteraction('search', {
@@ -1030,6 +1115,7 @@ const ChatSection = () => {
         type: 'bot',
         content: normalizedResponse,
         sources: response.sources,
+        related_pyqs: currentQueryPyqsRef.current || [],
         isLoading: false,
         timestamp: new Date()
       }

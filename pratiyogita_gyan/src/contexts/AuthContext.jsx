@@ -235,6 +235,8 @@ export function AuthProvider({ children }) {
   async function loginWithGoogle() {
     try {
       const provider = new GoogleAuthProvider();
+      provider.addScope('email');
+      provider.addScope('profile');
       provider.setCustomParameters({
         prompt: 'select_account'
       });

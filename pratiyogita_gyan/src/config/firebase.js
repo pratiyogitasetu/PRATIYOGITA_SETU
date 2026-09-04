@@ -6,13 +6,13 @@ import { getFirestore, initializeFirestore, persistentLocalCache, persistentMult
 // Your web app's Firebase configuration
 // Replace with your actual Firebase config or use environment variables
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "your-api-key",
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "your-project-id.firebaseapp.com",
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "your-project-id",
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "your-project-id.appspot.com",
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "your-sender-id",
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || "your-app-id",
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || undefined
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyAr58e4xF48oqB_CxQ9GZDqgIEVGN_17d0",
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "pratiyogita-gyan.firebaseapp.com",
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "pratiyogita-gyan",
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "pratiyogita-gyan.firebasestorage.app",
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "593475930652",
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:593475930652:web:89ebb82f08fd45e2b0add9",
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || "G-6S0RS484JY"
 };
 
 // Validate Firebase configuration in production
