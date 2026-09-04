@@ -2,6 +2,7 @@
 """
 Updated Flask Backend for React Frontend
 Flask API providing backend services for the React chat interface
+Connected to Pinecone PYQ index
 """
 
 import sys
