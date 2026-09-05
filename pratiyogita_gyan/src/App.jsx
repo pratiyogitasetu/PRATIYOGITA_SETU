@@ -16,9 +16,6 @@ import EmbeddedSearchBar from './components/EmbeddedSearchBar'
 const Sidebar = lazy(() => import('./components/Sidebar'))
 const PYQSection = lazy(() => import('./components/PYQSection'))
 const Dashboard = lazy(() => import('./components/Dashboard'))
-const EligibilitySection = lazy(() => import('./components/EligibilitySection'))
-const SyllabusSection = lazy(() => import('./components/SyllabusSection'))
-const GDTopicsSection = lazy(() => import('./components/GDTopicsSection'))
 const ChatSection = lazy(() => import('./components/ChatSection'))
 const PracticePYQSection = lazy(() => import('./components/PracticePYQSection'))
 
@@ -69,7 +66,7 @@ const muiTheme = createTheme({
 })
 
 function AppContent() {
-  const [currentView, setCurrentView] = useState('chat') // 'chat', 'dashboard', 'eligibility', 'syllabus', 'gd-topics'
+  const [currentView, setCurrentView] = useState('chat') // 'chat', 'dashboard', 'practice-pyq'
   const { theme } = useTheme()
   const { isMobile } = useLayout()
   const [isChatLoading, setIsChatLoading] = useState(false)
@@ -96,45 +93,21 @@ function AppContent() {
     setCurrentView(view)
   }
 
-  // Listen for events from sidebar
+  // Listen for navigation events
   useEffect(() => {
-    const handleSwitchToEligibility = () => {
-      setCurrentView('eligibility')
-    }
-
-    const handleSwitchToSyllabus = () => {
-      setCurrentView('syllabus')
-    }
-
-    const handleSwitchToGDTopics = () => {
-      setCurrentView('gd-topics')
-    }
-
     const handleSwitchToChat = () => {
       setCurrentView('chat')
-    }
-
-    const handleSwitchToDashboard = () => {
-      setCurrentView('dashboard')
     }
 
     const handleSwitchToPracticePYQ = () => {
       setCurrentView('practice-pyq')
     }
 
-    window.addEventListener('switchToEligibility', handleSwitchToEligibility)
-    window.addEventListener('switchToSyllabus', handleSwitchToSyllabus)
-    window.addEventListener('switchToGDTopics', handleSwitchToGDTopics)
     window.addEventListener('switchToChat', handleSwitchToChat)
-    window.addEventListener('switchToDashboard', handleSwitchToDashboard)
     window.addEventListener('switchToPracticePYQ', handleSwitchToPracticePYQ)
 
     return () => {
-      window.removeEventListener('switchToEligibility', handleSwitchToEligibility)
-      window.removeEventListener('switchToSyllabus', handleSwitchToSyllabus)
-      window.removeEventListener('switchToGDTopics', handleSwitchToGDTopics)
       window.removeEventListener('switchToChat', handleSwitchToChat)
-      window.removeEventListener('switchToDashboard', handleSwitchToDashboard)
       window.removeEventListener('switchToPracticePYQ', handleSwitchToPracticePYQ)
     }
   }, [])
@@ -219,44 +192,7 @@ function AppContent() {
           </Suspense>
         )}
 
-        {currentView === 'eligibility' && (
-          <Suspense
-            fallback={
-              <Box sx={{ flex: 1, p: 2 }}>
-                <Skeleton variant="rounded" height={120} sx={{ mb: 2 }} />
-                <Skeleton variant="rounded" height={300} />
-              </Box>
-            }
-          >
-            <EligibilitySection />
-          </Suspense>
-        )}
 
-        {currentView === 'syllabus' && (
-          <Suspense
-            fallback={
-              <Box sx={{ flex: 1, p: 2 }}>
-                <Skeleton variant="rounded" height={120} sx={{ mb: 2 }} />
-                <Skeleton variant="rounded" height={300} />
-              </Box>
-            }
-          >
-            <SyllabusSection />
-          </Suspense>
-        )}
-
-        {currentView === 'gd-topics' && (
-          <Suspense
-            fallback={
-              <Box sx={{ flex: 1, p: 2 }}>
-                <Skeleton variant="rounded" height={120} sx={{ mb: 2 }} />
-                <Skeleton variant="rounded" height={300} />
-              </Box>
-            }
-          >
-            <GDTopicsSection />
-          </Suspense>
-        )}
 
         {currentView === 'practice-pyq' && (
           <Suspense

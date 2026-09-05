@@ -1,12 +1,11 @@
 import { useState, useEffect, useCallback, lazy, Suspense, useMemo } from 'react'
-import { MessageCircle, Search, BookOpen, FileText, Trash2, Clock, Home, Plus, Target, ChevronFirst } from 'lucide-react'
+import { MessageCircle, Trash2, Home, Plus, Target, ChevronFirst } from 'lucide-react'
 import { Box, Paper, Stack, Typography, Button, IconButton, Divider } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 import { useLayout } from '../contexts/LayoutContext'
 import { useSearchHistory } from '../contexts/SearchHistoryContext'
 import { useAuth } from '../contexts/AuthContext'
 const HelpSupportModal = lazy(() => import('./HelpSupportModal'))
-import apiService from '../services/api'
 import { CircleHelp } from './icons/CircleHelp'
 
 const PENDING_CHAT_LOAD_STORAGE_KEY = 'pendingChatToLoad'
@@ -15,14 +14,8 @@ const Sidebar = () => {
   const { sidebarVisible, toggleSidebar, isMobile } = useLayout()
   const { guestChatHistory, deleteGuestChat } = useSearchHistory()
   const { currentUser, getChatHistory, deleteChat } = useAuth()
-  const [books, setBooks] = useState([])
-  const [insertedPyqs, setInsertedPyqs] = useState([])
   const [chatHistory, setChatHistory] = useState([])
-  const [showBooksModal, setShowBooksModal] = useState(false)
-  const [showPyqsModal, setShowPyqsModal] = useState(false)
   const [showHelpModal, setShowHelpModal] = useState(false)
-  const [isLoadingBooks, setIsLoadingBooks] = useState(false)
-  const [isLoadingPyqs, setIsLoadingPyqs] = useState(false)
   const [isLoadingChats, setIsLoadingChats] = useState(false)
   const [chatError, setChatError] = useState('')
 
@@ -149,47 +142,9 @@ const Sidebar = () => {
   const guestChats = useMemo(() => guestChatHistory || [], [guestChatHistory])
   const userChats = useMemo(() => chatHistory || [], [chatHistory])
 
-  const loadBooks = useCallback(async () => {
-    setIsLoadingBooks(true)
-    try {
-      const books = await apiService.getBooks()
-      setBooks(books || [])
-    } catch (error) {
-      console.error('Failed to load books:', error)
-    } finally {
-      setIsLoadingBooks(false)
-    }
-  }, [])
-
-  const loadInsertedPyqs = useCallback(async () => {
-    setIsLoadingPyqs(true)
-    try {
-      const pyqs = await apiService.getInsertedPyqs()
-      setInsertedPyqs(pyqs || [])
-    } catch (error) {
-      console.error('Failed to load inserted PYQs:', error)
-    } finally {
-      setIsLoadingPyqs(false)
-    }
-  }, [])
-
   const closeTransientOverlays = useCallback(() => {
-    setShowBooksModal(false)
-    setShowPyqsModal(false)
     setShowHelpModal(false)
   }, [])
-
-  const handleBooksClick = useCallback(() => {
-    if (isMobile) closeTransientOverlays()
-    setShowBooksModal(true)
-    loadBooks()
-  }, [closeTransientOverlays, isMobile, loadBooks])
-
-  const handlePyqsClick = useCallback(() => {
-    if (isMobile) closeTransientOverlays()
-    setShowPyqsModal(true)
-    loadInsertedPyqs()
-  }, [closeTransientOverlays, isMobile, loadInsertedPyqs])
 
   const handleHelpClick = useCallback(() => {
     if (isMobile) closeTransientOverlays()
@@ -202,20 +157,12 @@ const Sidebar = () => {
   }
 
   useEffect(() => {
-    const openBooksModal = () => handleBooksClick()
-    const openPyqsModal = () => handlePyqsClick()
     const openHelpModal = () => handleHelpClick()
-
-    window.addEventListener('openBooksModal', openBooksModal)
-    window.addEventListener('openPyqsModal', openPyqsModal)
     window.addEventListener('openHelpModal', openHelpModal)
-
     return () => {
-      window.removeEventListener('openBooksModal', openBooksModal)
-      window.removeEventListener('openPyqsModal', openPyqsModal)
       window.removeEventListener('openHelpModal', openHelpModal)
     }
-  }, [handleBooksClick, handleHelpClick, handlePyqsClick])
+  }, [handleHelpClick])
 
   useEffect(() => {
     if (!isMobile) return
@@ -223,18 +170,10 @@ const Sidebar = () => {
       closeTransientOverlays()
     }
     window.addEventListener('switchToChat', handleNavigation)
-    window.addEventListener('switchToGDTopics', handleNavigation)
     return () => {
       window.removeEventListener('switchToChat', handleNavigation)
-      window.removeEventListener('switchToGDTopics', handleNavigation)
     }
   }, [closeTransientOverlays, isMobile])
-
-  // Load books and inserted PYQs on component mount
-  useEffect(() => {
-    loadBooks()
-    loadInsertedPyqs()
-  }, [loadBooks, loadInsertedPyqs])
 
   // Load chat history when user changes
   useEffect(() => {
@@ -733,226 +672,7 @@ const Sidebar = () => {
         )}
       </Paper>
 
-      {/* Books Modal */}
-      {showBooksModal && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-          onClick={(e) => { if (e.target === e.currentTarget) setShowBooksModal(false) }}
-        >
-          <div
-            className="bg-white w-full h-full max-w-none max-h-none rounded-none md:rounded-lg md:max-w-2xl md:h-auto md:max-h-[80vh] overflow-y-auto m-0 md:m-3"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex justify-between items-center mb-3">
-              <h2 className="text-lg font-semibold">Inserted Books</h2>
-              <button
-                onClick={() => setShowBooksModal(false)}
-                className="text-gray-400 hover:text-gray-600"
-              >
-                ×
-              </button>
-            </div>
 
-            {isLoadingBooks ? (
-              <div className="text-center py-6">
-                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500 mx-auto"></div>
-                <p className="mt-1 text-gray-600 text-sm">Loading books...</p>
-              </div>
-            ) : books.filter(b => b.total_chunks > 0).length === 0 ? (
-              <div className="text-center py-6">
-                <BookOpen className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-                <p className="text-gray-600 text-sm">No books with content found</p>
-                <p className="text-gray-500 text-xs mt-1">Only books with indexed content are displayed</p>
-              </div>
-            ) : (
-              <div className="space-y-3">
-                {/* Summary stats */}
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
-                  <div className="flex justify-between items-center text-sm">
-                    <span className="text-blue-800 font-medium">
-                      📚 {books.filter(b => b.total_chunks > 0).length} Active Books
-                    </span>
-                    <span className="text-blue-600">
-                      📄 Total Chunks: {books.filter(b => b.total_chunks > 0).reduce((sum, b) => sum + b.total_chunks, 0)}
-                    </span>
-                  </div>
-                  <div className="text-xs text-blue-600 mt-1">
-                    Showing only books with indexed content
-                  </div>
-                </div>
-
-                {books.filter(book => book.total_chunks > 0).map((book, index) => (
-                  <div key={index} className="border border-green-200 bg-green-50 rounded-lg p-3">
-                    <div className="flex items-start justify-between mb-2">
-                      <h3 className="font-medium text-base">{book.title}</h3>
-                      <span className="text-xs px-2 py-1 rounded-full bg-green-100 text-green-800">
-                        Active
-                      </span>
-                    </div>
-
-                    <p className="text-gray-600 mb-2 text-sm">{book.description}</p>
-
-                    <div className="space-y-1 text-xs text-gray-500">
-                      <div className="flex justify-between">
-                        <span>Namespace:</span>
-                        <span className="font-mono bg-gray-100 px-1 rounded">{book.namespace}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Chunks:</span>
-                        <span className="font-semibold">{book.total_chunks}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Classes:</span>
-                        <span>{book.classes.join(', ')}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Last Updated:</span>
-                        <span>{book.last_updated}</span>
-                      </div>
-                    </div>
-
-                    {book.topics && book.topics.length > 0 && (
-                      <div className="mt-2 pt-2 border-t border-gray-200">
-                        <div className="text-xs text-gray-500 mb-1">Key Topics:</div>
-                        <div className="flex flex-wrap gap-1">
-                          {book.topics.slice(0, 3).map((topic, topicIndex) => (
-                            <span
-                              key={topicIndex}
-                              className="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full"
-                            >
-                              {topic}
-                            </span>
-                          ))}
-                          {book.topics.length > 3 && (
-                            <span className="text-xs text-gray-400">
-                              +{book.topics.length - 3} more
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* Inserted PYQs Modal */}
-      {showPyqsModal && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-          onClick={(e) => { if (e.target === e.currentTarget) setShowPyqsModal(false) }}
-        >
-          <div
-            className="bg-white w-full h-full max-w-none max-h-none rounded-none md:rounded-lg md:max-w-3xl md:h-auto md:max-h-[80vh] overflow-y-auto m-0 md:m-3"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex justify-between items-center mb-3">
-              <h2 className="text-lg font-semibold">Inserted PYQs</h2>
-              <button
-                onClick={() => setShowPyqsModal(false)}
-                className="text-gray-400 hover:text-gray-600"
-              >
-                ×
-              </button>
-            </div>
-
-            {isLoadingPyqs ? (
-              <div className="text-center py-6">
-                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500 mx-auto"></div>
-                <p className="mt-1 text-gray-600 text-sm">Loading inserted PYQs...</p>
-              </div>
-            ) : insertedPyqs.filter(p => p.total_questions > 0).length === 0 ? (
-              <div className="text-center py-6">
-                <FileText className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-                <p className="text-gray-600 text-sm">No PYQs with questions found</p>
-                <p className="text-gray-500 text-xs mt-1">Only PYQs with actual questions are displayed</p>
-              </div>
-            ) : (
-              <div className="space-y-3">
-                {/* Summary stats */}
-                <div className="bg-purple-50 border border-purple-200 rounded-lg p-3 mb-4">
-                  <div className="flex justify-between items-center text-sm">
-                    <span className="text-purple-800 font-medium">
-                      📝 {insertedPyqs.filter(p => p.total_questions > 0).length} Active PYQs
-                    </span>
-                    <span className="text-purple-600">
-                      🗂️ Total Questions: {insertedPyqs.filter(p => p.total_questions > 0).reduce((sum, p) => sum + p.total_questions, 0)}
-                    </span>
-                  </div>
-                  <div className="text-xs text-purple-600 mt-1">
-                    Showing only PYQs with actual question data
-                  </div>
-                </div>
-
-                {insertedPyqs.filter(pyq => pyq.total_questions > 0).map((pyq, index) => (
-                  <div key={index} className="border border-green-200 bg-green-50 rounded-lg p-2">
-                    <div className="flex items-start justify-between mb-2">
-                      <h3 className="font-medium text-sm">{pyq.main_exam}</h3>
-                      <span className="text-xs px-1.5 py-0.5 rounded-full bg-green-100 text-green-800">
-                        Active
-                      </span>
-                    </div>
-
-                    <div className="space-y-1 text-xs">
-                      {/* Sub Exam Name */}
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Sub Exam:</span>
-                        <span className="font-medium text-gray-800 text-right max-w-[65%]">{pyq.sub_exam}</span>
-                      </div>
-
-                      {/* Available Years */}
-                      {pyq.years && pyq.years.length > 0 && (
-                        <div className="flex justify-between items-center">
-                          <span className="text-gray-600">Years:</span>
-                          <div className="flex flex-wrap gap-1 justify-end max-w-[65%]">
-                            {pyq.years.slice(0, 3).map((year, yearIndex) => (
-                              <span
-                                key={yearIndex}
-                                className="text-xs bg-blue-100 text-blue-800 px-1 py-0.5 rounded"
-                              >
-                                {year}
-                              </span>
-                            ))}
-                            {pyq.years.length > 3 && (
-                              <span className="text-xs text-gray-400">+{pyq.years.length - 3}</span>
-                            )}
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Available Terms */}
-                      {pyq.terms && pyq.terms.length > 0 && (
-                        <div className="flex justify-between items-center">
-                          <span className="text-gray-600">Terms:</span>
-                          <div className="flex flex-wrap gap-1 justify-end max-w-[65%]">
-                            {pyq.terms.map((term, termIndex) => (
-                              <span
-                                key={termIndex}
-                                className="text-xs bg-orange-100 text-orange-800 px-1 py-0.5 rounded"
-                              >
-                                {term}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Last Updated */}
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Last Updated:</span>
-                        <span className="font-medium text-gray-800">{pyq.last_updated}</span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-      )}
 
       <Suspense fallback={null}>
         {/* Help & Support Modal */}
