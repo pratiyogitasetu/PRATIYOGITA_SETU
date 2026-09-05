@@ -530,6 +530,61 @@ class ApiService {
       };
     }
   }
+
+  /**
+   * Search and filter PYQ questions
+   */
+  async searchPyqQuestions(options = {}) {
+    const {
+      query = '',
+      exam = null,
+      subject = null,
+      year = null,
+      limit = 50
+    } = options;
+
+    try {
+      return await this.request('/pyq/search', {
+        method: 'POST',
+        body: JSON.stringify({ query, exam, subject, year, limit }),
+      });
+    } catch (error) {
+      console.error('Failed to search PYQ questions:', error);
+      return {
+        questions: [],
+        total: 0,
+        error: error.message
+      };
+    }
+  }
+
+  /**
+   * Get all available exam papers and years for PYQ practice
+   */
+  async getAvailablePapers() {
+    try {
+      return await this.request('/pyq/available-papers');
+    } catch (error) {
+      console.error('Failed to get available PYQ papers:', error);
+      return { status: 'error', exams: [] };
+    }
+  }
+
+  /**
+   * Get all questions for a specific exam and year
+   */
+  async getPaperQuestions(params = {}) {
+    const { category = '', exam_id = '', year = '' } = params;
+    try {
+      return await this.request('/pyq/paper-questions', {
+        method: 'POST',
+        body: JSON.stringify({ category, exam_id, year }),
+      });
+    } catch (error) {
+      console.error('Failed to fetch paper questions:', error);
+      return { status: 'error', questions: [], total: 0 };
+    }
+  }
 }
 
 // Export a singleton instance

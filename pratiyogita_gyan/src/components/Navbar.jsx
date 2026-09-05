@@ -1,5 +1,5 @@
 import { useState, useEffect, lazy, Suspense } from 'react'
-import { LogIn, UserPlus, Home, BarChart3, Info, Phone, LogOut, ChevronLeft, User, ChevronRight, Settings, MoreVertical, BookOpen, MessageSquare } from 'lucide-react'
+import { LogIn, UserPlus, Home, BarChart3, Info, Phone, LogOut, ChevronLeft, User, ChevronRight, Settings, MoreVertical, BookOpen, MessageSquare, Target, ChevronFirst } from 'lucide-react'
 import { AppBar, Toolbar, Box, Typography, Button, Avatar, Stack, Container, IconButton, Divider, MenuItem, Popover } from '@mui/material'
 import PropTypes from 'prop-types'
 const AuthModal = lazy(() => import('./AuthModal'))
@@ -9,7 +9,6 @@ const EditProfileModal = lazy(() => import('./EditProfileModal'))
 import { useAuth } from '../contexts/AuthContext'
 import { useLayout } from '../contexts/LayoutContext'
 import { CircleHelp } from './icons/CircleHelp'
-import { ChevronFirst } from './icons/ChevronFirst'
 
 const Navbar = ({ onViewChange, currentView }) => {
   const { currentUser, logout } = useAuth()
@@ -447,6 +446,25 @@ const Navbar = ({ onViewChange, currentView }) => {
           >
             <Home size={17} strokeWidth={2} />
             <span>Home</span>
+          </MenuItem>
+
+          <MenuItem
+            onClick={() => handleNavigate('practice-pyq')}
+            selected={currentView === 'practice-pyq'}
+            sx={{
+              borderRadius: 2,
+              py: 0.85,
+              px: 1.2,
+              gap: 1.5,
+              color: currentView === 'practice-pyq' ? '#E4572E' : '#e5e7eb',
+              fontSize: '0.82rem',
+              fontWeight: 500,
+              '&:hover': { backgroundColor: 'rgba(255,255,255,0.08)' },
+              '&.Mui-selected': { backgroundColor: 'rgba(228,87,46,0.12)', color: '#E4572E' }
+            }}
+          >
+            <Target size={17} strokeWidth={2} />
+            <span>Practice PYQ</span>
           </MenuItem>
 
           <MenuItem

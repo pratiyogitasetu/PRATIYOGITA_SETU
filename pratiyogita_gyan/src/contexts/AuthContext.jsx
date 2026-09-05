@@ -1457,6 +1457,110 @@ export function AuthProvider({ children }) {
         console.error('❌ Error migrating guest starred PYQs to Firebase:', error);
       }
     }
+
+    // 3. Migrate Guest Paper Practice History
+    const guestPaperRaw = localStorage.getItem('pyqPaperPracticeHistory');
+    if (guestPaperRaw) {
+      try {
+        const guestPapers = JSON.parse(guestPaperRaw);
+        if (Array.isArray(guestPapers) && guestPapers.length > 0) {
+          console.log(`⏳ Migrating ${guestPapers.length} guest paper practice records to Firebase...`);
+          for (const paper of guestPapers) {
+            const safeId = paper.id || `paper_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`;
+            const paperDocRef = doc(db, 'users', uid, 'paperPracticeHistory', safeId);
+            await setDoc(paperDocRef, {
+              ...paper,
+              userId: uid,
+              updatedAt: serverTimestamp()
+            }, { merge: true });
+          }
+          console.log('✅ Guest paper practice history successfully migrated.');
+        }
+      } catch (error) {
+        console.error('❌ Error migrating guest paper practice history to Firebase:', error);
+      }
+    }
+  }
+
+  // ===== Save & Get Paper Practice History (Year-Wise PYQ Practice Breakdown) =====
+  async function savePaperPracticeReport(reportData) {
+    if (!reportData) return false;
+
+    const reportId = reportData.id || `paper_${Date.now()}_${Math.random().toString(36).substr(2, 6)}`;
+    const fullReport = {
+      ...reportData,
+      id: reportId,
+      timestamp: reportData.timestamp || Date.now(),
+      createdAt: new Date().toISOString()
+    };
+
+    // 1. Always save in localStorage for instant offline & guest access
+    try {
+      const localRaw = localStorage.getItem('pyqPaperPracticeHistory');
+      const list = localRaw ? JSON.parse(localRaw) : [];
+      const updatedList = [fullReport, ...list.filter(item => item.id !== reportId)];
+      localStorage.setItem('pyqPaperPracticeHistory', JSON.stringify(updatedList));
+    } catch (e) {
+      console.warn('Could not save paper report to localStorage:', e);
+    }
+
+    // 2. Save in Firestore if logged in
+    if (currentUser?.uid) {
+      try {
+        const paperDocRef = doc(db, 'users', currentUser.uid, 'paperPracticeHistory', reportId);
+        await setDoc(paperDocRef, {
+          ...fullReport,
+          userId: currentUser.uid,
+          updatedAt: serverTimestamp()
+        }, { merge: true });
+      } catch (err) {
+        console.warn('⚠️ Could not save paper practice history to Firestore:', err);
+      }
+    }
+
+    // Dispatch global event so Dashboard updates in real time
+    window.dispatchEvent(new CustomEvent('paperPracticeUpdated', { detail: fullReport }));
+    return true;
+  }
+
+  async function getPaperPracticeHistory() {
+    let list = [];
+
+    // If logged in, fetch from Firestore
+    if (currentUser?.uid) {
+      try {
+        const collRef = collection(db, 'users', currentUser.uid, 'paperPracticeHistory');
+        const q = query(collRef, orderBy('timestamp', 'desc'), limit(50));
+        const snap = await getDocs(q);
+        snap.forEach(docSnap => {
+          list.push({ id: docSnap.id, ...docSnap.data() });
+        });
+      } catch (err) {
+        console.warn('Firestore fetch for paperPracticeHistory fallback to local:', err);
+      }
+    }
+
+    // Fallback/merge with localStorage
+    try {
+      const localRaw = localStorage.getItem('pyqPaperPracticeHistory');
+      if (localRaw) {
+        const localList = JSON.parse(localRaw);
+        if (Array.isArray(localList)) {
+          const map = new Map();
+          list.forEach(item => map.set(item.id, item));
+          localList.forEach(item => {
+            if (!map.has(item.id)) {
+              map.set(item.id, item);
+            }
+          });
+          list = Array.from(map.values()).sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+        }
+      }
+    } catch (e) {
+      console.warn('Error reading paper practice history from localStorage:', e);
+    }
+
+    return list;
   }
 
   useEffect(() => {
@@ -1582,6 +1686,8 @@ export function AuthProvider({ children }) {
     clearAllStarredPyqQuestions,
     saveUserPracticeAnswer,
     getUserPracticeAnswers,
+    savePaperPracticeReport,
+    getPaperPracticeHistory,
   };
 
   return (

@@ -18,6 +18,7 @@ import json
 import time
 import hashlib
 import re
+import glob
 from groq import Groq
 from pinecone import Pinecone
 try:
@@ -3606,7 +3607,8 @@ def _fetch_pyq_questions(query='', exam_filter=None, subject_filter=None, year_f
                 if exam_filter and exam_filter != 'all':
                     clean_filter = exam_filter.lower().replace('_', '').replace(' ', '').replace('/', '')
                     clean_exam = exam_name.lower().replace('_', '').replace(' ', '').replace('/', '')
-                    if clean_filter not in clean_exam and clean_exam not in clean_filter:
+                    clean_ns = namespace.lower().replace('_', '').replace(' ', '').replace('/', '')
+                    if (clean_filter not in clean_exam and clean_exam not in clean_filter) and (clean_filter not in clean_ns and clean_ns not in clean_filter):
                         continue
                 
                 if subject_filter and subject_filter != 'all':
@@ -3852,6 +3854,187 @@ def get_random_pyq_questions():
             'error': str(e),
             'questions': []
         }), 500
+
+
+@app.route("/api/pyq/available-papers", methods=["GET"])
+def get_available_pyq_papers():
+    """Returns available exams and years from DATA/pyq files for practice arena."""
+    try:
+        pyq_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'DATA', 'pyq')
+        if not os.path.exists(pyq_dir):
+            pyq_dir = os.path.join(os.getcwd(), 'DATA', 'pyq')
+            
+        display_full_forms = {
+            'CDS': 'Combined Defence Services',
+            'SSC_CGL': 'Staff Selection Commission - CGL',
+            'UPSC': 'Civil Services Examination',
+            'RRB_NTPC': 'Non-Technical Popular Categories',
+            'SBI_PO': 'State Bank of India Probationary Officer',
+            'UPSI': 'UP Police Sub-Inspector',
+            'CTET': 'Central Teacher Eligibility Test',
+            'GATE': 'Graduate Aptitude Test in Engineering',
+            'CAT': 'Common Admission Test',
+            'CUET_UG': 'Common University Entrance Test (UG)',
+            'CUET_PG': 'Common University Entrance Test (PG)',
+            'DJS': 'Delhi Judicial Services'
+        }
+        
+        result_exams = []
+        for filename in sorted(glob.glob(os.path.join(pyq_dir, '*.json'))):
+            try:
+                with open(filename, 'r', encoding='utf-8') as fp:
+                    data = json.load(fp)
+                for cat_name, exams in data.items():
+                    if isinstance(exams, dict):
+                        for exam_id, years in exams.items():
+                            if isinstance(years, dict):
+                                year_list = []
+                                total_exam_q = 0
+                                json_full_form = ""
+                                for yr_raw, qlist in years.items():
+                                    if isinstance(qlist, list) and len(qlist) > 0 and not json_full_form:
+                                        first_q = qlist[0]
+                                        if isinstance(first_q, dict):
+                                            json_full_form = first_q.get('full_form') or first_q.get('exam_full_name') or ''
+                                    qcnt = len(qlist) if isinstance(qlist, list) else 0
+                                    total_exam_q += qcnt
+                                    if '_' in str(yr_raw):
+                                        parts = str(yr_raw).split('_')
+                                        yr_label = f"{parts[0]} (Paper {parts[1]})"
+                                    else:
+                                        yr_label = str(yr_raw)
+                                    year_list.append({
+                                        'year_id': str(yr_raw),
+                                        'label': yr_label,
+                                        'question_count': qcnt
+                                    })
+                                # Sort years descending
+                                year_list.sort(key=lambda y: y['year_id'], reverse=True)
+                                full_form_val = json_full_form or display_full_forms.get(exam_id, '')
+                                exam_display = f"{exam_id} ({full_form_val})" if full_form_val else str(exam_id)
+                                result_exams.append({
+                                    'category': cat_name,
+                                    'exam_id': exam_id,
+                                    'full_form': full_form_val,
+                                    'exam_name': exam_display,
+                                    'total_questions': total_exam_q,
+                                    'years': year_list
+                                })
+            except Exception as fe:
+                app.logger.error(f"Error reading {filename}: {fe}")
+                continue
+                
+        return jsonify({
+            'status': 'success',
+            'exams': result_exams
+        }), 200
+    except Exception as e:
+        app.logger.error(f"Error listing papers: {e}")
+        return jsonify({'status': 'error', 'exams': [], 'error': str(e)}), 500
+
+
+@app.route("/api/pyq/paper-questions", methods=["POST"])
+def get_paper_questions():
+    """Loads all questions for a specific exam and year from DATA/pyq."""
+    try:
+        data = request.get_json(silent=True) or {}
+        cat = data.get('category', '').strip()
+        exam_id = data.get('exam_id', '').strip()
+        year = str(data.get('year', '')).strip()
+
+        pyq_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'DATA', 'pyq')
+        if not os.path.exists(pyq_dir):
+            pyq_dir = os.path.join(os.getcwd(), 'DATA', 'pyq')
+
+        raw_questions = []
+        target_file = None
+        if cat:
+            possible = os.path.join(pyq_dir, f"{cat}.json")
+            if os.path.exists(possible):
+                target_file = possible
+                
+        if not target_file:
+            for f in glob.glob(os.path.join(pyq_dir, '*.json')):
+                try:
+                    with open(f, 'r', encoding='utf-8') as fp:
+                        d = json.load(fp)
+                        for c_k, ex_d in d.items():
+                            if exam_id in ex_d:
+                                target_file = f
+                                cat = c_k
+                                break
+                except Exception:
+                    pass
+                if target_file:
+                    break
+
+        if target_file and os.path.exists(target_file):
+            with open(target_file, 'r', encoding='utf-8') as fp:
+                d = json.load(fp)
+                ex_data = d.get(cat, {}).get(exam_id, {})
+                if year in ex_data:
+                    raw_questions = ex_data[year]
+                elif not year and ex_data:
+                    first_yr = list(ex_data.keys())[0]
+                    raw_questions = ex_data[first_yr]
+                    year = first_yr
+
+        standardized = []
+        for idx, q in enumerate(raw_questions):
+            opts_raw = q.get('options', {})
+            options_list = []
+            if isinstance(opts_raw, dict):
+                for k in ['a', 'b', 'c', 'd', 'A', 'B', 'C', 'D']:
+                    val = opts_raw.get(k)
+                    if val and val not in options_list:
+                        options_list.append(str(val).strip())
+            elif isinstance(opts_raw, list):
+                options_list = [str(x).strip() for x in opts_raw]
+
+            correct_opt = str(q.get('correct_option', '')).lower()
+            opt_map = {'a': 0, 'b': 1, 'c': 2, 'd': 3, '1': 0, '2': 1, '3': 2, '4': 3}
+            correct_idx = opt_map.get(correct_opt, None)
+
+            if correct_idx is None and 'correct_answer' in q:
+                ca = q['correct_answer']
+                if isinstance(ca, int):
+                    correct_idx = ca
+                elif isinstance(ca, str):
+                    for oi, opt in enumerate(options_list):
+                        if opt.lower() == ca.lower():
+                            correct_idx = oi
+                            break
+
+            img_val = q.get('img') or q.get('image_url') or ''
+            q_id = f"{exam_id}_{year}_{idx}"
+            standardized.append({
+                'id': q_id,
+                'question': q.get('question', ''),
+                'options': options_list,
+                'correct_answer': correct_idx,
+                'correct_option': correct_opt.upper(),
+                'explanation': q.get('explanation', ''),
+                'exam_name': q.get('exam_name') or exam_id,
+                'year': q.get('exam_year') or year,
+                'term': q.get('exam_term', ''),
+                'subject': q.get('subject', ''),
+                'topic': q.get('topic', ''),
+                'img': img_val,
+                'image_url': img_val
+            })
+
+        return jsonify({
+            'status': 'success',
+            'category': cat,
+            'exam_id': exam_id,
+            'year': year,
+            'total': len(standardized),
+            'questions': standardized
+        }), 200
+
+    except Exception as e:
+        app.logger.error(f"Error fetching paper questions: {e}")
+        return jsonify({'status': 'error', 'questions': [], 'error': str(e)}), 500
 
 
 @app.route("/api/pyq/explain", methods=["POST"])

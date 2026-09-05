@@ -20,6 +20,7 @@ const EligibilitySection = lazy(() => import('./components/EligibilitySection'))
 const SyllabusSection = lazy(() => import('./components/SyllabusSection'))
 const GDTopicsSection = lazy(() => import('./components/GDTopicsSection'))
 const ChatSection = lazy(() => import('./components/ChatSection'))
+const PracticePYQSection = lazy(() => import('./components/PracticePYQSection'))
 
 const muiTheme = createTheme({
   palette: {
@@ -117,11 +118,16 @@ function AppContent() {
       setCurrentView('dashboard')
     }
 
+    const handleSwitchToPracticePYQ = () => {
+      setCurrentView('practice-pyq')
+    }
+
     window.addEventListener('switchToEligibility', handleSwitchToEligibility)
     window.addEventListener('switchToSyllabus', handleSwitchToSyllabus)
     window.addEventListener('switchToGDTopics', handleSwitchToGDTopics)
     window.addEventListener('switchToChat', handleSwitchToChat)
     window.addEventListener('switchToDashboard', handleSwitchToDashboard)
+    window.addEventListener('switchToPracticePYQ', handleSwitchToPracticePYQ)
 
     return () => {
       window.removeEventListener('switchToEligibility', handleSwitchToEligibility)
@@ -129,6 +135,7 @@ function AppContent() {
       window.removeEventListener('switchToGDTopics', handleSwitchToGDTopics)
       window.removeEventListener('switchToChat', handleSwitchToChat)
       window.removeEventListener('switchToDashboard', handleSwitchToDashboard)
+      window.removeEventListener('switchToPracticePYQ', handleSwitchToPracticePYQ)
     }
   }, [])
 
@@ -248,6 +255,19 @@ function AppContent() {
             }
           >
             <GDTopicsSection />
+          </Suspense>
+        )}
+
+        {currentView === 'practice-pyq' && (
+          <Suspense
+            fallback={
+              <Box sx={{ flex: 1, p: 2 }}>
+                <Skeleton variant="rounded" height={120} sx={{ mb: 2 }} />
+                <Skeleton variant="rounded" height={300} />
+              </Box>
+            }
+          >
+            <PracticePYQSection />
           </Suspense>
         )}
       </div>

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, lazy, Suspense, useMemo } from 'react'
-import { MessageCircle, Search, BookOpen, FileText, Trash2, Clock, Home, Plus } from 'lucide-react'
+import { MessageCircle, Search, BookOpen, FileText, Trash2, Clock, Home, Plus, Target, ChevronFirst } from 'lucide-react'
 import { Box, Paper, Stack, Typography, Button, IconButton, Divider } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 import { useLayout } from '../contexts/LayoutContext'
@@ -7,7 +7,6 @@ import { useSearchHistory } from '../contexts/SearchHistoryContext'
 import { useAuth } from '../contexts/AuthContext'
 const HelpSupportModal = lazy(() => import('./HelpSupportModal'))
 import apiService from '../services/api'
-import { ChevronFirst } from './icons/ChevronFirst'
 import { CircleHelp } from './icons/CircleHelp'
 
 const PENDING_CHAT_LOAD_STORAGE_KEY = 'pendingChatToLoad'
@@ -48,6 +47,14 @@ const Sidebar = () => {
       if (!silent) setIsLoadingChats(false)
     }
   }, [currentUser, getChatHistory])
+
+  // Handle practice pyq click
+  const handlePracticePyqClick = () => {
+    window.dispatchEvent(new CustomEvent('switchToPracticePYQ'))
+    if (isMobile && sidebarVisible) {
+      toggleSidebar()
+    }
+  }
 
   // Handle new chat creation
   const handleNewChat = async () => {
@@ -413,6 +420,35 @@ const Sidebar = () => {
               </Button>
             </Box>
 
+            {/* Practice PYQ Button */}
+            <Box sx={{ px: isMobile ? 1 : 1, pb: isMobile ? 1 : 0.75 }}>
+              <Button
+                onClick={handlePracticePyqClick}
+                fullWidth
+                variant="outlined"
+                title="Practice Previous Year Questions"
+                sx={{
+                  borderColor: '#E4572E',
+                  color: '#E4572E',
+                  borderRadius: 1,
+                  fontSize: '0.75rem',
+                  fontWeight: 700,
+                  py: isMobile ? 0.75 : 0.4,
+                  minHeight: isMobile ? 36 : 28,
+                  backgroundColor: 'rgba(228, 87, 46, 0.05)',
+                  '&:hover': {
+                    backgroundColor: 'rgba(228, 87, 46, 0.12)',
+                    borderColor: '#E4572E'
+                  }
+                }}
+              >
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Target size={16} strokeWidth={2.4} color="#E4572E" />
+                  <span>Practice PYQ</span>
+                </Box>
+              </Button>
+            </Box>
+
             {/* Chat History Section - Scrollable */}
             <div className="flex-1 overflow-y-auto px-2 pb-2 sidebar-chat-history">
               <div className="space-y-1">
@@ -667,6 +703,16 @@ const Sidebar = () => {
                 title="New Chat"
               >
                 <MessageCircle className="w-4 h-4" />
+              </button>
+              <button
+                onClick={handlePracticePyqClick}
+                className="p-1 rounded-lg transition-colors"
+                style={{ color: '#E4572E' }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(228, 87, 46, 0.12)'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                title="Practice PYQ"
+              >
+                <Target className="w-4 h-4" />
               </button>
             </div>
 

@@ -21,6 +21,11 @@ import {
   X,
   Star,
   ZoomIn,
+  Calendar,
+  Award,
+  Check,
+  HelpCircle,
+  Eye,
 } from "lucide-react";
 import { useTheme } from "../contexts/ThemeContext";
 import { useAuth } from "../contexts/AuthContext";
@@ -47,7 +52,7 @@ const formatImageUrl = (url) => {
 
 const Dashboard = ({ onClose }) => {
   const { theme } = useTheme();
-  const { currentUser, getStarredPyqQuestions, removeStarredPyqQuestion } = useAuth();
+  const { currentUser, getStarredPyqQuestions, removeStarredPyqQuestion, getPaperPracticeHistory } = useAuth();
   const { contentOffsetLeft, isMobile } = useLayout();
   const {
     stats,
@@ -64,6 +69,7 @@ const Dashboard = ({ onClose }) => {
   const [expandedSections, setExpandedSections] = useState({
     overview: true,
     mcqBreakdown: true,
+    paperPractice: true,
     subjectAnalysis: true,
     savedPyqs: true,
   });
@@ -74,12 +80,41 @@ const Dashboard = ({ onClose }) => {
   const [expandedSavedExplanations, setExpandedSavedExplanations] = useState({});
   const [previewImage, setPreviewImage] = useState(null);
 
+  // Year-wise PYQ Paper Practice History state
+  const [paperHistory, setPaperHistory] = useState([]);
+  const [loadingPaperHistory, setLoadingPaperHistory] = useState(false);
+  const [selectedPaperReview, setSelectedPaperReview] = useState(null);
+  const [reviewFilter, setReviewFilter] = useState('all'); // 'all' | 'correct' | 'wrong' | 'unattempted'
+
   // Handle close
   const handleClose = () => {
     if (typeof onClose === 'function') {
       onClose();
     } else {
       window.dispatchEvent(new CustomEvent('switchToChat'));
+    }
+  };
+
+  // Load Year-wise PYQ Paper Practice History
+  const loadPaperPractice = async () => {
+    setLoadingPaperHistory(true);
+    try {
+      if (getPaperPracticeHistory) {
+        const history = await getPaperPracticeHistory();
+        setPaperHistory(Array.isArray(history) ? history : []);
+      } else {
+        const localRaw = localStorage.getItem('pyqPaperPracticeHistory');
+        if (localRaw) {
+          const parsed = JSON.parse(localRaw);
+          setPaperHistory(Array.isArray(parsed) ? parsed : []);
+        } else {
+          setPaperHistory([]);
+        }
+      }
+    } catch (e) {
+      console.warn('Failed to load paper practice history:', e);
+    } finally {
+      setLoadingPaperHistory(false);
     }
   };
 
@@ -129,14 +164,24 @@ const Dashboard = ({ onClose }) => {
 
   useEffect(() => {
     loadSavedPyqs();
+    loadPaperPractice();
   }, [currentUser]);
 
   useEffect(() => {
     const handleStarredUpdate = () => {
       loadSavedPyqs();
     };
+    const handlePaperPracticeUpdate = () => {
+      loadPaperPractice();
+    };
+
     window.addEventListener('starredPyqsUpdated', handleStarredUpdate);
-    return () => window.removeEventListener('starredPyqsUpdated', handleStarredUpdate);
+    window.addEventListener('paperPracticeUpdated', handlePaperPracticeUpdate);
+
+    return () => {
+      window.removeEventListener('starredPyqsUpdated', handleStarredUpdate);
+      window.removeEventListener('paperPracticeUpdated', handlePaperPracticeUpdate);
+    };
   }, [currentUser]);
 
   // Refresh dashboard data on mount
@@ -589,7 +634,141 @@ const Dashboard = ({ onClose }) => {
               )}
             </div>
 
-            {/* Subject Analysis - Expandable */}
+            {/* Year-Wise PYQ Practice Breakdown - Expandable */}
+            <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+              <SectionHeader 
+                title="Year-Wise PYQ Practice Breakdown"
+                icon={Calendar}
+                isExpanded={expandedSections.paperPractice}
+                onToggle={() => toggleSection('paperPractice')}
+                badge={`${paperHistory.length} Papers Attempted`}
+              />
+              {expandedSections.paperPractice && (
+                <div className="p-4 space-y-3">
+                  {loadingPaperHistory ? (
+                    <div className="flex items-center justify-center py-8">
+                      <RefreshCw className="w-5 h-5 animate-spin text-orange-500 mr-2" />
+                      <span className="text-sm text-gray-500">Loading PYQ practice history...</span>
+                    </div>
+                  ) : paperHistory.length > 0 ? (
+                    <div className="space-y-2.5">
+                      {paperHistory.map((paper, idx) => {
+                        const total = paper.total || (paper.attempted + paper.unattempted) || 0;
+                        const attempted = paper.attempted || 0;
+                        const unattempted = paper.unattempted !== undefined ? paper.unattempted : Math.max(0, total - attempted);
+                        const correct = paper.correct || 0;
+                        const wrong = paper.wrong || 0;
+                        const accuracy = paper.accuracy !== undefined ? paper.accuracy : (attempted > 0 ? Math.round((correct / attempted) * 100) : 0);
+
+                        return (
+                          <div
+                            key={paper.id || idx}
+                            className="p-3 sm:p-3.5 rounded-lg border border-gray-200 bg-white hover:border-orange-300 hover:shadow-xs transition-all"
+                          >
+                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2">
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <span className="px-2 py-0.5 text-xs font-bold bg-orange-100 text-[#E4572E] rounded">
+                                  {paper.examName || paper.examId || 'Exam Paper'}
+                                </span>
+                                <span className="text-xs font-semibold text-gray-800">
+                                  {paper.yearLabel || paper.yearId || 'Paper'}
+                                </span>
+                                {paper.category && (
+                                  <span className="text-[10px] font-medium text-gray-500 bg-gray-100 px-1.5 py-0.5 rounded">
+                                    {paper.category}
+                                  </span>
+                                )}
+                              </div>
+                              <div className="flex items-center gap-2 text-[11px] text-gray-500 shrink-0">
+                                <Clock className="w-3.5 h-3.5 opacity-60" />
+                                <span>{paper.date || 'Recently'}</span>
+                                {paper.timeSpent && (
+                                  <span className="bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded font-mono text-[10px]">
+                                    {paper.timeSpent}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+
+                            {/* Metrics Breakdown Badges */}
+                            <div className="grid grid-cols-2 sm:grid-cols-5 gap-1.5 text-center pt-1.5 border-t border-gray-100">
+                              <div className="p-1.5 rounded bg-gray-50 border border-gray-100">
+                                <span className="text-[10px] font-semibold text-gray-500 uppercase block">Total Qs</span>
+                                <span className="text-xs font-bold text-gray-800">{total}</span>
+                              </div>
+                              <div className="p-1.5 rounded bg-blue-50/70 border border-blue-100">
+                                <span className="text-[10px] font-semibold text-blue-700 uppercase block">Attempted</span>
+                                <span className="text-xs font-bold text-blue-800">{attempted}</span>
+                              </div>
+                              <div className="p-1.5 rounded bg-gray-50 border border-gray-200">
+                                <span className="text-[10px] font-semibold text-gray-600 uppercase block">Skipped</span>
+                                <span className="text-xs font-bold text-gray-700">{unattempted}</span>
+                              </div>
+                              <div className="p-1.5 rounded bg-green-50 border border-green-200">
+                                <span className="text-[10px] font-semibold text-green-700 uppercase block">Correct</span>
+                                <span className="text-xs font-bold text-green-700">{correct}</span>
+                              </div>
+                              <div className="p-1.5 rounded bg-red-50 border border-red-200 col-span-2 sm:col-span-1">
+                                <span className="text-[10px] font-semibold text-red-600 uppercase block">Wrong</span>
+                                <span className="text-xs font-bold text-red-600">{wrong}</span>
+                              </div>
+                            </div>
+
+                            {/* Accuracy Visual Bar */}
+                            {attempted > 0 && (
+                              <div className="mt-2 flex items-center gap-2">
+                                <div className="flex-1 bg-gray-200 rounded-full h-1.5 overflow-hidden flex">
+                                  <div
+                                    className="bg-green-500 h-full"
+                                    style={{ width: `${accuracy}%` }}
+                                    title={`Correct: ${correct}`}
+                                  />
+                                  <div
+                                    className="bg-red-500 h-full"
+                                    style={{ width: `${100 - accuracy}%` }}
+                                    title={`Wrong: ${wrong}`}
+                                  />
+                                </div>
+                                <span className="text-[11px] font-bold text-gray-700 shrink-0">
+                                  {accuracy}% Accuracy
+                                </span>
+                              </div>
+                            )}
+
+                            {/* View Questions Breakdown Button */}
+                            <div className="mt-2.5 pt-2 border-t border-gray-100 flex items-center justify-between">
+                              <span className="text-[11px] text-gray-500">
+                                {paper.questions?.length || total} Questions Saved
+                              </span>
+                              <button
+                                onClick={() => {
+                                  setSelectedPaperReview(paper);
+                                  setReviewFilter('all');
+                                }}
+                                className="px-2.5 py-1 text-xs font-bold text-[#E4572E] bg-orange-50 hover:bg-orange-100 border border-orange-200 rounded-md transition-colors flex items-center gap-1.5"
+                              >
+                                <Eye className="w-3.5 h-3.5" />
+                                <span>Review Paper Breakdown</span>
+                              </button>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <div className="text-center py-6 px-4 bg-gray-50 rounded-lg border border-dashed border-gray-200">
+                      <Award className="w-8 h-8 mx-auto mb-2 text-gray-400" />
+                      <p className="text-xs sm:text-sm font-semibold text-gray-700">No PYQ Papers Attempted Yet</p>
+                      <p className="text-[11px] text-gray-500 mt-1 max-w-sm mx-auto">
+                        Go to PYQ Practice, pick an exam and year paper to practice. Your attempt stats, date, correct, wrong, and skipped counts will appear here automatically!
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Subject Analysis - Expandable */}
             <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
               <SectionHeader 
                 title="Subject-wise Analysis"
@@ -793,6 +972,221 @@ const Dashboard = ({ onClose }) => {
           </div>
         </div>
       </div>
+
+      {/* Year-Wise Attempted Paper Breakdown Review Modal */}
+      {selectedPaperReview && (
+        <div
+          onClick={() => setSelectedPaperReview(null)}
+          className="fixed inset-0 z-[999990] bg-black/75 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden border border-gray-200"
+          >
+            {/* Modal Header */}
+            <div className="p-3 sm:p-4 border-b border-gray-200 flex items-center justify-between bg-gradient-to-r from-orange-50 to-amber-50 shrink-0">
+              <div className="min-w-0">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="px-2 py-0.5 text-xs font-bold bg-[#E4572E] text-white rounded">
+                    {selectedPaperReview.examName || selectedPaperReview.examId}
+                  </span>
+                  <span className="text-sm sm:text-base font-bold text-gray-900 truncate">
+                    {selectedPaperReview.yearLabel || selectedPaperReview.yearId}
+                  </span>
+                  <span className="text-xs text-gray-500 font-medium">
+                    ({selectedPaperReview.date})
+                  </span>
+                </div>
+                <div className="flex items-center gap-3 mt-1.5 text-xs text-gray-700">
+                  <span className="text-emerald-700 font-bold">
+                    ✓ {selectedPaperReview.correct || 0} Correct
+                  </span>
+                  <span className="text-red-600 font-bold">
+                    ✗ {selectedPaperReview.wrong || 0} Wrong
+                  </span>
+                  <span className="text-gray-500 font-bold">
+                    ⊘ {selectedPaperReview.unattempted || 0} Skipped
+                  </span>
+                  <span className="text-blue-700 font-extrabold">
+                    {selectedPaperReview.accuracy || 0}% Accuracy
+                  </span>
+                </div>
+              </div>
+
+              <button
+                onClick={() => setSelectedPaperReview(null)}
+                className="p-1.5 rounded-lg text-gray-500 hover:text-gray-800 hover:bg-gray-100 transition-colors"
+                title="Close review"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Filter Pills */}
+            <div className="px-3 py-2 border-b border-gray-100 flex items-center gap-1.5 bg-gray-50 overflow-x-auto shrink-0">
+              {[
+                { key: 'all', label: 'All Questions', count: selectedPaperReview.questions?.length || selectedPaperReview.total },
+                { key: 'correct', label: 'Correct', count: selectedPaperReview.correct || 0, color: 'text-emerald-700' },
+                { key: 'wrong', label: 'Wrong', count: selectedPaperReview.wrong || 0, color: 'text-red-600' },
+                { key: 'unattempted', label: 'Not Attempted', count: selectedPaperReview.unattempted || 0, color: 'text-gray-600' },
+              ].map((f) => {
+                const isActive = reviewFilter === f.key;
+                return (
+                  <button
+                    key={f.key}
+                    onClick={() => setReviewFilter(f.key)}
+                    className={`px-2.5 py-1 rounded-full text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 border ${
+                      isActive
+                        ? 'bg-gray-900 text-white border-gray-900 shadow-xs'
+                        : 'bg-white text-gray-700 hover:bg-gray-100 border-gray-200'
+                    }`}
+                  >
+                    <span>{f.label}</span>
+                    <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${isActive ? 'bg-gray-700 text-white' : 'bg-gray-100 text-gray-600'}`}>
+                      {f.count}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Questions List */}
+            <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 bg-gray-50/50">
+              {Array.isArray(selectedPaperReview.questions) && selectedPaperReview.questions.length > 0 ? (
+                selectedPaperReview.questions
+                  .filter((q) => {
+                    if (reviewFilter === 'correct') return q.status === 'correct';
+                    if (reviewFilter === 'wrong') return q.status === 'wrong';
+                    if (reviewFilter === 'unattempted') return q.status === 'unattempted';
+                    return true;
+                  })
+                  .map((q, idx) => {
+                    const status = q.status; // 'correct' | 'wrong' | 'unattempted'
+                    const userOptIdx = q.userAnswer;
+                    const correctOptIdx = q.correctAnswer;
+
+                    return (
+                      <div
+                        key={q.id || idx}
+                        className={`p-3 sm:p-4 rounded-xl border bg-white shadow-2xs transition-all ${
+                          status === 'correct'
+                            ? 'border-emerald-200'
+                            : status === 'wrong'
+                            ? 'border-red-200'
+                            : 'border-gray-200'
+                        }`}
+                      >
+                        {/* Status Badge & Question Header */}
+                        <div className="flex items-center justify-between gap-2 mb-2">
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-extrabold text-gray-500">
+                              Q{q.index !== undefined ? q.index + 1 : idx + 1}.
+                            </span>
+                            {q.subject && (
+                              <span className="px-2 py-0.5 text-[10px] font-semibold bg-gray-100 text-gray-600 rounded">
+                                {q.subject}
+                              </span>
+                            )}
+                          </div>
+
+                          {status === 'correct' ? (
+                            <span className="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 text-xs font-bold flex items-center gap-1">
+                              <Check className="w-3.5 h-3.5" />
+                              <span>Correct</span>
+                            </span>
+                          ) : status === 'wrong' ? (
+                            <span className="px-2 py-0.5 rounded-md bg-red-100 text-red-800 text-xs font-bold flex items-center gap-1">
+                              <X className="w-3.5 h-3.5" />
+                              <span>Wrong</span>
+                            </span>
+                          ) : (
+                            <span className="px-2 py-0.5 rounded-md bg-gray-100 text-gray-600 text-xs font-bold flex items-center gap-1">
+                              <HelpCircle className="w-3.5 h-3.5" />
+                              <span>Not Attempted</span>
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Question Text */}
+                        <p className="text-sm font-semibold text-gray-900 mb-3 leading-relaxed">
+                          {q.question}
+                        </p>
+
+                        {/* Options List */}
+                        {Array.isArray(q.options) && q.options.length > 0 && (
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3">
+                            {q.options.map((opt, optIdx) => {
+                              const isCorrect = correctOptIdx === optIdx;
+                              const isUserAnswer = userOptIdx === optIdx;
+
+                              let optBorder = 'border-gray-200 bg-gray-50 text-gray-700';
+                              let badgeColor = 'bg-gray-200 text-gray-700';
+
+                              if (isCorrect) {
+                                optBorder = 'border-emerald-400 bg-emerald-50/70 text-emerald-900 font-semibold';
+                                badgeColor = 'bg-emerald-600 text-white';
+                              } else if (isUserAnswer && !isCorrect) {
+                                optBorder = 'border-red-400 bg-red-50/70 text-red-900';
+                                badgeColor = 'bg-red-500 text-white';
+                              }
+
+                              return (
+                                <div
+                                  key={optIdx}
+                                  className={`p-2 rounded-lg border text-xs flex items-start gap-2 ${optBorder}`}
+                                >
+                                  <span className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 text-[10px] font-bold ${badgeColor}`}>
+                                    {String.fromCharCode(65 + optIdx)}
+                                  </span>
+                                  <span className="flex-1 mt-0.5 leading-snug break-words">
+                                    {opt}
+                                  </span>
+                                  {isCorrect && (
+                                    <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded shrink-0">
+                                      Correct
+                                    </span>
+                                  )}
+                                  {isUserAnswer && !isCorrect && (
+                                    <span className="text-[10px] font-bold text-red-700 bg-red-100 px-1.5 py-0.5 rounded shrink-0">
+                                      Your Choice
+                                    </span>
+                                  )}
+                                </div>
+                              );
+                            })}
+                          </div>
+                        )}
+
+                        {/* Official Key / Explanation */}
+                        {q.explanation && (
+                          <div className="p-2.5 rounded-lg bg-blue-50/70 border border-blue-100 text-xs text-gray-800 leading-relaxed">
+                            <strong className="text-blue-900 block mb-0.5">Official Explanation / Key:</strong>
+                            {q.explanation}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })
+              ) : (
+                <div className="text-center py-10">
+                  <p className="text-sm font-semibold text-gray-700">Detailed question log not found for this attempt.</p>
+                  <p className="text-xs text-gray-500 mt-1">Newly submitted papers will display every question, your selected choice, and the official answer key here.</p>
+                </div>
+              )}
+            </div>
+
+            {/* Modal Footer */}
+            <div className="p-3 border-t border-gray-200 bg-white flex justify-end shrink-0">
+              <button
+                onClick={() => setSelectedPaperReview(null)}
+                className="px-4 py-1.5 bg-gray-900 hover:bg-gray-800 text-white text-xs font-bold rounded-lg transition-colors"
+              >
+                Close Review
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Enlarged Image Lightbox Modal with Cross Button */}
       {previewImage && (
