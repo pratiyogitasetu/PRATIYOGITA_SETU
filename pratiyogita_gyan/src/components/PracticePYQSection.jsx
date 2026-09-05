@@ -222,6 +222,7 @@ const PracticePYQSection = () => {
   const [lightboxImg, setLightboxImg] = useState(null)
   const [isFinished, setIsFinished] = useState(false)
   const [isReviewMode, setIsReviewMode] = useState(false)
+  const [hasSubmittedPaper, setHasSubmittedPaper] = useState(false)
 
   // Timer state
   const [timerSeconds, setTimerSeconds] = useState(0)
@@ -315,6 +316,7 @@ const PracticePYQSection = () => {
     setUserAnswers({})
     setIsFinished(false)
     setIsReviewMode(false)
+    setHasSubmittedPaper(false)
     setTimerSeconds(0)
     setIsTimerRunning(true)
 
@@ -487,14 +489,18 @@ const PracticePYQSection = () => {
       userAnswers
     }
 
-    if (savePaperPracticeReport) {
-      try {
-        await savePaperPracticeReport(report)
-      } catch (err) {
-        console.error('Failed to save paper practice report:', err)
+    // Only save report to database/localStorage once per attempt session
+    if (!hasSubmittedPaper) {
+      setHasSubmittedPaper(true)
+      if (savePaperPracticeReport) {
+        try {
+          await savePaperPracticeReport(report)
+        } catch (err) {
+          console.error('Failed to save paper practice report:', err)
+        }
       }
     }
-  }, [userAnswers, questions, selectedExamObj, selectedYearObj, selectedCategoryId, timerSeconds, savePaperPracticeReport])
+  }, [userAnswers, questions, selectedExamObj, selectedYearObj, selectedCategoryId, timerSeconds, savePaperPracticeReport, hasSubmittedPaper])
 
   // Score statistics
   const stats = useMemo(() => {
@@ -657,10 +663,13 @@ const PracticePYQSection = () => {
                   </span>
                 </div>
                 <button
-                  onClick={() => setIsPracticing(false)}
+                  onClick={() => {
+                    setIsReviewMode(false)
+                    setIsPracticing(false)
+                  }}
                   className="px-2 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded text-xs font-medium"
                 >
-                  Change Paper
+                  {isReviewMode ? 'Exit Review' : 'Change Paper'}
                 </button>
               </>
             ) : (
@@ -1121,6 +1130,17 @@ const PracticePYQSection = () => {
                         <span>Next</span>
                         <ChevronRight className="w-3.5 h-3.5" />
                       </button>
+                    ) : isReviewMode ? (
+                      <button
+                        onClick={() => {
+                          setIsReviewMode(false)
+                          setIsPracticing(false)
+                        }}
+                        className="px-3.5 py-1 bg-gray-900 hover:bg-black text-white rounded text-xs font-bold flex items-center gap-1 shadow-sm"
+                      >
+                        <ArrowLeft className="w-3.5 h-3.5" />
+                        <span>Exit Review</span>
+                      </button>
                     ) : (
                       <button
                         onClick={handleFinishPaper}
@@ -1215,12 +1235,25 @@ const PracticePYQSection = () => {
                 </div>
               </div>
 
-              <button
-                onClick={handleFinishPaper}
-                className="mt-2.5 w-full py-1 border border-[#E4572E] text-[#E4572E] text-xs font-bold rounded hover:bg-orange-50 transition-colors"
-              >
-                Submit Paper
-              </button>
+              {isReviewMode ? (
+                <button
+                  onClick={() => {
+                    setIsReviewMode(false)
+                    setIsPracticing(false)
+                  }}
+                  className="mt-2.5 w-full py-1.5 bg-gray-900 hover:bg-black text-white text-xs font-bold rounded flex items-center justify-center gap-1.5 transition-colors shadow-sm"
+                >
+                  <ArrowLeft className="w-3.5 h-3.5" />
+                  <span>Exit Review</span>
+                </button>
+              ) : (
+                <button
+                  onClick={handleFinishPaper}
+                  className="mt-2.5 w-full py-1 border border-[#E4572E] text-[#E4572E] text-xs font-bold rounded hover:bg-orange-50 transition-colors"
+                >
+                  Submit Paper
+                </button>
+              )}
             </div>
           </div>
         )}

@@ -13,20 +13,23 @@ if (import.meta.env.PROD) {
 
 
 
-// Register service worker for offline support
+// Unregister old/stuck service workers and clear stale caches to avoid aggressive mobile caching
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
-      .then((registration) => {
-        // Service worker registered successfully
-        if (import.meta.env.DEV) {
-          console.log('Service worker registered');
-        }
-      })
-      .catch((registrationError) => {
-        console.error('Service worker registration failed:', registrationError);
-      });
+  navigator.serviceWorker.getRegistrations().then((registrations) => {
+    for (const registration of registrations) {
+      registration.unregister();
+    }
+  }).catch((err) => {
+    console.warn('Service worker cleanup:', err);
   });
+
+  if (typeof caches !== 'undefined' && caches.keys) {
+    caches.keys().then((names) => {
+      for (const name of names) {
+        caches.delete(name);
+      }
+    }).catch(() => {});
+  }
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(
