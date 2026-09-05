@@ -45,7 +45,7 @@ const Footer = () => {
                 <div className="flex items-center gap-2 mb-1.5">
                   <img src="/logos/pm.png" alt="Pratiyogita Marg" className="h-7 sm:h-8 w-auto object-contain opacity-50" />
                   <span className="text-sm sm:text-base font-bold text-white/50">Pratiyogita Marg</span>
-                  <span className="text-[8px] font-bold uppercase tracking-wider bg-orange-500/20 text-orange-400 px-1.5 py-0.5 rounded-full border border-orange-500/30">Coming Soon</span>
+                  <span className="text-[8px] font-bold uppercase tracking-wider bg-[#1A120B] text-[#E4572E] px-1.5 py-0.5 rounded-full border border-[#E4572E]/60 shadow-sm -translate-y-0.5">Coming Soon</span>
                 </div>
                 <p className="text-xs text-white/70 leading-relaxed text-justify">
                   {language === "en"
@@ -137,15 +137,12 @@ const Footer = () => {
               <Link to="/" className="text-white/70 hover:text-orange-400 hover:underline transition-colors">
                 {language === "en" ? "Home" : "होम"}
               </Link>
-              <a href={PRATIYOGITA_SETU_URL} className="text-white/70 hover:text-orange-400 hover:underline transition-colors">
-                {language === "en" ? "Pratiyogita Setu" : "प्रतियोगिता सेतु"}
-              </a>
               <a href={PRATIYOGITA_YOGYA_URL} className="text-white/70 hover:text-orange-400 hover:underline transition-colors">
                 {language === "en" ? "Pratiyogita Yogya" : "प्रतियोगिता योग्य"}
               </a>
               <span className="text-white/40 cursor-default flex items-center gap-1">
                 {language === "en" ? "Pratiyogita Marg" : "प्रतियोगिता मार्ग"}
-                <span className="text-[7px] font-bold uppercase bg-orange-500/20 text-orange-400 px-1 py-0.5 rounded-full">Soon</span>
+                <span className="text-[7px] font-bold uppercase bg-[#1A120B] text-[#E4572E] px-1.5 py-0.5 rounded-full border border-[#E4572E]/60 shadow-sm -translate-y-0.5">Coming Soon</span>
               </span>
               <a href={PRATIYOGITA_GYAN_URL} className="text-white/70 hover:text-orange-400 hover:underline transition-colors">
                 {language === "en" ? "Pratiyogita Gyan" : "प्रतियोगिता ज्ञान"}
@@ -153,14 +150,8 @@ const Footer = () => {
               <Link to="/about" className="text-white/70 hover:text-orange-400 hover:underline transition-colors">
                 {language === "en" ? "About Us" : "हमारे बारे में"}
               </Link>
-              <Link to="/contribution" className="text-white/70 hover:text-orange-400 hover:underline transition-colors">
-                {language === "en" ? "Contribution" : "योगदान"}
-              </Link>
               <Link to="/contact" className="text-white/70 hover:text-orange-400 hover:underline transition-colors">
                 {language === "en" ? "Contact Us" : "संपर्क करें"}
-              </Link>
-              <Link to="/dashboard" className="text-white/70 hover:text-orange-400 hover:underline transition-colors">
-                {language === "en" ? "Dashboard" : "डैशबोर्ड"}
               </Link>
             </div>
           </div>

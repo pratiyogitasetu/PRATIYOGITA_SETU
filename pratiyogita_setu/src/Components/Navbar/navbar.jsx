@@ -66,9 +66,9 @@ const Navbar = () => {
               <a href={PRATIYOGITA_YOGYA_URL} className="text-[#E8D8C3] hover:text-[#E4572E] font-semibold text-[11px] lg:text-xs xl:text-sm transition-colors">
                 Pratiyogita Yogya
               </a>
-              <span className="relative text-[#E8D8C3]/50 font-semibold text-[11px] lg:text-xs xl:text-sm cursor-default flex items-center gap-1">
+              <span className="relative text-[#E8D8C3]/50 font-semibold text-[11px] lg:text-xs xl:text-sm cursor-default flex items-center gap-1.5">
                 Pratiyogita Marg
-                <span className="text-[8px] lg:text-[9px] font-bold uppercase tracking-wider bg-[#E4572E]/20 text-[#E4572E] px-1.5 py-0.5 rounded-full border border-[#E4572E]/30">Soon</span>
+                <span className="text-[8px] lg:text-[9px] font-bold uppercase tracking-wider bg-[#1A120B] text-[#E4572E] px-1.5 py-0.5 rounded-full border border-[#E4572E]/60 -translate-y-0.5 shadow-sm">Coming Soon</span>
               </span>
               <a href={PRATIYOGITA_GYAN_URL} className="text-[#E8D8C3] hover:text-[#E4572E] font-semibold text-[11px] lg:text-xs xl:text-sm transition-colors">
                 Pratiyogita Gyan
@@ -119,7 +119,7 @@ const Navbar = () => {
               </a>
               <span className="block px-3 py-2 rounded-lg text-[#E8D8C3]/50 text-sm font-semibold cursor-default flex items-center gap-2">
                 Pratiyogita Marg
-                <span className="text-[9px] font-bold uppercase tracking-wider bg-[#E4572E]/20 text-[#E4572E] px-1.5 py-0.5 rounded-full border border-[#E4572E]/30">Coming Soon</span>
+                <span className="text-[9px] font-bold uppercase tracking-wider bg-[#1A120B] text-[#E4572E] px-1.5 py-0.5 rounded-full border border-[#E4572E]/60 -translate-y-0.5 shadow-sm">Coming Soon</span>
               </span>
               <a href={PRATIYOGITA_GYAN_URL} onClick={() => setIsOpen(false)} className="block px-3 py-2 rounded-lg text-[#E8D8C3] hover:bg-[#E4572E]/15 hover:text-[#FBF6EE] text-sm font-semibold transition-colors">
                 Pratiyogita Gyan

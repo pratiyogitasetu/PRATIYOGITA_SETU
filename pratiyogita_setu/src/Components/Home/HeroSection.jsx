@@ -229,16 +229,18 @@ const HeroSection = () => {
               <span className="font-bold text-xs sm:text-sm">Check Now</span>
               <span className="text-[10px] sm:text-[11px] font-normal opacity-90">Know your Eligibility</span>
             </a>
-            <span
-              className="bubble-btn bubble-btn-outline flex flex-col items-center gap-0.5 whitespace-nowrap relative cursor-default"
-              style={{ opacity: 0.5, pointerEvents: "none" }}
-            >
-              <span className="font-bold text-xs sm:text-sm">Explore</span>
-              <span className="text-[10px] sm:text-[11px] font-normal opacity-90">Explore Mindmaps</span>
-              <span className="absolute -top-2 -right-2 text-[7px] sm:text-[8px] font-bold uppercase tracking-wider bg-[#E4572E]/25 text-[#E4572E] px-1.5 py-0.5 rounded-full border border-[#E4572E]/30">
-                Soon
+            <div className="relative inline-flex">
+              <span
+                className="bubble-btn bubble-btn-outline flex flex-col items-center gap-0.5 whitespace-nowrap cursor-default opacity-50 select-none"
+                style={{ pointerEvents: "none" }}
+              >
+                <span className="font-bold text-xs sm:text-sm">Explore</span>
+                <span className="text-[10px] sm:text-[11px] font-normal opacity-90">Explore Mindmaps</span>
               </span>
-            </span>
+              <span className="absolute -top-2.5 -right-3 z-10 text-[7px] sm:text-[8px] font-bold uppercase tracking-wider bg-[#1A120B] text-[#E4572E] px-2 py-0.5 rounded-full border border-[#E4572E]/60 shadow-md whitespace-nowrap">
+                Coming Soon
+              </span>
+            </div>
             <a
               href={PRATIYOGITA_GYAN_URL}
               className="bubble-btn bubble-btn-outline flex flex-col items-center gap-0.5 whitespace-nowrap"

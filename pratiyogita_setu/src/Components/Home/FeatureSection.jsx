@@ -383,7 +383,7 @@ const FeatureRow = ({ feature, index }) => {
             {feature.title}
           </h3>
           {feature.comingSoon && (
-            <span className="text-[10px] font-bold uppercase tracking-wider bg-[#E4572E]/20 text-[#E4572E] px-2.5 py-1 rounded-full border border-[#E4572E]/30 whitespace-nowrap">
+            <span className="text-[10px] font-bold uppercase tracking-wider bg-[#1A120B] text-[#E4572E] px-2.5 py-1 rounded-full border border-[#E4572E]/60 whitespace-nowrap shadow-sm -translate-y-0.5">
               Coming Soon
             </span>
           )}
@@ -518,8 +518,8 @@ const MobileTabbedFeatures = () => {
             </span>
             {/* Coming Soon badge */}
             {feature.comingSoon && (
-              <span className="absolute -top-1 -right-1 text-[7px] font-bold uppercase tracking-wider bg-[#E4572E]/25 text-[#E4572E] px-1.5 py-0.5 rounded-full border border-[#E4572E]/30">
-                Soon
+              <span className="absolute -top-1 -right-1 z-10 text-[7px] font-bold uppercase tracking-wider bg-[#1A120B] text-[#E4572E] px-1.5 py-0.5 rounded-full border border-[#E4572E]/60 shadow-sm whitespace-nowrap">
+                Coming Soon
               </span>
             )}
             {/* Active indicator dot */}
@@ -550,7 +550,7 @@ const MobileTabbedFeatures = () => {
                 {activeFeature.title}
               </h3>
               {activeFeature.comingSoon && (
-                <span className="text-[9px] font-bold uppercase tracking-wider bg-[#E4572E]/20 text-[#E4572E] px-2 py-0.5 rounded-full border border-[#E4572E]/30">
+                <span className="text-[9px] font-bold uppercase tracking-wider bg-[#1A120B] text-[#E4572E] px-2 py-0.5 rounded-full border border-[#E4572E]/60 shadow-sm -translate-y-0.5">
                   Coming Soon
                 </span>
               )}
