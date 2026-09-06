@@ -1,5 +1,5 @@
 import { useState, useEffect, lazy, Suspense } from 'react'
-import { LogIn, UserPlus, Home, BarChart3, Info, Phone, LogOut, ChevronLeft, User, ChevronRight, Settings, MoreVertical, BookOpen, MessageSquare, Target, ChevronFirst } from 'lucide-react'
+import { LogIn, UserPlus, Home, BarChart3, Info, Phone, LogOut, ChevronLeft, User, ChevronRight, Settings, MoreVertical, BookOpen, MessageSquare, Target, ChevronFirst, Star } from 'lucide-react'
 import { AppBar, Toolbar, Box, Typography, Button, Avatar, Stack, Container, IconButton, Divider, MenuItem, Popover } from '@mui/material'
 import PropTypes from 'prop-types'
 const AuthModal = lazy(() => import('./AuthModal'))
@@ -465,6 +465,25 @@ const Navbar = ({ onViewChange, currentView }) => {
           >
             <Target size={17} strokeWidth={2} />
             <span>Practice PYQ</span>
+          </MenuItem>
+
+          <MenuItem
+            onClick={() => handleNavigate('saved-pyqs')}
+            selected={currentView === 'saved-pyqs'}
+            sx={{
+              borderRadius: 2,
+              py: 0.85,
+              px: 1.2,
+              gap: 1.5,
+              color: currentView === 'saved-pyqs' ? '#f59e0b' : '#e5e7eb',
+              fontSize: '0.82rem',
+              fontWeight: 500,
+              '&:hover': { backgroundColor: 'rgba(255,255,255,0.08)' },
+              '&.Mui-selected': { backgroundColor: 'rgba(245,158,11,0.15)', color: '#f59e0b' }
+            }}
+          >
+            <Star size={17} strokeWidth={2} />
+            <span>Saved PYQs</span>
           </MenuItem>
 
           <MenuItem

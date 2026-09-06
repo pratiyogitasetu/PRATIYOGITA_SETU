@@ -688,33 +688,33 @@ const PracticePYQSection = () => {
         {/* VIEW 1: 3-WINDOW EXAM & YEAR SELECTION PORTAL           */}
         {/* ======================================================== */}
         {!isPracticing ? (
-          <div className="flex-1 overflow-hidden p-2.5 sm:p-3 bg-gray-50 flex flex-col min-h-0">
+          <div className="flex-1 overflow-y-auto lg:overflow-hidden p-2.5 sm:p-3 bg-gray-50/80 flex flex-col min-h-0">
             {isLoadingCatalog ? (
-              <div className="flex flex-col items-center justify-center py-12">
-                <CircularProgress size={28} sx={{ color: '#E4572E', mb: 1.5 }} />
-                <p className="text-xs text-gray-500">Loading exams and official question papers...</p>
+              <div className="flex flex-col items-center justify-center py-16">
+                <CircularProgress size={30} sx={{ color: '#E4572E', mb: 1.5 }} />
+                <p className="text-xs sm:text-sm text-gray-500 font-medium">Loading exams and official question papers...</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-2.5 w-full flex-1 min-h-0 overflow-hidden">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 w-full flex-1 min-h-0 overflow-y-auto lg:overflow-hidden pb-4 lg:pb-0">
                 
                 {/* ---------------------------------------------------- */}
                 {/* WINDOW 1: MAIN EXAMS (12) (Left 4 cols)             */}
                 {/* ---------------------------------------------------- */}
-                <div className="lg:col-span-4 flex flex-col gap-1.5 min-h-0 overflow-hidden bg-white/70 border border-gray-200 rounded-md p-2">
-                  {/* Header 1 */}
-                  <div className="flex items-center justify-between px-0.5 shrink-0">
+                <div className="lg:col-span-4 flex flex-col min-h-[240px] lg:min-h-0 max-h-[320px] lg:max-h-none overflow-hidden bg-white border-2 border-indigo-100/90 rounded-xl p-2.5 shadow-xs">
+                  {/* Header 1: Indigo Accent */}
+                  <div className="flex items-center justify-between px-1 py-1 mb-1.5 bg-indigo-50/70 border border-indigo-100 rounded-lg shrink-0">
                     <div className="flex items-center gap-1.5 min-w-0">
-                      <span className="w-4 h-4 rounded-full bg-[#E4572E] text-white text-[10px] font-bold flex items-center justify-center shrink-0">
+                      <span className="w-5 h-5 rounded-full bg-indigo-600 text-white text-[11px] font-black flex items-center justify-center shrink-0 shadow-xs">
                         1
                       </span>
-                      <span className="text-xs font-bold text-gray-800 uppercase tracking-wider truncate">
+                      <span className="text-xs font-black text-indigo-950 uppercase tracking-wider truncate">
                         Main Exam ({categoriesWithData.length})
                       </span>
                     </div>
 
                     {/* Quick Search */}
-                    <div className="flex items-center bg-white border border-gray-200 rounded px-1.5 py-0.5 w-28 sm:w-32 shrink-0">
-                      <Search className="w-3 h-3 text-gray-400 mr-1 shrink-0" />
+                    <div className="flex items-center bg-white border border-indigo-200 rounded px-1.5 py-0.5 w-28 sm:w-32 shrink-0">
+                      <Search className="w-3 h-3 text-indigo-400 mr-1 shrink-0" />
                       <input
                         type="text"
                         placeholder="Search..."
@@ -726,7 +726,7 @@ const PracticePYQSection = () => {
                   </div>
 
                   {/* Categories Cards List */}
-                  <div className="space-y-1 flex-1 overflow-y-auto pr-1 min-h-0">
+                  <div className="space-y-1.5 flex-1 overflow-y-auto pr-1 min-h-0">
                     {filteredCategories.map((cat) => {
                       const isSelected = selectedCategoryId === cat.id
                       const paperWord = cat.totalPapers === 1 ? '1 Paper' : `${cat.totalPapers} Papers`
@@ -736,10 +736,10 @@ const PracticePYQSection = () => {
                         <div
                           key={cat.id}
                           onClick={() => handleSelectCategory(cat)}
-                          className={`px-2 py-1.5 rounded cursor-pointer border transition-all flex items-center justify-between gap-1.5 ${
+                          className={`px-2.5 py-2 rounded-lg cursor-pointer border transition-all flex items-center justify-between gap-1.5 ${
                             isSelected
-                              ? 'bg-white shadow-sm border-l-4'
-                              : 'bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50 text-gray-800'
+                              ? 'bg-indigo-50/90 shadow-xs border-l-4 font-bold'
+                              : 'bg-white border-gray-200 hover:border-indigo-300 hover:bg-indigo-50/30 text-gray-800'
                           }`}
                           style={{
                             borderLeftColor: isSelected ? cat.color : undefined,
@@ -750,7 +750,7 @@ const PracticePYQSection = () => {
                           <div className="flex items-center gap-1.5 min-w-0 flex-1">
                             {/* Pinecone Name Badge */}
                             <span
-                              className="px-1.5 py-0.5 rounded text-[10px] font-extrabold tracking-wide uppercase shrink-0 border"
+                              className="px-1.5 py-0.5 rounded text-[10px] font-black tracking-wide uppercase shrink-0 border"
                               style={{
                                 backgroundColor: cat.bgColor,
                                 borderColor: cat.borderColor,
@@ -779,25 +779,25 @@ const PracticePYQSection = () => {
                 {/* ---------------------------------------------------- */}
                 {/* WINDOW 2: SELECT EXAMS (Middle 4 cols)               */}
                 {/* ---------------------------------------------------- */}
-                <div className="lg:col-span-4 flex flex-col gap-1.5 min-h-0 overflow-hidden bg-white/70 border border-gray-200 rounded-md p-2">
-                  {/* Header 2 */}
-                  <div className="flex items-center justify-between px-0.5 shrink-0">
+                <div className="lg:col-span-4 flex flex-col min-h-[240px] lg:min-h-0 max-h-[320px] lg:max-h-none overflow-hidden bg-white border-2 border-purple-100/90 rounded-xl p-2.5 shadow-xs">
+                  {/* Header 2: Purple Accent */}
+                  <div className="flex items-center justify-between px-1 py-1 mb-1.5 bg-purple-50/70 border border-purple-100 rounded-lg shrink-0">
                     <div className="flex items-center gap-1.5 min-w-0">
-                      <span className="w-4 h-4 rounded-full bg-[#E4572E] text-white text-[10px] font-bold flex items-center justify-center shrink-0">
+                      <span className="w-5 h-5 rounded-full bg-purple-600 text-white text-[11px] font-black flex items-center justify-center shrink-0 shadow-xs">
                         2
                       </span>
-                      <span className="text-xs font-bold text-gray-800 uppercase tracking-wider truncate">
+                      <span className="text-xs font-black text-purple-950 uppercase tracking-wider truncate">
                         Select Exam
                       </span>
                     </div>
 
-                    <span className="text-[11px] font-medium text-gray-500 truncate shrink-0">
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-100 text-purple-700 truncate shrink-0">
                       {examsInSelectedCategory.length} in {currentCategory?.badge || 'Category'}
                     </span>
                   </div>
 
                   {/* Sub-Exams Cards List */}
-                  <div className="space-y-1 flex-1 overflow-y-auto pr-1 min-h-0">
+                  <div className="space-y-1.5 flex-1 overflow-y-auto pr-1 min-h-0">
                     {examsInSelectedCategory.length === 0 ? (
                       <div className="p-4 text-center text-xs text-gray-500">
                         No sub-exams found for this category.
@@ -815,17 +815,17 @@ const PracticePYQSection = () => {
                           <div
                             key={exam.exam_id}
                             onClick={() => handleSelectExam(exam)}
-                            className={`px-3 py-2 rounded cursor-pointer border transition-all flex items-center justify-between gap-2 ${
+                            className={`px-3 py-2 rounded-lg cursor-pointer border transition-all flex items-center justify-between gap-2 ${
                               isSelected
-                                ? 'bg-orange-50/80 border-[#E4572E] text-[#E4572E] font-bold shadow-sm'
-                                : 'bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50 text-gray-800'
+                                ? 'bg-purple-50/90 border-purple-500 text-purple-900 font-bold shadow-xs border-l-4'
+                                : 'bg-white border-gray-200 hover:border-purple-300 hover:bg-purple-50/30 text-gray-800'
                             }`}
                           >
                             <span className="text-xs font-semibold truncate">
                               {labelText}
                             </span>
 
-                            <ChevronRight className={`w-3.5 h-3.5 shrink-0 ${isSelected ? 'text-[#E4572E]' : 'text-gray-400'}`} />
+                            <ChevronRight className={`w-3.5 h-3.5 shrink-0 ${isSelected ? 'text-purple-600' : 'text-gray-400'}`} />
                           </div>
                         )
                       })
@@ -836,26 +836,26 @@ const PracticePYQSection = () => {
                 {/* ---------------------------------------------------- */}
                 {/* WINDOW 3: SELECT YEAR / PAPER (Right 4 cols)         */}
                 {/* ---------------------------------------------------- */}
-                <div className="lg:col-span-4 flex flex-col gap-1.5 min-h-0 overflow-hidden bg-white/70 border border-gray-200 rounded-md p-2">
-                  {/* Header 3 */}
-                  <div className="flex items-center justify-between px-0.5 shrink-0">
+                <div className="lg:col-span-4 flex flex-col min-h-[260px] lg:min-h-0 max-h-[360px] lg:max-h-none overflow-hidden bg-white border-2 border-orange-200/90 rounded-xl p-2.5 shadow-xs">
+                  {/* Header 3: Warm Orange Accent */}
+                  <div className="flex items-center justify-between px-1 py-1 mb-1.5 bg-orange-50/70 border border-orange-100 rounded-lg shrink-0">
                     <div className="flex items-center gap-1.5 min-w-0">
-                      <span className="w-4 h-4 rounded-full bg-[#E4572E] text-white text-[10px] font-bold flex items-center justify-center shrink-0">
+                      <span className="w-5 h-5 rounded-full bg-[#E4572E] text-white text-[11px] font-black flex items-center justify-center shrink-0 shadow-xs">
                         3
                       </span>
-                      <span className="text-xs font-bold text-gray-800 uppercase tracking-wider truncate">
-                        Select Year ({selectedExamObj?.exam_id})
+                      <span className="text-xs font-black text-orange-950 uppercase tracking-wider truncate">
+                        Select Year ({selectedExamObj?.exam_id || 'Exam'})
                       </span>
                     </div>
 
-                    <span className="text-[11px] text-gray-500 font-medium shrink-0">
-                      {selectedExamObj?.years?.length || 0} Papers Available
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-orange-100 text-[#E4572E] shrink-0">
+                      {selectedExamObj?.years?.length || 0} Papers
                     </span>
                   </div>
 
                   {/* Papers Container */}
-                  <div className="bg-white border border-gray-200 rounded-md p-2 flex flex-col flex-1 min-h-0 overflow-hidden">
-                    <p className="text-[11px] font-semibold text-gray-600 mb-1.5 shrink-0">
+                  <div className="bg-slate-50/60 border border-orange-100 rounded-lg p-2 flex flex-col flex-1 min-h-0 overflow-hidden">
+                    <p className="text-[11px] font-bold text-gray-700 mb-1.5 shrink-0">
                       Click on a Year / Paper to select:
                     </p>
 
@@ -867,19 +867,19 @@ const PracticePYQSection = () => {
                           <button
                             key={yr.year_id}
                             onClick={() => setSelectedYearObj(yr)}
-                            className={`p-1.5 rounded text-left border transition-all flex flex-col justify-between h-[52px] ${
+                            className={`p-2 rounded-lg text-left border transition-all flex flex-col justify-between h-[54px] ${
                               isSelected
-                                ? 'bg-orange-50 border-[#E4572E] text-[#E4572E]'
-                                : 'bg-gray-50 hover:bg-gray-100 border-gray-200 text-gray-800'
+                                ? 'bg-orange-50 border-[#E4572E] text-[#E4572E] font-bold ring-2 ring-orange-400/40 shadow-xs'
+                                : 'bg-white hover:bg-orange-50/40 border-gray-200 text-gray-800'
                             }`}
                           >
                             <div className="flex items-center gap-1">
-                              <Calendar className="w-3 h-3 shrink-0 opacity-60" />
+                              <Calendar className="w-3.5 h-3.5 shrink-0 opacity-70" />
                               <span className="text-xs font-bold truncate leading-tight">
                                 {yr.label}
                               </span>
                             </div>
-                            <span className="text-[10px] opacity-70 font-medium">
+                            <span className="text-[10px] opacity-75 font-semibold">
                               {yr.question_count} Qs
                             </span>
                           </button>
@@ -888,20 +888,20 @@ const PracticePYQSection = () => {
                     </div>
 
                     {/* Start Practice Bottom Bar */}
-                    <div className="mt-2 pt-2 border-t border-gray-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5 shrink-0">
+                    <div className="mt-2 pt-2 border-t border-orange-100 bg-white -mx-2 -mb-2 p-2 rounded-b-lg flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 shrink-0">
                       <div className="min-w-0">
-                        <p className="text-xs font-bold text-gray-800 truncate">
+                        <p className="text-xs font-black text-gray-900 truncate">
                           {selectedExamObj?.exam_name}
                         </p>
-                        <p className="text-[10px] text-gray-500 truncate">
-                          Paper: {selectedYearObj?.label} ({selectedYearObj?.question_count || 0} Questions)
+                        <p className="text-[11px] text-gray-500 truncate">
+                          Paper: <span className="font-semibold text-gray-700">{selectedYearObj?.label}</span> ({selectedYearObj?.question_count || 0} Questions)
                         </p>
                       </div>
 
                       <button
                         onClick={() => startPracticePaper(selectedExamObj, selectedYearObj)}
                         disabled={!selectedExamObj || !selectedYearObj}
-                        className="px-3 py-1.5 bg-[#E4572E] hover:bg-[#c8431e] text-white text-xs font-bold rounded shadow-sm flex items-center justify-center gap-1.5 shrink-0 transition-colors disabled:opacity-50"
+                        className="w-full sm:w-auto px-4 py-2 bg-[#E4572E] hover:bg-[#c8431e] text-white text-xs font-black rounded-lg shadow-sm flex items-center justify-center gap-1.5 shrink-0 transition-all active:scale-95 disabled:opacity-40"
                       >
                         <Target className="w-3.5 h-3.5" />
                         <span>Start Practice</span>

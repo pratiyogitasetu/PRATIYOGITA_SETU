@@ -637,27 +637,7 @@ const Dashboard = ({ onClose }) => {
                   </span>
                 </div>
 
-                {/* 4 Detailed Metric Pills */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 mb-2">
-                  <div className="bg-[#27272e] border border-white/10 rounded-lg p-2 text-center">
-                    <p className="text-[10px] text-purple-300 font-medium">Total Attempted</p>
-                    <p className="text-base sm:text-lg font-extrabold text-white mt-0.5">{stats.totalMcqAttempted || 0}</p>
-                  </div>
-                  <div className="bg-[#27272e] border border-white/10 rounded-lg p-2 text-center">
-                    <p className="text-[10px] text-emerald-400 font-medium">Correct</p>
-                    <p className="text-base sm:text-lg font-extrabold text-emerald-400 mt-0.5">{stats.mcqCorrect || 0}</p>
-                  </div>
-                  <div className="bg-[#27272e] border border-white/10 rounded-lg p-2 text-center">
-                    <p className="text-[10px] text-rose-400 font-medium">Wrong</p>
-                    <p className="text-base sm:text-lg font-extrabold text-rose-400 mt-0.5">{stats.mcqWrong || 0}</p>
-                  </div>
-                  <div className="bg-[#27272e] border border-white/10 rounded-lg p-2 text-center">
-                    <p className="text-[10px] text-orange-400 font-medium">Overall Accuracy</p>
-                    <p className="text-base sm:text-lg font-extrabold text-[#ea580c] mt-0.5">{stats.mcqAccuracy || 0}%</p>
-                  </div>
-                </div>
-
-                {/* Visual Proportion Bar or Empty State Message */}
+                {/* Visual Proportion Bar & Accuracy Analytics */}
                 <div className="flex-1 flex flex-col justify-center">
                   {stats.totalMcqAttempted > 0 ? (
                     <div className="bg-[#27272e] border border-white/10 rounded-lg p-2.5">
@@ -694,6 +674,26 @@ const Dashboard = ({ onClose }) => {
                 </div>
               </div>
 
+            </div>
+
+            {/* Subject Analysis - Expandable */}
+            <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+              <SectionHeader 
+                title="Subject-wise Analysis"
+                icon={BarChart3}
+                isExpanded={expandedSections.subjectAnalysis}
+                onToggle={() => toggleSection('subjectAnalysis')}
+                badge={`${subjectWiseQuestions.length} subjects`}
+              />
+              {expandedSections.subjectAnalysis && (
+                <div className="p-4">
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+                    {subjectWiseQuestions.map((subject, index) => (
+                      <SubjectCard key={index} subject={subject} />
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Year-Wise PYQ Practice Breakdown - Expandable */}
@@ -826,26 +826,6 @@ const Dashboard = ({ onClose }) => {
                       </p>
                     </div>
                   )}
-                </div>
-              )}
-            </div>
-
-            {/* Subject Analysis - Expandable */}
-            <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-              <SectionHeader 
-                title="Subject-wise Analysis"
-                icon={BarChart3}
-                isExpanded={expandedSections.subjectAnalysis}
-                onToggle={() => toggleSection('subjectAnalysis')}
-                badge={`${subjectWiseQuestions.length} subjects`}
-              />
-              {expandedSections.subjectAnalysis && (
-                <div className="p-4">
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-                    {subjectWiseQuestions.map((subject, index) => (
-                      <SubjectCard key={index} subject={subject} />
-                    ))}
-                  </div>
                 </div>
               )}
             </div>
