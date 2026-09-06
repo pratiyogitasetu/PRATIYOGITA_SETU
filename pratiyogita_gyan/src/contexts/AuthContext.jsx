@@ -409,10 +409,14 @@ export function AuthProvider({ children }) {
     }
   }
 
-// Helper to clean undefined values and prepare objects for Firestore
+// Helper to clean undefined values, NaN, and prepare objects for Firestore
 function sanitizeForFirestore(obj) {
   if (obj === undefined) return null;
-  if (obj === null || typeof obj !== 'object') return obj;
+  if (obj === null) return null;
+  if (typeof obj === 'number') {
+    return Number.isNaN(obj) || !Number.isFinite(obj) ? 0 : obj;
+  }
+  if (typeof obj !== 'object') return obj;
   if (obj instanceof Date) return obj;
   if (obj._methodName || (obj.constructor && obj.constructor.name === 'FieldValue')) return obj;
 
@@ -1172,8 +1176,7 @@ function sanitizeForFirestore(obj) {
       // First delete all messages in the chat
       const messagesQuery = query(
         collection(db, 'messages'),
-        where('chatId', '==', chatId),
-        where('userId', '==', currentUser.uid)
+        where('chatId', '==', chatId)
       );
       
       const messagesSnapshot = await getDocs(messagesQuery);
@@ -1460,13 +1463,13 @@ function sanitizeForFirestore(obj) {
         if (Array.isArray(guestChats) && guestChats.length > 0) {
           console.log(`⏳ Migrating ${guestChats.length} guest chats to Firebase...`);
           for (const chat of guestChats) {
-            // Create chat document in 'chats' collection
+            const userMsgCount = (chat.messages || []).filter(m => m.type === 'user').length;
             const chatRef = await addDoc(collection(db, 'chats'), {
               title: chat.title || 'New Chat',
               userId: uid,
               createdAt: chat.createdAt ? new Date(chat.createdAt) : serverTimestamp(),
               lastUpdatedAt: chat.updatedAt ? new Date(chat.updatedAt) : serverTimestamp(),
-              messageCount: chat.messageCount || (chat.messages || []).length
+              messageCount: chat.messageCount || userMsgCount
             });
 
             // Create message documents in 'messages' collection
@@ -1474,6 +1477,7 @@ function sanitizeForFirestore(obj) {
               for (const msg of chat.messages) {
                 await addDoc(collection(db, 'messages'), {
                   chatId: chatRef.id,
+                  userId: uid,
                   content: msg.content || '',
                   type: msg.type || 'user', // 'user' or 'bot'
                   senderId: msg.type === 'user' ? uid : 'bot',

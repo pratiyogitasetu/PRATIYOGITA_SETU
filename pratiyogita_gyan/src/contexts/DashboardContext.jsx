@@ -379,6 +379,8 @@ export const DashboardProvider = ({ children }) => {
       // Recalculate accuracy if MCQ data is updated
       if (mergedStats.totalMcqAttempted > 0) {
         mergedStats.mcqAccuracy = Math.round((mergedStats.mcqCorrect / mergedStats.totalMcqAttempted) * 100);
+      } else {
+        mergedStats.mcqAccuracy = 0;
       }
 
       // Save to Firebase
