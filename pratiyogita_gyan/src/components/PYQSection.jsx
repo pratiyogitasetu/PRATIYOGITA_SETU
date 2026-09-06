@@ -757,6 +757,22 @@ const PYQSection = () => {
       ...(rawId ? { [rawId]: optionIndex } : {})
     }))
 
+    // Keep active question lists in sync with selected option
+    setSearchResults(prev => prev.map((q, idx) => {
+      const match = (q.id && String(q.id) === String(questionId)) ||
+        getStableQuestionId(q, idx) === questionId ||
+        q._id === questionId ||
+        (safeKey && makeSafeFirestoreKey(getStableQuestionId(q, idx)) === safeKey)
+      return match ? { ...q, selectedOption: optionIndex, userAnswer: optionIndex } : q
+    }))
+    setFilteredQuestions(prev => prev.map((q, idx) => {
+      const match = (q.id && String(q.id) === String(questionId)) ||
+        getStableQuestionId(q, idx) === questionId ||
+        q._id === questionId ||
+        (safeKey && makeSafeFirestoreKey(getStableQuestionId(q, idx)) === safeKey)
+      return match ? { ...q, selectedOption: optionIndex, userAnswer: optionIndex } : q
+    }))
+
     // Save answer to localStorage immediately
     try {
       const storedAnswers = JSON.parse(localStorage.getItem('pyq_user_answers') || '{}')
@@ -1023,35 +1039,53 @@ const PYQSection = () => {
 
 
   const progressStats = useMemo(() => {
-    if (currentQuestions.length === 0 || Object.keys(userAnswers).length === 0) {
+    if (!currentQuestions || currentQuestions.length === 0) {
       return { correct: 0, wrong: 0, answered: 0 }
     }
 
     let correct = 0
     let wrong = 0
+    let answered = 0
 
     currentQuestions.forEach((q, idx) => {
-      const questionId = q.id || `fallback_${idx}`
-      const userAnswer = userAnswers[questionId]
-      const hasValidCorrectAnswer =
-        q.correct_answer !== undefined &&
-        Number.isInteger(q.correct_answer) &&
-        q.correct_answer >= 0 &&
-        q.correct_answer < (q.options?.length || 0)
+      const questionId = getStableQuestionId(q, idx)
+      const safeKey = makeSafeFirestoreKey(questionId)
+      const rawId = (q?.id || q?._id) ? String(q.id || q._id) : null
+      const safeRawId = rawId ? makeSafeFirestoreKey(rawId) : null
 
-      if (!hasValidCorrectAnswer || userAnswer === undefined) return
+      const userAnswer = userAnswers[questionId] !== undefined
+        ? userAnswers[questionId]
+        : (userAnswers[safeKey] !== undefined
+            ? userAnswers[safeKey]
+            : (rawId && userAnswers[rawId] !== undefined
+                ? userAnswers[rawId]
+                : (safeRawId && userAnswers[safeRawId] !== undefined
+                    ? userAnswers[safeRawId]
+                    : (q.selectedOption !== undefined ? q.selectedOption : q.userAnswer))))
 
-      if (userAnswer === q.correct_answer) {
-        correct++
-      } else {
-        wrong++
+      const hasAnswered = userAnswer !== undefined && userAnswer !== null
+      if (hasAnswered) {
+        answered++
+        const hasValidCorrectAnswer =
+          q.correct_answer !== undefined &&
+          Number.isInteger(q.correct_answer) &&
+          q.correct_answer >= 0 &&
+          q.correct_answer < (q.options?.length || 0)
+
+        if (hasValidCorrectAnswer) {
+          if (userAnswer === q.correct_answer) {
+            correct++
+          } else {
+            wrong++
+          }
+        }
       }
     })
 
     return {
       correct,
       wrong,
-      answered: Object.keys(userAnswers).length
+      answered
     }
   }, [currentQuestions, userAnswers])
 

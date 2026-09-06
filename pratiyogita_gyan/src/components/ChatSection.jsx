@@ -570,7 +570,7 @@ const ChatSection = () => {
   const isDarkMode = theme?.mode === 'dark'
   const { contentOffsetLeft, pyqVisible, togglePyq, isMobile, mobileActiveTab } = useLayout()
   const { addToSearchHistory, addGuestChat, updateGuestChat, guestChatHistory } = useSearchHistory()
-  const { currentUser, createNewChat, saveMessage, getChatMessages, updateChatTitle, updateChatMessageCount, getChatHistory } = useAuth()
+  const { currentUser, createNewChat, saveMessage, updateMessagePyqs, getChatMessages, updateChatTitle, updateChatMessageCount, getChatHistory } = useAuth()
   const { trackInteraction } = useDashboard()
   const scrollContainerRef = useRef(null)
   const scrollStateRef = useRef({ scrollTop: 0, scrollHeight: 0, isAtTop: true })
@@ -580,6 +580,10 @@ const ChatSection = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [systemStatus, setSystemStatus] = useState({ initialized: false, healthy: false })
   const [currentChatId, setCurrentChatId] = useState(null)
+  const currentChatIdRef = useRef(null)
+  useEffect(() => {
+    currentChatIdRef.current = currentChatId
+  }, [currentChatId])
   const [currentChatTitle, setCurrentChatTitle] = useState('New Chat')
   const [rateLimitMessage] = useState('')
   const [expandedSources, setExpandedSources] = useState({}) // Track expanded sources for each message
@@ -634,24 +638,27 @@ const ChatSection = () => {
     checkHealth()
   }, [])
 
-  // Progressive UI feedback during AI response (non-blocking)
+  // Auto-scroll to bottom only during active bot responses or initial load
+  useEffect(() => {
+    if (isLoading && scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({
+        top: scrollContainerRef.current.scrollHeight,
+        behavior: 'smooth'
+      })
+    }
+  }, [messages, isLoading])
+
+  // Step-by-step loading animation
   useEffect(() => {
     if (!isLoading) {
       setCurrentStepIndex(0)
       return
     }
 
-    setCurrentStepIndex(0)
     const timeouts = [
-      setTimeout(() => {
-        setCurrentStepIndex(1)
-      }, 900),
-      setTimeout(() => {
-        setCurrentStepIndex(2)
-      }, 1800),
-      setTimeout(() => {
-        setCurrentStepIndex(3)
-      }, 2700)
+      setTimeout(() => setCurrentStepIndex(1), 1000),
+      setTimeout(() => setCurrentStepIndex(2), 2500),
+      setTimeout(() => setCurrentStepIndex(3), 4000)
     ]
 
     return () => {
@@ -668,6 +675,8 @@ const ChatSection = () => {
       const qTargetId = String(question?.id || questionId || '')
       const qTargetText = String(question?.question || question?.text || '').trim().slice(0, 60)
 
+      const changedMessages = []
+
       setMessages(prevMessages => {
         let changed = false
         const updated = prevMessages.map(msg => {
@@ -681,12 +690,31 @@ const ChatSection = () => {
               }
               return q
             })
-            if (changed) return { ...msg, related_pyqs: newPyqs }
+            if (changed) {
+              if (msg.id) changedMessages.push({ id: msg.id, newPyqs })
+              return { ...msg, related_pyqs: newPyqs }
+            }
           }
           return msg
         })
+
+        const activeId = currentChatIdRef.current
+        if (changed && activeId && (!currentUser || String(activeId).startsWith('guest-'))) {
+          try {
+            updateGuestChat(activeId, { messages: updated })
+          } catch (err) {
+            console.warn('Failed to update guest chat answers:', err)
+          }
+        }
+
         return changed ? updated : prevMessages
       })
+
+      if (currentUser && updateMessagePyqs) {
+        changedMessages.forEach(({ id, newPyqs }) => {
+          updateMessagePyqs(id, newPyqs)
+        })
+      }
 
       if (currentQueryPyqsRef.current) {
         currentQueryPyqsRef.current = currentQueryPyqsRef.current.map(q => {
@@ -702,7 +730,7 @@ const ChatSection = () => {
 
     window.addEventListener('pyqAnswerUpdated', handlePyqAnswer)
     return () => window.removeEventListener('pyqAnswerUpdated', handlePyqAnswer)
-  }, [])
+  }, [currentUser, updateMessagePyqs, updateGuestChat])
 
   // Listen for chat events from Sidebar
   useEffect(() => {

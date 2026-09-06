@@ -459,6 +459,20 @@ function sanitizeForFirestore(obj) {
     }
   }
 
+  // Update a message's related_pyqs when an answer is selected
+  async function updateMessagePyqs(messageId, relatedPyqs) {
+    if (!currentUser || !messageId) return;
+    try {
+      const cleanPyqs = sanitizeForFirestore(relatedPyqs);
+      await updateDoc(doc(db, 'messages', messageId), {
+        related_pyqs: cleanPyqs
+      });
+      console.log('✅ Updated message PYQs in Firestore for messageId:', messageId);
+    } catch (error) {
+      console.warn('Failed to update message PYQs in Firestore:', error);
+    }
+  }
+
   // Get user's chat history
   async function getChatHistory() {
     if (!currentUser) {
@@ -1725,6 +1739,7 @@ function sanitizeForFirestore(obj) {
     logout,
     createNewChat,
     saveMessage,
+    updateMessagePyqs,
     getChatHistory,
     getChatMessages,
     updateUserStats,
