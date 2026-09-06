@@ -1065,6 +1065,16 @@ const ChatSection = () => {
       return newMessages
     })
 
+    // Immediately track question asked for Dashboard stats
+    try {
+      trackInteraction('question', {
+        subject: selectedSubject || 'Others',
+        query: query
+      })
+    } catch (trackErr) {
+      console.warn('Could not track question interaction:', trackErr)
+    }
+
     // Save user message to Firebase for authenticated users
     if (currentUser && activeChatId) {
       try {
@@ -1155,13 +1165,6 @@ const ChatSection = () => {
 
       // Track successful search interaction
       trackInteraction('search', {
-        subject: selectedSubject,
-        query: query,
-        hasResults: response.rag_response ? true : false
-      })
-
-      // Track question asked
-      trackInteraction('question', {
         subject: selectedSubject,
         query: query,
         hasResults: response.rag_response ? true : false

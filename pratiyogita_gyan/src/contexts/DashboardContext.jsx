@@ -272,85 +272,92 @@ export const DashboardProvider = ({ children }) => {
 
       const shouldUpdateSubjectStats = ['question', 'mcq_attempt', 'mcq_correct', 'mcq_wrong'].includes(type);
 
-      // 1. Calculate new global stats immediately
-      const currentStats = dashboardData.stats || {
-        totalChats: 0,
-        totalQuestions: 0,
-        totalMcqAttempted: 0,
-        mcqCorrect: 0,
-        mcqWrong: 0,
-        mcqAccuracy: 0
-      };
-      let newStats = { ...currentStats };
+      let computedNewStats = null;
+      let computedUpdatedSubjects = null;
 
-      switch (type) {
-        case 'chat':
-          newStats.totalChats = (currentStats.totalChats || 0) + 1;
-          break;
-        case 'question':
-          newStats.totalQuestions = (currentStats.totalQuestions || 0) + 1;
-          break;
-        case 'mcq_attempt':
-          newStats.totalMcqAttempted = (currentStats.totalMcqAttempted || 0) + 1;
-          break;
-        case 'mcq_correct':
-          newStats.mcqCorrect = (currentStats.mcqCorrect || 0) + 1;
-          newStats.totalMcqAttempted = (currentStats.totalMcqAttempted || 0) + 1;
-          break;
-        case 'mcq_wrong':
-          newStats.mcqWrong = (currentStats.mcqWrong || 0) + 1;
-          newStats.totalMcqAttempted = (currentStats.totalMcqAttempted || 0) + 1;
-          break;
-      }
+      // 1. Calculate new global stats atomically from latest state
+      setDashboardData(prev => {
+        const currentStats = prev.stats || {
+          totalChats: 0,
+          totalQuestions: 0,
+          totalMcqAttempted: 0,
+          mcqCorrect: 0,
+          mcqWrong: 0,
+          mcqAccuracy: 0
+        };
+        const newStats = { ...currentStats };
 
-      // Recalculate accuracy
-      if (newStats.totalMcqAttempted > 0) {
-        newStats.mcqAccuracy = Math.round((newStats.mcqCorrect / newStats.totalMcqAttempted) * 100);
-      }
-
-      // 2. Update subject-wise stats immediately
-      const currentSubjects = (dashboardData.subjectStats && dashboardData.subjectStats.length > 0)
-        ? dashboardData.subjectStats
-        : getDefaultSubjects();
-      const normSubject = normalizeSubjectName(subject);
-      const updatedSubjects = currentSubjects.map(s => {
-        if (s.name === normSubject || (normSubject === 'Others' && s.name === 'Others')) {
-          const sQ = Number(s.questions || 0) + (type === 'question' ? 1 : 0);
-          const sAtt = Number(s.mcqAttempted || 0) + (['mcq_attempt', 'mcq_correct', 'mcq_wrong'].includes(type) ? 1 : 0);
-          const sCorr = Number(s.mcqCorrect || 0) + (type === 'mcq_correct' ? 1 : 0);
-          const sWrong = Math.max(0, sAtt - sCorr);
-          return { ...s, questions: sQ, mcqAttempted: sAtt, mcqCorrect: sCorr, mcqWrong: sWrong };
+        switch (type) {
+          case 'chat':
+            newStats.totalChats = (Number(currentStats.totalChats) || 0) + 1;
+            break;
+          case 'question':
+            newStats.totalQuestions = (Number(currentStats.totalQuestions) || 0) + 1;
+            break;
+          case 'mcq_attempt':
+            newStats.totalMcqAttempted = (Number(currentStats.totalMcqAttempted) || 0) + 1;
+            break;
+          case 'mcq_correct':
+            newStats.mcqCorrect = (Number(currentStats.mcqCorrect) || 0) + 1;
+            newStats.totalMcqAttempted = (Number(currentStats.totalMcqAttempted) || 0) + 1;
+            break;
+          case 'mcq_wrong':
+            newStats.mcqWrong = (Number(currentStats.mcqWrong) || 0) + 1;
+            newStats.totalMcqAttempted = (Number(currentStats.totalMcqAttempted) || 0) + 1;
+            break;
         }
-        return s;
+
+        // Recalculate accuracy
+        if (newStats.totalMcqAttempted > 0) {
+          newStats.mcqAccuracy = Math.round((newStats.mcqCorrect / newStats.totalMcqAttempted) * 100);
+        }
+
+        // 2. Update subject-wise stats atomically
+        const currentSubjects = (prev.subjectStats && prev.subjectStats.length > 0)
+          ? prev.subjectStats
+          : getDefaultSubjects();
+        const normSubject = normalizeSubjectName(subject);
+        const updatedSubjects = currentSubjects.map(s => {
+          if (s.name === normSubject || (normSubject === 'Others' && s.name === 'Others')) {
+            const sQ = Number(s.questions || 0) + (type === 'question' ? 1 : 0);
+            const sAtt = Number(s.mcqAttempted || 0) + (['mcq_attempt', 'mcq_correct', 'mcq_wrong'].includes(type) ? 1 : 0);
+            const sCorr = Number(s.mcqCorrect || 0) + (type === 'mcq_correct' ? 1 : 0);
+            const sWrong = Math.max(0, sAtt - sCorr);
+            return { ...s, questions: sQ, mcqAttempted: sAtt, mcqCorrect: sCorr, mcqWrong: sWrong };
+          }
+          return s;
+        });
+
+        computedNewStats = newStats;
+        computedUpdatedSubjects = updatedSubjects;
+
+        // Save to localStorage immediately
+        try {
+          localStorage.setItem('dashboard_stats', JSON.stringify(newStats));
+          localStorage.setItem('dashboard_subject_stats', JSON.stringify(updatedSubjects));
+        } catch (e) {}
+
+        return {
+          ...prev,
+          stats: newStats,
+          subjectStats: updatedSubjects
+        };
       });
 
-      // 3. Immediately update in-memory React state for instant UI update
-      setDashboardData(prev => ({
-        ...prev,
-        stats: newStats,
-        subjectStats: updatedSubjects
-      }));
-
-      // 4. Save to localStorage immediately
-      try {
-        localStorage.setItem('dashboard_stats', JSON.stringify(newStats));
-        localStorage.setItem('dashboard_subject_stats', JSON.stringify(updatedSubjects));
-      } catch (e) {}
-
-      // 5. If logged in with Firebase, sync asynchronously
-      if (currentUser) {
+      // 3. Sync to Firebase asynchronously with fresh computed values
+      if (currentUser && computedNewStats) {
         try {
           if (shouldUpdateSubjectStats) {
             await trackSubjectInteraction(subject, type, data);
           } else {
             await trackUserInteraction({ type, subject, ...data });
           }
-          await saveDashboardStats(newStats);
-          if (shouldUpdateSubjectStats) {
-            await saveSubjectStats(updatedSubjects);
+          await saveDashboardStats(computedNewStats);
+          if (shouldUpdateSubjectStats && computedUpdatedSubjects) {
+            await saveSubjectStats(computedUpdatedSubjects);
           }
         } catch (firebaseErr) {
-          console.warn('⚠️ Firebase sync delayed or error:', firebaseErr);
+          console.warn('⚠️ Firebase sync notice:', firebaseErr);
         }
       }
 

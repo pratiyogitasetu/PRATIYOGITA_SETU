@@ -409,23 +409,45 @@ export function AuthProvider({ children }) {
     }
   }
 
+// Helper to clean undefined values and prepare objects for Firestore
+function sanitizeForFirestore(obj) {
+  if (obj === undefined) return null;
+  if (obj === null || typeof obj !== 'object') return obj;
+  if (obj instanceof Date) return obj;
+  if (obj._methodName || (obj.constructor && obj.constructor.name === 'FieldValue')) return obj;
+
+  if (Array.isArray(obj)) {
+    return obj.map(item => sanitizeForFirestore(item)).filter(item => item !== undefined);
+  }
+
+  const sanitized = {};
+  for (const [key, value] of Object.entries(obj)) {
+    if (value !== undefined) {
+      sanitized[key] = sanitizeForFirestore(value);
+    }
+  }
+  return sanitized;
+}
+
   // Save message to chat
   async function saveMessage(chatId, message) {
     if (!currentUser) return null;
 
     try {
-      const messageData = {
+      const rawMessageData = {
         chatId: chatId,
         userId: currentUser.uid,
         type: message.type, // 'user' or 'bot'
-        content: message.content,
+        content: message.content || '',
         sources: message.sources || null,
         related_pyqs: message.related_pyqs || null,
         timestamp: serverTimestamp(),
         createdAt: new Date()
       };
 
-      const docRef = await addDoc(collection(db, 'messages'), messageData);
+      const cleanMessageData = sanitizeForFirestore(rawMessageData);
+      const docRef = await addDoc(collection(db, 'messages'), cleanMessageData);
+      console.log('✅ Message saved to Firebase with ID:', docRef.id);
       return docRef.id;
     } catch (error) {
       console.error('Error saving message:', error);
@@ -1296,17 +1318,37 @@ export function AuthProvider({ children }) {
   }
 
   // ===== User Practice Answers (Cross-device sync under users/{uid}) =====
-  async function saveUserPracticeAnswer(questionId, selectedOption) {
-    if (!currentUser || !questionId) return false;
+  async function saveUserPracticeAnswer(param1, param2) {
+    if (!currentUser) return false;
+
+    let questionId = null;
+    let selectedOption = null;
+    let isCorrect = null;
+    let extra = {};
+
+    if (param1 && typeof param1 === 'object') {
+      questionId = param1.questionId || param1.id;
+      selectedOption = param1.selectedOption;
+      isCorrect = param1.isCorrect;
+      extra = param1;
+    } else {
+      questionId = param1;
+      selectedOption = param2;
+    }
+
+    if (!questionId || selectedOption === undefined) return false;
 
     const safeKey = makeSafeFirestoreKey(questionId);
+    const answerPayload = isCorrect !== null && isCorrect !== undefined
+      ? { selectedOption, isCorrect, timestamp: Date.now() }
+      : selectedOption;
 
     try {
       // 1. Update users/{uid} document with practiceAnswers map
       const userRef = doc(db, 'users', currentUser.uid);
       await setDoc(userRef, {
         practiceAnswers: {
-          [safeKey]: selectedOption
+          [safeKey]: answerPayload
         },
         lastPracticeAt: serverTimestamp()
       }, { merge: true });
@@ -1314,12 +1356,16 @@ export function AuthProvider({ children }) {
       // 2. Also save into users/{uid}/practiceAnswers/{safeKey} subcollection for persistence
       try {
         const answerDocRef = doc(db, 'users', currentUser.uid, 'practiceAnswers', safeKey);
-        await setDoc(answerDocRef, {
+        const subcollData = sanitizeForFirestore({
           questionId: String(questionId),
           safeKey: safeKey,
           selectedOption: selectedOption,
+          isCorrect: isCorrect,
+          examName: extra.examName || null,
+          subject: extra.subject || null,
           updatedAt: serverTimestamp()
-        }, { merge: true });
+        });
+        await setDoc(answerDocRef, subcollData, { merge: true });
       } catch (subErr) {
         console.warn('Subcollection answer write notice:', subErr);
       }
