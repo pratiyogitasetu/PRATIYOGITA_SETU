@@ -3860,31 +3860,11 @@ def get_random_pyq_questions():
 def get_available_pyq_papers():
     """Returns available exams and years from Pinecone paper registry (with local fallback)."""
     try:
-        display_full_forms = {
-            'CDS': 'Combined Defence Services',
-            'AFCAT': 'Air Force Common Admission Test',
-            'NDA': 'National Defence Academy',
-            'CAPF': 'Central Armed Police Forces',
-            'SSC_CGL': 'Staff Selection Commission - CGL',
-            'UPSC': 'Civil Services Examination',
-            'RRB_NTPC': 'Non-Technical Popular Categories',
-            'SBI_PO': 'State Bank of India Probationary Officer',
-            'UPSI': 'UP Police Sub-Inspector',
-            'CTET': 'Central Teacher Eligibility Test',
-            'GATE': 'Graduate Aptitude Test in Engineering',
-            'CAT': 'Common Admission Test',
-            'CUET_UG': 'Common University Entrance Test (UG)',
-            'CUET_PG': 'Common University Entrance Test (PG)',
-            'DJS': 'Delhi Judicial Services'
-        }
-
         # Complete catalog of available PYQ papers matching the 12 Pinecone namespaces
         default_paper_catalog = [
             {
                 'category': 'DEFENCE_EXAMS',
                 'exam_id': 'CDS',
-                'full_form': display_full_forms['CDS'],
-                'exam_name': f"CDS ({display_full_forms['CDS']})",
                 'total_questions': 4080,
                 'years': [
                     {'year_id': '2026_1', 'label': '2026 (Paper 1)', 'question_count': 120},
@@ -3927,8 +3907,6 @@ def get_available_pyq_papers():
             {
                 'category': 'DEFENCE_EXAMS',
                 'exam_id': 'AFCAT',
-                'full_form': display_full_forms['AFCAT'],
-                'exam_name': f"AFCAT ({display_full_forms['AFCAT']})",
                 'total_questions': 10,
                 'years': [
                     {'year_id': '2024_1', 'label': '2024 (Paper 1)', 'question_count': 10}
@@ -3937,8 +3915,6 @@ def get_available_pyq_papers():
             {
                 'category': 'DEFENCE_EXAMS',
                 'exam_id': 'NDA',
-                'full_form': display_full_forms['NDA'],
-                'exam_name': f"NDA ({display_full_forms['NDA']})",
                 'total_questions': 10,
                 'years': [
                     {'year_id': '2024_1', 'label': '2024 (Paper 1)', 'question_count': 10}
@@ -3947,8 +3923,6 @@ def get_available_pyq_papers():
             {
                 'category': 'DEFENCE_EXAMS',
                 'exam_id': 'CAPF',
-                'full_form': display_full_forms['CAPF'],
-                'exam_name': f"CAPF ({display_full_forms['CAPF']})",
                 'total_questions': 10,
                 'years': [
                     {'year_id': '2024', 'label': '2024', 'question_count': 10}
@@ -3957,88 +3931,66 @@ def get_available_pyq_papers():
             {
                 'category': 'CIVIL_SERVICES_EXAMS',
                 'exam_id': 'UPSC',
-                'full_form': display_full_forms['UPSC'],
-                'exam_name': f"UPSC ({display_full_forms['UPSC']})",
                 'total_questions': 10,
                 'years': [{'year_id': '2023', 'label': '2023', 'question_count': 10}]
             },
             {
                 'category': 'BANKING_EXAMS',
                 'exam_id': 'SBI_PO',
-                'full_form': display_full_forms['SBI_PO'],
-                'exam_name': f"SBI_PO ({display_full_forms['SBI_PO']})",
                 'total_questions': 10,
                 'years': [{'year_id': '2023', 'label': '2023', 'question_count': 10}]
             },
             {
                 'category': 'SSC_EXAMS',
                 'exam_id': 'SSC_CGL',
-                'full_form': display_full_forms['SSC_CGL'],
-                'exam_name': f"SSC_CGL ({display_full_forms['SSC_CGL']})",
                 'total_questions': 10,
                 'years': [{'year_id': '2023', 'label': '2023', 'question_count': 10}]
             },
             {
                 'category': 'RAILWAY_EXAMS',
                 'exam_id': 'RRB_NTPC',
-                'full_form': display_full_forms['RRB_NTPC'],
-                'exam_name': f"RRB_NTPC ({display_full_forms['RRB_NTPC']})",
                 'total_questions': 10,
                 'years': [{'year_id': '2021', 'label': '2021', 'question_count': 10}]
             },
             {
                 'category': 'POLICE_EXAMS',
                 'exam_id': 'UPSI',
-                'full_form': display_full_forms['UPSI'],
-                'exam_name': f"UPSI ({display_full_forms['UPSI']})",
                 'total_questions': 10,
                 'years': [{'year_id': '2021', 'label': '2021', 'question_count': 10}]
             },
             {
                 'category': 'MBA_EXAMS',
                 'exam_id': 'CAT',
-                'full_form': display_full_forms['CAT'],
-                'exam_name': f"CAT ({display_full_forms['CAT']})",
                 'total_questions': 10,
                 'years': [{'year_id': '2023', 'label': '2023', 'question_count': 10}]
             },
             {
                 'category': 'CUET_AND_UG_ENTRANCE_EXAMS',
                 'exam_id': 'CUET_UG',
-                'full_form': display_full_forms['CUET_UG'],
-                'exam_name': f"CUET_UG ({display_full_forms['CUET_UG']})",
                 'total_questions': 10,
                 'years': [{'year_id': '2023', 'label': '2023', 'question_count': 10}]
             },
             {
                 'category': 'PG_EXAMS',
                 'exam_id': 'CUET_PG',
-                'full_form': display_full_forms['CUET_PG'],
-                'exam_name': f"CUET_PG ({display_full_forms['CUET_PG']})",
                 'total_questions': 10,
                 'years': [{'year_id': '2023', 'label': '2023', 'question_count': 10}]
             },
             {
                 'category': 'ENGINEERING_RECRUITING_EXAMS',
                 'exam_id': 'GATE',
-                'full_form': display_full_forms['GATE'],
-                'exam_name': f"GATE ({display_full_forms['GATE']})",
                 'total_questions': 10,
                 'years': [{'year_id': '2023', 'label': '2023', 'question_count': 10}]
             },
             {
                 'category': 'TEACHING_EXAMS',
                 'exam_id': 'CTET',
-                'full_form': display_full_forms['CTET'],
-                'exam_name': f"CTET ({display_full_forms['CTET']})",
                 'total_questions': 10,
                 'years': [{'year_id': '2023', 'label': '2023', 'question_count': 10}]
             },
             {
                 'category': 'JUDICIARY_EXAMS',
                 'exam_id': 'DJS',
-                'full_form': display_full_forms['DJS'],
-                'exam_name': f"DJS ({display_full_forms['DJS']})",
                 'total_questions': 10,
                 'years': [{'year_id': '2023', 'label': '2023', 'question_count': 10}]
             }
@@ -4072,12 +4024,9 @@ def get_available_pyq_papers():
                                         'label': label_str,
                                         'question_count': count
                                     })
-                            full_title = display_full_forms.get(exam_k, exam_k)
                             default_paper_catalog.append({
                                 'category': cat_k,
                                 'exam_id': exam_k,
-                                'full_form': full_title,
-                                'exam_name': f"{exam_k} ({full_title})" if full_title != exam_k else exam_k,
                                 'total_questions': total_q,
                                 'years': years_list
                             })
@@ -4094,6 +4043,20 @@ def get_available_pyq_papers():
     except Exception as e:
         app.logger.error(f"Error listing papers: {e}")
         return jsonify({'status': 'error', 'exams': [], 'error': str(e)}), 500
+
+
+ROMAN_NUMS_LIST = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X']
+
+def _get_pyq_term_val(term_str):
+    if not term_str:
+        return ''
+    try:
+        idx = int(str(term_str).strip()) - 1
+        if 0 <= idx < len(ROMAN_NUMS_LIST):
+            return ROMAN_NUMS_LIST[idx]
+    except Exception:
+        pass
+    return str(term_str).strip()
 
 
 @app.route("/api/pyq/paper-questions", methods=["POST"])
@@ -4158,9 +4121,10 @@ def get_paper_questions():
                 if '_' in year:
                     parts = year.split('_')
                     yr_val = parts[0]
-                    term_val = 'I' if parts[1] == '1' else 'II'
+                    term_num = parts[1]
+                    term_roman = _get_pyq_term_val(term_num)
                     filter_dict['exam_year'] = yr_val
-                    filter_dict['exam_term'] = term_val
+                    filter_dict['exam_term'] = {'$in': [term_roman, term_num]}
                 elif year:
                     filter_dict['exam_year'] = year
 
@@ -4168,7 +4132,7 @@ def get_paper_questions():
                 dim = 768
                 pc_res = target_idx.query(
                     vector=[0.0] * dim,
-                    top_k=200,
+                    top_k=500,
                     namespace=cat,
                     filter=filter_dict if filter_dict else None,
                     include_metadata=True
@@ -4304,7 +4268,8 @@ def get_paper_questions():
             'exam_id': exam_id,
             'year': year,
             'total': len(standardized),
-            'questions': standardized
+            'questions': standardized,
+            'raw_questions': raw_questions
         }), 200
 
     except Exception as e:
@@ -4482,6 +4447,315 @@ def generate_pyq_explanation():
     except Exception as e:
         app.logger.error(f"Error generating PYQ explanation: {str(e)}")
         return jsonify({'error': str(e)}), 500
+
+
+# ============================================================================
+# ADMIN PYQ MANAGEMENT APIS (LOCAL / OFFLINE CONTROL STUDIO)
+# ============================================================================
+
+@app.route("/api/admin/pyq/inventory", methods=["GET"])
+def get_admin_pyq_inventory():
+    """Returns complete index & namespace stats and paper catalog for Admin Studio."""
+    try:
+        # Get live paper catalog
+        papers_resp = get_available_pyq_papers()
+        catalog = []
+        if isinstance(papers_resp, tuple) and len(papers_resp) > 0:
+            catalog = papers_resp[0].get_json().get('exams', [])
+        elif hasattr(papers_resp, 'get_json'):
+            catalog = papers_resp.get_json().get('exams', [])
+
+        # Get stats across all 4 Pinecone indexes
+        index_stats = {}
+        total_vectors_all = 0
+        mcq_indexes = search_components.get('mcq_indexes', {})
+        pc_inst = None
+
+        for idx_name in ['pyq1', 'pyq2', 'pyq3', 'pyq4']:
+            idx_obj = mcq_indexes.get(idx_name)
+            if not idx_obj and os.getenv('PINECONE_API_KEY'):
+                if not pc_inst:
+                    try:
+                        pc_inst = Pinecone(api_key=os.getenv('PINECONE_API_KEY'))
+                    except Exception:
+                        pass
+                if pc_inst:
+                    try:
+                        idx_obj = pc_inst.Index(idx_name)
+                    except Exception:
+                        pass
+
+            if idx_obj:
+                try:
+                    st = idx_obj.describe_index_stats()
+                    ns_dict = {}
+                    if hasattr(st, 'namespaces') and st.namespaces:
+                        for ns_k, ns_v in st.namespaces.items():
+                            ns_dict[ns_k] = ns_v.get('vector_count', 0) if isinstance(ns_v, dict) else getattr(ns_v, 'vector_count', 0)
+                    cnt = getattr(st, 'total_vector_count', 0)
+                    total_vectors_all += cnt
+                    index_stats[idx_name] = {
+                        'ready': True,
+                        'total_vectors': cnt,
+                        'namespaces': ns_dict,
+                        'designated_namespaces': INDEX_NAMESPACE_MAP.get(idx_name, [])
+                    }
+                except Exception as ex:
+                    index_stats[idx_name] = {'ready': False, 'error': str(ex)}
+            else:
+                index_stats[idx_name] = {
+                    'ready': False,
+                    'designated_namespaces': INDEX_NAMESPACE_MAP.get(idx_name, [])
+                }
+
+        return jsonify({
+            'status': 'success',
+            'total_vectors_all': total_vectors_all,
+            'indexes': index_stats,
+            'catalog': catalog,
+            'categories': list(INDEX_NAMESPACE_MAP.keys()),
+            'namespace_map': INDEX_NAMESPACE_MAP
+        }), 200
+    except Exception as e:
+        app.logger.error(f"Error fetching admin inventory: {e}")
+        return jsonify({'status': 'error', 'error': str(e)}), 500
+
+
+@app.route("/api/admin/pyq/upload-paper", methods=["POST"])
+def admin_upload_paper():
+    """Uploads, embeds, and upserts a new PYQ paper into Pinecone + local sync."""
+    try:
+        data = request.get_json(silent=True) or {}
+        cat = str(data.get('category', '')).strip()
+        exam_id = str(data.get('exam_id', '')).strip().upper().replace(' ', '_')
+        exam_name = str(data.get('exam_name', '')).strip() or exam_id
+        year_id = str(data.get('year_id', '')).strip()
+        year_label = str(data.get('year_label', '')).strip() or year_id
+        questions = data.get('questions', [])
+
+        if not cat:
+            return jsonify({'status': 'error', 'error': 'Category is required (e.g. DEFENCE_EXAMS)'}), 400
+        if not exam_id:
+            return jsonify({'status': 'error', 'error': 'Exam ID is required (e.g. AFCAT)'}), 400
+        if not year_id:
+            return jsonify({'status': 'error', 'error': 'Year ID is required (e.g. 2024_1 or 2024)'}), 400
+        if not questions or not isinstance(questions, list):
+            return jsonify({'status': 'error', 'error': 'Questions list cannot be empty'}), 400
+
+        # Validate question items
+        for idx, q in enumerate(questions):
+            if not isinstance(q, dict) or not q.get('question'):
+                return jsonify({'status': 'error', 'error': f'Question #{idx+1} is missing question text'}), 400
+            if not q.get('options'):
+                return jsonify({'status': 'error', 'error': f'Question #{idx+1} is missing options'}), 400
+
+        # Find target Pinecone index
+        target_idx_name = None
+        for idx_k, ns_list in INDEX_NAMESPACE_MAP.items():
+            if cat in ns_list:
+                target_idx_name = idx_k
+                break
+        if not target_idx_name:
+            target_idx_name = 'pyq1'
+
+        mcq_indexes = search_components.get('mcq_indexes', {})
+        target_idx = mcq_indexes.get(target_idx_name)
+        if not target_idx and os.getenv('PINECONE_API_KEY'):
+            pc = Pinecone(api_key=os.getenv('PINECONE_API_KEY'))
+            target_idx = pc.Index(target_idx_name)
+
+        if not target_idx:
+            return jsonify({'status': 'error', 'error': f'Pinecone index {target_idx_name} not accessible'}), 500
+
+        # Parse year and term
+        if '_' in year_id:
+            parts = year_id.split('_')
+            exam_yr = parts[0]
+            exam_term = _get_pyq_term_val(parts[1])
+        else:
+            exam_yr = year_id
+            exam_term = ''
+
+        # Prepare texts for embedding
+        def _get_q_text(q):
+            parts = [f"Question: {q.get('question', '')}"]
+            opts = q.get('options', {})
+            if isinstance(opts, dict):
+                for k in ['a', 'b', 'c', 'd']:
+                    if k in opts:
+                        parts.append(f"{k.upper()}: {opts[k]}")
+            elif isinstance(opts, list):
+                for i, opt in enumerate(opts):
+                    parts.append(f"{chr(65+i)}: {opt}")
+            if q.get('subject'):
+                parts.append(f"Subject: {q['subject']}")
+            if q.get('topic'):
+                parts.append(f"Topic: {q['topic']}")
+            return " | ".join(parts)
+
+        texts = [_get_q_text(q) for q in questions]
+
+        # Embed using mcq_model or Nvidia embedder
+        mcq_model = search_components.get('mcq_model')
+        embeddings = []
+        if mcq_model:
+            for txt in texts:
+                embeddings.append(encode_query(mcq_model, txt))
+        elif os.getenv('NVIDIA_API_KEY'):
+            try:
+                from train_pyq import NvidiaTrainEmbedder
+                emb_nv = NvidiaTrainEmbedder(os.getenv('NVIDIA_API_KEY'), "nvidia/nemotron-3-embed-1b", target_dim=768)
+                embeddings = emb_nv.encode_batch(texts, input_type="passage")
+            except Exception as e:
+                app.logger.warning(f"Nvidia embed fallback in admin: {e}")
+                embeddings = [[0.0] * 768 for _ in texts]
+        else:
+            embeddings = [[0.0] * 768 for _ in texts]
+
+        # Build vectors with unique non-colliding IDs
+        batch_vectors = []
+        for i, q in enumerate(questions):
+            q_num = i + 1
+            vid = f"{exam_id}_{year_id}_{q_num:04d}"
+            q_clean = dict(q)
+            q_clean['exam_name'] = exam_id
+            q_clean['exam_year'] = str(q.get('exam_year') or exam_yr)
+            q_clean['exam_term'] = str(q.get('exam_term') or exam_term)
+            
+            metadata = {
+                'full_json_str': json.dumps(q_clean, ensure_ascii=False),
+                'text': texts[i],
+                'question': q_clean.get('question', ''),
+                'options': json.dumps(q_clean.get('options', {}), ensure_ascii=False),
+                'correct_option': q_clean.get('correct_option', ''),
+                'correct_answer': q_clean.get('correct_answer', ''),
+                'exam_name': exam_id,
+                'exam_year': q_clean['exam_year'],
+                'exam_term': q_clean['exam_term'],
+                'subject': q_clean.get('subject', ''),
+                'explanation': q_clean.get('explanation', ''),
+                'topic': q_clean.get('topic', ''),
+                'img': q_clean.get('img', ''),
+                'namespace': cat
+            }
+            batch_vectors.append({
+                'id': vid,
+                'values': embeddings[i],
+                'metadata': metadata
+            })
+
+        # Upsert in batches of 50
+        batch_size = 50
+        total_upserted = 0
+        for b_start in range(0, len(batch_vectors), batch_size):
+            b_chunk = batch_vectors[b_start:b_start + batch_size]
+            target_idx.upsert(vectors=b_chunk, namespace=cat)
+            total_upserted += len(b_chunk)
+
+        # Sync to local JSON file
+        try:
+            pyq_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'DATA', 'pyq')
+            if not os.path.exists(pyq_dir):
+                pyq_dir = os.path.join(os.getcwd(), 'DATA', 'pyq')
+            target_json = os.path.join(pyq_dir, f"{cat}.json")
+            data_file = {}
+            if os.path.exists(target_json):
+                with open(target_json, 'r', encoding='utf-8') as fp:
+                    data_file = json.load(fp)
+            c_dict = data_file.setdefault(cat, {})
+            ex_dict = c_dict.setdefault(exam_id, {})
+            ex_dict[year_id] = questions
+            with open(target_json, 'w', encoding='utf-8') as fp:
+                json.dump(data_file, fp, ensure_ascii=False, indent=2)
+        except Exception as local_err:
+            app.logger.warning(f"Local JSON sync warning: {local_err}")
+
+        return jsonify({
+            'status': 'success',
+            'message': f"Successfully uploaded {total_upserted} questions for {exam_id} ({year_label}) to Pinecone [{cat}]",
+            'uploaded_count': total_upserted,
+            'exam_id': exam_id,
+            'year_id': year_id,
+            'category': cat,
+            'index': target_idx_name
+        }), 200
+
+    except Exception as e:
+        app.logger.error(f"Error in admin upload: {e}")
+        return jsonify({'status': 'error', 'error': str(e)}), 500
+
+
+@app.route("/api/admin/pyq/delete-paper", methods=["POST"])
+def admin_delete_paper():
+    """Deletes all vectors of a specific exam and year from Pinecone + local sync."""
+    try:
+        data = request.get_json(silent=True) or {}
+        cat = str(data.get('category', '')).strip()
+        exam_id = str(data.get('exam_id', '')).strip().upper()
+        year_id = str(data.get('year_id', '')).strip()
+
+        if not cat or not exam_id or not year_id:
+            return jsonify({'status': 'error', 'error': 'category, exam_id, and year_id are required'}), 400
+
+        # Find target index
+        target_idx_name = None
+        for idx_k, ns_list in INDEX_NAMESPACE_MAP.items():
+            if cat in ns_list:
+                target_idx_name = idx_k
+                break
+        if not target_idx_name:
+            target_idx_name = 'pyq1'
+
+        mcq_indexes = search_components.get('mcq_indexes', {})
+        target_idx = mcq_indexes.get(target_idx_name)
+        if not target_idx and os.getenv('PINECONE_API_KEY'):
+            pc = Pinecone(api_key=os.getenv('PINECONE_API_KEY'))
+            target_idx = pc.Index(target_idx_name)
+
+        if not target_idx:
+            return jsonify({'status': 'error', 'error': f'Pinecone index {target_idx_name} not accessible'}), 500
+
+        # Build delete filter
+        filter_dict = {'exam_name': exam_id}
+        if '_' in year_id:
+            parts = year_id.split('_')
+            term_num = parts[1]
+            term_roman = _get_pyq_term_val(term_num)
+            filter_dict['exam_year'] = parts[0]
+            filter_dict['exam_term'] = {'$in': [term_roman, term_num]}
+        else:
+            filter_dict['exam_year'] = str(year_id)
+
+        target_idx.delete(filter=filter_dict, namespace=cat)
+
+        # Also remove from local JSON if present
+        try:
+            pyq_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'DATA', 'pyq')
+            if not os.path.exists(pyq_dir):
+                pyq_dir = os.path.join(os.getcwd(), 'DATA', 'pyq')
+            target_json = os.path.join(pyq_dir, f"{cat}.json")
+            if os.path.exists(target_json):
+                with open(target_json, 'r', encoding='utf-8') as fp:
+                    data_file = json.load(fp)
+                if cat in data_file and exam_id in data_file[cat] and year_id in data_file[cat][exam_id]:
+                    del data_file[cat][exam_id][year_id]
+                    with open(target_json, 'w', encoding='utf-8') as fp:
+                        json.dump(data_file, fp, ensure_ascii=False, indent=2)
+        except Exception as local_del_err:
+            app.logger.warning(f"Local JSON delete warning: {local_del_err}")
+
+        return jsonify({
+            'status': 'success',
+            'message': f"Deleted {exam_id} ({year_id}) from Pinecone [{cat}]",
+            'exam_id': exam_id,
+            'year_id': year_id,
+            'category': cat
+        }), 200
+
+    except Exception as e:
+        app.logger.error(f"Error in admin delete: {e}")
+        return jsonify({'status': 'error', 'error': str(e)}), 500
+
 
 if __name__ == "__main__":
     # Initialize the search system before starting the app

@@ -85750,6 +85750,791 @@
           "source_url": ""
         }
       ]
+    },
+    "AFCAT": {
+      "2024_1": [
+        {
+          "question": "Which Indian Air Force aircraft is affectionately referred to as the 'Bahadur'?",
+          "options": {
+            "a": "MiG-27",
+            "b": "Mirage 2000",
+            "c": "SEPECAT Jaguar",
+            "d": "MiG-21"
+          },
+          "correct_option": "a",
+          "correct_answer": "MiG-27",
+          "exam_name": "AFCAT",
+          "exam_year": "2024",
+          "exam_term": "I",
+          "subject": "General Awareness",
+          "explanation": "The Mikoyan MiG-27 ground attack aircraft was inducted into the Indian Air Force in the 1980s and was affectionately christened 'Bahadur' (Valiant) by the IAF.",
+          "topic": "Defence Aircraft",
+          "keyword_and_metadata": [
+            "AFCAT",
+            "IAF",
+            "MiG-27",
+            "Bahadur"
+          ],
+          "img": "",
+          "sector": "Defence",
+          "source_url": ""
+        },
+        {
+          "question": "Who was the first and only officer of the Indian Air Force to be conferred the prestigious five-star rank of Marshal of the Indian Air Force?",
+          "options": {
+            "a": "Air Chief Marshal Subroto Mukerjee",
+            "b": "Marshal of the IAF Arjan Singh",
+            "c": "Air Chief Marshal Pratap Chandra Lal",
+            "d": "Air Chief Marshal Aspy Engineer"
+          },
+          "correct_option": "b",
+          "correct_answer": "Marshal of the IAF Arjan Singh",
+          "exam_name": "AFCAT",
+          "exam_year": "2024",
+          "exam_term": "I",
+          "subject": "General Awareness",
+          "explanation": "Arjan Singh DFC was promoted to the rank of Marshal of the Indian Air Force in January 2002 in recognition of his exceptional leadership during the 1965 Indo-Pak war.",
+          "topic": "IAF History",
+          "keyword_and_metadata": [
+            "AFCAT",
+            "Arjan Singh",
+            "Marshal of IAF"
+          ],
+          "img": "",
+          "sector": "Defence",
+          "source_url": ""
+        },
+        {
+          "question": "The 'Garud Commando Force' is the elite special forces unit of which wing of the Indian Armed Forces?",
+          "options": {
+            "a": "Indian Army",
+            "b": "Indian Navy",
+            "c": "Indian Air Force",
+            "d": "Indian Coast Guard"
+          },
+          "correct_option": "c",
+          "correct_answer": "Indian Air Force",
+          "exam_name": "AFCAT",
+          "exam_year": "2024",
+          "exam_term": "I",
+          "subject": "General Awareness",
+          "explanation": "Formed in September 2004, Garud Commando Force is the special forces unit of the Indian Air Force tasked with airfield defense, search and rescue, and counter-terrorism.",
+          "topic": "Special Forces",
+          "keyword_and_metadata": [
+            "AFCAT",
+            "Garud",
+            "Special Forces",
+            "IAF"
+          ],
+          "img": "",
+          "sector": "Defence",
+          "source_url": ""
+        },
+        {
+          "question": "The Light Combat Aircraft (LCA) Tejas is manufactured by which Indian defence public sector undertaking?",
+          "options": {
+            "a": "Bharat Electronics Limited (BEL)",
+            "b": "Hindustan Aeronautics Limited (HAL)",
+            "c": "Defence Research and Development Organisation (DRDO)",
+            "d": "Bharat Dynamics Limited (BDL)"
+          },
+          "correct_option": "b",
+          "correct_answer": "Hindustan Aeronautics Limited (HAL)",
+          "exam_name": "AFCAT",
+          "exam_year": "2024",
+          "exam_term": "I",
+          "subject": "General Awareness",
+          "explanation": "The Tejas is designed by the Aeronautical Development Agency (ADA) in collaboration with DRDO and manufactured by Hindustan Aeronautics Limited (HAL).",
+          "topic": "Defence Technology",
+          "keyword_and_metadata": [
+            "AFCAT",
+            "Tejas",
+            "HAL",
+            "LCA"
+          ],
+          "img": "",
+          "sector": "Defence",
+          "source_url": ""
+        },
+        {
+          "question": "What is the official motto of the Indian Air Force?",
+          "options": {
+            "a": "Sham No Varunah",
+            "b": "Seva Paramo Dharma",
+            "c": "Nabha Sparsham Deeptam",
+            "d": "Valour and Faith"
+          },
+          "correct_option": "c",
+          "correct_answer": "Nabha Sparsham Deeptam",
+          "exam_name": "AFCAT",
+          "exam_year": "2024",
+          "exam_term": "I",
+          "subject": "General Awareness",
+          "explanation": "'Nabha Sparsham Deeptam' (Touch the Sky with Glory) is taken from the 11th chapter of the Bhagavad Gita, representing the motto of the Indian Air Force.",
+          "topic": "IAF Symbols",
+          "keyword_and_metadata": [
+            "AFCAT",
+            "Motto",
+            "IAF"
+          ],
+          "img": "",
+          "sector": "Defence",
+          "source_url": ""
+        },
+        {
+          "question": "Which of the following is an indigenous Beyond Visual Range (BVR) Air-to-Air Missile developed by DRDO for the IAF?",
+          "options": {
+            "a": "Astra",
+            "b": "Akash",
+            "c": "Nag",
+            "d": "Helina"
+          },
+          "correct_option": "a",
+          "correct_answer": "Astra",
+          "exam_name": "AFCAT",
+          "exam_year": "2024",
+          "exam_term": "I",
+          "subject": "General Awareness",
+          "explanation": "Astra is an all-weather beyond-visual-range air-to-air missile (BVRAAM) developed by the Defence Research and Development Organisation (DRDO).",
+          "topic": "Missile Technology",
+          "keyword_and_metadata": [
+            "AFCAT",
+            "Astra",
+            "DRDO",
+            "BVRAAM"
+          ],
+          "img": "",
+          "sector": "Defence",
+          "source_url": ""
+        },
+        {
+          "question": "The Headquarters of the Central Air Command (CAC) of the Indian Air Force is situated in which city?",
+          "options": {
+            "a": "Shillong",
+            "b": "Prayagraj (Allahabad)",
+            "c": "Gandhinagar",
+            "d": "Nagpur"
+          },
+          "correct_option": "b",
+          "correct_answer": "Prayagraj (Allahabad)",
+          "exam_name": "AFCAT",
+          "exam_year": "2024",
+          "exam_term": "I",
+          "subject": "General Awareness",
+          "explanation": "Central Air Command (CAC) is headquartered at Bamrauli in Prayagraj (Allahabad), Uttar Pradesh.",
+          "topic": "Military Commands",
+          "keyword_and_metadata": [
+            "AFCAT",
+            "CAC",
+            "Prayagraj",
+            "IAF"
+          ],
+          "img": "",
+          "sector": "Defence",
+          "source_url": ""
+        },
+        {
+          "question": "Choose the word which is most nearly OPPOSITE in meaning to the word 'BENEVOLENT':",
+          "options": {
+            "a": "Malevolent",
+            "b": "Charitable",
+            "c": "Philanthropic",
+            "d": "Magnanimous"
+          },
+          "correct_option": "a",
+          "correct_answer": "Malevolent",
+          "exam_name": "AFCAT",
+          "exam_year": "2024",
+          "exam_term": "I",
+          "subject": "English",
+          "explanation": "'Benevolent' means kind and helpful. The direct antonym is 'Malevolent' which means wishing to cause harm to others.",
+          "topic": "Vocabulary",
+          "keyword_and_metadata": [
+            "AFCAT",
+            "English",
+            "Antonyms"
+          ],
+          "img": "",
+          "sector": "Defence",
+          "source_url": ""
+        },
+        {
+          "question": "A train traveling at 72 km/h crosses a telegraph post in 15 seconds. What is the total length of the train?",
+          "options": {
+            "a": "250 meters",
+            "b": "300 meters",
+            "c": "360 meters",
+            "d": "400 meters"
+          },
+          "correct_option": "b",
+          "correct_answer": "300 meters",
+          "exam_name": "AFCAT",
+          "exam_year": "2024",
+          "exam_term": "I",
+          "subject": "Numerical Ability",
+          "explanation": "Speed = 72 * (5/18) = 20 m/s. Distance (Length of train) = Speed * Time = 20 * 15 = 300 meters.",
+          "topic": "Time and Distance",
+          "keyword_and_metadata": [
+            "AFCAT",
+            "Maths",
+            "Train problems"
+          ],
+          "img": "",
+          "sector": "Defence",
+          "source_url": ""
+        },
+        {
+          "question": "Find the missing number in the given series: 3, 7, 15, 31, 63, ?",
+          "options": {
+            "a": "125",
+            "b": "127",
+            "c": "129",
+            "d": "131"
+          },
+          "correct_option": "b",
+          "correct_answer": "127",
+          "exam_name": "AFCAT",
+          "exam_year": "2024",
+          "exam_term": "I",
+          "subject": "Reasoning",
+          "explanation": "Pattern is (Number * 2 + 1): 3*2+1=7, 7*2+1=15, 15*2+1=31, 31*2+1=63, 63*2+1=127.",
+          "topic": "Number Series",
+          "keyword_and_metadata": [
+            "AFCAT",
+            "Reasoning",
+            "Series"
+          ],
+          "img": "",
+          "sector": "Defence",
+          "source_url": ""
+        }
+      ]
+    },
+    "NDA": {
+      "2024_1": [
+        {
+          "question": "The universal gravitational constant G has which of the following dimensional formulas?",
+          "options": {
+            "a": "[M⁻¹ L³ T⁻²]",
+            "b": "[M¹ L² T⁻¹]",
+            "c": "[M⁻¹ L² T⁻²]",
+            "d": "[M⁰ L³ T⁻¹]"
+          },
+          "correct_option": "a",
+          "correct_answer": "[M⁻¹ L³ T⁻²]",
+          "exam_name": "NDA",
+          "exam_year": "2024",
+          "exam_term": "I",
+          "subject": "Physics",
+          "explanation": "From Newton's Law of Gravitation, F = G(m1*m2)/r^2 => G = F*r^2/(m1*m2). Dimensions = [M L T^-2][L^2] / [M^2] = [M^-1 L^3 T^-2].",
+          "topic": "Units and Measurements",
+          "keyword_and_metadata": [
+            "NDA",
+            "Physics",
+            "Dimensions",
+            "Gravitational Constant"
+          ],
+          "img": "",
+          "sector": "Defence",
+          "source_url": ""
+        },
+        {
+          "question": "A particle starts from rest with a constant acceleration of 2 m/s². What is the distance covered by the particle in the 5th second?",
+          "options": {
+            "a": "9 meters",
+            "b": "10 meters",
+            "c": "11 meters",
+            "d": "25 meters"
+          },
+          "correct_option": "a",
+          "correct_answer": "9 meters",
+          "exam_name": "NDA",
+          "exam_year": "2024",
+          "exam_term": "I",
+          "subject": "Physics",
+          "explanation": "Distance in nth second Sn = u + (a/2)(2n - 1). Here u=0, a=2, n=5. Sn = 0 + (2/2)(2*5 - 1) = 9 meters.",
+          "topic": "Kinematics",
+          "keyword_and_metadata": [
+            "NDA",
+            "Physics",
+            "Kinematics",
+            "Acceleration"
+          ],
+          "img": "",
+          "sector": "Defence",
+          "source_url": ""
+        },
+        {
+          "question": "Which of the following optical phenomena conclusively proves that light is a transverse wave rather than a longitudinal wave?",
+          "options": {
+            "a": "Interference",
+            "b": "Diffraction",
+            "c": "Polarization",
+            "d": "Refraction"
+          },
+          "correct_option": "c",
+          "correct_answer": "Polarization",
+          "exam_name": "NDA",
+          "exam_year": "2024",
+          "exam_term": "I",
+          "subject": "Physics",
+          "explanation": "Polarization can only occur in transverse waves where vibration is perpendicular to wave propagation. Longitudinal waves cannot be polarized.",
+          "topic": "Wave Optics",
+          "keyword_and_metadata": [
+            "NDA",
+            "Physics",
+            "Polarization",
+            "Transverse Wave"
+          ],
+          "img": "",
+          "sector": "Defence",
+          "source_url": ""
+        },
+        {
+          "question": "The pH of pure water at 25°C is 7. If water is heated to 50°C, what change will be observed in its pH?",
+          "options": {
+            "a": "It increases above 7",
+            "b": "It decreases below 7",
+            "c": "It remains exactly 7",
+            "d": "It drops to 0"
+          },
+          "correct_option": "b",
+          "correct_answer": "It decreases below 7",
+          "exam_name": "NDA",
+          "exam_year": "2024",
+          "exam_term": "I",
+          "subject": "Chemistry",
+          "explanation": "The auto-ionization of water is endothermic: H2O <=> H+ + OH-. Heating shifts equilibrium right, increasing [H+] and decreasing pH, though water remains neutral since [H+] = [OH-].",
+          "topic": "Ionic Equilibrium",
+          "keyword_and_metadata": [
+            "NDA",
+            "Chemistry",
+            "pH",
+            "Equilibrium"
+          ],
+          "img": "",
+          "sector": "Defence",
+          "source_url": ""
+        },
+        {
+          "question": "Which gas is released when zinc granules react with dilute hydrochloric acid?",
+          "options": {
+            "a": "Oxygen gas",
+            "b": "Hydrogen gas",
+            "c": "Chlorine gas",
+            "d": "Nitrogen gas"
+          },
+          "correct_option": "b",
+          "correct_answer": "Hydrogen gas",
+          "exam_name": "NDA",
+          "exam_year": "2024",
+          "exam_term": "I",
+          "subject": "Chemistry",
+          "explanation": "Zn + 2HCl -> ZnCl2 + H2(g). Metals reacting with dilute mineral acids release hydrogen gas which burns with a characteristic 'pop' sound.",
+          "topic": "Chemical Reactions",
+          "keyword_and_metadata": [
+            "NDA",
+            "Chemistry",
+            "Hydrogen gas",
+            "Zinc"
+          ],
+          "img": "",
+          "sector": "Defence",
+          "source_url": ""
+        },
+        {
+          "question": "Which cell organelle contains its own DNA and 70S ribosomes and is referred to as the 'Powerhouse of the Cell'?",
+          "options": {
+            "a": "Endoplasmic Reticulum",
+            "b": "Lysosome",
+            "c": "Mitochondria",
+            "d": "Golgi Complex"
+          },
+          "correct_option": "c",
+          "correct_answer": "Mitochondria",
+          "exam_name": "NDA",
+          "exam_year": "2024",
+          "exam_term": "I",
+          "subject": "Biology",
+          "explanation": "Mitochondria synthesize cellular energy in the form of ATP through oxidative phosphorylation and possess circular DNA and ribosomes.",
+          "topic": "Cell Biology",
+          "keyword_and_metadata": [
+            "NDA",
+            "Biology",
+            "Mitochondria",
+            "Cell"
+          ],
+          "img": "",
+          "sector": "Defence",
+          "source_url": ""
+        },
+        {
+          "question": "Who was the founder of the socio-religious reform movement 'Brahmo Samaj' established in Calcutta in 1828?",
+          "options": {
+            "a": "Swami Dayananda Saraswati",
+            "b": "Raja Ram Mohan Roy",
+            "c": "Ishwar Chandra Vidyasagar",
+            "d": "Debendranath Tagore"
+          },
+          "correct_option": "b",
+          "correct_answer": "Raja Ram Mohan Roy",
+          "exam_name": "NDA",
+          "exam_year": "2024",
+          "exam_term": "I",
+          "subject": "History",
+          "explanation": "Raja Ram Mohan Roy founded the Brahmo Sabha (later Brahmo Samaj) in 1828 to promote monotheism and fight social evils like Sati.",
+          "topic": "Modern Indian History",
+          "keyword_and_metadata": [
+            "NDA",
+            "History",
+            "Brahmo Samaj",
+            "Raja Ram Mohan Roy"
+          ],
+          "img": "",
+          "sector": "Defence",
+          "source_url": ""
+        },
+        {
+          "question": "The Fundamental Rights in the Indian Constitution are enshrined under which Part?",
+          "options": {
+            "a": "Part II",
+            "b": "Part III",
+            "c": "Part IV",
+            "d": "Part IV-A"
+          },
+          "correct_option": "b",
+          "correct_answer": "Part III",
+          "exam_name": "NDA",
+          "exam_year": "2024",
+          "exam_term": "I",
+          "subject": "Polity",
+          "explanation": "Part III (Articles 12 to 35) of the Constitution of India guarantees the Fundamental Rights to all citizens, known as the Magna Carta of India.",
+          "topic": "Indian Constitution",
+          "keyword_and_metadata": [
+            "NDA",
+            "Polity",
+            "Fundamental Rights",
+            "Part III"
+          ],
+          "img": "",
+          "sector": "Defence",
+          "source_url": ""
+        },
+        {
+          "question": "Which Himalayan river is notorious as the 'Sorrow of Bihar' due to recurring changes in course and severe flooding?",
+          "options": {
+            "a": "Kosi River",
+            "b": "Gandak River",
+            "c": "Ghaghara River",
+            "d": "Son River"
+          },
+          "correct_option": "a",
+          "correct_answer": "Kosi River",
+          "exam_name": "NDA",
+          "exam_year": "2024",
+          "exam_term": "I",
+          "subject": "Geography",
+          "explanation": "The Kosi River carries immense silt from the Himalayas and frequently breaches banks in North Bihar, earning the epithet 'Sorrow of Bihar'.",
+          "topic": "Indian Rivers",
+          "keyword_and_metadata": [
+            "NDA",
+            "Geography",
+            "Kosi River",
+            "Drainage"
+          ],
+          "img": "",
+          "sector": "Defence",
+          "source_url": ""
+        },
+        {
+          "question": "If tan θ = 3/4 and θ lies in the first quadrant, what is the value of (sin θ + cos θ)?",
+          "options": {
+            "a": "7/5",
+            "b": "1/5",
+            "c": "5/7",
+            "d": "6/5"
+          },
+          "correct_option": "a",
+          "correct_answer": "7/5",
+          "exam_name": "NDA",
+          "exam_year": "2024",
+          "exam_term": "I",
+          "subject": "Mathematics",
+          "explanation": "Since tan θ = Perpendicular/Base = 3/4, Hypotenuse = √(3^2 + 4^2) = 5. sin θ = 3/5, cos θ = 4/5. sin θ + cos θ = 3/5 + 4/5 = 7/5.",
+          "topic": "Trigonometry",
+          "keyword_and_metadata": [
+            "NDA",
+            "Maths",
+            "Trigonometry"
+          ],
+          "img": "",
+          "sector": "Defence",
+          "source_url": ""
+        }
+      ]
+    },
+    "CAPF": {
+      "2024": [
+        {
+          "question": "Under which Article of the Indian Constitution can the President proclaim a National Emergency on grounds of war, external aggression, or armed rebellion?",
+          "options": {
+            "a": "Article 352",
+            "b": "Article 356",
+            "c": "Article 360",
+            "d": "Article 365"
+          },
+          "correct_option": "a",
+          "correct_answer": "Article 352",
+          "exam_name": "CAPF",
+          "exam_year": "2024",
+          "exam_term": "Annual",
+          "subject": "Polity",
+          "explanation": "Article 352 empowers the President to issue a National Emergency on grounds of War, External Aggression, or Armed Rebellion, upon written advice from the Union Cabinet.",
+          "topic": "Emergency Provisions",
+          "keyword_and_metadata": [
+            "CAPF",
+            "Polity",
+            "Article 352",
+            "Emergency"
+          ],
+          "img": "",
+          "sector": "Defence",
+          "source_url": ""
+        },
+        {
+          "question": "Which Constitutional Amendment Act introduced the Goods and Services Tax (GST) in India?",
+          "options": {
+            "a": "99th Amendment Act",
+            "b": "100th Amendment Act",
+            "c": "101st Amendment Act",
+            "d": "103rd Amendment Act"
+          },
+          "correct_option": "c",
+          "correct_answer": "101st Amendment Act",
+          "exam_name": "CAPF",
+          "exam_year": "2024",
+          "exam_term": "Annual",
+          "subject": "Polity",
+          "explanation": "The 101st Constitutional Amendment Act, 2016 introduced the unified Goods and Services Tax (GST) regime in India effective from July 1, 2017.",
+          "topic": "Constitutional Amendments",
+          "keyword_and_metadata": [
+            "CAPF",
+            "Polity",
+            "GST",
+            "101st Amendment"
+          ],
+          "img": "",
+          "sector": "Defence",
+          "source_url": ""
+        },
+        {
+          "question": "Which Central Armed Police Force (CAPF) is primarily tasked with securing and guarding the India-China border across the Himalayas?",
+          "options": {
+            "a": "Border Security Force (BSF)",
+            "b": "Indo-Tibetan Border Police (ITBP)",
+            "c": "Sashastra Seema Bal (SSB)",
+            "d": "Central Reserve Police Force (CRPF)"
+          },
+          "correct_option": "b",
+          "correct_answer": "Indo-Tibetan Border Police (ITBP)",
+          "exam_name": "CAPF",
+          "exam_year": "2024",
+          "exam_term": "Annual",
+          "subject": "Internal Security",
+          "explanation": "Raised on 24 October 1962 in the wake of the Sino-Indian War, ITBP guards the 3,488 km India-China border from Karakoram Pass to Jachep La in Arunachal Pradesh.",
+          "topic": "Border Management",
+          "keyword_and_metadata": [
+            "CAPF",
+            "ITBP",
+            "India-China border",
+            "Internal Security"
+          ],
+          "img": "",
+          "sector": "Defence",
+          "source_url": ""
+        },
+        {
+          "question": "The Sashastra Seema Bal (SSB) is mandated with guarding India's international borders with which neighboring nations?",
+          "options": {
+            "a": "Pakistan and Bangladesh",
+            "b": "Nepal and Bhutan",
+            "c": "Myanmar and China",
+            "d": "Bangladesh and Myanmar"
+          },
+          "correct_option": "b",
+          "correct_answer": "Nepal and Bhutan",
+          "exam_name": "CAPF",
+          "exam_year": "2024",
+          "exam_term": "Annual",
+          "subject": "Internal Security",
+          "explanation": "Sashastra Seema Bal (SSB) is the lead intelligence agency and border guarding force for India's open borders with Nepal (1,751 km) and Bhutan (699 km).",
+          "topic": "Border Management",
+          "keyword_and_metadata": [
+            "CAPF",
+            "SSB",
+            "Nepal",
+            "Bhutan",
+            "Border Guarding"
+          ],
+          "img": "",
+          "sector": "Defence",
+          "source_url": ""
+        },
+        {
+          "question": "The prominent Indus Valley Civilization archaeological site 'Lothal', famous for its tidal dockyard, is situated in which state?",
+          "options": {
+            "a": "Rajasthan",
+            "b": "Punjab",
+            "c": "Gujarat",
+            "d": "Haryana"
+          },
+          "correct_option": "c",
+          "correct_answer": "Gujarat",
+          "exam_name": "CAPF",
+          "exam_year": "2024",
+          "exam_term": "Annual",
+          "subject": "History",
+          "explanation": "Lothal is located along the Bhogava river in the Bhal region of Gujarat. It was the world's earliest known dockyard connected to an old course of the Sabarmati river.",
+          "topic": "Ancient India",
+          "keyword_and_metadata": [
+            "CAPF",
+            "History",
+            "Lothal",
+            "Indus Valley"
+          ],
+          "img": "",
+          "sector": "Defence",
+          "source_url": ""
+        },
+        {
+          "question": "The 'Ten Degree Channel' lies in the Bay of Bengal and separates:",
+          "options": {
+            "a": "Andaman Islands and Nicobar Islands",
+            "b": "Lakshadweep and Maldives",
+            "c": "Little Andaman and South Andaman",
+            "d": "Minicoy and Maldives"
+          },
+          "correct_option": "a",
+          "correct_answer": "Andaman Islands and Nicobar Islands",
+          "exam_name": "CAPF",
+          "exam_year": "2024",
+          "exam_term": "Annual",
+          "subject": "Geography",
+          "explanation": "The Ten Degree Channel is an oceanic channel situated at 10°N latitude separating the Andaman Islands from the Nicobar Islands in the Bay of Bengal.",
+          "topic": "Indian Islands",
+          "keyword_and_metadata": [
+            "CAPF",
+            "Geography",
+            "Ten Degree Channel",
+            "Andaman Nicobar"
+          ],
+          "img": "",
+          "sector": "Defence",
+          "source_url": ""
+        },
+        {
+          "question": "Which form of unemployment occurs when more people are engaged in a productive activity than required, widely seen in Indian agriculture?",
+          "options": {
+            "a": "Frictional unemployment",
+            "b": "Structural unemployment",
+            "c": "Disguised unemployment",
+            "d": "Cyclical unemployment"
+          },
+          "correct_option": "c",
+          "correct_answer": "Disguised unemployment",
+          "exam_name": "CAPF",
+          "exam_year": "2024",
+          "exam_term": "Annual",
+          "subject": "Economy",
+          "explanation": "In disguised unemployment, marginal productivity of surplus workers is zero. Removing them does not decrease total agricultural output.",
+          "topic": "Employment and Economics",
+          "keyword_and_metadata": [
+            "CAPF",
+            "Economy",
+            "Disguised Unemployment"
+          ],
+          "img": "",
+          "sector": "Defence",
+          "source_url": ""
+        },
+        {
+          "question": "The striking blue color of Copper Sulphate crystals (CuSO4·5H2O) is primarily attributed to:",
+          "options": {
+            "a": "Molecules of Water of Crystallization",
+            "b": "Oxidation of copper ions in air",
+            "c": "Dissolved sulphur dioxide gas",
+            "d": "Hydrogen gas bubbles"
+          },
+          "correct_option": "a",
+          "correct_answer": "Molecules of Water of Crystallization",
+          "exam_name": "CAPF",
+          "exam_year": "2024",
+          "exam_term": "Annual",
+          "subject": "General Science",
+          "explanation": "Hydrated copper sulphate contains 5 water molecules of crystallization. Heating removes water and turns it into white anhydrous CuSO4.",
+          "topic": "Chemistry in Everyday Life",
+          "keyword_and_metadata": [
+            "CAPF",
+            "Science",
+            "Copper Sulphate",
+            "Crystallization"
+          ],
+          "img": "",
+          "sector": "Defence",
+          "source_url": ""
+        },
+        {
+          "question": "Who presided over the landmark Lahore Session of the Indian National Congress in December 1929 where 'Poorna Swaraj' was declared?",
+          "options": {
+            "a": "Mahatma Gandhi",
+            "b": "Motilal Nehru",
+            "c": "Jawaharlal Nehru",
+            "d": "Subhas Chandra Bose"
+          },
+          "correct_option": "c",
+          "correct_answer": "Jawaharlal Nehru",
+          "exam_name": "CAPF",
+          "exam_year": "2024",
+          "exam_term": "Annual",
+          "subject": "History",
+          "explanation": "Under the presidency of Pandit Jawaharlal Nehru, the INC passed the historic Poorna Swaraj (Complete Independence) resolution in Lahore on 31 Dec 1929.",
+          "topic": "Freedom Struggle",
+          "keyword_and_metadata": [
+            "CAPF",
+            "History",
+            "Lahore Session",
+            "Poorna Swaraj"
+          ],
+          "img": "",
+          "sector": "Defence",
+          "source_url": ""
+        },
+        {
+          "question": "The National Disaster Response Force (NDRF) of India was constituted under the statutory provisions of which Act?",
+          "options": {
+            "a": "Disaster Management Act, 2005",
+            "b": "National Security Act, 1980",
+            "c": "Armed Forces Special Powers Act, 1958",
+            "d": "Environment Protection Act, 1986"
+          },
+          "correct_option": "a",
+          "correct_answer": "Disaster Management Act, 2005",
+          "exam_name": "CAPF",
+          "exam_year": "2024",
+          "exam_term": "Annual",
+          "subject": "Internal Security",
+          "explanation": "NDRF was constituted under Section 44 of the Disaster Management Act, 2005 for specialist response to threatening disaster situations and emergencies.",
+          "topic": "Disaster Management",
+          "keyword_and_metadata": [
+            "CAPF",
+            "NDRF",
+            "Disaster Management Act 2005"
+          ],
+          "img": "",
+          "sector": "Defence",
+          "source_url": ""
+        }
+      ]
     }
   }
 }

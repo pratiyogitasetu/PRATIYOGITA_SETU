@@ -19,6 +19,7 @@ const PYQSection = lazy(() => import('./components/PYQSection'))
 const Dashboard = lazy(() => import('./components/Dashboard'))
 const ChatSection = lazy(() => import('./components/ChatSection'))
 const PracticePYQSection = lazy(() => import('./components/PracticePYQSection'))
+const AdminPYQStudio = lazy(() => import('./components/AdminPYQStudio'))
 
 const muiTheme = createTheme({
   palette: {
@@ -67,7 +68,12 @@ const muiTheme = createTheme({
 })
 
 function AppContent() {
-  const [currentView, setCurrentView] = useState('chat') // 'chat', 'dashboard', 'practice-pyq'
+  const [currentView, setCurrentView] = useState(() => {
+    if (typeof window !== 'undefined' && (window.location.hash === '#admin' || window.location.pathname === '/admin')) {
+      return 'admin'
+    }
+    return 'chat'
+  }) // 'chat', 'dashboard', 'practice-pyq', 'admin'
   const { theme } = useTheme()
   const { isMobile } = useLayout()
   const [isChatLoading, setIsChatLoading] = useState(false)
@@ -94,7 +100,7 @@ function AppContent() {
     setCurrentView(view)
   }
 
-  // Listen for navigation events
+  // Listen for navigation and hash events
   useEffect(() => {
     const handleSwitchToChat = () => {
       setCurrentView('chat')
@@ -104,12 +110,26 @@ function AppContent() {
       setCurrentView('practice-pyq')
     }
 
+    const handleSwitchToAdmin = () => {
+      setCurrentView('admin')
+    }
+
+    const handleHashChange = () => {
+      if (window.location.hash === '#admin' || window.location.pathname === '/admin') {
+        setCurrentView('admin')
+      }
+    }
+
     window.addEventListener('switchToChat', handleSwitchToChat)
     window.addEventListener('switchToPracticePYQ', handleSwitchToPracticePYQ)
+    window.addEventListener('switchToAdmin', handleSwitchToAdmin)
+    window.addEventListener('hashchange', handleHashChange)
 
     return () => {
       window.removeEventListener('switchToChat', handleSwitchToChat)
       window.removeEventListener('switchToPracticePYQ', handleSwitchToPracticePYQ)
+      window.removeEventListener('switchToAdmin', handleSwitchToAdmin)
+      window.removeEventListener('hashchange', handleHashChange)
     }
   }, [])
 
@@ -206,6 +226,33 @@ function AppContent() {
             }
           >
             <PracticePYQSection />
+          </Suspense>
+        )}
+
+        {currentView === 'admin' && (
+          <Suspense
+            fallback={
+              <Box sx={{ flex: 1, p: 3, bgcolor: '#0B0A08' }}>
+                <Skeleton variant="rounded" height={60} sx={{ mb: 2 }} />
+                <Skeleton variant="rounded" height={200} sx={{ mb: 2 }} />
+                <Skeleton variant="rounded" height={300} />
+              </Box>
+            }
+          >
+            <AdminPYQStudio
+              onClose={() => {
+                setCurrentView('chat')
+                if (window.location.hash === '#admin') {
+                  window.history.pushState(null, '', window.location.pathname)
+                }
+              }}
+              onNavigateToPractice={() => {
+                setCurrentView('practice-pyq')
+                if (window.location.hash === '#admin') {
+                  window.history.pushState(null, '', window.location.pathname)
+                }
+              }}
+            />
           </Suspense>
         )}
       </div>
