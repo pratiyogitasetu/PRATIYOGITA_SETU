@@ -69,7 +69,7 @@ export const SearchHistoryProvider = ({ children }) => {
       messages: chatData.messages || [],
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-      messageCount: (chatData.messages || []).length
+      messageCount: (chatData.messages || []).filter(m => m.type === 'user').length
     }
     
     const newHistory = [newChat, ...guestChatHistory.filter(chat => chat.id !== newChat.id)].slice(0, 20)
@@ -85,7 +85,7 @@ export const SearchHistoryProvider = ({ children }) => {
             ...chat, 
             ...updateData, 
             updatedAt: new Date().toISOString(),
-            messageCount: updateData.messages ? updateData.messages.length : chat.messageCount
+            messageCount: updateData.messages ? updateData.messages.filter(m => m.type === 'user').length : chat.messageCount
           }
         : chat
     )

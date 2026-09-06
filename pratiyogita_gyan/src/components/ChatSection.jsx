@@ -1206,7 +1206,6 @@ const ChatSection = () => {
         setTimeout(async () => {
           try {
             await saveMessage(activeChatId, botMessage)
-            await updateChatMessageCount(activeChatId, 1)
 
             if (isPlaceholderTitle(currentChatTitle)) {
               const baseTitle = buildConciseTitle(botMessage.content)

@@ -447,7 +447,7 @@ const Sidebar = () => {
                                   opacity: 0.5
                                 }}
                               >
-                                {chat.messageCount || 0} messages
+                                {chat.messageCount || 0} {(chat.messageCount || 0) === 1 ? 'message' : 'messages'}
                               </span>
                               <span
                                 className="text-xs"
@@ -545,7 +545,7 @@ const Sidebar = () => {
                                 className="text-xs"
                                 style={{ color: '#000000', opacity: 0.5 }}
                               >
-                                {chat.messageCount || 0} messages
+                                {chat.messageCount || 0} {(chat.messageCount || 0) === 1 ? 'message' : 'messages'}
                               </span>
                               <span
                                 className="text-xs"

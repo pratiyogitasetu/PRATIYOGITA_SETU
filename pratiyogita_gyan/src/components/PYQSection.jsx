@@ -676,6 +676,23 @@ const PYQSection = () => {
     return openQuestions
   }, [groupedQuestions, expandedQueries, lastSearchQuery])
 
+  // Count starred questions strictly within the current view/chat's questions
+  const currentStarredCount = useMemo(() => {
+    const targetQuestions = openPanelsQuestions.length > 0 ? openPanelsQuestions : searchResults
+    if (!targetQuestions || targetQuestions.length === 0) return 0
+    return targetQuestions.filter((q, idx) => {
+      const qId = getStableQuestionId(q, idx)
+      return importantQuestions.has(qId)
+    }).length
+  }, [openPanelsQuestions, searchResults, importantQuestions])
+
+  // Auto-reset important filter if no questions in current view are starred
+  useEffect(() => {
+    if (currentStarredCount === 0 && showImportantOnly) {
+      setShowImportantOnly(false)
+    }
+  }, [currentStarredCount, showImportantOnly])
+
   // Extract filter dropdown options from open panels only (or all results if none are open)
   useEffect(() => {
     const targetQuestions = openPanelsQuestions.length > 0 ? openPanelsQuestions : searchResults
@@ -973,9 +990,19 @@ const PYQSection = () => {
   }
 
   const handleSelectAllOrClearAll = () => {
-    if (importantQuestions.size > 0) {
-      // Clear all marked important questions globally
-      setImportantQuestions(new Set())
+    const targetQuestions = openPanelsQuestions.length > 0 ? openPanelsQuestions : searchResults
+    if (targetQuestions.length === 0) return
+
+    if (currentStarredCount > 0) {
+      // Clear starred status ONLY for the questions in the current view
+      setImportantQuestions(prev => {
+        const next = new Set(prev)
+        targetQuestions.forEach((q, idx) => {
+          const qId = getStableQuestionId(q, idx)
+          next.delete(qId)
+        })
+        return next
+      })
       return
     }
 
@@ -984,7 +1011,8 @@ const PYQSection = () => {
     setImportantQuestions(prev => {
       const newSet = new Set(prev)
       filteredQuestions.forEach((question, idx) => {
-        newSet.add(getStableQuestionId(question, idx))
+        const qId = getStableQuestionId(question, idx)
+        if (qId) newSet.add(qId)
       })
       return newSet
     })
@@ -1344,14 +1372,14 @@ const PYQSection = () => {
                     </>
                   )}
 
-                  {/* 5. Starred / Important Filter Chip */}
-                  {importantQuestions.size > 0 && (
+                  {/* 5. Starred / Important Filter Chip - only show if current view questions have starred items */}
+                  {currentStarredCount > 0 && (
                     <Chip
                       size="small"
                       clickable
                       onClick={() => setShowImportantOnly(prev => !prev)}
                       icon={<Star className={`w-3 h-3 ${showImportantOnly ? 'fill-current' : ''}`} />}
-                      label={`${importantQuestions.size} Starred`}
+                      label={`${currentStarredCount} Starred`}
                       title={showImportantOnly ? 'Show all questions' : 'Show only starred questions'}
                       sx={{
                         backgroundColor: showImportantOnly ? '#f59e0b' : 'rgba(255, 146, 28, 0.15)',
@@ -1371,34 +1399,36 @@ const PYQSection = () => {
                   )}
 
                   {/* 6. Select All / Clear All Button */}
-                  <Button
-                    size="small"
-                    variant="outlined"
-                    onClick={handleSelectAllOrClearAll}
-                    startIcon={<Star className="w-3 h-3" />}
-                    title={importantQuestions.size > 0 ? 'Clear all marked important questions' : 'Mark all currently visible questions as important'}
-                    sx={{
-                      fontSize: '0.68rem',
-                      fontWeight: 600,
-                      px: 1.1,
-                      py: 0.25,
-                      minHeight: 22,
-                      height: 22,
-                      borderRadius: 999,
-                      backgroundColor: '#f3f4f6',
-                      color: '#374151',
-                      borderColor: '#e5e7eb',
-                      textTransform: 'none',
-                      flexShrink: 0,
-                      boxShadow: 'none',
-                      '&:hover': {
-                        backgroundColor: '#e5e7eb',
-                        borderColor: '#d1d5db'
-                      }
-                    }}
-                  >
-                    {importantQuestions.size > 0 ? 'Clear All' : 'Select All'}
-                  </Button>
+                  {(openPanelsQuestions.length > 0 || searchResults.length > 0) && (
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      onClick={handleSelectAllOrClearAll}
+                      startIcon={<Star className="w-3 h-3" />}
+                      title={currentStarredCount > 0 ? 'Clear marked important questions in current view' : 'Mark all questions in current view as important'}
+                      sx={{
+                        fontSize: '0.68rem',
+                        fontWeight: 600,
+                        px: 1.1,
+                        py: 0.25,
+                        minHeight: 22,
+                        height: 22,
+                        borderRadius: 999,
+                        backgroundColor: '#f3f4f6',
+                        color: '#374151',
+                        borderColor: '#e5e7eb',
+                        textTransform: 'none',
+                        flexShrink: 0,
+                        boxShadow: 'none',
+                        '&:hover': {
+                          backgroundColor: '#e5e7eb',
+                          borderColor: '#d1d5db'
+                        }
+                      }}
+                    >
+                      {currentStarredCount > 0 ? 'Clear Stars' : 'Star All'}
+                    </Button>
+                  )}
                 </>
               )}
             </Box>

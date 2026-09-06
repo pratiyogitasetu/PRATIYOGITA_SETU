@@ -1,5 +1,5 @@
 import { useState, useEffect, lazy, Suspense } from 'react'
-import { LogIn, UserPlus, Home, BarChart3, Info, Phone, LogOut, ChevronLeft, User, ChevronRight, Settings, MoreVertical, BookOpen, MessageSquare, Target, ChevronFirst, Database } from 'lucide-react'
+import { LogIn, UserPlus, Home, BarChart3, Info, Phone, LogOut, ChevronLeft, User, ChevronRight, Settings, MoreVertical, BookOpen, MessageSquare, Target, ChevronFirst } from 'lucide-react'
 import { AppBar, Toolbar, Box, Typography, Button, Avatar, Stack, Container, IconButton, Divider, MenuItem, Popover } from '@mui/material'
 import PropTypes from 'prop-types'
 const AuthModal = lazy(() => import('./AuthModal'))
@@ -539,25 +539,6 @@ const Navbar = ({ onViewChange, currentView }) => {
             </MenuItem>
           )}
 
-          <MenuItem
-            onClick={() => {
-              window.location.hash = 'admin'
-              handleNavigation('admin')
-            }}
-            sx={{
-              borderRadius: 2,
-              py: 0.85,
-              px: 1.2,
-              gap: 1.5,
-              color: '#F97316',
-              fontSize: '0.82rem',
-              fontWeight: 600,
-              '&:hover': { backgroundColor: 'rgba(249,115,22,0.12)' }
-            }}
-          >
-            <Database size={17} strokeWidth={2} />
-            <span>Admin PYQ Studio</span>
-          </MenuItem>
         </Stack>
 
         <Divider sx={{ my: 1, borderColor: 'rgba(255,255,255,0.08)' }} />

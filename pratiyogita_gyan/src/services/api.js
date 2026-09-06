@@ -585,48 +585,6 @@ class ApiService {
       return { status: 'error', questions: [], total: 0 };
     }
   }
-
-  /**
-   * Get complete admin inventory & Pinecone stats
-   */
-  async getAdminInventory() {
-    try {
-      return await this.request('/admin/pyq/inventory');
-    } catch (error) {
-      console.error('Failed to get admin inventory:', error);
-      return { status: 'error', error: error.message };
-    }
-  }
-
-  /**
-   * Upload & Embed a new PYQ paper to Pinecone
-   */
-  async uploadAdminPaper(payload) {
-    try {
-      return await this.request('/admin/pyq/upload-paper', {
-        method: 'POST',
-        body: JSON.stringify(payload),
-      });
-    } catch (error) {
-      console.error('Failed to upload paper:', error);
-      return { status: 'error', error: error.message };
-    }
-  }
-
-  /**
-   * Delete a PYQ paper from Pinecone by category, exam_id, year_id
-   */
-  async deleteAdminPaper(payload) {
-    try {
-      return await this.request('/admin/pyq/delete-paper', {
-        method: 'POST',
-        body: JSON.stringify(payload),
-      });
-    } catch (error) {
-      console.error('Failed to delete paper:', error);
-      return { status: 'error', error: error.message };
-    }
-  }
 }
 
 // Export a singleton instance
