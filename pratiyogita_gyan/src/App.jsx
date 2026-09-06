@@ -12,6 +12,7 @@ import ErrorBoundary from './components/ErrorBoundary'
 import Navbar from './components/Navbar'
 import MobileTabBar from './components/MobileTabBar'
 import EmbeddedSearchBar from './components/EmbeddedSearchBar'
+import PullToRefresh from './components/PullToRefresh'
 
 const Sidebar = lazy(() => import('./components/Sidebar'))
 const PYQSection = lazy(() => import('./components/PYQSection'))
@@ -129,6 +130,7 @@ function AppContent() {
       </svg>
       <div className="grainy-background-layer" />
       <Navbar onViewChange={handleViewChange} currentView={currentView} />
+      <PullToRefresh />
       <div className="flex-1 min-h-0 relative flex flex-col md:flex-row w-full overflow-hidden">
         <Suspense
           fallback={

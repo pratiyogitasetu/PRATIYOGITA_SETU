@@ -1034,7 +1034,7 @@ const PYQSection = () => {
     <Box
       sx={{
         position: 'fixed',
-        top: { xs: 58, md: 60 },
+        top: { xs: 56, md: 60 },
         bottom: { xs: 0, md: 4 },
         left: { xs: 0, md: leftMarginPx },
         right: { xs: 0, md: rightMarginPx },

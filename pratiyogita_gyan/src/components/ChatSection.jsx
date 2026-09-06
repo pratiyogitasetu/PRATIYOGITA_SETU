@@ -1411,7 +1411,7 @@ const ChatSection = () => {
             position: 'fixed',
             right: isMobile ? 0 : 4,
             left: isMobile ? 0 : 'auto',
-            top: isMobile ? 58 : 60,
+            top: isMobile ? 56 : 60,
             bottom: isMobile ? 0 : 4,
             width: isMobile ? '100%' : 400,
             zIndex: isMobile ? 25 : 30,

@@ -444,20 +444,27 @@ export function AuthProvider({ children }) {
       console.log('📂 getChatHistory: Querying chats for user:', currentUser.uid)
       const q = query(
         collection(db, 'chats'),
-        where('userId', '==', currentUser.uid),
-        orderBy('updatedAt', 'desc')
+        where('userId', '==', currentUser.uid)
       );
 
       const querySnapshot = await getDocs(q);
       const chats = [];
       
       querySnapshot.forEach((doc) => {
+        const data = doc.data();
         chats.push({
           id: doc.id,
-          ...doc.data(),
-          createdAt: doc.data().createdAt?.toDate(),
-          updatedAt: doc.data().updatedAt?.toDate()
+          ...data,
+          createdAt: data.createdAt?.toDate ? data.createdAt.toDate() : (data.createdAt || new Date()),
+          updatedAt: data.updatedAt?.toDate ? data.updatedAt.toDate() : (data.updatedAt || data.createdAt || new Date())
         });
+      });
+
+      // Client-side sort prevents Firestore composite index error
+      chats.sort((a, b) => {
+        const timeB = new Date(b.updatedAt || 0).getTime();
+        const timeA = new Date(a.updatedAt || 0).getTime();
+        return timeB - timeA;
       });
 
       console.log('✅ getChatHistory: Found', chats.length, 'chats:', chats)
@@ -479,20 +486,26 @@ export function AuthProvider({ children }) {
       console.log('📝 getChatMessages: Loading messages for chatId:', chatId)
       const q = query(
         collection(db, 'messages'),
-        where('chatId', '==', chatId),
-        where('userId', '==', currentUser.uid),
-        orderBy('timestamp', 'asc')
+        where('chatId', '==', chatId)
       );
 
       const querySnapshot = await getDocs(q);
       const messages = [];
       
       querySnapshot.forEach((doc) => {
+        const data = doc.data();
         messages.push({
           id: doc.id,
-          ...doc.data(),
-          timestamp: doc.data().timestamp?.toDate() || doc.data().createdAt
+          ...data,
+          timestamp: data.timestamp?.toDate ? data.timestamp.toDate() : (data.timestamp || data.createdAt || new Date())
         });
+      });
+
+      // Client-side sort prevents Firestore composite index error
+      messages.sort((a, b) => {
+        const timeA = new Date(a.timestamp || 0).getTime();
+        const timeB = new Date(b.timestamp || 0).getTime();
+        return timeA - timeB;
       });
 
       const dedupedMessages = [];

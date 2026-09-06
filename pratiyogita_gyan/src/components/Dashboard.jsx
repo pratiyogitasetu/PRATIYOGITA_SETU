@@ -466,16 +466,16 @@ const Dashboard = ({ onClose }) => {
 
   return (
     <div
-      className="dashboard-page flex-1 flex flex-col h-full overflow-hidden pr-1 pb-1"
+      className={`dashboard-page flex-1 flex flex-col h-full overflow-hidden ${isMobile ? 'p-0' : 'pr-1 pb-1'}`}
       style={{
         paddingTop: isMobile ? '56px' : '60px',
-        marginLeft: `${contentOffsetLeft}px`,
-        width: `calc(100% - ${contentOffsetLeft + (isMobile ? 0 : 4)}px)`,
+        marginLeft: isMobile ? 0 : `${contentOffsetLeft}px`,
+        width: isMobile ? '100%' : `calc(100% - ${contentOffsetLeft + 4}px)`,
         transition: 'margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
       }}
     >
       {/* Main Dashboard Container */}
-      <div className="flex-1 bg-white border border-gray-200 rounded-lg shadow-sm flex flex-col overflow-hidden">
+      <div className={`flex-1 bg-white flex flex-col overflow-hidden ${isMobile ? 'border-0 rounded-none' : 'border border-gray-200 rounded-lg shadow-sm'}`}>
         {/* Dashboard Header */}
         <div className="border-b border-gray-200 px-3 py-2.5 sm:px-6 sm:py-3.5">
           <div className="flex items-center justify-between gap-3">
