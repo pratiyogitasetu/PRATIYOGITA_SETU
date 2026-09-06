@@ -48,7 +48,7 @@ try {
   });
   
   if (import.meta.env.DEV) {
-    console.log('✅ Firebase initialized successfully with 5MB cache limit');
+    console.log('✅ Firebase initialized successfully for project:', firebaseConfig.projectId);
   }
 } catch (error) {
   console.error('❌ Firebase initialization error:', error);
