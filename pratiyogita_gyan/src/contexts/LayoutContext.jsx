@@ -48,13 +48,13 @@ export const LayoutProvider = ({ children }) => {
     if (isMobile) return 0
 
     // Sidebar dimensions mirror Sidebar.jsx:
-    // expanded: 240px (tablet), 255px (desktop) with 4px left gap
-    // collapsed icon rail (desktop only): 40px with 4px left gap
+    // expanded: 244px with 4px left gap + 4px separation gap = 252px (tablet 244px)
+    // collapsed icon rail: 42px with 4px left gap + 4px separation gap = 50px
     if (sidebarVisible) {
-      return viewportWidth >= 900 ? 259 : 244
+      return viewportWidth >= 900 ? 252 : 244
     }
 
-    return 44
+    return 50
   })()
 
   const toggleSidebar = () => {

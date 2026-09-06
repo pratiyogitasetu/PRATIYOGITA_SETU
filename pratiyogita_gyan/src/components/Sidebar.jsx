@@ -221,22 +221,22 @@ const Sidebar = () => {
         sx={{
           position: 'fixed',
           left: isMobile ? 0 : 4,
-          top: isMobile ? 56 : 64,
+          top: isMobile ? 56 : 60,
           bottom: isMobile ? 0 : 4,
           width: isMobile
             ? { xs: '84vw', sm: 300 }
             : (sidebarVisible
-              ? { xs: 220, sm: 240, md: 255 }
-              : { xs: 0, md: 40 }
+              ? { xs: 220, sm: 236, md: 244 }
+              : { xs: 0, md: 42 }
             ),
           maxWidth: isMobile ? 320 : 'none',
           zIndex: isMobile ? 1400 : 30,
-          borderRadius: isMobile ? '0 16px 16px 0' : 1,
+          borderRadius: isMobile ? '0 16px 16px 0' : '12px',
           border: isMobile && !sidebarVisible ? 'none' : '1px solid #e5e7eb',
           backgroundColor: '#ffffff',
           color: '#000000',
           overflow: 'hidden',
-          boxShadow: isMobile && sidebarVisible ? '8px 0 32px rgba(0,0,0,0.25)' : 'none',
+          boxShadow: isMobile && sidebarVisible ? '8px 0 32px rgba(0,0,0,0.25)' : '0 1px 2px rgba(0,0,0,0.04)',
           transform: isMobile
             ? (sidebarVisible ? 'translate3d(0, 0, 0)' : 'translate3d(-100%, 0, 0)')
             : 'none',
@@ -612,7 +612,7 @@ const Sidebar = () => {
               display: 'flex',
               flexDirection: 'column',
               height: '100%',
-              width: 40,
+              width: 42,
               opacity: !sidebarVisible ? 1 : 0,
               visibility: !sidebarVisible ? 'visible' : 'hidden',
               transition: 'opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.25s',

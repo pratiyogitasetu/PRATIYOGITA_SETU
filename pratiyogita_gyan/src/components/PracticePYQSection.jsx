@@ -595,16 +595,16 @@ const PracticePYQSection = () => {
 
   return (
     <div
-      className="dashboard-page flex-1 mr-0 flex flex-col h-full overflow-hidden pl-2 pr-2 pb-2"
+      className="dashboard-page flex-1 flex flex-col h-full overflow-hidden pr-1 pb-1"
       style={{
-        paddingTop: isMobile ? '60px' : '64px',
+        paddingTop: isMobile ? '56px' : '60px',
         marginLeft: `${contentOffsetLeft}px`,
-        width: `calc(100% - ${contentOffsetLeft + (isMobile ? 0 : 8)}px)`,
+        width: `calc(100% - ${contentOffsetLeft + (isMobile ? 0 : 4)}px)`,
         transition: 'margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
       }}
     >
       {/* Outer Dashboard Card Wrapper */}
-      <div className="flex-1 bg-white border border-gray-300 rounded-lg shadow-sm flex flex-col overflow-hidden">
+      <div className="flex-1 bg-white border border-gray-200 rounded-xl shadow-sm flex flex-col overflow-hidden">
         
         {/* Top Header Bar */}
         <div className="border-b border-gray-200 px-3 py-2 sm:px-4 sm:py-2.5 flex items-center justify-between gap-2 shrink-0 bg-white">

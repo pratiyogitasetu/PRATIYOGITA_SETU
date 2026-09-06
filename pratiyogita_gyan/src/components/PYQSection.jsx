@@ -1028,20 +1028,20 @@ const PYQSection = () => {
   }, [currentQuestions, userAnswers])
 
   const leftMarginPx = contentOffsetLeft
-  const rightMarginPx = pyqVisible ? 424 : 44
+  const rightMarginPx = pyqVisible ? 408 : 50
 
   return (
     <Box
       sx={{
         position: 'fixed',
-        top: { xs: 60, md: 64 },
+        top: { xs: 58, md: 60 },
         bottom: { xs: 0, md: 4 },
         left: { xs: 0, md: leftMarginPx },
         right: { xs: 0, md: rightMarginPx },
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
-        p: { xs: 0.5, md: 0.5 },
+        p: 0,
         transform: isMobile ? (mobileActiveTab === 'pyq' ? 'translateX(0%)' : 'translateX(-100%)') : 'none',
         opacity: isMobile ? (mobileActiveTab === 'pyq' ? 1 : 0) : 1,
         pointerEvents: isMobile ? (mobileActiveTab === 'pyq' ? 'auto' : 'none') : 'auto',
@@ -1051,10 +1051,11 @@ const PYQSection = () => {
     >
       <Paper
         elevation={1}
-        className="flex-grow rounded-lg shadow-sm flex flex-col overflow-hidden transition-colors duration-300"
+        className="flex-grow rounded-xl shadow-sm flex flex-col overflow-hidden transition-colors duration-300"
         sx={{
           backgroundColor: '#ffffff',
           border: '1px solid #e5e7eb',
+          borderRadius: isMobile ? 0 : '12px',
           position: 'relative'
         }}
       >

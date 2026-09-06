@@ -19,6 +19,8 @@ backend/.env.*
 
 # Local documentation & backup references
 DELETED_FILES_REFERENCE.md
+multi-repo-analysis-report.json
+*-report.json
 
 # IDE, OS, and log files
 .vscode/

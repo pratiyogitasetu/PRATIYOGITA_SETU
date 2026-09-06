@@ -466,16 +466,16 @@ const Dashboard = ({ onClose }) => {
 
   return (
     <div
-      className="dashboard-page flex-1 mr-0 flex flex-col h-full overflow-hidden pl-2 pr-2 pb-2"
+      className="dashboard-page flex-1 flex flex-col h-full overflow-hidden pr-1 pb-1"
       style={{
-        paddingTop: isMobile ? '60px' : '64px',
+        paddingTop: isMobile ? '56px' : '60px',
         marginLeft: `${contentOffsetLeft}px`,
-        width: `calc(100% - ${contentOffsetLeft + (isMobile ? 0 : 8)}px)`,
+        width: `calc(100% - ${contentOffsetLeft + (isMobile ? 0 : 4)}px)`,
         transition: 'margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
       }}
     >
       {/* Main Dashboard Container */}
-      <div className="flex-1 bg-white border border-gray-400 rounded-lg shadow-sm flex flex-col overflow-hidden">
+      <div className="flex-1 bg-white border border-gray-200 rounded-xl shadow-sm flex flex-col overflow-hidden">
         {/* Dashboard Header */}
         <div className="border-b border-gray-200 px-3 py-2.5 sm:px-6 sm:py-3.5">
           <div className="flex items-center justify-between gap-3">
@@ -536,102 +536,164 @@ const Dashboard = ({ onClose }) => {
               </div>
             )}
             
-            {/* Overview Stats - Questions & MCQ Highlights */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-              <StatCard
-                title="Questions Asked"
-                value={stats.totalQuestions || 0}
-                subtitle="Total across all chats"
-                icon={Brain}
-                color="#3B82F6"
-              />
-              <StatCard
-                title="MCQs Attempted"
-                value={stats.totalMcqAttempted || 0}
-                subtitle="Previous year questions"
-                icon={BookOpen}
-                color="#8B5CF6"
-              />
-              <StatCard
-                title="Correct Answers"
-                value={stats.mcqCorrect || 0}
-                subtitle={stats.totalMcqAttempted > 0 ? `${Math.round(((stats.mcqCorrect || 0) / stats.totalMcqAttempted) * 100)}% accuracy` : "0% accuracy"}
-                icon={CheckCircle}
-                color="#10B981"
-              />
-              <StatCard
-                title="Wrong Answers"
-                value={stats.mcqWrong || 0}
-                subtitle={stats.totalMcqAttempted > 0 ? `${Math.round(((stats.mcqWrong || 0) / stats.totalMcqAttempted) * 100)}% error rate` : "0% error"}
-                icon={XCircle}
-                color="#EF4444"
-              />
-            </div>
+            {/* Side-by-Side Compact Containers: Activity Overview (Left) & MCQ Performance Breakdown (Right) */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 items-stretch">
+              
+              {/* Left Container: Activity & Questions Overview (Image 2 Dark & Warm Orange Scheme) */}
+              <div className="bg-[#1e1e24] border border-white/10 rounded-xl p-3 flex flex-col justify-between shadow-sm">
+                <div className="flex items-center justify-between pb-2 mb-2 border-b border-white/10">
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-md bg-[#e4572e]/15 flex items-center justify-center text-[#ea580c]">
+                      <Brain className="w-3.5 h-3.5" />
+                    </div>
+                    <div>
+                      <h3 className="text-xs sm:text-sm font-bold text-white tracking-wide">Questions & Practice Overview</h3>
+                      <p className="text-[10px] text-gray-400">Total questions asked and MCQ attempts</p>
+                    </div>
+                  </div>
+                  <span className="px-2 py-0.5 text-[11px] font-semibold bg-[#e4572e]/15 text-[#ea580c] border border-[#e4572e]/30 rounded-full">
+                    {stats.totalQuestions || 0} Questions
+                  </span>
+                </div>
 
-            {/* MCQ Performance Breakdown Section */}
-            <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-              <SectionHeader 
-                title="MCQ Performance Breakdown"
-                icon={Target}
-                isExpanded={expandedSections.mcqBreakdown}
-                onToggle={() => toggleSection('mcqBreakdown')}
-                badge={`${stats.mcqAccuracy || 0}% Accuracy`}
-              />
-              {expandedSections.mcqBreakdown && (
-                <div className="p-4 space-y-4">
-                  {/* Detailed Metric Pills */}
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    <div className="bg-purple-50 border border-purple-200 rounded-lg p-3 text-center">
-                      <p className="text-xs text-purple-700 font-medium">Total Attempted</p>
-                      <p className="text-xl font-bold text-purple-900 mt-0.5">{stats.totalMcqAttempted || 0}</p>
+                {/* 2x2 Compact Metric Grid */}
+                <div className="grid grid-cols-2 gap-2 flex-1">
+                  {/* Questions Asked */}
+                  <div className="bg-[#27272e] border border-white/10 rounded-lg p-2.5 flex flex-col justify-between hover:border-white/20 transition-colors">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-[11px] font-semibold text-gray-300">Questions Asked</span>
+                      <div className="p-1 rounded bg-blue-500/10 text-blue-400">
+                        <Brain className="w-3 h-3" />
+                      </div>
                     </div>
-                    <div className="bg-green-50 border border-green-200 rounded-lg p-3 text-center">
-                      <p className="text-xs text-green-700 font-medium">Correct</p>
-                      <p className="text-xl font-bold text-green-900 mt-0.5">{stats.mcqCorrect || 0}</p>
-                    </div>
-                    <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-center">
-                      <p className="text-xs text-red-700 font-medium">Wrong</p>
-                      <p className="text-xl font-bold text-red-900 mt-0.5">{stats.mcqWrong || 0}</p>
-                    </div>
-                    <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 text-center">
-                      <p className="text-xs text-amber-700 font-medium">Overall Accuracy</p>
-                      <p className="text-xl font-bold text-amber-900 mt-0.5">{stats.mcqAccuracy || 0}%</p>
+                    <div>
+                      <p className="text-xl font-extrabold text-white leading-tight">{stats.totalQuestions || 0}</p>
+                      <p className="text-[10px] text-gray-400 mt-0.5 truncate">Total across all chats</p>
                     </div>
                   </div>
 
-                  {/* Visual Proportion Bar */}
-                  {stats.totalMcqAttempted > 0 ? (
+                  {/* MCQs Attempted */}
+                  <div className="bg-[#27272e] border border-white/10 rounded-lg p-2.5 flex flex-col justify-between hover:border-white/20 transition-colors">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-[11px] font-semibold text-gray-300">MCQs Attempted</span>
+                      <div className="p-1 rounded bg-purple-500/10 text-purple-400">
+                        <BookOpen className="w-3 h-3" />
+                      </div>
+                    </div>
                     <div>
-                      <div className="flex justify-between text-xs text-gray-600 mb-1">
-                        <span className="flex items-center gap-1 font-medium text-green-700">
-                          <span className="w-2 h-2 rounded-full bg-green-500 inline-block"></span>
+                      <p className="text-xl font-extrabold text-white leading-tight">{stats.totalMcqAttempted || 0}</p>
+                      <p className="text-[10px] text-gray-400 mt-0.5 truncate">Previous year questions</p>
+                    </div>
+                  </div>
+
+                  {/* Correct Answers */}
+                  <div className="bg-[#27272e] border border-white/10 rounded-lg p-2.5 flex flex-col justify-between hover:border-emerald-500/30 transition-colors">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-[11px] font-semibold text-gray-300">Correct Answers</span>
+                      <div className="p-1 rounded bg-emerald-500/10 text-emerald-400">
+                        <CheckCircle className="w-3 h-3" />
+                      </div>
+                    </div>
+                    <div>
+                      <p className="text-xl font-extrabold text-emerald-400 leading-tight">{stats.mcqCorrect || 0}</p>
+                      <p className="text-[10px] text-emerald-400/90 mt-0.5 truncate font-medium">
+                        {stats.totalMcqAttempted > 0 ? `${Math.round(((stats.mcqCorrect || 0) / stats.totalMcqAttempted) * 100)}% accuracy` : "0% accuracy"}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Wrong Answers */}
+                  <div className="bg-[#27272e] border border-white/10 rounded-lg p-2.5 flex flex-col justify-between hover:border-rose-500/30 transition-colors">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-[11px] font-semibold text-gray-300">Wrong Answers</span>
+                      <div className="p-1 rounded bg-rose-500/10 text-rose-400">
+                        <XCircle className="w-3 h-3" />
+                      </div>
+                    </div>
+                    <div>
+                      <p className="text-xl font-extrabold text-rose-400 leading-tight">{stats.mcqWrong || 0}</p>
+                      <p className="text-[10px] text-rose-400/90 mt-0.5 truncate font-medium">
+                        {stats.totalMcqAttempted > 0 ? `${Math.round(((stats.mcqWrong || 0) / stats.totalMcqAttempted) * 100)}% error` : "0% error"}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Container: MCQ Performance Breakdown (Image 2 Dark & Warm Orange Scheme) */}
+              <div className="bg-[#1e1e24] border border-white/10 rounded-xl p-3 flex flex-col justify-between shadow-sm">
+                <div className="flex items-center justify-between pb-2 mb-2 border-b border-white/10">
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-md bg-[#e4572e]/15 flex items-center justify-center text-[#ea580c]">
+                      <Target className="w-3.5 h-3.5" />
+                    </div>
+                    <div>
+                      <h3 className="text-xs sm:text-sm font-bold text-white tracking-wide">MCQ Performance Breakdown</h3>
+                      <p className="text-[10px] text-gray-400">Accuracy and precision analytics</p>
+                    </div>
+                  </div>
+                  <span className="px-2 py-0.5 text-[11px] font-semibold bg-[#e4572e]/15 text-[#ea580c] border border-[#e4572e]/30 rounded-full">
+                    {stats.mcqAccuracy || 0}% Accuracy
+                  </span>
+                </div>
+
+                {/* 4 Detailed Metric Pills */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 mb-2">
+                  <div className="bg-[#27272e] border border-white/10 rounded-lg p-2 text-center">
+                    <p className="text-[10px] text-purple-300 font-medium">Total Attempted</p>
+                    <p className="text-base sm:text-lg font-extrabold text-white mt-0.5">{stats.totalMcqAttempted || 0}</p>
+                  </div>
+                  <div className="bg-[#27272e] border border-white/10 rounded-lg p-2 text-center">
+                    <p className="text-[10px] text-emerald-400 font-medium">Correct</p>
+                    <p className="text-base sm:text-lg font-extrabold text-emerald-400 mt-0.5">{stats.mcqCorrect || 0}</p>
+                  </div>
+                  <div className="bg-[#27272e] border border-white/10 rounded-lg p-2 text-center">
+                    <p className="text-[10px] text-rose-400 font-medium">Wrong</p>
+                    <p className="text-base sm:text-lg font-extrabold text-rose-400 mt-0.5">{stats.mcqWrong || 0}</p>
+                  </div>
+                  <div className="bg-[#27272e] border border-white/10 rounded-lg p-2 text-center">
+                    <p className="text-[10px] text-orange-400 font-medium">Overall Accuracy</p>
+                    <p className="text-base sm:text-lg font-extrabold text-[#ea580c] mt-0.5">{stats.mcqAccuracy || 0}%</p>
+                  </div>
+                </div>
+
+                {/* Visual Proportion Bar or Empty State Message */}
+                <div className="flex-1 flex flex-col justify-center">
+                  {stats.totalMcqAttempted > 0 ? (
+                    <div className="bg-[#27272e] border border-white/10 rounded-lg p-2.5">
+                      <div className="flex justify-between text-[11px] text-gray-300 mb-1">
+                        <span className="flex items-center gap-1 font-semibold text-emerald-400">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block shadow-[0_0_6px_rgba(52,211,153,0.6)]"></span>
                           Correct: {stats.mcqCorrect || 0} ({Math.round(((stats.mcqCorrect || 0) / stats.totalMcqAttempted) * 100)}%)
                         </span>
-                        <span className="flex items-center gap-1 font-medium text-red-700">
-                          <span className="w-2 h-2 rounded-full bg-red-500 inline-block"></span>
+                        <span className="flex items-center gap-1 font-semibold text-rose-400">
+                          <span className="w-1.5 h-1.5 rounded-full bg-rose-400 inline-block shadow-[0_0_6px_rgba(248,113,113,0.6)]"></span>
                           Wrong: {stats.mcqWrong || 0} ({Math.round(((stats.mcqWrong || 0) / stats.totalMcqAttempted) * 100)}%)
                         </span>
                       </div>
-                      <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden flex">
+                      <div className="w-full bg-[#18181b] rounded-full h-2 overflow-hidden flex border border-white/5">
                         <div 
-                          className="bg-green-500 h-full transition-all duration-500" 
+                          className="bg-emerald-500 h-full transition-all duration-500" 
                           style={{ width: `${Math.round(((stats.mcqCorrect || 0) / stats.totalMcqAttempted) * 100)}%` }}
                           title={`Correct: ${stats.mcqCorrect || 0}`}
                         />
                         <div 
-                          className="bg-red-500 h-full transition-all duration-500" 
+                          className="bg-rose-500 h-full transition-all duration-500" 
                           style={{ width: `${Math.round(((stats.mcqWrong || 0) / stats.totalMcqAttempted) * 100)}%` }}
                           title={`Wrong: ${stats.mcqWrong || 0}`}
                         />
                       </div>
                     </div>
                   ) : (
-                    <div className="text-center py-4 bg-gray-50 rounded-lg border border-dashed border-gray-300">
-                      <p className="text-sm text-gray-500">No MCQs attempted yet. Practice previous year questions from the PYQ panel to see your accuracy breakdown!</p>
+                    <div className="text-center py-2.5 px-3 bg-[#27272e]/60 rounded-lg border border-dashed border-white/15">
+                      <p className="text-xs text-gray-400 leading-relaxed">
+                        No MCQs attempted yet. Practice previous year questions from the PYQ panel to see your accuracy breakdown!
+                      </p>
                     </div>
                   )}
                 </div>
-              )}
+              </div>
+
             </div>
 
             {/* Year-Wise PYQ Practice Breakdown - Expandable */}

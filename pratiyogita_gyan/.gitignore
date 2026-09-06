@@ -28,6 +28,8 @@ backend/newenv/
 backend/__pycache__/
 backend/*.pyc
 DELETED_FILES_REFERENCE.md
+multi-repo-analysis-report.json
+*-report.json
 
 # Editor directories and files
 .vscode/*

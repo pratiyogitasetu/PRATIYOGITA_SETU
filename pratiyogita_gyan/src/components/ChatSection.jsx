@@ -1411,16 +1411,16 @@ const ChatSection = () => {
             position: 'fixed',
             right: isMobile ? 0 : 4,
             left: isMobile ? 0 : 'auto',
-            top: isMobile ? 60 : 64,
+            top: isMobile ? 58 : 60,
             bottom: isMobile ? 0 : 4,
-            width: isMobile ? '100%' : 420,
+            width: isMobile ? '100%' : 400,
             zIndex: isMobile ? 25 : 30,
-            borderRadius: isMobile ? 0 : 1,
+            borderRadius: isMobile ? 0 : '12px',
             backgroundColor: '#ffffff',
             overflow: 'hidden',
             display: 'flex',
             flexDirection: 'column',
-            border: isMobile ? 'none' : '1px solid #808080',
+            border: isMobile ? 'none' : '1px solid #e5e7eb',
             transform: isMobile ? (mobileActiveTab === 'chat' ? 'translateX(0%)' : 'translateX(100%)') : 'none',
             opacity: isMobile ? (mobileActiveTab === 'chat' ? 1 : 0) : 1,
             pointerEvents: isMobile ? (mobileActiveTab === 'chat' ? 'auto' : 'none') : 'auto',
@@ -1431,10 +1431,11 @@ const ChatSection = () => {
           {/* Main Chat Container with Theme-aware Background */}
           <Paper
             elevation={1}
-            className="flex-grow rounded-lg flex flex-col overflow-hidden transition-colors duration-300"
+            className="flex-grow rounded-xl flex flex-col overflow-hidden transition-colors duration-300"
             sx={{
               backgroundColor: '#ffffff',
               border: 'none',
+              borderRadius: isMobile ? 0 : '12px',
               position: 'relative',
               height: '100%'
             }}
@@ -1547,16 +1548,16 @@ const ChatSection = () => {
       {/* Collapsed Chat Section (Desktop Icon Bar Only) */}
       {!isMobile && !pyqVisible && (
         <Paper
-          elevation={3}
+          elevation={2}
           sx={{
             position: 'fixed',
             right: 4,
-            top: 64,
+            top: 60,
             bottom: 4,
-            width: 40,
+            width: 42,
             zIndex: 30,
-            borderRadius: 1,
-            border: '1px solid #808080',
+            borderRadius: '12px',
+            border: '1px solid #e5e7eb',
             backgroundColor: '#ffffff',
             color: '#000000',
             overflow: 'hidden',
