@@ -12,6 +12,10 @@ __pycache__/
 .venv/
 venv/
 ENV/
+newenv/
+
+# Offline Data & Training
+DATA/
 
 # IDE
 .vscode/

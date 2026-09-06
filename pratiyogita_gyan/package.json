@@ -34,5 +34,10 @@
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3"
+  },
+  "allowScripts": {
+    "@firebase/util@1.12.1": true,
+    "esbuild@0.25.6": true,
+    "protobufjs@7.6.6": true
   }
 }
