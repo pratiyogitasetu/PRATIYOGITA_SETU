@@ -299,7 +299,6 @@ const createMarkdownComponents = (isUserMessage) => ({
 const ChatMessageBubble = memo(({
   message,
   markdownComponents,
-  typingText,
   currentStepIndex,
   expandedSourceSet,
   onToggleSource,
@@ -390,7 +389,7 @@ const ChatMessageBubble = memo(({
               }}
             >
               <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
-                {typingText ?? message.content}
+                {message.content}
               </ReactMarkdown>
             </Box>
 
@@ -558,7 +557,6 @@ ChatMessageBubble.propTypes = {
     error: PropTypes.bool
   }).isRequired,
   markdownComponents: PropTypes.object.isRequired,
-  typingText: PropTypes.string,
   currentStepIndex: PropTypes.number,
   expandedSourceSet: PropTypes.instanceOf(Set),
   onToggleSource: PropTypes.func.isRequired,
@@ -588,10 +586,6 @@ const ChatSection = () => {
   const [rateLimitMessage] = useState('')
   const [expandedSources, setExpandedSources] = useState({}) // Track expanded sources for each message
   const [currentStepIndex, setCurrentStepIndex] = useState(0)
-  const [typingVisible, setTypingVisible] = useState({})
-  const typingTimersRef = useRef({})
-  const typedMessageIdsRef = useRef(new Set())
-  const pendingBotIdRef = useRef(null)
   const currentQueryPyqsRef = useRef([])
 
   const toggleSources = useCallback((sourceKey) => {
@@ -931,58 +925,8 @@ const ChatSection = () => {
       if (window.chatTimeoutId) {
         clearTimeout(window.chatTimeoutId)
       }
-      Object.values(typingTimersRef.current).forEach(clearInterval)
-      typingTimersRef.current = {}
     }
   }, [])
-
-  // Typing animation for the latest bot response
-  useEffect(() => {
-    if (!pendingBotIdRef.current) return
-    const latestBotMessage = messages.find(
-      (msg) => msg.id === pendingBotIdRef.current && msg.type === 'bot' && !msg.isLoading && msg.content
-    )
-
-    if (!latestBotMessage) return
-    if (typedMessageIdsRef.current.has(latestBotMessage.id)) return
-    if (typingTimersRef.current[latestBotMessage.id]) return
-
-    const tokens = latestBotMessage.content.match(/\S+|\s+/g) || []
-    let index = 0
-
-    setTypingVisible((prev) => ({ ...prev, [latestBotMessage.id]: '' }))
-
-    typingTimersRef.current[latestBotMessage.id] = setInterval(() => {
-      index += 1
-      setTypingVisible((prev) => ({
-        ...prev,
-        [latestBotMessage.id]: tokens.slice(0, index).join('')
-      }))
-
-      if (index >= tokens.length) {
-        clearInterval(typingTimersRef.current[latestBotMessage.id])
-        delete typingTimersRef.current[latestBotMessage.id]
-        typedMessageIdsRef.current.add(latestBotMessage.id)
-        pendingBotIdRef.current = null
-        setTypingVisible((prev) => {
-          const rest = { ...prev }
-          delete rest[latestBotMessage.id]
-          return rest
-        })
-      }
-    }, 10)
-  }, [messages])
-
-  // Cleanup timers for removed messages
-  useEffect(() => {
-    const messageIds = new Set(messages.map((msg) => msg.id))
-    Object.keys(typingTimersRef.current).forEach((id) => {
-      if (!messageIds.has(Number(id))) {
-        clearInterval(typingTimersRef.current[id])
-        delete typingTimersRef.current[id]
-      }
-    })
-  }, [messages])
 
   // Handle guest chat saving
   const handleGuestChatSave = useCallback((messages, titleSource) => {
@@ -1129,8 +1073,6 @@ const ChatSection = () => {
       isLoading: true,
       timestamp: new Date()
     }
-
-    pendingBotIdRef.current = tempBotMessage.id
 
     setMessages(prev => [...prev, tempBotMessage])
 
@@ -1358,7 +1300,7 @@ const ChatSection = () => {
     scrollStateRef.current.scrollTop = container.scrollTop
     scrollStateRef.current.scrollHeight = container.scrollHeight
     scrollStateRef.current.isAtTop = container.scrollTop <= 8
-  }, [messages.length, typingVisible])
+  }, [messages.length])
 
   const messagePairs = useMemo(() => {
     const pairs = []
@@ -1417,7 +1359,6 @@ const ChatSection = () => {
       key={message.id}
       message={message}
       markdownComponents={message.type === 'user' ? markdownComponentsByRole.user : markdownComponentsByRole.bot}
-      typingText={typingVisible[message.id]}
       currentStepIndex={message.type === 'bot' && message.isLoading ? currentStepIndex : 0}
       expandedSourceSet={expandedSourcesByMessage.get(String(message.id)) || EMPTY_EXPANDED_SOURCES}
       onToggleSource={toggleSources}

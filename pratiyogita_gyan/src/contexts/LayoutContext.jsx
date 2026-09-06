@@ -30,17 +30,25 @@ export const LayoutProvider = ({ children }) => {
   }, [])
 
   useEffect(() => {
-    const handleSwitchToChat = () => {
-      if (isMobile) setMobileActiveTab('chat')
+    const handleSwitchToChat = (event) => {
+      if (isMobile) {
+        const targetTab = event?.detail?.targetTab || 'chat'
+        setMobileActiveTab(targetTab)
+      }
     }
     const handleSwitchToPyq = () => {
       if (isMobile) setMobileActiveTab('pyq')
     }
+    const handleNewChat = () => {
+      if (isMobile) setMobileActiveTab('pyq')
+    }
     window.addEventListener('switchToChat', handleSwitchToChat)
     window.addEventListener('switchToPyq', handleSwitchToPyq)
+    window.addEventListener('newChat', handleNewChat)
     return () => {
       window.removeEventListener('switchToChat', handleSwitchToChat)
       window.removeEventListener('switchToPyq', handleSwitchToPyq)
+      window.removeEventListener('newChat', handleNewChat)
     }
   }, [isMobile])
 

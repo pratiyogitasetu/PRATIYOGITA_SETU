@@ -55,9 +55,17 @@ const Sidebar = () => {
     try {
       // New Chat behaves like Home initially: no DB write until first message send
       sessionStorage.removeItem(PENDING_CHAT_LOAD_STORAGE_KEY)
-      window.dispatchEvent(new CustomEvent('switchToChat'))
+      window.dispatchEvent(new CustomEvent('switchToChat', {
+        detail: { targetTab: isMobile ? 'pyq' : undefined }
+      }))
+      if (isMobile && sidebarVisible) {
+        toggleSidebar()
+      }
       setTimeout(() => {
         window.dispatchEvent(new CustomEvent('newChat', { detail: { chatId: null } }))
+        if (isMobile) {
+          window.dispatchEvent(new CustomEvent('switchToPyq'))
+        }
       }, 0)
     } catch (error) {
       console.error('❌ Failed to create new chat:', error)
@@ -69,6 +77,9 @@ const Sidebar = () => {
     console.log('💬 Chat selected:', chat.title, 'chatId:', chat.id)
     sessionStorage.setItem(PENDING_CHAT_LOAD_STORAGE_KEY, JSON.stringify(chat))
     window.dispatchEvent(new CustomEvent('switchToChat'))
+    if (isMobile && sidebarVisible) {
+      toggleSidebar()
+    }
 
     // For guest chats, we need to load messages from the stored chat data
     if (chat.id.startsWith('guest-')) {
