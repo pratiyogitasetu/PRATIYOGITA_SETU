@@ -3862,6 +3862,9 @@ def get_available_pyq_papers():
     try:
         display_full_forms = {
             'CDS': 'Combined Defence Services',
+            'AFCAT': 'Air Force Common Admission Test',
+            'NDA': 'National Defence Academy',
+            'CAPF': 'Central Armed Police Forces',
             'SSC_CGL': 'Staff Selection Commission - CGL',
             'UPSC': 'Civil Services Examination',
             'RRB_NTPC': 'Non-Technical Popular Categories',
@@ -3919,6 +3922,36 @@ def get_available_pyq_papers():
                     {'year_id': '2010_1', 'label': '2010 (Paper 1)', 'question_count': 120},
                     {'year_id': '2009_2', 'label': '2009 (Paper 2)', 'question_count': 120},
                     {'year_id': '2009_1', 'label': '2009 (Paper 1)', 'question_count': 120}
+                ]
+            },
+            {
+                'category': 'DEFENCE_EXAMS',
+                'exam_id': 'AFCAT',
+                'full_form': display_full_forms['AFCAT'],
+                'exam_name': f"AFCAT ({display_full_forms['AFCAT']})",
+                'total_questions': 10,
+                'years': [
+                    {'year_id': '2024_1', 'label': '2024 (Paper 1)', 'question_count': 10}
+                ]
+            },
+            {
+                'category': 'DEFENCE_EXAMS',
+                'exam_id': 'NDA',
+                'full_form': display_full_forms['NDA'],
+                'exam_name': f"NDA ({display_full_forms['NDA']})",
+                'total_questions': 10,
+                'years': [
+                    {'year_id': '2024_1', 'label': '2024 (Paper 1)', 'question_count': 10}
+                ]
+            },
+            {
+                'category': 'DEFENCE_EXAMS',
+                'exam_id': 'CAPF',
+                'full_form': display_full_forms['CAPF'],
+                'exam_name': f"CAPF ({display_full_forms['CAPF']})",
+                'total_questions': 10,
+                'years': [
+                    {'year_id': '2024', 'label': '2024', 'question_count': 10}
                 ]
             },
             {
@@ -4011,6 +4044,47 @@ def get_available_pyq_papers():
             }
         ]
 
+        # Dynamically scan DATA/pyq/*.json so any newly added exam/year automatically appears in catalog
+        try:
+            pyq_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'DATA', 'pyq')
+            if not os.path.exists(pyq_dir):
+                pyq_dir = os.path.join(os.getcwd(), 'DATA', 'pyq')
+            if os.path.exists(pyq_dir):
+                existing_exam_ids = {ex['exam_id'] for ex in default_paper_catalog}
+                for fpath in glob.glob(os.path.join(pyq_dir, '*.json')):
+                    with open(fpath, 'r', encoding='utf-8') as fp:
+                        cat_data = json.load(fp)
+                    for cat_k, exams_dict in cat_data.items():
+                        if not isinstance(exams_dict, dict):
+                            continue
+                        for exam_k, years_dict in exams_dict.items():
+                            if exam_k in existing_exam_ids or not isinstance(years_dict, dict):
+                                continue
+                            years_list = []
+                            total_q = 0
+                            for yr_k, q_list in sorted(years_dict.items(), reverse=True):
+                                if isinstance(q_list, list):
+                                    count = len(q_list)
+                                    total_q += count
+                                    label_str = yr_k.replace('_', ' (Paper ') + ')' if '_' in yr_k else yr_k
+                                    years_list.append({
+                                        'year_id': yr_k,
+                                        'label': label_str,
+                                        'question_count': count
+                                    })
+                            full_title = display_full_forms.get(exam_k, exam_k)
+                            default_paper_catalog.append({
+                                'category': cat_k,
+                                'exam_id': exam_k,
+                                'full_form': full_title,
+                                'exam_name': f"{exam_k} ({full_title})" if full_title != exam_k else exam_k,
+                                'total_questions': total_q,
+                                'years': years_list
+                            })
+                            existing_exam_ids.add(exam_k)
+        except Exception as scan_err:
+            app.logger.warning(f"Error scanning local PYQ json for catalog: {scan_err}")
+
         default_paper_catalog.sort(key=lambda x: x['category'])
 
         return jsonify({
@@ -4034,6 +4108,9 @@ def get_paper_questions():
         # Map exam_id to category namespace if missing
         exam_to_cat = {
             'CDS': 'DEFENCE_EXAMS',
+            'AFCAT': 'DEFENCE_EXAMS',
+            'NDA': 'DEFENCE_EXAMS',
+            'CAPF': 'DEFENCE_EXAMS',
             'UPSC': 'CIVIL_SERVICES_EXAMS',
             'UPSI': 'POLICE_EXAMS',
             'SSC_CGL': 'SSC_EXAMS',
@@ -4074,22 +4151,18 @@ def get_paper_questions():
         # 1. Primary: Fetch directly from Pinecone vector database
         if target_idx and cat:
             try:
-                # Build Pinecone filter based on year format
-                # e.g., '2023_1' -> year='2023', term='I'
-                #       '2023_2' -> year='2023', term='II'
+                # Build Pinecone filter based on exam_name and year format
                 filter_dict = {}
+                if exam_id:
+                    filter_dict['exam_name'] = exam_id
                 if '_' in year:
                     parts = year.split('_')
                     yr_val = parts[0]
                     term_val = 'I' if parts[1] == '1' else 'II'
-                    filter_dict = {
-                        'exam_year': yr_val,
-                        'exam_term': term_val
-                    }
+                    filter_dict['exam_year'] = yr_val
+                    filter_dict['exam_term'] = term_val
                 elif year:
-                    filter_dict = {
-                        'exam_year': year
-                    }
+                    filter_dict['exam_year'] = year
 
                 # Query Pinecone namespace using zero-vector of dimension 768
                 dim = 768
