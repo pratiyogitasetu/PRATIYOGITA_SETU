@@ -231,7 +231,7 @@ const Sidebar = () => {
             ),
           maxWidth: isMobile ? 320 : 'none',
           zIndex: isMobile ? 1400 : 30,
-          borderRadius: isMobile ? '0 16px 16px 0' : '12px',
+          borderRadius: isMobile ? '0 16px 16px 0' : '8px',
           border: isMobile && !sidebarVisible ? 'none' : '1px solid #e5e7eb',
           backgroundColor: '#ffffff',
           color: '#000000',

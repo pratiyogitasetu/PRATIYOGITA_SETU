@@ -604,7 +604,7 @@ const PracticePYQSection = () => {
       }}
     >
       {/* Outer Dashboard Card Wrapper */}
-      <div className="flex-1 bg-white border border-gray-200 rounded-xl shadow-sm flex flex-col overflow-hidden">
+      <div className="flex-1 bg-white border border-gray-200 rounded-lg shadow-sm flex flex-col overflow-hidden">
         
         {/* Top Header Bar */}
         <div className="border-b border-gray-200 px-3 py-2 sm:px-4 sm:py-2.5 flex items-center justify-between gap-2 shrink-0 bg-white">

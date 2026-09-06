@@ -1415,7 +1415,7 @@ const ChatSection = () => {
             bottom: isMobile ? 0 : 4,
             width: isMobile ? '100%' : 400,
             zIndex: isMobile ? 25 : 30,
-            borderRadius: isMobile ? 0 : '12px',
+            borderRadius: isMobile ? 0 : '8px',
             backgroundColor: '#ffffff',
             overflow: 'hidden',
             display: 'flex',
@@ -1431,11 +1431,11 @@ const ChatSection = () => {
           {/* Main Chat Container with Theme-aware Background */}
           <Paper
             elevation={1}
-            className="flex-grow rounded-xl flex flex-col overflow-hidden transition-colors duration-300"
+            className="flex-grow rounded-lg flex flex-col overflow-hidden transition-colors duration-300"
             sx={{
               backgroundColor: '#ffffff',
               border: 'none',
-              borderRadius: isMobile ? 0 : '12px',
+              borderRadius: isMobile ? 0 : '8px',
               position: 'relative',
               height: '100%'
             }}
@@ -1556,7 +1556,7 @@ const ChatSection = () => {
             bottom: 4,
             width: 42,
             zIndex: 30,
-            borderRadius: '12px',
+            borderRadius: '8px',
             border: '1px solid #e5e7eb',
             backgroundColor: '#ffffff',
             color: '#000000',

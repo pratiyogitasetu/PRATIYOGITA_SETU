@@ -1051,11 +1051,11 @@ const PYQSection = () => {
     >
       <Paper
         elevation={1}
-        className="flex-grow rounded-xl shadow-sm flex flex-col overflow-hidden transition-colors duration-300"
+        className="flex-grow rounded-lg shadow-sm flex flex-col overflow-hidden transition-colors duration-300"
         sx={{
           backgroundColor: '#ffffff',
           border: '1px solid #e5e7eb',
-          borderRadius: isMobile ? 0 : '12px',
+          borderRadius: isMobile ? 0 : '8px',
           position: 'relative'
         }}
       >
