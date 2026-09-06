@@ -583,11 +583,12 @@ function sanitizeForFirestore(obj) {
 
     try {
       const statsRef = doc(db, 'userStats', currentUser.uid);
-      await setDoc(statsRef, {
+      const cleanStats = sanitizeForFirestore({
         ...stats,
         userId: currentUser.uid,
         updatedAt: serverTimestamp()
-      }, { merge: true });
+      });
+      await setDoc(statsRef, cleanStats, { merge: true });
       
       console.log('✅ Dashboard stats saved to Firebase');
     } catch (error) {
@@ -602,11 +603,12 @@ function sanitizeForFirestore(obj) {
 
     try {
       const subjectStatsRef = doc(db, 'userSubjectStats', currentUser.uid);
-      await setDoc(subjectStatsRef, {
+      const cleanData = sanitizeForFirestore({
         subjects: subjectStats,
         userId: currentUser.uid,
         updatedAt: serverTimestamp()
-      }, { merge: true });
+      });
+      await setDoc(subjectStatsRef, cleanData, { merge: true });
       
       console.log('✅ Subject stats saved to Firebase');
     } catch (error) {
@@ -1244,12 +1246,13 @@ function sanitizeForFirestore(obj) {
 
     try {
       const starredDocRef = doc(db, 'users', currentUser.uid, 'starredPyqs', resolvedId);
-      await setDoc(starredDocRef, {
+      const cleanData = sanitizeForFirestore({
         ...question,
         id: resolvedId,
         userId: currentUser.uid,
         updatedAt: serverTimestamp(),
-      }, { merge: true });
+      });
+      await setDoc(starredDocRef, cleanData, { merge: true });
       return true;
     } catch (error) {
       console.error('Error saving starred PYQ:', error);
@@ -1567,11 +1570,12 @@ function sanitizeForFirestore(obj) {
     if (currentUser?.uid) {
       try {
         const paperDocRef = doc(db, 'users', currentUser.uid, 'paperPracticeHistory', reportId);
-        await setDoc(paperDocRef, {
+        const cleanReport = sanitizeForFirestore({
           ...fullReport,
           userId: currentUser.uid,
           updatedAt: serverTimestamp()
-        }, { merge: true });
+        });
+        await setDoc(paperDocRef, cleanReport, { merge: true });
       } catch (err) {
         console.warn('⚠️ Could not save paper practice history to Firestore:', err);
       }
@@ -1589,11 +1593,11 @@ function sanitizeForFirestore(obj) {
     if (currentUser?.uid) {
       try {
         const collRef = collection(db, 'users', currentUser.uid, 'paperPracticeHistory');
-        const q = query(collRef, orderBy('timestamp', 'desc'), limit(50));
-        const snap = await getDocs(q);
+        const snap = await getDocs(collRef);
         snap.forEach(docSnap => {
           list.push({ id: docSnap.id, ...docSnap.data() });
         });
+        list.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
       } catch (err) {
         console.warn('Firestore fetch for paperPracticeHistory fallback to local:', err);
       }
