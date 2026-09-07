@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, lazy, Suspense, useMemo } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import { MessageCircle, Trash2, Home, Plus, Target, ChevronFirst } from 'lucide-react'
 import { Box, Paper, Stack, Typography, Button, IconButton, Divider } from '@mui/material'
 import { alpha } from '@mui/material/styles'
@@ -154,16 +154,6 @@ const Sidebar = () => {
     window.dispatchEvent(new CustomEvent('switchToChat'))
   }
 
-  useEffect(() => {
-    if (!isMobile) return
-    const handleNavigation = () => {
-      closeTransientOverlays()
-    }
-    window.addEventListener('switchToChat', handleNavigation)
-    return () => {
-      window.removeEventListener('switchToChat', handleNavigation)
-    }
-  }, [closeTransientOverlays, isMobile])
 
   // Load chat history when user changes
   useEffect(() => {
