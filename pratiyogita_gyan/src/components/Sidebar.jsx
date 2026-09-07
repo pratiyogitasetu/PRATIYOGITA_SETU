@@ -5,8 +5,6 @@ import { alpha } from '@mui/material/styles'
 import { useLayout } from '../contexts/LayoutContext'
 import { useSearchHistory } from '../contexts/SearchHistoryContext'
 import { useAuth } from '../contexts/AuthContext'
-const HelpSupportModal = lazy(() => import('./HelpSupportModal'))
-import { CircleHelp } from './icons/CircleHelp'
 
 const PENDING_CHAT_LOAD_STORAGE_KEY = 'pendingChatToLoad'
 
@@ -15,7 +13,6 @@ const Sidebar = () => {
   const { guestChatHistory, deleteGuestChat } = useSearchHistory()
   const { currentUser, getChatHistory, deleteChat } = useAuth()
   const [chatHistory, setChatHistory] = useState([])
-  const [showHelpModal, setShowHelpModal] = useState(false)
   const [isLoadingChats, setIsLoadingChats] = useState(false)
   const [chatError, setChatError] = useState('')
 
@@ -153,27 +150,9 @@ const Sidebar = () => {
   const guestChats = useMemo(() => guestChatHistory || [], [guestChatHistory])
   const userChats = useMemo(() => chatHistory || [], [chatHistory])
 
-  const closeTransientOverlays = useCallback(() => {
-    setShowHelpModal(false)
-  }, [])
-
-  const handleHelpClick = useCallback(() => {
-    if (isMobile) closeTransientOverlays()
-    setShowHelpModal(true)
-  }, [closeTransientOverlays, isMobile])
-
   const handleHomeClick = () => {
-    if (isMobile) closeTransientOverlays()
     window.dispatchEvent(new CustomEvent('switchToChat'))
   }
-
-  useEffect(() => {
-    const openHelpModal = () => handleHelpClick()
-    window.addEventListener('openHelpModal', openHelpModal)
-    return () => {
-      window.removeEventListener('openHelpModal', openHelpModal)
-    }
-  }, [handleHelpClick])
 
   useEffect(() => {
     if (!isMobile) return
@@ -588,30 +567,22 @@ const Sidebar = () => {
 
             {/* Bottom section - Fixed at bottom */}
             <Box sx={{ p: isMobile ? 1 : 0.75 }}>
-              {isMobile ? (
-                <Stack spacing={0.5}>
-                  <Button
-                    onClick={() => { handleHomeClick(); toggleSidebar(); }}
-                    variant="contained"
-                    startIcon={<Home className="w-4 h-4" />}
-                    sx={{
-                      backgroundColor: '#111827',
-                      color: '#ffffff',
-                      py: 0.5,
-                      fontSize: '0.7rem',
-                      '&:hover': { backgroundColor: '#000000' }
-                    }}
-                  >
-                    Home
-                  </Button>
-                </Stack>
-              ) : (
-                <Stack spacing={0.5}>
-                  <Button onClick={handleHelpClick} variant="contained" startIcon={<CircleHelp width={16} height={16} strokeWidth={2} stroke="currentColor" />} sx={{ backgroundColor: 'primary.main', color: 'primary.contrastText', py: 0.4, minHeight: 26, fontSize: '0.68rem', '&:hover': { backgroundColor: 'primary.dark' } }}>
-                    Help & Support
-                  </Button>
-                </Stack>
-              )}
+              <Stack spacing={0.5}>
+                <Button
+                  onClick={() => { handleHomeClick(); if (isMobile) toggleSidebar(); }}
+                  variant="contained"
+                  startIcon={<Home className="w-4 h-4" />}
+                  sx={{
+                    backgroundColor: '#111827',
+                    color: '#ffffff',
+                    py: 0.5,
+                    fontSize: '0.7rem',
+                    '&:hover': { backgroundColor: '#000000' }
+                  }}
+                >
+                  Home
+                </Button>
+              </Stack>
             </Box>
           </Box>
         </Box>
@@ -666,32 +637,9 @@ const Sidebar = () => {
               </button>
             </div>
 
-            {/* Bottom Icons */}
-            <Box sx={{ p: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
-              <button
-                onClick={handleHelpClick}
-                className="p-1 rounded-lg transition-colors"
-                style={{ color: '#000000' }}
-                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(186, 255, 57, 0.15)'}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
-                title="Help & Support"
-              >
-                <CircleHelp width={16} height={16} strokeWidth={2} stroke="currentColor" />
-              </button>
-            </Box>
           </Box>
         )}
       </Paper>
-
-
-
-      <Suspense fallback={null}>
-        {/* Help & Support Modal */}
-        <HelpSupportModal
-          isOpen={showHelpModal}
-          onClose={() => setShowHelpModal(false)}
-        />
-      </Suspense>
     </>
   )
 }

@@ -8,7 +8,6 @@ const ContactModal = lazy(() => import('./ContactModal'))
 const EditProfileModal = lazy(() => import('./EditProfileModal'))
 import { useAuth } from '../contexts/AuthContext'
 import { useLayout } from '../contexts/LayoutContext'
-import { CircleHelp } from './icons/CircleHelp'
 
 const Navbar = ({ onViewChange, currentView }) => {
   const { currentUser, logout } = useAuth()
@@ -585,29 +584,6 @@ const Navbar = ({ onViewChange, currentView }) => {
 
         {/* Footer Actions */}
         <Stack spacing={0.3}>
-          <MenuItem
-            onClick={() => {
-              window.dispatchEvent(new CustomEvent('openHelpModal'))
-              handleCloseMenu()
-            }}
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              borderRadius: 2,
-              py: 0.85,
-              px: 1.2,
-              color: '#e5e7eb',
-              fontSize: '0.82rem',
-              fontWeight: 500,
-              '&:hover': { backgroundColor: 'rgba(255,255,255,0.08)' }
-            }}
-          >
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-              <CircleHelp width={17} height={17} strokeWidth={2} stroke="currentColor" />
-              <span>Help & Support</span>
-            </Box>
-            <ChevronRight size={16} color="rgba(255,255,255,0.4)" />
-          </MenuItem>
 
           {currentUser ? (
             <MenuItem
