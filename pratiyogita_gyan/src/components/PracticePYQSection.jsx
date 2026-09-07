@@ -836,25 +836,25 @@ const PracticePYQSection = () => {
                 {/* ---------------------------------------------------- */}
                 {/* WINDOW 3: SELECT YEAR / PAPER (Right 4 cols)         */}
                 {/* ---------------------------------------------------- */}
-                <div className="lg:col-span-4 flex flex-col min-h-[260px] lg:min-h-0 max-h-[360px] lg:max-h-none overflow-hidden bg-white border-2 border-orange-200/90 rounded-xl p-2.5 shadow-xs">
-                  {/* Header 3: Warm Orange Accent */}
-                  <div className="flex items-center justify-between px-1 py-1 mb-1.5 bg-orange-50/70 border border-orange-100 rounded-lg shrink-0">
+                <div className="lg:col-span-4 flex flex-col min-h-[260px] lg:min-h-0 max-h-[360px] lg:max-h-none overflow-hidden bg-white border-2 border-gray-800 rounded-xl p-2.5 shadow-xs">
+                  {/* Header 3: Sleek Black Accent */}
+                  <div className="flex items-center justify-between px-2 py-1.5 mb-1.5 bg-[#111827] border border-gray-800 rounded-lg shrink-0 text-white">
                     <div className="flex items-center gap-1.5 min-w-0">
-                      <span className="w-5 h-5 rounded-full bg-[#E4572E] text-white text-[11px] font-black flex items-center justify-center shrink-0 shadow-xs">
+                      <span className="w-5 h-5 rounded-full bg-white text-gray-950 text-[11px] font-black flex items-center justify-center shrink-0 shadow-xs">
                         3
                       </span>
-                      <span className="text-xs font-black text-orange-950 uppercase tracking-wider truncate">
+                      <span className="text-xs font-black text-white uppercase tracking-wider truncate">
                         Select Year ({selectedExamObj?.exam_id || 'Exam'})
                       </span>
                     </div>
 
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-orange-100 text-[#E4572E] shrink-0">
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-gray-800 text-gray-200 border border-gray-700 shrink-0">
                       {selectedExamObj?.years?.length || 0} Papers
                     </span>
                   </div>
 
                   {/* Papers Container */}
-                  <div className="bg-slate-50/60 border border-orange-100 rounded-lg p-2 flex flex-col flex-1 min-h-0 overflow-hidden">
+                  <div className="bg-gray-50/80 border border-gray-200 rounded-lg p-2 flex flex-col flex-1 min-h-0 overflow-hidden">
                     <p className="text-[11px] font-bold text-gray-700 mb-1.5 shrink-0">
                       Click on a Year / Paper to select:
                     </p>
@@ -869,17 +869,17 @@ const PracticePYQSection = () => {
                             onClick={() => setSelectedYearObj(yr)}
                             className={`p-2 rounded-lg text-left border transition-all flex flex-col justify-between h-[54px] ${
                               isSelected
-                                ? 'bg-orange-50 border-[#E4572E] text-[#E4572E] font-bold ring-2 ring-orange-400/40 shadow-xs'
-                                : 'bg-white hover:bg-orange-50/40 border-gray-200 text-gray-800'
+                                ? 'bg-[#111827] border-black text-white font-bold ring-2 ring-gray-900 shadow-xs'
+                                : 'bg-white hover:bg-gray-100 border-gray-200 text-gray-800'
                             }`}
                           >
                             <div className="flex items-center gap-1">
-                              <Calendar className="w-3.5 h-3.5 shrink-0 opacity-70" />
+                              <Calendar className={`w-3.5 h-3.5 shrink-0 ${isSelected ? 'text-gray-300' : 'opacity-70'}`} />
                               <span className="text-xs font-bold truncate leading-tight">
                                 {yr.label}
                               </span>
                             </div>
-                            <span className="text-[10px] opacity-75 font-semibold">
+                            <span className={`text-[10px] font-semibold ${isSelected ? 'text-gray-300' : 'opacity-75'}`}>
                               {yr.question_count} Qs
                             </span>
                           </button>
@@ -888,7 +888,7 @@ const PracticePYQSection = () => {
                     </div>
 
                     {/* Start Practice Bottom Bar */}
-                    <div className="mt-2 pt-2 border-t border-orange-100 bg-white -mx-2 -mb-2 p-2 rounded-b-lg flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 shrink-0">
+                    <div className="mt-2 pt-2 border-t border-gray-200 bg-white -mx-2 -mb-2 p-2 rounded-b-lg flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 shrink-0">
                       <div className="min-w-0">
                         <p className="text-xs font-black text-gray-900 truncate">
                           {selectedExamObj?.exam_name}
