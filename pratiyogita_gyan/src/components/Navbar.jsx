@@ -1,5 +1,5 @@
 import { useState, useEffect, lazy, Suspense } from 'react'
-import { LogIn, UserPlus, Home, BarChart3, Info, Phone, LogOut, ChevronLeft, User, ChevronRight, Settings, MoreVertical, BookOpen, MessageSquare, Target, ChevronFirst, Star } from 'lucide-react'
+import { LogIn, UserPlus, Home, BarChart3, Info, Phone, LogOut, ChevronLeft, User, ChevronRight, Settings, MoreVertical, BookOpen, MessageSquare, Target, ChevronFirst, Star, Sparkles } from 'lucide-react'
 import { AppBar, Toolbar, Box, Typography, Button, Avatar, Stack, Container, IconButton, Divider, MenuItem, Popover } from '@mui/material'
 import PropTypes from 'prop-types'
 const AuthModal = lazy(() => import('./AuthModal'))
@@ -307,6 +307,7 @@ const Navbar = ({ onViewChange, currentView }) => {
                 }}
               >
                 <Avatar
+                  src={currentUser?.photoURL || undefined}
                   sx={{
                     width: 26,
                     height: 26,
@@ -382,6 +383,7 @@ const Navbar = ({ onViewChange, currentView }) => {
         >
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25, minWidth: 0 }}>
             <Avatar
+              src={currentUser?.photoURL || undefined}
               sx={{
                 width: 36,
                 height: 36,
@@ -503,6 +505,25 @@ const Navbar = ({ onViewChange, currentView }) => {
           >
             <BarChart3 size={17} strokeWidth={2} />
             <span>Dashboard</span>
+          </MenuItem>
+
+          <MenuItem
+            onClick={() => handleNavigate('yogya-details')}
+            selected={currentView === 'yogya-details'}
+            sx={{
+              borderRadius: 2,
+              py: 0.85,
+              px: 1.2,
+              gap: 1.5,
+              color: currentView === 'yogya-details' ? '#a855f7' : '#e5e7eb',
+              fontSize: '0.82rem',
+              fontWeight: 500,
+              '&:hover': { backgroundColor: 'rgba(255,255,255,0.08)' },
+              '&.Mui-selected': { backgroundColor: 'rgba(168,85,247,0.15)', color: '#c084fc' }
+            }}
+          >
+            <Sparkles size={17} strokeWidth={2} />
+            <span>Pratiyogita Yogya Details</span>
           </MenuItem>
 
           <MenuItem

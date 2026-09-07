@@ -13,7 +13,9 @@ import {
   GithubAuthProvider,
   signInWithPopup,
   signInWithRedirect,
-  getRedirectResult
+  getRedirectResult,
+  sendPasswordResetEmail,
+  deleteUser
 } from 'firebase/auth';
 import { 
   doc, 
@@ -1133,37 +1135,83 @@ function sanitizeForFirestore(obj) {
     }
   }
 
+  // Get extended user profile from Firestore
+  async function getUserProfile(uid = currentUser?.uid) {
+    if (!uid) return null;
+    try {
+      const userDoc = await getDoc(doc(db, 'users', uid));
+      if (userDoc.exists()) {
+        return userDoc.data();
+      }
+      return null;
+    } catch (err) {
+      console.warn('Failed to load user profile from Firestore:', err);
+      return null;
+    }
+  }
+
   // Update user's auth profile and Firestore user document
-  async function updateProfileDetails({ displayName, photoURL }) {
+  async function updateProfileDetails({ displayName, photoURL, avatarId, bio, phone }) {
     if (!currentUser) return null;
 
     try {
       // Update Firebase Auth profile
-      await updateProfile(auth.currentUser, {
-        displayName: displayName || auth.currentUser.displayName,
-        photoURL: photoURL || auth.currentUser.photoURL,
-      });
+      const authUpdates = {};
+      if (displayName !== undefined) authUpdates.displayName = displayName;
+      if (photoURL !== undefined) authUpdates.photoURL = photoURL;
+
+      if (Object.keys(authUpdates).length > 0 && auth.currentUser) {
+        await updateProfile(auth.currentUser, authUpdates);
+      }
 
       // Update Firestore users document (merge to preserve other fields)
       const userRef = doc(db, "users", currentUser.uid);
-      await setDoc(
-        userRef,
-        {
-          displayName: displayName || auth.currentUser.displayName,
-          photoURL: photoURL || auth.currentUser.photoURL,
-          updatedAt: serverTimestamp(),
-        },
-        { merge: true }
-      );
+      const firestoreData = {
+        updatedAt: serverTimestamp(),
+      };
+      if (displayName !== undefined) firestoreData.displayName = displayName;
+      if (photoURL !== undefined) firestoreData.photoURL = photoURL;
+      if (avatarId !== undefined) firestoreData.avatarId = avatarId;
+      if (bio !== undefined) firestoreData.bio = bio;
+      if (phone !== undefined) firestoreData.phone = phone;
+
+      await setDoc(userRef, firestoreData, { merge: true });
 
       // Refresh local currentUser state
-      setCurrentUser(auth.currentUser);
+      if (auth.currentUser) {
+        setCurrentUser({ ...auth.currentUser, avatarId, bio, phone });
+      }
 
       return true;
     } catch (error) {
       console.error("Error updating profile:", error);
       throw error;
     }
+  }
+
+  // Send password reset email
+  async function sendResetPasswordEmail(targetEmail) {
+    const emailToSend = targetEmail || currentUser?.email;
+    if (!emailToSend) {
+      throw new Error('No email found to send password reset');
+    }
+    return await sendPasswordResetEmail(auth, emailToSend);
+  }
+
+  // Delete user account and their user data
+  async function deleteUserAccount() {
+    if (!currentUser || !auth.currentUser) {
+      throw new Error('No user currently authenticated');
+    }
+    const uid = currentUser.uid;
+    try {
+      await updateAuthSyncState(uid, false);
+      await deleteDoc(doc(db, 'users', uid));
+    } catch (err) {
+      console.warn('Could not remove Firestore record before user deletion:', err);
+    }
+    await deleteUser(auth.currentUser);
+    setCurrentUser(null);
   }
 
   // Update chat title
@@ -1759,6 +1807,9 @@ function sanitizeForFirestore(obj) {
     getUserLearningGoals,
     updateLearningGoalProgress,
     updateProfileDetails,
+    getUserProfile,
+    sendResetPasswordEmail,
+    deleteUserAccount,
     saveQuizResult,
     getUserQuizHistory,
     getQuizStatistics,

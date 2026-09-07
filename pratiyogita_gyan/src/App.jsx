@@ -20,6 +20,7 @@ const Dashboard = lazy(() => import('./components/Dashboard'))
 const ChatSection = lazy(() => import('./components/ChatSection'))
 const PracticePYQSection = lazy(() => import('./components/PracticePYQSection'))
 const SavedPYQSection = lazy(() => import('./components/SavedPYQSection'))
+const YogyaDetailsSection = lazy(() => import('./components/YogyaDetailsSection'))
 
 const muiTheme = createTheme({
   palette: {
@@ -109,14 +110,20 @@ function AppContent() {
       setCurrentView('saved-pyqs')
     }
 
+    const handleSwitchToYogyaDetails = () => {
+      setCurrentView('yogya-details')
+    }
+
     window.addEventListener('switchToChat', handleSwitchToChat)
     window.addEventListener('switchToPracticePYQ', handleSwitchToPracticePYQ)
     window.addEventListener('switchToSavedPYQ', handleSwitchToSavedPYQ)
+    window.addEventListener('switchToYogyaDetails', handleSwitchToYogyaDetails)
 
     return () => {
       window.removeEventListener('switchToChat', handleSwitchToChat)
       window.removeEventListener('switchToPracticePYQ', handleSwitchToPracticePYQ)
       window.removeEventListener('switchToSavedPYQ', handleSwitchToSavedPYQ)
+      window.removeEventListener('switchToYogyaDetails', handleSwitchToYogyaDetails)
     }
   }, [])
 
@@ -226,6 +233,19 @@ function AppContent() {
             }
           >
             <SavedPYQSection onClose={() => setCurrentView('chat')} />
+          </Suspense>
+        )}
+
+        {currentView === 'yogya-details' && (
+          <Suspense
+            fallback={
+              <Box sx={{ flex: 1, p: 2 }}>
+                <Skeleton variant="rounded" height={120} sx={{ mb: 2 }} />
+                <Skeleton variant="rounded" height={300} />
+              </Box>
+            }
+          >
+            <YogyaDetailsSection onClose={() => setCurrentView('chat')} />
           </Suspense>
         )}
 
