@@ -2020,9 +2020,9 @@ function CheckEligibilityPage() {
                 </Dialog>
 
                 {/* Content (form + results) — Two column layout */}
-                <div className="pb-2 flex flex-col lg:flex-row gap-1 sm:gap-1.5 items-start">
+                <div className="pb-2 flex flex-col lg:flex-row gap-1 sm:gap-1.5 items-stretch lg:items-start w-full">
                     {/* ── Left Column: Form + Results ── */}
-                    <div className="flex-1 min-w-0">
+                    <div className="w-full lg:w-auto lg:flex-1 min-w-0">
                     {error && (
                         <Alert severity="error" className="mb-4" onClose={() => setError("")}>
                             {error}
