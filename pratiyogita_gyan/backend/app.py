@@ -373,19 +373,19 @@ def create_embedding_model():
     provider = os.getenv("EMBEDDING_PROVIDER", "nvidia").strip().lower()
     local_model = os.getenv("LOCAL_EMBEDDING_MODEL", "BAAI/bge-base-en-v1.5")
     embedding_device = os.getenv("EMBEDDING_DEVICE", "cpu")
+    nvidia_key = os.getenv("NVIDIA_API_KEY", "").strip()
+    nvidia_model = os.getenv("NVIDIA_EMBED_MODEL", "nvidia/nemotron-3-embed-1b")
+    nvidia_dim = int(os.getenv("NVIDIA_EMBED_DIMENSION", "768"))
 
-    if provider == "nvidia":
-        nvidia_key = os.getenv("NVIDIA_API_KEY", "").strip()
-        nvidia_model = os.getenv("NVIDIA_EMBED_MODEL", "nvidia/nemotron-3-embed-1b")
-        nvidia_dim = int(os.getenv("NVIDIA_EMBED_DIMENSION", "768"))
-        if nvidia_key and nvidia_key != "your-nvidia-api-key-here":
-            try:
-                client = NvidiaEmbeddingClient(nvidia_key, nvidia_model, target_dim=nvidia_dim)
-                return client, f"nvidia-nemotron-{nvidia_dim}d"
-            except Exception as e:
-                app.logger.warning(f"⚠️  NVIDIA Nemotron init failed in RAG, trying fallbacks: {e}")
+    # Primary: NVIDIA Nemotron API (preferred for serverless & high performance)
+    if (provider == "nvidia" or SentenceTransformer is None) and nvidia_key and nvidia_key != "your-nvidia-api-key-here":
+        try:
+            client = NvidiaEmbeddingClient(nvidia_key, nvidia_model, target_dim=nvidia_dim)
+            return client, f"nvidia-nemotron-{nvidia_dim}d"
+        except Exception as e:
+            app.logger.warning(f"⚠️  NVIDIA Nemotron init failed in RAG, trying fallbacks: {e}")
 
-    if provider == "local":
+    if provider == "local" and SentenceTransformer is not None:
         try:
             return create_sentence_transformer(local_model, device=embedding_device), "sentence-transformers-local"
         except Exception as e:
@@ -418,6 +418,15 @@ def create_embedding_model():
                 app.logger.warning(f"⚠️  Fastembed failed, falling back: {e}")
             else:
                 app.logger.warning(f"⚠️  Fastembed failed, falling back: {e}")
+
+    # Fallback to NVIDIA if sentence-transformers is missing and key is present
+    if nvidia_key and nvidia_key != "your-nvidia-api-key-here":
+        try:
+            client = NvidiaEmbeddingClient(nvidia_key, nvidia_model, target_dim=nvidia_dim)
+            return client, f"nvidia-nemotron-{nvidia_dim}d"
+        except Exception as e:
+            app.logger.warning(f"⚠️  NVIDIA Nemotron secondary fallback failed: {e}")
+
     return create_sentence_transformer("BAAI/bge-base-en-v1.5", device=embedding_device), "sentence-transformers"
 
 
@@ -1688,17 +1697,33 @@ def initialize_search_system():
                 if not disable_ncert:
                     try:
                         pc_rag = Pinecone(api_key=pine_api_key)
-                        rag_index_name = os.getenv("RAG_INDEX_NAME", "ncert")
-                        rag_index = pc_rag.Index(rag_index_name)
+                        rag_index_name = os.getenv("RAG_INDEX_NAME", "ncert").strip()
+                        # Verify index exists or fallback to 'ncert'
+                        try:
+                            rag_index = pc_rag.Index(rag_index_name)
+                            rag_index.describe_index_stats()
+                        except Exception as idx_err:
+                            if rag_index_name != "ncert":
+                                _log(f"⚠️ Index '{rag_index_name}' failed ({idx_err}), falling back to 'ncert'")
+                                rag_index_name = "ncert"
+                                rag_index = pc_rag.Index("ncert")
+                            else:
+                                raise idx_err
+
                         rag_model, embedding_backend = create_embedding_model()
                         search_components['rag_index'] = rag_index
                         search_components['rag_model'] = rag_model
                         search_components['rag_index_name'] = rag_index_name
+                        search_components.pop('rag_error', None)
                         _log(f"✅ RAG embedding backend: {embedding_backend}")
                     except Exception as e:
-                        _log(f"⚠️  Failed to initialize RAG/NCERT: {e}")
+                        err_msg = str(e)
+                        _log(f"⚠️  Failed to initialize RAG/NCERT: {err_msg}")
+                        search_components['rag_error'] = err_msg
                 else:
-                    _log("ℹ️  NCERT search disabled (DISABLE_NCERT_SEARCH=1), skipping RAG model")
+                    msg = "NCERT search disabled (DISABLE_NCERT_SEARCH=1 in environment variables)"
+                    _log(f"ℹ️  {msg}")
+                    search_components['rag_error'] = msg
                 
                 # Initialize Pinecone for MCQ (support multiple indexes: pyq1, pyq2, pyq3, pyq4)
                 pc_mcq = Pinecone(api_key=pine_api_key)
@@ -1990,9 +2015,11 @@ def health_check():
                     "total_vectors": getattr(rag_stats, 'total_vector_count', 0) if rag_stats else 0
                 }
             else:
+                rag_err = search_components.get('rag_error')
+                reason_str = f"RAG index not connected: {rag_err}" if rag_err else "RAG index not connected. Check PINECONE_API_KEY, NVIDIA_API_KEY, and RAG_INDEX_NAME in Vercel Environment Variables."
                 components['rag_index'] = {
                     "status": "unavailable",
-                    "reason": "RAG index not connected. Check PINECONE_API_KEY, NVIDIA_API_KEY, and RAG_INDEX_NAME in Vercel Environment Variables."
+                    "reason": reason_str
                 }
                 health_status["status"] = "degraded"
             
@@ -2031,9 +2058,11 @@ def health_check():
             if 'rag_model' in search_components:
                 components['rag_model'] = {"status": "healthy"}
             else:
+                rag_err = search_components.get('rag_error')
+                model_reason = f"RAG embedding model not initialized: {rag_err}" if rag_err else "RAG embedding model not initialized. Check NVIDIA_API_KEY in Vercel Environment Variables."
                 components['rag_model'] = {
                     "status": "unavailable",
-                    "reason": "RAG embedding model not initialized. Check NVIDIA_API_KEY in Vercel Environment Variables."
+                    "reason": model_reason
                 }
             if 'mcq_model' in search_components:
                 components['mcq_model'] = {"status": "healthy"}
@@ -2057,7 +2086,7 @@ def health_check():
     
     health_status["components"] = components
     
-    status_code = 200 if health_status["status"] == "healthy" else 503
+    status_code = 200 if health_status["status"] in ("healthy", "degraded") else 503
     return jsonify(health_status), status_code
 
 @app.route("/api/search", methods=["POST"])

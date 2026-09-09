@@ -675,22 +675,42 @@ const ChatSection = () => {
     })
   }, [])
 
-  // Check system health on component mount
+  // Check system health on component mount with retry for serverless cold-start
   useEffect(() => {
+    let intervalId = null
+    let attempts = 0
+    const maxAttempts = 6
+
     const checkHealth = async () => {
       try {
         const health = await apiService.healthCheck()
+        const isHealthy = health.status === 'healthy' || health.system_initialized === true
         setSystemStatus({
-          initialized: health.system_initialized,
-          healthy: health.status === 'healthy'
+          initialized: !!health.system_initialized,
+          healthy: isHealthy
         })
+        if (isHealthy && intervalId) {
+          clearInterval(intervalId)
+          intervalId = null
+        }
       } catch (error) {
         console.error('Health check failed:', error)
         setSystemStatus({ initialized: false, healthy: false })
       }
+
+      attempts += 1
+      if (attempts >= maxAttempts && intervalId) {
+        clearInterval(intervalId)
+        intervalId = null
+      }
     }
 
     checkHealth()
+    intervalId = setInterval(checkHealth, 3500)
+
+    return () => {
+      if (intervalId) clearInterval(intervalId)
+    }
   }, [])
 
   // Auto-scroll to bottom only during active bot responses or initial load
@@ -1197,6 +1217,7 @@ const ChatSection = () => {
         originatingQuery: q.originatingQuery || query
       }))
       currentQueryPyqsRef.current = combinedPyqs
+      setSystemStatus({ initialized: true, healthy: true })
 
       // Track successful search interaction
       trackInteraction('search', {
