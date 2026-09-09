@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { ChevronDown, Search, Menu, FileText, Send } from 'lucide-react'
+import { ChevronDown, Search, Menu, FileText, Send, Check } from 'lucide-react'
 import apiService from '../services/api'
 import { useLayout } from '../contexts/LayoutContext'
 import PropTypes from 'prop-types'
@@ -7,10 +7,10 @@ import PropTypes from 'prop-types'
 const EmbeddedSearchBar = ({ onSendMessage, isLoading }) => {
   const { isMobile, toggleSidebar, togglePyq } = useLayout()
   const [availableSubjects, setAvailableSubjects] = useState([])
-  const [selectedSubject, setSelectedSubject] = useState('All Subjects')
+  const [selectedSubjects, setSelectedSubjects] = useState(['All Subjects'])
   const [showDropdown, setShowDropdown] = useState(false)
   const [availableClasses, setAvailableClasses] = useState([])
-  const [selectedClass, setSelectedClass] = useState('All Classes')
+  const [selectedClasses, setSelectedClasses] = useState(['All Classes'])
   const [showClassDropdown, setShowClassDropdown] = useState(false)
   const [showLengthDropdown, setShowLengthDropdown] = useState(false)
   const [isLoadingSubjects, setIsLoadingSubjects] = useState(true)
@@ -103,14 +103,114 @@ const EmbeddedSearchBar = ({ onSendMessage, isLoading }) => {
     }
   }, [])
 
-  const handleSubjectSelect = (subject) => {
-    setSelectedSubject(subject)
-    setShowDropdown(false)
+  // Multi-select helpers for subjects
+  const isSubjectSelected = (subject) => {
+    if (subject === 'All Subjects') {
+      return selectedSubjects.length === 0 || selectedSubjects.includes('All Subjects')
+    }
+    if (selectedSubjects.length === 0 || selectedSubjects.includes('All Subjects')) {
+      return true
+    }
+    return selectedSubjects.includes(subject)
   }
 
-  const handleClassSelect = (selectedClassLabel) => {
-    setSelectedClass(selectedClassLabel)
-    setShowClassDropdown(false)
+  const handleToggleSubject = (subject) => {
+    const nonAllSubjects = availableSubjects.filter(s => s !== 'All Subjects')
+    if (subject === 'All Subjects') {
+      if (selectedSubjects.includes('All Subjects') || selectedSubjects.length === 0 || selectedSubjects.length === nonAllSubjects.length) {
+        setSelectedSubjects([])
+      } else {
+        setSelectedSubjects(['All Subjects'])
+      }
+      return
+    }
+
+    let currentList = (selectedSubjects.includes('All Subjects') || selectedSubjects.length === 0)
+      ? [...nonAllSubjects]
+      : [...selectedSubjects]
+
+    if (currentList.includes(subject)) {
+      currentList = currentList.filter(s => s !== subject)
+    } else {
+      currentList.push(subject)
+    }
+
+    if (currentList.length === 0) {
+      setSelectedSubjects([])
+    } else if (nonAllSubjects.length > 0 && currentList.length === nonAllSubjects.length) {
+      setSelectedSubjects(['All Subjects'])
+    } else {
+      setSelectedSubjects(currentList)
+    }
+  }
+
+  const getSubjectButtonLabel = () => {
+    const nonAllSubjects = availableSubjects.filter(s => s !== 'All Subjects')
+    if (selectedSubjects.includes('All Subjects') || (nonAllSubjects.length > 0 && selectedSubjects.length === nonAllSubjects.length)) {
+      return 'All Subjects'
+    }
+    if (selectedSubjects.length === 0) {
+      return 'No Subject'
+    }
+    if (selectedSubjects.length === 1) {
+      return selectedSubjects[0]
+    }
+    return `${selectedSubjects.length} Subjects`
+  }
+
+  // Multi-select helpers for classes
+  const isClassSelected = (classLabel) => {
+    if (classLabel === 'All Classes') {
+      return selectedClasses.length === 0 || selectedClasses.includes('All Classes')
+    }
+    if (selectedClasses.length === 0 || selectedClasses.includes('All Classes')) {
+      return true
+    }
+    return selectedClasses.includes(classLabel)
+  }
+
+  const handleToggleClass = (classLabel) => {
+    const nonAllClasses = availableClasses.filter(c => c !== 'All Classes')
+    if (classLabel === 'All Classes') {
+      if (selectedClasses.includes('All Classes') || selectedClasses.length === 0 || selectedClasses.length === nonAllClasses.length) {
+        setSelectedClasses([])
+      } else {
+        setSelectedClasses(['All Classes'])
+      }
+      return
+    }
+
+    let currentList = (selectedClasses.includes('All Classes') || selectedClasses.length === 0)
+      ? [...nonAllClasses]
+      : [...selectedClasses]
+
+    if (currentList.includes(classLabel)) {
+      currentList = currentList.filter(c => c !== classLabel)
+    } else {
+      currentList.push(classLabel)
+    }
+
+    if (currentList.length === 0) {
+      setSelectedClasses([])
+    } else if (nonAllClasses.length > 0 && currentList.length === nonAllClasses.length) {
+      setSelectedClasses(['All Classes'])
+    } else {
+      setSelectedClasses(currentList)
+    }
+  }
+
+  const getClassButtonLabel = () => {
+    const nonAllClasses = availableClasses.filter(c => c !== 'All Classes')
+    if (selectedClasses.includes('All Classes') || (nonAllClasses.length > 0 && selectedClasses.length === nonAllClasses.length)) {
+      return 'All Classes'
+    }
+    if (selectedClasses.length === 0) {
+      return 'No Class'
+    }
+    if (selectedClasses.length === 1) {
+      return selectedClasses[0]
+    }
+    return `${selectedClasses.length} Classes`
   }
 
   const handleSubmit = (e) => {
@@ -118,25 +218,45 @@ const EmbeddedSearchBar = ({ onSendMessage, isLoading }) => {
     const query = inputValue.trim()
     if (!query || isLoading) return
 
-    // Convert subject name to the format expected by the API
+    // Convert subject names
+    const nonAllSubjects = availableSubjects.filter(s => s !== 'All Subjects')
+    const isAllSubjects = selectedSubjects.includes('All Subjects') || 
+                          selectedSubjects.length === 0 || 
+                          (nonAllSubjects.length > 0 && selectedSubjects.length === nonAllSubjects.length)
+    
     let subjectId = 'all'
-    if (selectedSubject !== 'All Subjects') {
-      subjectId = selectedSubject.toLowerCase()
+    let subjectList = ['all']
+    if (!isAllSubjects) {
+      subjectList = selectedSubjects.map(s => s.toLowerCase())
+      subjectId = subjectList.length === 1 ? subjectList[0] : subjectList.join(',')
     }
 
+    // Convert class names
+    const nonAllClasses = availableClasses.filter(c => c !== 'All Classes')
+    const isAllClasses = selectedClasses.includes('All Classes') || 
+                         selectedClasses.length === 0 || 
+                         (nonAllClasses.length > 0 && selectedClasses.length === nonAllClasses.length)
+
     let selectedClassValue = null
-    if (selectedClass !== 'All Classes') {
-      const classNumMatch = selectedClass.match(/(6|7|8|9|10|11|12)/)
-      if (classNumMatch) {
-        selectedClassValue = `class-${classNumMatch[1]}`
-      }
+    let classList = []
+    if (!isAllClasses) {
+      classList = selectedClasses.map(c => {
+        const match = c.match(/(6|7|8|9|10|11|12)/)
+        return match ? `class-${match[1]}` : c.toLowerCase()
+      })
+      selectedClassValue = classList.length === 1 ? classList[0] : classList
     }
 
     const answerLength = answerLengthModes[answerLengthIndex]?.value || 'normal'
 
     onSendMessage(query, {
       subject: subjectId,
+      subjects: subjectList,
+      selectedSubject: subjectId,
+      selectedSubjects: subjectList,
       selectedClass: selectedClassValue,
+      selectedClasses: classList,
+      classes: classList,
       answerLength
     })
     setInputValue('')
@@ -181,30 +301,48 @@ const EmbeddedSearchBar = ({ onSendMessage, isLoading }) => {
             }}
             disabled={isLoadingSubjects}
           >
-            <span className="whitespace-nowrap truncate max-w-[80px]">
-              {isLoadingSubjects ? 'Loading...' : selectedSubject}
+            <span className="whitespace-nowrap truncate max-w-[90px]">
+              {isLoadingSubjects ? 'Loading...' : getSubjectButtonLabel()}
             </span>
             <ChevronDown className="w-3 h-3 flex-shrink-0 text-white" />
           </button>
 
           {showDropdown && !isLoadingSubjects && (
-            <div className="absolute bottom-full left-0 mb-1 w-40 rounded-lg shadow-lg border border-gray-200 bg-white z-[60]">
-              <div className="py-1 max-h-48 overflow-y-auto">
-                {availableSubjects.map((subject, index) => (
-                  <button
-                    key={index}
-                    type="button"
-                    onClick={() => handleSubjectSelect(subject)}
-                    className="w-full text-left px-2.5 py-1.5 text-xs hover:bg-gray-50 transition-colors"
-                    style={{
-                      color: '#1F2933',
-                      fontWeight: selectedSubject === subject ? '600' : '400',
-                      backgroundColor: selectedSubject === subject ? 'rgba(228, 87, 46, 0.08)' : 'transparent'
-                    }}
-                  >
-                    {subject}
-                  </button>
-                ))}
+            <div className="absolute bottom-full left-0 mb-1 w-44 rounded-lg shadow-lg border border-gray-200 bg-white z-[60] py-1">
+              <div className="max-h-52 overflow-y-auto">
+                {availableSubjects.map((subject, index) => {
+                  const isChecked = isSubjectSelected(subject)
+                  return (
+                    <button
+                      key={index}
+                      type="button"
+                      onClick={() => handleToggleSubject(subject)}
+                      className="w-full flex items-center space-x-2 px-3 py-1.5 text-xs hover:bg-gray-50 transition-colors text-left"
+                      style={{
+                        backgroundColor: isChecked ? 'rgba(228, 87, 46, 0.06)' : 'transparent'
+                      }}
+                    >
+                      <div
+                        className={`w-3.5 h-3.5 rounded flex items-center justify-center border transition-all flex-shrink-0 ${
+                          isChecked
+                            ? 'bg-[#E4572E] border-[#E4572E] text-white'
+                            : 'border-gray-300 bg-white'
+                        }`}
+                      >
+                        {isChecked && <Check className="w-2.5 h-2.5 stroke-[3]" />}
+                      </div>
+                      <span
+                        className="truncate text-xs"
+                        style={{
+                          color: '#1F2933',
+                          fontWeight: isChecked ? '600' : '400'
+                        }}
+                      >
+                        {subject}
+                      </span>
+                    </button>
+                  )
+                })}
               </div>
             </div>
           )}
@@ -223,30 +361,48 @@ const EmbeddedSearchBar = ({ onSendMessage, isLoading }) => {
             }}
             disabled={isLoadingClasses}
           >
-            <span className="whitespace-nowrap truncate max-w-[70px]">
-              {isLoadingClasses ? 'Loading...' : selectedClass}
+            <span className="whitespace-nowrap truncate max-w-[80px]">
+              {isLoadingClasses ? 'Loading...' : getClassButtonLabel()}
             </span>
             <ChevronDown className="w-3 h-3 flex-shrink-0 text-white" />
           </button>
 
           {showClassDropdown && !isLoadingClasses && (
-            <div className="absolute bottom-full left-0 mb-1 w-36 rounded-lg shadow-lg border border-gray-200 bg-white z-[60]">
-              <div className="py-1 max-h-48 overflow-y-auto">
-                {availableClasses.map((classLabel, index) => (
-                  <button
-                    key={index}
-                    type="button"
-                    onClick={() => handleClassSelect(classLabel)}
-                    className="w-full text-left px-2.5 py-1.5 text-xs hover:bg-gray-50 transition-colors"
-                    style={{
-                      color: '#1F2933',
-                      fontWeight: selectedClass === classLabel ? '600' : '400',
-                      backgroundColor: selectedClass === classLabel ? 'rgba(228, 87, 46, 0.08)' : 'transparent'
-                    }}
-                  >
-                    {classLabel}
-                  </button>
-                ))}
+            <div className="absolute bottom-full left-0 mb-1 w-40 rounded-lg shadow-lg border border-gray-200 bg-white z-[60] py-1">
+              <div className="max-h-52 overflow-y-auto">
+                {availableClasses.map((classLabel, index) => {
+                  const isChecked = isClassSelected(classLabel)
+                  return (
+                    <button
+                      key={index}
+                      type="button"
+                      onClick={() => handleToggleClass(classLabel)}
+                      className="w-full flex items-center space-x-2 px-3 py-1.5 text-xs hover:bg-gray-50 transition-colors text-left"
+                      style={{
+                        backgroundColor: isChecked ? 'rgba(228, 87, 46, 0.06)' : 'transparent'
+                      }}
+                    >
+                      <div
+                        className={`w-3.5 h-3.5 rounded flex items-center justify-center border transition-all flex-shrink-0 ${
+                          isChecked
+                            ? 'bg-[#E4572E] border-[#E4572E] text-white'
+                            : 'border-gray-300 bg-white'
+                        }`}
+                      >
+                        {isChecked && <Check className="w-2.5 h-2.5 stroke-[3]" />}
+                      </div>
+                      <span
+                        className="truncate text-xs"
+                        style={{
+                          color: '#1F2933',
+                          fontWeight: isChecked ? '600' : '400'
+                        }}
+                      >
+                        {classLabel}
+                      </span>
+                    </button>
+                  )
+                })}
               </div>
             </div>
           )}

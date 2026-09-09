@@ -154,6 +154,8 @@ const createMarkdownComponents = (isUserMessage) => ({
         lineHeight: isUserMessage ? 1.48 : 1.44,
         mb: isUserMessage ? 0.35 : 0.26,
         color: 'inherit',
+        overflowWrap: 'break-word',
+        wordBreak: 'break-word',
         '&:last-of-type': { mb: 0 }
       }}
       {...props}
@@ -162,21 +164,21 @@ const createMarkdownComponents = (isUserMessage) => ({
   h1: ({ ...props }) => (
     <Typography
       variant="h6"
-      sx={{ fontSize: CHAT_FONT_SIZES.h1, fontWeight: 700, mt: 0.12, mb: isUserMessage ? 0.22 : 0.08, color: 'inherit' }}
+      sx={{ fontSize: CHAT_FONT_SIZES.h1, fontWeight: 700, mt: 0.12, mb: isUserMessage ? 0.22 : 0.08, color: 'inherit', overflowWrap: 'break-word', wordBreak: 'break-word' }}
       {...props}
     />
   ),
   h2: ({ ...props }) => (
     <Typography
       variant="subtitle1"
-      sx={{ fontSize: CHAT_FONT_SIZES.h2, fontWeight: 700, mt: 0.1, mb: isUserMessage ? 0.2 : 0.06, color: 'inherit' }}
+      sx={{ fontSize: CHAT_FONT_SIZES.h2, fontWeight: 700, mt: 0.1, mb: isUserMessage ? 0.2 : 0.06, color: 'inherit', overflowWrap: 'break-word', wordBreak: 'break-word' }}
       {...props}
     />
   ),
   h3: ({ ...props }) => (
     <Typography
       variant="subtitle2"
-      sx={{ fontSize: CHAT_FONT_SIZES.h3, fontWeight: 700, mt: 0.1, mb: isUserMessage ? 0.18 : 0.05, color: 'inherit' }}
+      sx={{ fontSize: CHAT_FONT_SIZES.h3, fontWeight: 700, mt: 0.1, mb: isUserMessage ? 0.18 : 0.05, color: 'inherit', overflowWrap: 'break-word', wordBreak: 'break-word' }}
       {...props}
     />
   ),
@@ -186,12 +188,12 @@ const createMarkdownComponents = (isUserMessage) => ({
       sx={{
         listStyleType: 'disc',
         listStylePosition: 'outside',
-        pl: 2.1,
-        ml: 0.4,
+        pl: 1.8,
+        ml: 0.2,
         mb: isUserMessage ? 0.35 : 0.16,
         mt: 0.12,
-        '& ul': { listStyleType: 'circle', mt: 0.25, ml: 2 },
-        '& ol': { listStyleType: 'decimal', mt: 0.25, ml: 2 }
+        '& ul': { listStyleType: 'circle', mt: 0.25, ml: 1.5 },
+        '& ol': { listStyleType: 'decimal', mt: 0.25, ml: 1.5 }
       }}
       {...props}
     />
@@ -202,12 +204,12 @@ const createMarkdownComponents = (isUserMessage) => ({
       sx={{
         listStyleType: 'decimal',
         listStylePosition: 'outside',
-        pl: 2.1,
-        ml: 0.4,
+        pl: 1.8,
+        ml: 0.2,
         mb: isUserMessage ? 0.35 : 0.16,
         mt: 0.12,
-        '& ul': { listStyleType: 'disc', mt: 0.25, ml: 2 },
-        '& ol': { listStyleType: 'lower-alpha', mt: 0.25, ml: 2 }
+        '& ul': { listStyleType: 'disc', mt: 0.25, ml: 1.5 },
+        '& ol': { listStyleType: 'lower-alpha', mt: 0.25, ml: 1.5 }
       }}
       {...props}
     />
@@ -220,6 +222,8 @@ const createMarkdownComponents = (isUserMessage) => ({
         fontSize: CHAT_FONT_SIZES.body,
         lineHeight: isUserMessage ? 1.42 : 1.32,
         color: 'inherit',
+        overflowWrap: 'break-word',
+        wordBreak: 'break-word',
         '& > p': {
           display: 'inline',
           m: 0,
@@ -316,7 +320,10 @@ const ChatMessageBubble = memo(({
       sx={{
         display: 'flex',
         justifyContent: message.type === 'user' ? 'flex-end' : 'flex-start',
-        width: '100%'
+        width: '100%',
+        maxWidth: '100%',
+        minWidth: 0,
+        boxSizing: 'border-box'
       }}
     >
       <Box
@@ -324,8 +331,10 @@ const ChatMessageBubble = memo(({
           display: 'flex',
           alignItems: 'flex-start',
           gap: 1,
-          width: message.type === 'user' ? { xs: '100%', md: 'auto' } : '100%',
-          maxWidth: message.type === 'user' ? { xs: '100%', md: '80%' } : '100%',
+          width: '100%',
+          maxWidth: message.type === 'user' ? '85%' : '100%',
+          minWidth: 0,
+          boxSizing: 'border-box',
           flexDirection: message.type === 'user' ? 'row-reverse' : 'row'
         }}
       >
@@ -356,30 +365,40 @@ const ChatMessageBubble = memo(({
 
         {/* Message content */}
         {message.type === 'bot' && message.isLoading ? (
-          <Box sx={{ p: 0 }}>
+          <Box sx={{ p: 0, minWidth: 0, width: '100%' }}>
             <SearchProgressIndicator currentStepIndex={currentStepIndex} />
           </Box>
         ) : (
           <Paper
             elevation={0}
             sx={{
-              p: message.type === 'user' ? '7px 12px' : 0.9,
-              width: message.type === 'user' ? { xs: 'auto', md: 'auto' } : 'auto',
-              maxWidth: message.type === 'user' ? '85%' : '100%',
-              flexGrow: message.type === 'user' ? 0 : 1,
+              p: message.type === 'user' ? '7px 12px' : 1.1,
+              width: '100%',
+              minWidth: 0,
+              maxWidth: '100%',
+              flex: '1 1 0%',
+              boxSizing: 'border-box',
               borderRadius: message.type === 'user' ? '14px 14px 4px 14px' : 2,
               backgroundColor: message.type === 'user' ? '#f3f4f6' : '#ffffff',
               color: message.type === 'user' ? '#111827' : '#1f2937',
               border: '1px solid #e5e7eb',
-              boxShadow: message.type === 'user' ? '0 1px 3px rgba(0,0,0,0.04)' : 'none'
+              boxShadow: message.type === 'user' ? '0 1px 3px rgba(0,0,0,0.04)' : 'none',
+              overflowWrap: 'break-word',
+              wordBreak: 'break-word'
             }}
           >
             <Box
               sx={{
-                fontSize: message.type === 'user' ? '0.78rem' : '0.7rem',
+                fontSize: message.type === 'user' ? '0.78rem' : '0.72rem',
                 fontWeight: message.type === 'user' ? 600 : 400,
-                lineHeight: message.type === 'bot' ? 1.3 : 1.42,
+                lineHeight: message.type === 'bot' ? 1.45 : 1.42,
                 whiteSpace: 'normal',
+                overflowWrap: 'break-word',
+                wordBreak: 'break-word',
+                minWidth: 0,
+                width: '100%',
+                maxWidth: '100%',
+                boxSizing: 'border-box',
                 '& h1 + p, & h2 + p, & h3 + p, & h4 + p, & h5 + p, & h6 + p': {
                   marginTop: '0.08rem'
                 },
@@ -395,17 +414,17 @@ const ChatMessageBubble = memo(({
 
             {/* Sources Section - Only for bot messages with sources */}
             {message.type === 'bot' && message.sources && message.sources.length > 0 && (
-              <Box sx={{ mt: 2, pt: 2, borderTop: '1px solid #e0e0e0' }}>
+              <Box sx={{ mt: 1.5, pt: 1.5, borderTop: '1px solid #e0e0e0', width: '100%', minWidth: 0, boxSizing: 'border-box' }}>
                 {/* Sources Header with Individual Source Buttons */}
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 1 }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 0.75, width: '100%', minWidth: 0 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, flexShrink: 0 }}>
                     <FileText className="w-2.5 h-2.5" style={{ color: '#000000', opacity: 0.6 }} />
                     <Typography variant="caption" sx={{ color: '#000000', opacity: 0.7, fontWeight: 600 }}>
                       Sources ({message.sources.length}):
                     </Typography>
                   </Box>
 
-                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, minWidth: 0 }}>
                     {message.sources.map((source, index) => {
                       const sourceKey = `${message.id}-${index}`
                       const isExpanded = expandedSourceSet.has(index)
@@ -464,11 +483,21 @@ const ChatMessageBubble = memo(({
                     <Paper
                       key={index}
                       elevation={0}
-                      sx={{ mt: 1, p: 1, borderRadius: 2, backgroundColor: '#f9f9f9', border: '1px solid #e0e0e0' }}
+                      sx={{
+                        mt: 1,
+                        p: 1,
+                        borderRadius: 2,
+                        backgroundColor: '#f9f9f9',
+                        border: '1px solid #e0e0e0',
+                        width: '100%',
+                        minWidth: 0,
+                        maxWidth: '100%',
+                        boxSizing: 'border-box'
+                      }}
                     >
                       {/* Source Header */}
-                      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 0.75 }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 0.75, width: '100%', minWidth: 0 }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, flexWrap: 'wrap', minWidth: 0 }}>
                           <Hash className="w-2 h-2" style={{ color: '#000000', opacity: 0.6 }} />
                           <Typography variant="caption" sx={{ fontWeight: 600, color: '#000000', fontSize: '0.68rem' }}>
                             Source {index + 1}
@@ -481,29 +510,29 @@ const ChatMessageBubble = memo(({
                             />
                           )}
                         </Box>
-                        <IconButton onClick={() => onToggleSource(sourceKey)} size="small" sx={{ color: '#000000', opacity: 0.6, p: 0.25 }}>
+                        <IconButton onClick={() => onToggleSource(sourceKey)} size="small" sx={{ color: '#000000', opacity: 0.6, p: 0.25, flexShrink: 0 }}>
                           <ChevronUp className="w-2.5 h-2.5" />
                         </IconButton>
                       </Box>
 
                       {/* Source Details */}
-                      <Stack spacing={0.75}>
-                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                      <Stack spacing={0.75} sx={{ width: '100%', minWidth: 0 }}>
+                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, width: '100%', minWidth: 0 }}>
                           {source.subject && (
-                            <Chip size="small" label={source.subject} sx={{ height: '18px', backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.18), color: 'text.primary', fontSize: '0.62rem', '& .MuiChip-label': { px: 0.75 } }} />
+                            <Chip size="small" label={source.subject} sx={{ maxWidth: '100%', height: '18px', backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.18), color: 'text.primary', fontSize: '0.62rem', '& .MuiChip-label': { px: 0.75, overflow: 'hidden', textOverflow: 'ellipsis' } }} />
                           )}
                           {source.class && (
-                            <Chip size="small" label={source.class} sx={{ height: '18px', backgroundColor: (theme) => alpha(theme.palette.text.primary, 0.08), color: 'text.primary', fontSize: '0.62rem', '& .MuiChip-label': { px: 0.75 } }} />
+                            <Chip size="small" label={source.class} sx={{ maxWidth: '100%', height: '18px', backgroundColor: (theme) => alpha(theme.palette.text.primary, 0.08), color: 'text.primary', fontSize: '0.62rem', '& .MuiChip-label': { px: 0.75, overflow: 'hidden', textOverflow: 'ellipsis' } }} />
                           )}
                           {(source.chapter || source.chapter_name) && (
-                            <Chip size="small" label={source.chapter_name || source.chapter} sx={{ height: '18px', backgroundColor: (theme) => alpha(theme.palette.text.primary, 0.08), color: 'text.primary', fontSize: '0.62rem', '& .MuiChip-label': { px: 0.75 } }} />
+                            <Chip size="small" label={source.chapter_name || source.chapter} sx={{ maxWidth: '100%', height: 'auto', minHeight: '18px', py: 0.2, backgroundColor: (theme) => alpha(theme.palette.text.primary, 0.08), color: 'text.primary', fontSize: '0.62rem', '& .MuiChip-label': { px: 0.75, whiteSpace: 'normal', wordBreak: 'break-word' } }} />
                           )}
                           {source.topic && (
-                            <Chip size="small" label={source.topic} sx={{ height: '18px', backgroundColor: (theme) => alpha(theme.palette.text.primary, 0.08), color: 'text.primary', fontSize: '0.62rem', '& .MuiChip-label': { px: 0.75 } }} />
+                            <Chip size="small" label={source.topic} sx={{ maxWidth: '100%', height: 'auto', minHeight: '18px', py: 0.2, backgroundColor: (theme) => alpha(theme.palette.text.primary, 0.08), color: 'text.primary', fontSize: '0.62rem', '& .MuiChip-label': { px: 0.75, whiteSpace: 'normal', wordBreak: 'break-word' } }} />
                           )}
                         </Box>
 
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, fontSize: '0.62rem', pt: 0.75, borderTop: '1px solid #e0e0e0', color: '#000000', opacity: 0.6 }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, fontSize: '0.62rem', pt: 0.75, borderTop: '1px solid #e0e0e0', color: '#000000', opacity: 0.6, width: '100%', minWidth: 0, flexWrap: 'wrap' }}>
                           {source.chunk && (
                             <span><strong>Chunk:</strong> {source.chunk}</span>
                           )}
@@ -511,11 +540,43 @@ const ChatMessageBubble = memo(({
                         </Box>
 
                         {(source.content || source.text_preview || source.text || source.full_text) && (
-                          <Paper elevation={0} sx={{ p: 1, borderRadius: 2, backgroundColor: '#f5f5f5', border: '1px solid #e0e0e0', maxHeight: 180, overflowY: 'auto' }}>
+                          <Paper
+                            elevation={0}
+                            sx={{
+                              p: 1,
+                              borderRadius: 2,
+                              backgroundColor: '#f5f5f5',
+                              border: '1px solid #e0e0e0',
+                              maxHeight: 180,
+                              overflowY: 'auto',
+                              overflowX: 'hidden',
+                              width: '100%',
+                              minWidth: 0,
+                              maxWidth: '100%',
+                              boxSizing: 'border-box',
+                              scrollbarWidth: 'thin',
+                              '&::-webkit-scrollbar': { width: '4px' },
+                              '&::-webkit-scrollbar-thumb': {
+                                backgroundColor: 'rgba(0,0,0,0.2)',
+                                borderRadius: '2px'
+                              }
+                            }}
+                          >
                             <Typography variant="caption" sx={{ fontWeight: 700, color: '#000000', display: 'block', mb: 0.5, fontSize: '0.68rem' }}>
                               Content:
                             </Typography>
-                            <Typography variant="body2" sx={{ fontSize: '0.68rem', lineHeight: 1.45, whiteSpace: 'pre-wrap', color: '#000000', opacity: 0.8 }}>
+                            <Typography
+                              variant="body2"
+                              sx={{
+                                fontSize: '0.68rem',
+                                lineHeight: 1.45,
+                                whiteSpace: 'pre-wrap',
+                                overflowWrap: 'break-word',
+                                wordBreak: 'break-word',
+                                color: '#000000',
+                                opacity: 0.8
+                              }}
+                            >
                               {source.content || source.full_text || source.text_preview || source.text || 'No content available'}
                             </Typography>
                           </Paper>
@@ -1001,7 +1062,9 @@ const ChatSection = () => {
 
     // Extract search options with defaults
     const selectedSubject = searchOptions.subject || searchOptions.selectedSubject || 'all'
+    const selectedSubjects = searchOptions.subjects || searchOptions.selectedSubjects || (Array.isArray(searchOptions.subject) ? searchOptions.subject : null)
     const selectedClass = searchOptions.selectedClass || null
+    const selectedClasses = searchOptions.selectedClasses || searchOptions.classes || null
     const answerLength = searchOptions.answerLength || 'normal'
 
     const userMessage = {
@@ -1101,9 +1164,11 @@ const ChatSection = () => {
     try {
       const response = await apiService.search(query, {
         subject: selectedSubject,
+        subjects: selectedSubjects,
         n_results: SEARCH_SETTINGS.nResults,
         namespace: '',  // Keep empty for backend to use all namespaces
         selected_class: selectedClass,
+        selected_classes: selectedClasses,
         answer_length: answerLength,
         mcq_threshold: SEARCH_SETTINGS.mcqThreshold,
         mcq_limit: SEARCH_SETTINGS.mcqLimit,
@@ -1470,16 +1535,29 @@ const ChatSection = () => {
             {/* Chat Messages */}
             <Box
               ref={scrollContainerRef}
-              className="flex-grow p-4 overflow-y-auto space-y-4 text-xs"
+              className="flex-grow overflow-y-auto overflow-x-hidden space-y-3 text-xs"
               sx={{
+                p: { xs: 1.5, sm: 2 },
+                pr: { xs: 1.25, sm: 1.5 },
                 backgroundColor: '#ffffff',
                 color: '#000000',
                 overflowAnchor: 'none',
                 scrollBehavior: 'auto',
-                pb: { xs: 22, sm: 18, md: 4 }
+                width: '100%',
+                maxWidth: '100%',
+                boxSizing: 'border-box',
+                pb: { xs: 22, sm: 18, md: 4 },
+                scrollbarWidth: 'thin',
+                '&::-webkit-scrollbar': { width: '5px' },
+                '&::-webkit-scrollbar-track': { background: 'transparent' },
+                '&::-webkit-scrollbar-thumb': {
+                  backgroundColor: 'rgba(0, 0, 0, 0.16)',
+                  borderRadius: '3px',
+                  '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.28)' }
+                }
               }}
             >
-              <div className="w-full space-y-1 py-1 relative z-10">
+              <div className="w-full space-y-1 py-1 relative z-10" style={{ maxWidth: '100%', overflowX: 'hidden' }}>
                 {messages.length === 0 && (
                   <div className="text-center py-3 mt-1 w-full">
                     <div className="w-full px-2">

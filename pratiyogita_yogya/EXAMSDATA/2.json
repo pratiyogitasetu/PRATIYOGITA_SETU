@@ -1,0 +1,601 @@
+{
+  "_id": "CATEGORY_NAME__exam_code",
+  "category": "",
+  "conducting_body": "",
+  "exam_code": "",
+  "exam_name": "",
+  "posts_classes_courses_departments_academies": "POST_1, POST_2",
+  "academies": {
+    "POST_1": {
+      "maximum_attempts_allowed": "",
+      "age_criteria_type": "",
+      "starting_age": "",
+      "ending_age": "",
+      "between_age": "",
+      "minimum_dob": "",
+      "maximum_dob": "",
+      "between_dob": {
+        "2026": "",
+        "2027": "",
+        "2028": "",
+        "2029": "",
+        "2030": ""
+      },
+      "no_age_limit": "",
+      "gender": "",
+      "special_gender_eligibility": "",
+      "marital_status": {
+        "MALE": [
+          "UNMARRIED",
+          "MARRIED",
+          "SEPARATED",
+          "DIVORCED",
+          "WIDOWER"
+        ],
+        "FEMALE": [
+          "UNMARRIED",
+          "MARRIED",
+          "SEPARATED",
+          "DIVORCEE",
+          "WIDOW"
+        ],
+        "TRANSGENDER": [
+          "UNMARRIED",
+          "MARRIED",
+          "SEPARATED",
+          "DIVORCED"
+        ]
+      },
+      "nationality": [
+        "INDIAN"
+      ],
+      "domicile": "ALL STATES",
+      "caste_category": "GEN, OBC, EWS, SC, ST",
+      "pwd_status": {
+        "applicability": "",
+        "marks_percentage_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        },
+        "age_relaxation_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        }
+      },
+      "age_relaxation": {
+        "GEN": "",
+        "OBC": "",
+        "EWS": "",
+        "SC": "",
+        "ST": "",
+        "EX_SERVICEMEN": ""
+      },
+      "highest_education_qualification": "",
+      "education_levels": {
+        "10th_matriculation": {
+          "course": {
+            "options": [
+              "ALL COURSES"
+            ],
+            "except_course": []
+          },
+          "subject": "ALL SUBJECTS",
+          "mandatory_subject": "",
+          "mandatory_subjects": [],
+          "status": {
+            "options": [
+              "PASSED",
+              "APPEARING",
+              "FAILED",
+              "NOT APPLICABLE"
+            ]
+          },
+          "marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subject_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subjects_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "completed_year": "",
+          "board_university": {
+            "options": [
+              "CBSE",
+              "ICSE",
+              "STATE BOARD",
+              "NIOS",
+              "OTHER"
+            ]
+          },
+          "active_backlogs_allowed": ""
+        },
+        "12th_higher_secondary": {
+          "course": {
+            "options": [
+              "Science",
+              "Commerce",
+              "Arts/Humanities",
+              "Vocational",
+              "OTHER"
+            ],
+            "except_course": []
+          },
+          "subject": {
+            "Science": [
+              "Physics",
+              "Chemistry",
+              "Mathematics",
+              "Biology",
+              "OTHER"
+            ],
+            "Commerce": [
+              "Accountancy",
+              "Business Studies",
+              "Economics",
+              "Mathematics",
+              "OTHER"
+            ],
+            "Arts/Humanities": [
+              "History",
+              "Geography",
+              "Political Science",
+              "Economics",
+              "OTHER"
+            ]
+          },
+          "mandatory_subject": "",
+          "mandatory_subjects": [],
+          "status": {
+            "options": [
+              "PASSED",
+              "APPEARING",
+              "FAILED",
+              "NOT APPLICABLE"
+            ]
+          },
+          "marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subject_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subjects_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "completed_year": "",
+          "board_university": {
+            "options": [
+              "CBSE",
+              "ICSE",
+              "STATE BOARD",
+              "NIOS",
+              "OTHER"
+            ]
+          },
+          "active_backlogs_allowed": ""
+        },
+        "graduation": {
+          "course": {
+            "options": [
+              "ALL COURSES"
+            ],
+            "except_course": []
+          },
+          "subject": "ALL SUBJECTS",
+          "mandatory_subject": "",
+          "mandatory_subjects": [],
+          "status": {
+            "options": [
+              "PASSED",
+              "APPEARING",
+              "FAILED",
+              "NOT APPLICABLE"
+            ]
+          },
+          "marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subject_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subjects_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "completed_year": "",
+          "board_university": "",
+          "active_backlogs_allowed": ""
+        },
+        "post_graduation": {
+          "course": {
+            "options": [
+              "ALL COURSES"
+            ],
+            "except_course": []
+          },
+          "subject": "ALL SUBJECTS",
+          "mandatory_subject": "",
+          "mandatory_subjects": [],
+          "status": {
+            "options": [
+              "PASSED",
+              "APPEARING",
+              "FAILED",
+              "NOT APPLICABLE"
+            ]
+          },
+          "marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subject_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subjects_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "completed_year": "",
+          "board_university": "",
+          "active_backlogs_allowed": ""
+        }
+      },
+      "gap_years_allowed": "",
+      "educational_stream_restriction": "",
+      "ncc_wing": "",
+      "ncc_certificate": "",
+      "ncc_certificate_grade": ""
+    },
+    "POST_2": {
+      "maximum_attempts_allowed": "",
+      "age_criteria_type": "",
+      "starting_age": "",
+      "ending_age": "",
+      "between_age": "",
+      "minimum_dob": "",
+      "maximum_dob": "",
+      "between_dob": {
+        "2026": "",
+        "2027": "",
+        "2028": "",
+        "2029": "",
+        "2030": ""
+      },
+      "no_age_limit": "",
+      "gender": "",
+      "special_gender_eligibility": "",
+      "marital_status": {
+        "MALE": [
+          "UNMARRIED",
+          "MARRIED",
+          "SEPARATED",
+          "DIVORCED",
+          "WIDOWER"
+        ],
+        "FEMALE": [
+          "UNMARRIED",
+          "MARRIED",
+          "SEPARATED",
+          "DIVORCEE",
+          "WIDOW"
+        ],
+        "TRANSGENDER": [
+          "UNMARRIED",
+          "MARRIED",
+          "SEPARATED",
+          "DIVORCED"
+        ]
+      },
+      "nationality": [
+        "INDIAN"
+      ],
+      "domicile": "ALL STATES",
+      "caste_category": "GEN, OBC, EWS, SC, ST",
+      "pwd_status": {
+        "applicability": "",
+        "marks_percentage_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        },
+        "age_relaxation_basis": {
+          "GEN": "",
+          "OBC": "",
+          "EWS": "",
+          "SC": "",
+          "ST": ""
+        }
+      },
+      "age_relaxation": {
+        "GEN": "",
+        "OBC": "",
+        "EWS": "",
+        "SC": "",
+        "ST": "",
+        "EX_SERVICEMEN": ""
+      },
+      "highest_education_qualification": "",
+      "education_levels": {
+        "10th_matriculation": {
+          "course": {
+            "options": [
+              "ALL COURSES"
+            ],
+            "except_course": []
+          },
+          "subject": "ALL SUBJECTS",
+          "mandatory_subject": "",
+          "mandatory_subjects": [],
+          "status": {
+            "options": [
+              "PASSED",
+              "APPEARING",
+              "FAILED",
+              "NOT APPLICABLE"
+            ]
+          },
+          "marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subject_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subjects_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "completed_year": "",
+          "board_university": {
+            "options": [
+              "CBSE",
+              "ICSE",
+              "STATE BOARD",
+              "NIOS",
+              "OTHER"
+            ]
+          },
+          "active_backlogs_allowed": ""
+        },
+        "12th_higher_secondary": {
+          "course": {
+            "options": [
+              "Science",
+              "Commerce",
+              "Arts/Humanities",
+              "Vocational",
+              "OTHER"
+            ],
+            "except_course": []
+          },
+          "subject": {
+            "Science": [
+              "Physics",
+              "Chemistry",
+              "Mathematics",
+              "Biology",
+              "OTHER"
+            ],
+            "Commerce": [
+              "Accountancy",
+              "Business Studies",
+              "Economics",
+              "Mathematics",
+              "OTHER"
+            ],
+            "Arts/Humanities": [
+              "History",
+              "Geography",
+              "Political Science",
+              "Economics",
+              "OTHER"
+            ]
+          },
+          "mandatory_subject": "",
+          "mandatory_subjects": [],
+          "status": {
+            "options": [
+              "PASSED",
+              "APPEARING",
+              "FAILED",
+              "NOT APPLICABLE"
+            ]
+          },
+          "marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subject_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subjects_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "completed_year": "",
+          "board_university": {
+            "options": [
+              "CBSE",
+              "ICSE",
+              "STATE BOARD",
+              "NIOS",
+              "OTHER"
+            ]
+          },
+          "active_backlogs_allowed": ""
+        },
+        "graduation": {
+          "course": {
+            "options": [
+              "ALL COURSES"
+            ],
+            "except_course": []
+          },
+          "subject": "ALL SUBJECTS",
+          "mandatory_subject": "",
+          "mandatory_subjects": [],
+          "status": {
+            "options": [
+              "PASSED",
+              "APPEARING",
+              "FAILED",
+              "NOT APPLICABLE"
+            ]
+          },
+          "marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subject_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subjects_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "completed_year": "",
+          "board_university": "",
+          "active_backlogs_allowed": ""
+        },
+        "post_graduation": {
+          "course": {
+            "options": [
+              "ALL COURSES"
+            ],
+            "except_course": []
+          },
+          "subject": "ALL SUBJECTS",
+          "mandatory_subject": "",
+          "mandatory_subjects": [],
+          "status": {
+            "options": [
+              "PASSED",
+              "APPEARING",
+              "FAILED",
+              "NOT APPLICABLE"
+            ]
+          },
+          "marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subject_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "mandatory_subjects_marks_percentage": {
+            "GEN": "",
+            "OBC": "",
+            "EWS": "",
+            "SC": "",
+            "ST": ""
+          },
+          "completed_year": "",
+          "board_university": "",
+          "active_backlogs_allowed": ""
+        }
+      },
+      "gap_years_allowed": "",
+      "educational_stream_restriction": "",
+      "ncc_wing": "",
+      "ncc_certificate": "",
+      "ncc_certificate_grade": ""
+    }
+  },
+  "source_file": "",
+  "last_updated": "",
+  "starting_date_to_apply": "",
+  "last_date_to_apply": "",
+  "exam_date": ""
+}

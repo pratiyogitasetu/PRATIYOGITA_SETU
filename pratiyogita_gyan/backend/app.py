@@ -369,10 +369,21 @@ def create_sentence_transformer(model_name: str, device: str = "cpu"):
     return SentenceTransformer(model_name, **kwargs)  # type: ignore[call-arg]
 
 def create_embedding_model():
-    """Create embedding model aligned with RAG v2 defaults (BGE-base, 768d)."""
-    provider = os.getenv("EMBEDDING_PROVIDER", "local").strip().lower()
+    """Create embedding model aligned with RAG v2 defaults (Nemotron or BGE-base, 768d)."""
+    provider = os.getenv("EMBEDDING_PROVIDER", "nvidia").strip().lower()
     local_model = os.getenv("LOCAL_EMBEDDING_MODEL", "BAAI/bge-base-en-v1.5")
     embedding_device = os.getenv("EMBEDDING_DEVICE", "cpu")
+
+    if provider == "nvidia":
+        nvidia_key = os.getenv("NVIDIA_API_KEY", "").strip()
+        nvidia_model = os.getenv("NVIDIA_EMBED_MODEL", "nvidia/nemotron-3-embed-1b")
+        nvidia_dim = int(os.getenv("NVIDIA_EMBED_DIMENSION", "768"))
+        if nvidia_key and nvidia_key != "your-nvidia-api-key-here":
+            try:
+                client = NvidiaEmbeddingClient(nvidia_key, nvidia_model, target_dim=nvidia_dim)
+                return client, f"nvidia-nemotron-{nvidia_dim}d"
+            except Exception as e:
+                app.logger.warning(f"⚠️  NVIDIA Nemotron init failed in RAG, trying fallbacks: {e}")
 
     if provider == "local":
         try:
@@ -849,7 +860,7 @@ def get_all_mcq_total_vectors():
     return total
 
 
-EDU_NAMESPACES = ["economics", "geography", "history", "polity"]
+EDU_NAMESPACES = ["ECONOMICS", "GEOGRAPHY", "HISTORY", "POLITY"]
 CLASS_OPTIONS = [
     {"value": "class-6", "label": "Class 6"},
     {"value": "class-7", "label": "Class 7"},
@@ -1032,20 +1043,40 @@ def extract_class_filter(user_query: str):
 def resolve_class_filter(selected_class, query):
     """Resolve class filter from selected value first, then query extraction."""
     if selected_class:
-        _, _, normalized = normalize_class_label(selected_class)
-        if normalized:
-            return normalized
+        if isinstance(selected_class, list):
+            resolved_classes = []
+            for c in selected_class:
+                if not c or str(c).strip().lower() in ("all", "all classes"):
+                    continue
+                _, _, normalized = normalize_class_label(c)
+                if normalized and normalized not in resolved_classes:
+                    resolved_classes.append(normalized)
+            if resolved_classes:
+                return resolved_classes if len(resolved_classes) > 1 else resolved_classes[0]
+            return None
+        elif isinstance(selected_class, str):
+            if selected_class.strip().lower() in ("all", "all classes", ""):
+                return None
+            if "," in selected_class:
+                resolved_classes = []
+                for c in selected_class.split(","):
+                    _, _, normalized = normalize_class_label(c)
+                    if normalized and normalized not in resolved_classes:
+                        resolved_classes.append(normalized)
+                if resolved_classes:
+                    return resolved_classes if len(resolved_classes) > 1 else resolved_classes[0]
+            else:
+                _, _, normalized = normalize_class_label(selected_class)
+                if normalized:
+                    return normalized
 
     return extract_class_filter(query)
 
 
-def resolve_subject_namespace(selected_subject, explicit_namespace=""):
-    """Resolve effective namespace from ask-bar subject or explicit namespace."""
-    if explicit_namespace:
-        ns = str(explicit_namespace).strip().lower()
-        return ns if ns in EDU_NAMESPACES else ""
-
-    subject_raw = str(selected_subject or "").strip().lower()
+def resolve_single_subject(s: str) -> str:
+    """Map a subject name to canonical Pinecone NCERT namespace."""
+    valid_map = {ns.lower(): ns for ns in EDU_NAMESPACES}
+    subject_raw = str(s or "").strip().lower()
     if not subject_raw or subject_raw in {"all", "all subjects", "subject"}:
         return ""
 
@@ -1053,12 +1084,60 @@ def resolve_subject_namespace(selected_subject, explicit_namespace=""):
     aliases = {
         "political science": "polity",
         "civics": "polity",
+        "polity": "polity",
         "eco": "economics",
         "economy": "economics",
+        "economics": "economics",
         "geo": "geography",
+        "geography": "geography",
+        "history": "history",
     }
     candidate = aliases.get(normalized, normalized)
-    return candidate if candidate in EDU_NAMESPACES else ""
+    return valid_map.get(candidate, "")
+
+
+def resolve_subject_namespaces(raw_subjects, explicit_namespace="") -> tuple[list[str], bool]:
+    """Resolve effective namespaces from single or multiple subjects.
+
+    Returns:
+        (namespaces_list: list[str], is_strict_subject: bool)
+    """
+    if explicit_namespace and str(explicit_namespace).strip().lower() not in {"", "all"}:
+        matched = resolve_single_subject(str(explicit_namespace))
+        if matched:
+            return [matched], True
+
+    if not raw_subjects:
+        return EDU_NAMESPACES, False
+
+    if isinstance(raw_subjects, list):
+        items = [str(x).strip() for x in raw_subjects if str(x).strip()]
+    elif isinstance(raw_subjects, str):
+        items = [str(x).strip() for x in raw_subjects.split(',') if str(x).strip()]
+    else:
+        items = []
+
+    if not items:
+        return EDU_NAMESPACES, False
+
+    if any(item.lower() in {"all", "all subjects", "subject"} for item in items):
+        return EDU_NAMESPACES, False
+
+    resolved = []
+    for item in items:
+        ns = resolve_single_subject(item)
+        if ns and ns not in resolved:
+            resolved.append(ns)
+
+    # If user selected specific subjects, strict is True!
+    # They explicitly selected their subjects, so only those must be queried.
+    return resolved, True
+
+
+def resolve_subject_namespace(selected_subject, explicit_namespace=""):
+    """Backward-compatible single namespace resolver."""
+    namespaces, _ = resolve_subject_namespaces(selected_subject, explicit_namespace)
+    return namespaces[0] if namespaces and len(namespaces) == 1 else ""
 
 
 def filter_sources_by_score(sources, min_score):
@@ -2010,8 +2089,10 @@ def search():
     else:
         namespace = namespace_raw if isinstance(namespace_raw, str) else ""
     
-    selected_class = data.get("selected_class")
-    selected_subject = data.get("subject", "all")
+    raw_classes = data.get("selected_classes") or data.get("classes") or data.get("selected_class")
+    raw_subjects = data.get("selected_subjects") or data.get("subjects") or data.get("subject", "all")
+    selected_class = raw_classes
+    selected_subject = raw_subjects
     answer_length = data.get("answer_length", "normal")
     mcq_threshold = safe_float(
         data.get("mcq_threshold", os.getenv("DEFAULT_MCQ_THRESHOLD", "0.25")),
@@ -2081,10 +2162,9 @@ def search():
         timeout_seconds = 30  # 30 second timeout
 
         resolved_class_filter = resolve_class_filter(selected_class, query)
-        effective_namespace = resolve_subject_namespace(selected_subject, namespace)
-        strict_subject_selected = bool(effective_namespace)
+        effective_namespaces, strict_subject_selected = resolve_subject_namespaces(selected_subject, namespace)
         strict_class_selected = bool(resolved_class_filter)
-        decision_path.append(f"subject_ns:{effective_namespace or 'all'}")
+        decision_path.append(f"subject_ns:{','.join(effective_namespaces) if effective_namespaces else 'all'}")
         decision_path.append(f"class_filter:{resolved_class_filter or 'none'}")
 
         retrieval_disclaimer = None
@@ -2135,8 +2215,8 @@ def search():
             decision_path.append(f"strict_subject:{strict_subject_selected}")
             decision_path.append(f"strict_class:{strict_class_selected}")
 
-            min_source_score = float(os.getenv("MIN_RAG_SOURCE_SCORE", "0.45"))
-            min_top_score_strict = float(os.getenv("MIN_TOP_SOURCE_SCORE_STRICT", "0.52"))
+            min_source_score = float(os.getenv("MIN_RAG_SOURCE_SCORE", "0.20"))
+            min_top_score_strict = float(os.getenv("MIN_TOP_SOURCE_SCORE_STRICT", "0.22"))
             retrieval_disclaimer = None
             fallback_reason = None
 
@@ -2151,17 +2231,18 @@ def search():
                     class_filter=target_class_filter,
                 )
                 filtered = filter_sources_by_score(sources_value, min_source_score)
+                if not filtered and sources_value:
+                    filtered = sources_value[:max(1, min(3, target_chunks))]
                 return context_value, filtered
 
             retrieval_steps = []
             if strict_subject_selected or strict_class_selected:
-                retrieval_steps.append((effective_namespace, resolved_class_filter, n_results, "strict"))
-                if strict_subject_selected:
-                    retrieval_steps.append(("", resolved_class_filter, n_results + 2, "subject_fallback"))
+                retrieval_steps.append((effective_namespaces, resolved_class_filter, n_results, "strict"))
                 if strict_class_selected:
-                    retrieval_steps.append(("", None, n_results + 3, "class_fallback"))
+                    # Keep selected subjects strictly! Never query unselected subjects.
+                    retrieval_steps.append((effective_namespaces, None, n_results + 3, "class_fallback"))
             else:
-                retrieval_steps.append((effective_namespace, resolved_class_filter, n_results, "default"))
+                retrieval_steps.append((effective_namespaces, resolved_class_filter, n_results, "default"))
 
             seen_steps = set()
             context = ""
@@ -2169,7 +2250,7 @@ def search():
             matched_step = None
 
             for step_namespace, step_class, step_chunks, step_label in retrieval_steps:
-                step_key = (step_namespace, step_class, step_chunks)
+                step_key = (str(step_namespace), str(step_class), step_chunks)
                 if step_key in seen_steps:
                     continue
                 seen_steps.add(step_key)
@@ -2189,25 +2270,12 @@ def search():
                     decision_path.append(f"retrieval_hit:{step_label}:{len(sources_try)}")
                     break
 
-            if matched_step in {"subject_fallback", "class_fallback"}:
-                if strict_subject_selected and strict_class_selected:
-                    fallback_reason = "selected subject and class"
-                    retrieval_disclaimer = (
-                        "I couldn't find a strong match in your selected subject/class. "
-                        "Showing the closest available results from other resources."
-                    )
-                elif strict_subject_selected:
-                    fallback_reason = "selected subject"
-                    retrieval_disclaimer = (
-                        "I couldn't find a strong match in your selected subject. "
-                        "Showing the closest available results from other subjects."
-                    )
-                elif strict_class_selected:
-                    fallback_reason = "selected class"
-                    retrieval_disclaimer = (
-                        "I couldn't find a strong match in your selected class. "
-                        "Showing the closest available results from other classes/resources."
-                    )
+            if matched_step == "class_fallback":
+                fallback_reason = "selected class"
+                retrieval_disclaimer = (
+                    "I couldn't find a strong match in your selected class. "
+                    "Showing the closest available results from other classes in your selected subjects."
+                )
             elif matched_step is None:
                 context = ""
                 sources = []
@@ -2224,22 +2292,21 @@ def search():
             compact_context = trim_context_from_sources(sources, max_chars=answer_profile['context_chars'])
             best_score = sources[0]['score'] if sources else 0.0
             source_metadata = sources[0] if sources else None
-            overlap_count = query_source_overlap_count(query, source_metadata) if source_metadata else 0
 
-            if sources and (best_score < min_top_score_strict or overlap_count == 0):
-                decision_path.append(f"strict_guard_drop:score={round(best_score,3)}:overlap={overlap_count}")
+            if sources and best_score < min_top_score_strict:
+                decision_path.append(f"strict_guard_drop:score={round(best_score,3)}")
                 sources = []
                 context = ""
                 compact_context = ""
                 best_score = 0.0
                 source_metadata = None
-                fallback_reason = fallback_reason or "low_relevance_or_no_overlap"
+                fallback_reason = fallback_reason or "low_relevance"
                 retrieval_disclaimer = (
                     "I couldn't find a reliable match in indexed NCERT resources for this query. "
                     "The answer below is AI-generated guidance."
                 )
             else:
-                decision_path.append(f"overlap_count:{overlap_count}")
+                decision_path.append(f"sources_retained:{len(sources)}:best_score={round(best_score,3)}")
 
             decision_path.append(f"best_score:{round(best_score, 3)}")
 
@@ -2310,7 +2377,7 @@ def search():
             "sources": sources,
             "mcq_results": mcq_results,
             "query": query,
-            "namespace_used": namespace if namespace else "all",
+            "namespace_used": effective_namespaces if strict_subject_selected else (namespace if namespace else "all"),
             "class_filter": resolved_class_filter,
             "answer_length": resolved_answer_length,
             "provider_used": provider_used,
@@ -2344,7 +2411,7 @@ def search():
             request_id,
             intent_label,
             provider_used or "none",
-            effective_namespace or "all",
+            ','.join(effective_namespaces) if effective_namespaces else "all",
             resolved_class_filter or "none",
             float(best_score),
             len(sources),
@@ -2815,8 +2882,9 @@ def get_books():
                 vector_count = 0
 
             if vector_count > 0:
-                indexed_subjects.append(namespace)
-                subject_data = subject_info.get(namespace, {
+                ns_lower = namespace.lower()
+                indexed_subjects.append(ns_lower)
+                subject_data = subject_info.get(ns_lower, {
                     "title": f"NCERT {namespace.title()}",
                     "description": f"Educational content for {namespace}",
                     "classes": ["Multiple Classes"],
@@ -3046,9 +3114,35 @@ def search_all_namespaces(pinecone_index, model, query: str, n_chunks: int = 2, 
 
 def search_rag_with_class_filter(pinecone_index, query_embedding, n_chunks: int = 5, namespace: str = "", class_filter: str | None = None):
     """Search RAG index with optional namespace and class filtering using class_normalized."""
-    namespaces = [namespace] if namespace and namespace != "all" else EDU_NAMESPACES
+    if isinstance(namespace, list):
+        namespaces = [str(n).strip().upper() for n in namespace if str(n).strip() and str(n).strip().lower() != "all"]
+        if not namespaces and namespace:
+            # User passed specific subject list, but none are in NCERT (e.g. Science only)
+            print(f"DEBUG RAG: Specified subjects had no NCERT namespace, skipping search.")
+            return "", []
+        if not namespaces:
+            namespaces = EDU_NAMESPACES
+    elif namespace and str(namespace).strip().lower() != "all":
+        namespaces = [str(namespace).strip().upper()]
+    else:
+        namespaces = EDU_NAMESPACES
+
     all_results = []
-    filter_dict = {"class_normalized": {"$eq": class_filter}} if class_filter else None
+    if not namespaces:
+        return "", []
+
+    if isinstance(class_filter, list):
+        clean_classes = [str(c).strip() for c in class_filter if str(c).strip()]
+        if len(clean_classes) == 1:
+            filter_dict = {"class_normalized": {"$eq": clean_classes[0]}}
+        elif len(clean_classes) > 1:
+            filter_dict = {"class_normalized": {"$in": clean_classes}}
+        else:
+            filter_dict = None
+    elif class_filter:
+        filter_dict = {"class_normalized": {"$eq": str(class_filter).strip()}}
+    else:
+        filter_dict = None
     
     print(f"DEBUG RAG: Searching namespaces={namespaces}, filter={filter_dict}, n_chunks={n_chunks}")
 
