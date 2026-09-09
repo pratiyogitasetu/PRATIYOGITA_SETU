@@ -2097,10 +2097,10 @@ function CheckEligibilityPage() {
                                             Select Target Exam
                                         </h2>
                                         <div className="w-full">
-                                            <div className="flex flex-nowrap items-start gap-2 pt-1">
+                                            <div className="flex flex-col lg:flex-row items-start lg:items-center gap-2.5 pt-1">
                                                 {/* Toggle Switch */}
-                                                <div className="flex items-center gap-2 shrink-0">
-                                                    <span className={`text-xs font-semibold transition-colors ${searchMode === 'exam' ? 'text-green-400' : 'text-[#0B0A08]/40'}`}>
+                                                <div className="flex items-center gap-2 shrink-0 flex-wrap">
+                                                    <span className={`text-xs font-semibold transition-colors ${searchMode === 'exam' ? 'text-green-500' : 'text-[#0B0A08]/40'}`}>
                                                         Exam Basis
                                                     </span>
                                                     <button
@@ -2141,11 +2141,12 @@ function CheckEligibilityPage() {
 
                                                 {/* Target Exam Dropdown - Only show in Exam Basis mode */}
                                                 {searchMode === 'exam' && (
-                                                    <div className="flex-1 min-w-0">
-                                                        {/* Category + Exam side by side */}
-                                                        <div className="flex flex-nowrap items-center gap-2">
+                                                    <div className="w-full lg:flex-1 min-w-0">
+                                                        {/* Category + Exam side by side on sm+, stacked on xs */}
+                                                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full">
                                                             <TextField
                                                                 select
+                                                                fullWidth
                                                                 size="small"
                                                                 label="Category"
                                                                 SelectProps={{
@@ -2167,7 +2168,8 @@ function CheckEligibilityPage() {
                                                                 value={examCategory}
                                                                 onChange={(e) => setExamCategory(e.target.value)}
                                                                 sx={{
-                                                                    minWidth: '160px',
+                                                                    width: { xs: '100%', sm: '160px' },
+                                                                    shrink: 0,
                                                                     '& .MuiInputBase-root': {
                                                                         fontSize: '0.76rem',
                                                                     }
@@ -2186,6 +2188,7 @@ function CheckEligibilityPage() {
                                                             </TextField>
                                                             <TextField
                                                                 select
+                                                                fullWidth
                                                                 label="Target Exam"
                                                                 required
                                                                 InputLabelProps={{
@@ -2203,7 +2206,8 @@ function CheckEligibilityPage() {
                                                                 disabled={loading}
                                                                 sx={{
                                                                     flex: 1,
-                                                                    minWidth: '260px',
+                                                                    width: '100%',
+                                                                    minWidth: 0,
                                                                     '& .MuiInputBase-root': {
                                                                         fontSize: '0.76rem',
                                                                     }
@@ -2233,9 +2237,9 @@ function CheckEligibilityPage() {
 
                                                 {/* Eligibility Basis Mode Description */}
                                                 {searchMode === 'eligibility' && (
-                                                    <div className="flex-1 min-w-0 bg-[#E4572E]/8 border border-[#E4572E]/20 rounded-xl px-3 py-2">
+                                                    <div className="w-full lg:flex-1 min-w-0 bg-[#E4572E]/8 border border-[#E4572E]/20 rounded-lg px-3 py-2">
                                                         <p className="text-xs text-[#E4572E]">
-                                                            Fill in your details below, and we'll check all 21 exams to show which ones you're eligible for.
+                                                            Fill in your details below, and we'll check all {examOptions.length || 21} exams to show which ones you're eligible for.
                                                         </p>
                                                     </div>
                                                 )}
@@ -2270,22 +2274,23 @@ function CheckEligibilityPage() {
                                     {/* Section 2: Personal Information */}
                                     {(examData || searchMode === 'eligibility') && (
                                         <div className="p-2.5 sm:p-2 mb-2 rounded-lg border-l-4 border-l-[#E8D8C3] bg-[#E8D8C3]/8 border border-[#E8D8C3]/15">
-                                            <div className="flex justify-between items-center mb-3">
+                                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
                                                 <h2 className="text-sm sm:text-[13px] font-semibold text-[#0B0A08] text-left">
                                                     Personal Information
                                                 </h2>
-                                                <div className="flex gap-2">
+                                                <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
                                                     <Button
                                                         variant="contained"
                                                         size="small"
                                                         onClick={fillSavedDetails}
                                                         sx={{
-                                                            fontSize: '0.85rem',
-                                                            padding: '2px 8px',
+                                                            fontSize: { xs: '0.72rem', sm: '0.82rem' },
+                                                            padding: { xs: '2px 8px', sm: '2px 8px' },
                                                             backgroundColor: '#1B5E20',
                                                             color: '#FFFFFF',
                                                             borderRadius: '20px',
                                                             boxShadow: 'none',
+                                                            whiteSpace: 'nowrap',
                                                             '&:hover': {
                                                                 backgroundColor: '#0d3a12',
                                                             }
@@ -2298,12 +2303,13 @@ function CheckEligibilityPage() {
                                                         size="small"
                                                         onClick={fillMockData}
                                                         sx={{
-                                                            fontSize: '0.85rem',
-                                                            padding: '2px 8px',
+                                                            fontSize: { xs: '0.72rem', sm: '0.82rem' },
+                                                            padding: { xs: '2px 8px', sm: '2px 8px' },
                                                             backgroundColor: '#BF360C',
                                                             color: '#FFFFFF',
                                                             borderRadius: '20px',
                                                             boxShadow: 'none',
+                                                            whiteSpace: 'nowrap',
                                                             '&:hover': {
                                                                 backgroundColor: '#7a1f05',
                                                             }
@@ -2315,7 +2321,7 @@ function CheckEligibilityPage() {
                                             </div>
                                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-8 gap-2">
                                                 {/* Date of Birth - Now with separate dropdowns */}
-                                                <div className="flex gap-1 lg:col-span-2">
+                                                <div className="flex gap-1 lg:col-span-2 w-full min-w-0">
                                                     <TextField
                                                         select
                                                         label="Day"
@@ -2323,7 +2329,7 @@ function CheckEligibilityPage() {
                                                         value={dateDay}
                                                         onChange={handleDateChange('day')}
                                                         size="small"
-                                                        sx={{ flex: 1 }}
+                                                        sx={{ flex: 1, minWidth: 0 }}
                                                     >
                                                         <MenuItem value="">Day</MenuItem>
                                                         {dayOptions.map((option) => (
@@ -2339,7 +2345,7 @@ function CheckEligibilityPage() {
                                                         value={dateMonth}
                                                         onChange={handleDateChange('month')}
                                                         size="small"
-                                                        sx={{ flex: 1.5 }}
+                                                        sx={{ flex: 1.4, minWidth: 0 }}
                                                     >
                                                         <MenuItem value="">Month</MenuItem>
                                                         {monthOptions.map((option) => (
@@ -2355,7 +2361,7 @@ function CheckEligibilityPage() {
                                                         value={dateYear}
                                                         onChange={handleDateChange('year')}
                                                         size="small"
-                                                        sx={{ flex: 1 }}
+                                                        sx={{ flex: 1, minWidth: 0 }}
                                                     >
                                                         <MenuItem value="">Year</MenuItem>
                                                         {birthYearOptions.map((option) => (
@@ -2367,7 +2373,7 @@ function CheckEligibilityPage() {
                                                 </div>
 
                                                 {/* Gender + Marital Status: side by side on mobile */}
-                                                <div className="grid grid-cols-2 gap-2 sm:contents">
+                                                <div className="grid grid-cols-2 gap-2 sm:contents w-full min-w-0">
                                                     <TextField
                                                         select
                                                         fullWidth
@@ -2378,6 +2384,7 @@ function CheckEligibilityPage() {
                                                         helperText={genderOptions.length === 0 ? "Loading gender from MongoDB..." : "Select your gender"}
                                                         size="small"
                                                         disabled={genderOptions.length === 0}
+                                                        sx={{ minWidth: 0 }}
                                                     >
                                                         {genderOptions.length === 0 ? (
                                                             <MenuItem value="" disabled>
@@ -2401,6 +2408,8 @@ function CheckEligibilityPage() {
                                                         onChange={handleChange("marital_status")}
                                                         helperText="Select your marital status"
                                                         size="small"
+                                                        disabled={maritalStatusOptions.length === 0}
+                                                        sx={{ minWidth: 0 }}
                                                     >
                                                         {maritalStatusOptions.map((option) => (
                                                             <MenuItem key={option.value} value={option.value}>
@@ -2411,7 +2420,7 @@ function CheckEligibilityPage() {
                                                 </div>
 
                                                 {/* Nationality + Domicile: side by side on mobile */}
-                                                <div className="grid grid-cols-2 gap-2 sm:contents">
+                                                <div className="grid grid-cols-2 gap-2 sm:contents w-full min-w-0">
                                                     <TextField
                                                         select
                                                         fullWidth
@@ -2421,6 +2430,7 @@ function CheckEligibilityPage() {
                                                         onChange={handleChange("nationality")}
                                                         helperText="Select your nationality"
                                                         size="small"
+                                                        sx={{ minWidth: 0 }}
                                                     >
                                                         {nationalityOptions.map((option) => (
                                                             <MenuItem key={option.value} value={option.value}>
@@ -2438,6 +2448,7 @@ function CheckEligibilityPage() {
                                                         helperText={isDomicileDisabled ? "Select 'INDIAN' nationality first" : "Your domicile state"}
                                                         size="small"
                                                         disabled={isDomicileDisabled}
+                                                        sx={{ minWidth: 0 }}
                                                     >
                                                         {domicileOptions.map((option) => (
                                                             <MenuItem key={option.value} value={option.value}>
@@ -3003,7 +3014,7 @@ function CheckEligibilityPage() {
                                                 </TextField>
 
                                                 {/* NCC Certificate + NCC Grade: side by side on mobile */}
-                                                <div className="grid grid-cols-2 gap-2 sm:contents">
+                                                <div className="grid grid-cols-2 gap-2 sm:contents w-full min-w-0">
                                                     <TextField
                                                         select
                                                         fullWidth
@@ -3012,6 +3023,7 @@ function CheckEligibilityPage() {
                                                         onChange={handleChange("ncc_certificate")}
                                                         helperText="NCC certificate level"
                                                         size="small"
+                                                        sx={{ minWidth: 0 }}
                                                     >
                                                         {nccCertificateOptions.map((option) => (
                                                             <MenuItem key={option.value} value={option.value}>
@@ -3028,6 +3040,7 @@ function CheckEligibilityPage() {
                                                         onChange={handleChange("ncc_certificate_grade")}
                                                         helperText="NCC certificate grade"
                                                         size="small"
+                                                        sx={{ minWidth: 0 }}
                                                     >
                                                         {nccCertificateGradeOptions.map((option) => (
                                                             <MenuItem key={option.value} value={option.value}>
