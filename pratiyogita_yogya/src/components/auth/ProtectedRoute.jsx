@@ -102,8 +102,14 @@ export default function ProtectedRoute({ children }) {
     }
   };
 
+  useEffect(() => {
+    if (!currentUser) {
+      window.dispatchEvent(new CustomEvent('openAuthModal', { detail: { mode: 'login' } }));
+    }
+  }, [currentUser]);
+
   if (!currentUser) {
-    return <Navigate to="/login" replace state={{ from: location }} />;
+    return <Navigate to="/check-eligibility" replace />;
   }
 
   if (loading) {

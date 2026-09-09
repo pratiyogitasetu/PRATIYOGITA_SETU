@@ -2068,7 +2068,7 @@ function CheckEligibilityPage() {
                                         <Button
                                             variant="contained"
                                             size="small"
-                                            onClick={() => navigate('/login', { state: { from: { pathname: '/check-eligibility' } } })}
+                                            onClick={() => window.dispatchEvent(new CustomEvent('openAuthModal', { detail: { mode: 'login' } }))}
                                             sx={{
                                                 backgroundColor: '#E4572E',
                                                 '&:hover': { backgroundColor: '#c9421e' },

@@ -229,7 +229,8 @@ export default function ProfilePage() {
   // 2. Load Existing User Data from Firestore
   useEffect(() => {
     if (!currentUser) {
-      navigate('/login');
+      window.dispatchEvent(new CustomEvent('openAuthModal', { detail: { mode: 'login' } }));
+      navigate('/check-eligibility');
       return;
     }
 

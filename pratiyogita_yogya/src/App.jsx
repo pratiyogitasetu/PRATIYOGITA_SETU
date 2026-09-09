@@ -4,15 +4,21 @@ import { HeroUIProvider } from "@heroui/react";
 import { Routes, Route, Navigate } from "react-router-dom";
 // import ContributionPage from "./Pages/contribution";
 // import Home from "./Pages/home";
+import { useEffect } from "react";
 import ContactPage from "./Pages/contactus";
 import AboutUs from "./Pages/aboutus";
-import Login from "./Pages/login";
-import Signup from "./Pages/signup";
 import TermsAndConditions from "./Pages/termsandconditions";
 import RefundPolicy from "./Pages/refundpolicy";
 import CheckEligibility from "./Pages/checkeligibilitypage";
 import ProfilePage from "./Pages/ProfilePage";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
+
+function AuthRedirect({ mode = 'login' }) {
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent('openAuthModal', { detail: { mode } }));
+  }, [mode]);
+  return <Navigate to="/check-eligibility" replace />;
+}
 
 function App() {
   return (
@@ -37,8 +43,8 @@ function App() {
           {/* <Route path="/contribution" element={<ContributionPage />} /> */}
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/about" element={<AboutUs />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<AuthRedirect mode="login" />} />
+          <Route path="/signup" element={<AuthRedirect mode="signup" />} />
           <Route
             path="/profile"
             element={

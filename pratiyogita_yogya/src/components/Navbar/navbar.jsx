@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
   LogIn,
@@ -28,6 +28,7 @@ import {
 } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useAuth } from '../../contexts/AuthContext';
+import AuthModal from '../AuthModal';
 import EditProfileModal from '../auth/EditProfileModal';
 import AboutUsModal from '../AboutUsModal';
 import ContactModal from '../ContactModal';
@@ -67,11 +68,38 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authMode, setAuthMode] = useState('login');
   const [showAboutModal, setShowAboutModal] = useState(false);
   const [showContactModal, setShowContactModal] = useState(false);
   const [showEditProfile, setShowEditProfile] = useState(false);
   const [menuAnchorEl, setMenuAnchorEl] = useState(null);
   const isMenuOpen = Boolean(menuAnchorEl);
+
+  useEffect(() => {
+    if (currentUser && showAuthModal) {
+      setShowAuthModal(false);
+    }
+  }, [currentUser, showAuthModal]);
+
+  useEffect(() => {
+    const handleOpenAuthModal = (event) => {
+      const mode = event.detail?.mode || 'login';
+      setAuthMode(mode);
+      setShowAuthModal(true);
+    };
+
+    window.addEventListener('openAuthModal', handleOpenAuthModal);
+    return () => {
+      window.removeEventListener('openAuthModal', handleOpenAuthModal);
+    };
+  }, []);
+
+  const handleAuthClick = (mode = 'login') => {
+    setAuthMode(mode);
+    setShowAuthModal(true);
+    handleCloseMenu();
+  };
 
   const handleOpenMenu = (event) => {
     setMenuAnchorEl(event.currentTarget);
@@ -344,7 +372,7 @@ const Navbar = () => {
                 setShowEditProfile(true);
                 handleCloseMenu();
               } else {
-                handleNavigate('/login');
+                handleAuthClick('login');
               }
             }}
             sx={{
@@ -568,7 +596,7 @@ const Navbar = () => {
             ) : (
               <Box sx={{ display: 'flex', gap: 1, pt: 0.5 }}>
                 <Button
-                  onClick={() => handleNavigate('/login')}
+                  onClick={() => handleAuthClick('login')}
                   fullWidth
                   variant="outlined"
                   size="small"
@@ -590,7 +618,7 @@ const Navbar = () => {
                   Log In
                 </Button>
                 <Button
-                  onClick={() => handleNavigate('/signup')}
+                  onClick={() => handleAuthClick('signup')}
                   fullWidth
                   variant="contained"
                   size="small"
@@ -614,6 +642,13 @@ const Navbar = () => {
         </Popover>
 
         {/* Modals matching Pratiyogita Gyan */}
+        {showAuthModal && (
+          <AuthModal
+            isOpen={showAuthModal}
+            onClose={() => setShowAuthModal(false)}
+            initialMode={authMode}
+          />
+        )}
         {showAboutModal && (
           <AboutUsModal
             isOpen={showAboutModal}
