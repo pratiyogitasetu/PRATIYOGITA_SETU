@@ -430,7 +430,7 @@ def create_mcq_embedding_model():
       3. fastembed
       4. local   – sentence-transformers on CPU (fallback)
     """
-    provider = os.getenv("MCQ_EMBEDDING_PROVIDER", os.getenv("EMBEDDING_PROVIDER", "local")).strip().lower()
+    provider = os.getenv("MCQ_EMBEDDING_PROVIDER", os.getenv("EMBEDDING_PROVIDER", "nvidia")).strip().lower()
     local_model = os.getenv("MCQ_EMBEDDING_MODEL", "BAAI/bge-small-en-v1.5")
     embedding_device = os.getenv("MCQ_EMBEDDING_DEVICE", os.getenv("EMBEDDING_DEVICE", "cpu"))
 
@@ -1688,7 +1688,7 @@ def initialize_search_system():
                 if not disable_ncert:
                     try:
                         pc_rag = Pinecone(api_key=pine_api_key)
-                        rag_index_name = os.getenv("RAG_INDEX_NAME", "ncert-local-bge-base")
+                        rag_index_name = os.getenv("RAG_INDEX_NAME", "ncert")
                         rag_index = pc_rag.Index(rag_index_name)
                         rag_model, embedding_backend = create_embedding_model()
                         search_components['rag_index'] = rag_index
@@ -1802,10 +1802,10 @@ def initialize_search_system():
 def ensure_initialized():
     """Initialize the search system once (safe under Gunicorn)."""
     global system_initialized
-    if system_initialized:
+    if system_initialized and 'rag_index' in search_components:
         return
     with _init_lock:
-        if not system_initialized:
+        if not system_initialized or 'rag_index' not in search_components:
             initialize_search_system()
 
 @app.before_request
@@ -1855,6 +1855,7 @@ def get_context_with_sources(results):
             'text_preview': text_content[:200] + "..." if len(text_content) > 200 else text_content,
             'full_text': text_content,
             # Add hierarchical metadata
+            'namespace': match.get('namespace', metadata.get('namespace', '')),
             'subject': metadata.get('subject', ''),
             'class': metadata.get('class', ''),
             'unit': metadata.get('unit', ''),
@@ -1985,8 +1986,15 @@ def health_check():
                 rag_stats = _get_index_stats_cached(search_components['rag_index'], 'rag_index_stats', ttl_seconds=60)
                 components['rag_index'] = {
                     "status": "healthy",
-                    "total_vectors": rag_stats.total_vector_count
+                    "index_name": search_components.get('rag_index_name', 'ncert'),
+                    "total_vectors": getattr(rag_stats, 'total_vector_count', 0) if rag_stats else 0
                 }
+            else:
+                components['rag_index'] = {
+                    "status": "unavailable",
+                    "reason": "RAG index not connected. Check PINECONE_API_KEY, NVIDIA_API_KEY, and RAG_INDEX_NAME in Vercel Environment Variables."
+                }
+                health_status["status"] = "degraded"
             
             if 'mcq_indexes' in search_components and search_components['mcq_indexes']:
                 total_mcq_vecs = 0
@@ -2011,12 +2019,22 @@ def health_check():
                 mcq_stats = _get_index_stats_cached(search_components['mcq_index'], 'mcq_index_stats', ttl_seconds=60)
                 components['mcq_index'] = {
                     "status": "healthy", 
-                    "total_vectors": mcq_stats.total_vector_count
+                    "total_vectors": getattr(mcq_stats, 'total_vector_count', 0) if mcq_stats else 0
+                }
+            else:
+                components['mcq_index'] = {
+                    "status": "unavailable",
+                    "reason": "MCQ index not connected. Check PINECONE_API_KEY in Vercel Environment Variables."
                 }
             
             # Check models
             if 'rag_model' in search_components:
                 components['rag_model'] = {"status": "healthy"}
+            else:
+                components['rag_model'] = {
+                    "status": "unavailable",
+                    "reason": "RAG embedding model not initialized. Check NVIDIA_API_KEY in Vercel Environment Variables."
+                }
             if 'mcq_model' in search_components:
                 components['mcq_model'] = {"status": "healthy"}
             if 'openai_client' in search_components:
