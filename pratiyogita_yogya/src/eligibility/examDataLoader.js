@@ -475,6 +475,282 @@ export const getExamSessionOptions = (examData) => {
     return [];
 };
 
+// ============================================
+// ELIGIBILITY FIELDS (from MongoDB)
+// ============================================
+
+let eligibilityFieldsCache = null;
+let eligibilityFieldsPromise = null;
+
+/**
+ * Load eligibility_fields document directly from MongoDB via API
+ * @returns {Promise<Object>}
+ */
+export const loadEligibilityFieldsFromMongo = async () => {
+    if (eligibilityFieldsCache) return eligibilityFieldsCache;
+    if (eligibilityFieldsPromise) return eligibilityFieldsPromise;
+
+    eligibilityFieldsPromise = (async () => {
+        const apiUrl = typeof window !== 'undefined'
+            ? '/api/exams/eligibility-fields'
+            : (typeof process !== 'undefined' && process.env?.API_BASE_URL ? process.env.API_BASE_URL : 'http://localhost:3000') + '/api/exams/eligibility-fields';
+        const response = await fetch(apiUrl);
+        if (!response.ok) {
+            throw new Error(`Failed to load eligibility fields from MongoDB (HTTP ${response.status})`);
+        }
+        const data = await response.json();
+        eligibilityFieldsCache = data;
+        return data;
+    })();
+
+    return await eligibilityFieldsPromise.finally(() => {
+        eligibilityFieldsPromise = null;
+    });
+};
+
+export const getCachedEligibilityFields = () => eligibilityFieldsCache || {};
+export const getCachedNationalities = () => eligibilityFieldsCache?.nationality || [];
+export const getCachedDomiciles = () => eligibilityFieldsCache?.domicile || [];
+export const getCachedCasteCategories = () => eligibilityFieldsCache?.caste_category || [];
+export const getCachedNccWings = () => eligibilityFieldsCache?.ncc_wing || [];
+export const getCachedNccCertificates = () => eligibilityFieldsCache?.ncc_certificate || [];
+export const getCachedNccCertificateGrades = () => eligibilityFieldsCache?.ncc_certificate_grade || [];
+export const getCachedHighestEducationQualification = () => eligibilityFieldsCache?.highest_education_qualification || [];
+export const getCachedEducationLevels = () => eligibilityFieldsCache?.education_levels || {};
+
+export const getMongoNationalities = async () => {
+    const data = await loadEligibilityFieldsFromMongo();
+    return Array.isArray(data?.nationality) ? data.nationality : [];
+};
+
+export const getMongoDomiciles = async () => {
+    const data = await loadEligibilityFieldsFromMongo();
+    return Array.isArray(data?.domicile) ? data.domicile : [];
+};
+
+export const getMongoCasteCategories = async () => {
+    const data = await loadEligibilityFieldsFromMongo();
+    return Array.isArray(data?.caste_category) ? data.caste_category : [];
+};
+
+export const getMongoNccWings = async () => {
+    const data = await loadEligibilityFieldsFromMongo();
+    return Array.isArray(data?.ncc_wing) ? data.ncc_wing : [];
+};
+
+export const getMongoNccCertificates = async () => {
+    const data = await loadEligibilityFieldsFromMongo();
+    return Array.isArray(data?.ncc_certificate) ? data.ncc_certificate : [];
+};
+
+export const getMongoNccCertificateGrades = async () => {
+    const data = await loadEligibilityFieldsFromMongo();
+    return Array.isArray(data?.ncc_certificate_grade) ? data.ncc_certificate_grade : [];
+};
+
+export const formatEducationLabel = (val) => {
+    if (!val || typeof val !== 'string') return '';
+    if (val === 'PHD') return 'PhD';
+    if (val === 'POST DOCTORATE') return 'Post Doctorate';
+    if (val === 'POST GRADUATION') return 'Post Graduation';
+    if (val === 'GRADUATION') return 'Graduation';
+    if (val === 'DIPLOMA / ITI (POLYTECHNIC, ITI, DPHARM, PGDCA)') return 'Diploma / ITI';
+    if (val === '(12TH)HIGHER SECONDARY' || val === '(12TH) HIGHER SECONDARY') return 'Higher Secondary (12th)';
+    if (val === '(10TH)SECONDARY' || val === '(10TH) SECONDARY') return 'Secondary (10th)';
+    if (val === '(8TH)MIDDLE SCHOOL' || val === '(8TH) MIDDLE SCHOOL' || val === '(8TH)CLASS') return 'Class 8th';
+    if (val === '(5TH)PRIMARY SCHOOL' || val === '(5TH) PRIMARY SCHOOL' || val === '(5TH)CLASS') return 'Class 5th';
+    if (val === 'BELOW 8TH') return 'Below 8th';
+    if (val === 'BELOW 5TH') return 'Below 5th';
+    if (val === 'BELOW 10TH') return 'Below 10th';
+    if (val === 'NO EDUCATION') return 'No Education';
+
+    return val.toLowerCase().replace(/\b[a-z]/g, c => c.toUpperCase());
+};
+
+export const getHighestEducationQualificationOptionsFromMongo = async () => {
+    const data = await loadEligibilityFieldsFromMongo();
+    const list = Array.isArray(data?.highest_education_qualification) ? data.highest_education_qualification : [];
+    return list.map(value => ({
+        value,
+        label: formatEducationLabel(value)
+    }));
+};
+
+export const getEducationLevelsFromMongo = async () => {
+    const data = await loadEligibilityFieldsFromMongo();
+    return data?.education_levels || {};
+};
+
+/**
+ * Format gender value to human-readable label
+ */
+const formatGenderLabel = (val) => {
+    if (!val || typeof val !== 'string') return '';
+    const upper = val.toUpperCase();
+    if (upper === 'MALE') return 'Male';
+    if (upper === 'FEMALE') return 'Female';
+    if (upper === 'TRANSGENDER') return 'Transgender';
+    return val.charAt(0).toUpperCase() + val.slice(1).toLowerCase();
+};
+
+/**
+ * Fetch gender options directly from MongoDB eligibility_fields document
+ * @returns {Promise<Array<{value: string, label: string}>>}
+ */
+export const getGenderOptionsFromMongo = async () => {
+    const data = await loadEligibilityFieldsFromMongo();
+    const genderList = Array.isArray(data?.gender) ? data.gender : [];
+    return genderList.map(value => ({
+        value,
+        label: formatGenderLabel(value)
+    }));
+};
+
+/**
+ * Format nationality label (Title Cased, acronyms preserved)
+ */
+export const formatNationalityLabel = (value) => {
+    if (!value || typeof value !== 'string') return '';
+    const titleCased = value.toLowerCase().replace(/\b[a-z]/g, c => c.toUpperCase());
+    return titleCased
+        .replace(/\bPio\b/g, 'PIO')
+        .replace(/\bOci\b/g, 'OCI')
+        .replace(/\bNri\b/g, 'NRI')
+        .replace(/\bDr\b/g, 'DR')
+        .replace(/\bUae\b/g, 'UAE')
+        .replace(/\bOf\b/g, 'of')
+        .replace(/\bFrom\b/g, 'from')
+        .replace(/\bIn\b/g, 'in')
+        .replace(/\bWith\b/g, 'with')
+        .replace(/\bAnd\b/g, 'and');
+};
+
+/**
+ * Format marital status label
+ */
+export const formatMaritalStatusLabel = (val) => {
+    if (!val || typeof val !== 'string') return '';
+    return val.charAt(0).toUpperCase() + val.slice(1).toLowerCase();
+};
+
+/**
+ * Format caste category label
+ */
+export const formatCasteCategoryLabel = (val) => {
+    if (!val || typeof val !== 'string') return '';
+    return val
+        .toLowerCase()
+        .replace(/\b[a-z]/g, c => c.toUpperCase())
+        .replace(/\bUr\b/g, 'UR')
+        .replace(/\bSc\b/g, 'SC')
+        .replace(/\bSt\b/g, 'ST')
+        .replace(/\bObc\b/g, 'OBC')
+        .replace(/\bEws\b/g, 'EWS');
+};
+
+/**
+ * Format NCC Wing label
+ */
+export const formatNccWingLabel = (val) => {
+    if (!val || typeof val !== 'string') return '';
+    return val.toLowerCase().replace(/\b[a-z]/g, c => c.toUpperCase());
+};
+
+/**
+ * Fetch marital status options directly from MongoDB eligibility_fields document by gender
+ */
+export const getMaritalStatusOptionsFromMongo = async (gender) => {
+    const data = await loadEligibilityFieldsFromMongo();
+    const normalized = gender ? gender.trim().toUpperCase() : '';
+    let list = [];
+    if (normalized && Array.isArray(data?.[normalized])) {
+        list = data[normalized];
+    } else {
+        const combined = new Set([
+            ...(Array.isArray(data?.MALE) ? data.MALE : []),
+            ...(Array.isArray(data?.FEMALE) ? data.FEMALE : []),
+            ...(Array.isArray(data?.TRANSGENDER) ? data.TRANSGENDER : [])
+        ]);
+        list = Array.from(combined);
+    }
+    return list.map(value => ({
+        value,
+        label: formatMaritalStatusLabel(value)
+    }));
+};
+
+/**
+ * Fetch nationality options directly from MongoDB eligibility_fields document
+ */
+export const getNationalityOptionsFromMongo = async () => {
+    const data = await loadEligibilityFieldsFromMongo();
+    const list = Array.isArray(data?.nationality) ? data.nationality : [];
+    return list.map(value => ({
+        value,
+        label: formatNationalityLabel(value)
+    }));
+};
+
+/**
+ * Fetch domicile options directly from MongoDB eligibility_fields document
+ */
+export const getDomicileOptionsFromMongo = async () => {
+    const data = await loadEligibilityFieldsFromMongo();
+    const list = Array.isArray(data?.domicile) ? data.domicile : [];
+    return list.map(value => ({
+        value,
+        label: formatNationalityLabel(value)
+    }));
+};
+
+/**
+ * Fetch caste category options directly from MongoDB eligibility_fields document
+ */
+export const getCasteCategoryOptionsFromMongo = async () => {
+    const data = await loadEligibilityFieldsFromMongo();
+    const list = Array.isArray(data?.caste_category) ? data.caste_category : [];
+    return list.map(value => ({
+        value,
+        label: formatCasteCategoryLabel(value)
+    }));
+};
+
+/**
+ * Fetch NCC Wing options directly from MongoDB eligibility_fields document
+ */
+export const getNccWingOptionsFromMongo = async () => {
+    const data = await loadEligibilityFieldsFromMongo();
+    const list = Array.isArray(data?.ncc_wing) ? data.ncc_wing : [];
+    return list.map(value => ({
+        value,
+        label: formatNccWingLabel(value)
+    }));
+};
+
+/**
+ * Fetch NCC Certificate options directly from MongoDB eligibility_fields document
+ */
+export const getNccCertificateOptionsFromMongo = async () => {
+    const data = await loadEligibilityFieldsFromMongo();
+    const list = Array.isArray(data?.ncc_certificate) ? data.ncc_certificate : [];
+    return list.map(value => ({
+        value,
+        label: value
+    }));
+};
+
+/**
+ * Fetch NCC Certificate Grade options directly from MongoDB eligibility_fields document
+ */
+export const getNccCertificateGradeOptionsFromMongo = async () => {
+    const data = await loadEligibilityFieldsFromMongo();
+    const list = Array.isArray(data?.ncc_certificate_grade) ? data.ncc_certificate_grade : [];
+    return list.map(value => ({
+        value,
+        label: `Grade ${value}`
+    }));
+};
+
 export default {
     ensureExamCatalogLoaded,
     getAllCategories,
@@ -491,5 +767,37 @@ export default {
     getDivisionOptions,
     getDivisionData,
     examHasDivisions,
-    getExamSessionOptions
+    getExamSessionOptions,
+    loadEligibilityFieldsFromMongo,
+    getGenderOptionsFromMongo,
+    getMaritalStatusOptionsFromMongo,
+    getNationalityOptionsFromMongo,
+    getDomicileOptionsFromMongo,
+    getCasteCategoryOptionsFromMongo,
+    getNccWingOptionsFromMongo,
+    getNccCertificateOptionsFromMongo,
+    getNccCertificateGradeOptionsFromMongo,
+    formatNationalityLabel,
+    formatMaritalStatusLabel,
+    formatCasteCategoryLabel,
+    formatNccWingLabel,
+    getCachedEligibilityFields,
+    getCachedNationalities,
+    getCachedDomiciles,
+    getCachedCasteCategories,
+    getCachedNccWings,
+    getCachedNccCertificates,
+    getCachedNccCertificateGrades,
+    getMongoNationalities,
+    getMongoDomiciles,
+    getMongoCasteCategories,
+    getMongoNccWings,
+    getMongoNccCertificates,
+    getMongoNccCertificateGrades,
+    formatEducationLabel,
+    getHighestEducationQualificationOptionsFromMongo,
+    getEducationLevelsFromMongo,
+    getCachedHighestEducationQualification,
+    getCachedEducationLevels
 };
+

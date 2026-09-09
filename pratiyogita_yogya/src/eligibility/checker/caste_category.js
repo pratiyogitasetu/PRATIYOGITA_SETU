@@ -20,40 +20,7 @@
  * - "NOT APPLICABLE": Criterion not considered → everyone passes
  */
 
-// ============================================
-// CASTE CATEGORY MAPPINGS
-// Maps SHORT CODES (JSON) to FULL NAMES (Form)
-// ============================================
-
-const SHORT_TO_FULL = {
-    'GEN': 'GENERAL (UR/UNRESERVED)',
-    'GENERAL': 'GENERAL (UR/UNRESERVED)',
-    'UR': 'GENERAL (UR/UNRESERVED)',
-    'UNRESERVED': 'GENERAL (UR/UNRESERVED)',
-    
-    'SC': 'SC (SCHEDULED CASTE)',
-    'SCHEDULED CASTE': 'SC (SCHEDULED CASTE)',
-    
-    'ST': 'ST (SCHEDULED TRIBE)',
-    'SCHEDULED TRIBE': 'ST (SCHEDULED TRIBE)',
-    
-    'OBC': 'OBC (OTHER BACKWARD CLASS)',
-    'OBC-NCL': 'OBC (OTHER BACKWARD CLASS)',
-    
-    'EWS': 'EWS (ECONOMICALLY WEAKER SECTION)',
-    
-    'MINORITY': 'MINORITY'
-};
-
-// Standard caste categories (full names shown in form)
-const STANDARD_CATEGORIES = [
-    'GENERAL (UR/UNRESERVED)',
-    'SC (SCHEDULED CASTE)',
-    'ST (SCHEDULED TRIBE)',
-    'OBC (OTHER BACKWARD CLASS)',
-    'EWS (ECONOMICALLY WEAKER SECTION)',
-    'MINORITY'
-];
+import { getCachedCasteCategories, loadEligibilityFieldsFromMongo } from '../examDataLoader.js';
 
 /**
  * Normalize value for comparison
@@ -66,26 +33,33 @@ const normalizeValue = (value) => {
 };
 
 /**
- * Convert short code to full name
- * @param {string} shortCode - Short code from JSON (e.g., "GEN", "SC")
- * @returns {string} - Full name (e.g., "GENERAL (UR/UNRESERVED)")
+ * Dynamically match user caste against exam requirement code
+ * Supports both short codes ("GEN", "UR", "SC", "ST", "OBC", "EWS")
+ * and full names ("GENERAL (UR/UNRESERVED)", "SC (SCHEDULED CASTE)", etc.)
+ * without hardcoded static dictionaries.
  */
-const shortCodeToFullName = (shortCode) => {
-    const normalized = normalizeValue(shortCode);
-    if (!normalized) return '';
-    
-    // If it's a known short code, return full name
-    if (SHORT_TO_FULL[normalized]) {
-        return SHORT_TO_FULL[normalized];
+const matchesCasteCategory = (userCaste, examCode) => {
+    const u = normalizeValue(userCaste);
+    const e = normalizeValue(examCode);
+    if (!u || !e) return false;
+    if (u === e) return true;
+
+    // Check prefix before parenthesis
+    const parenIdx = u.indexOf('(');
+    const prefix = (parenIdx !== -1 ? u.slice(0, parenIdx) : u).trim();
+    if (prefix === e || prefix.startsWith(e) || e.startsWith(prefix)) return true;
+
+    // Check inside parenthesis if present (e.g. "UR/UNRESERVED", "SCHEDULED CASTE")
+    if (parenIdx !== -1) {
+        const parenEnd = u.indexOf(')', parenIdx);
+        const insideParen = (parenEnd !== -1 ? u.slice(parenIdx + 1, parenEnd) : u.slice(parenIdx + 1)).trim();
+        if (insideParen === e || insideParen.startsWith(e) || e.startsWith(insideParen)) return true;
+
+        const tokens = insideParen.split(/[\/\s,]+/).map(t => t.trim()).filter(Boolean);
+        if (tokens.some(t => t === e || t.startsWith(e) || e.startsWith(t))) return true;
     }
-    
-    // If already a full name, return as-is
-    if (STANDARD_CATEGORIES.includes(normalized)) {
-        return normalized;
-    }
-    
-    // Return as-is if unknown
-    return normalized;
+
+    return false;
 };
 
 /**
@@ -154,28 +128,8 @@ const checkSingleCasteEligibility = (userCaste, examCasteValue) => {
     // Parse exam's short codes from JSON (e.g., "GEN, OBC, SC, ST, EWS")
     const allowedShortCodes = examCasteValue.split(',').map(v => normalizeValue(v)).filter(v => v !== '');
     
-    // Convert user's input to short code if it's a full name
-    // e.g., "SC (SCHEDULED CASTE)" → "SC", "OBC (OTHER BACKWARD CLASS)" → "OBC"
-    let userShortCode = normalizedUserCaste;
-    
-    // If user value contains parentheses, extract the short code (text before parenthesis)
-    if (normalizedUserCaste.includes('(')) {
-        userShortCode = normalizedUserCaste.split('(')[0].trim();
-    }
-    
-    // Also check reverse mapping from short code to full name
-    const userFullName = shortCodeToFullName(userShortCode);
-    
-    // Check if user's short code matches any allowed short code
-    // Or if user's full name matches any allowed full name
-    const isEligible = allowedShortCodes.some(allowedCode => {
-        // Direct short code match
-        if (allowedCode === userShortCode) return true;
-        // Check if user's input matches the full name of allowed code
-        const allowedFullName = shortCodeToFullName(allowedCode);
-        if (allowedFullName === normalizedUserCaste || allowedFullName === userFullName) return true;
-        return false;
-    });
+    // Check if user's input matches any allowed code dynamically
+    const isEligible = allowedShortCodes.some(allowedCode => matchesCasteCategory(normalizedUserCaste, allowedCode));
     
     return {
         eligible: isEligible,
@@ -278,18 +232,11 @@ export const checkCasteCategory = (userCaste, examCasteOrData) => {
 
 /**
  * Get caste category options for frontend dropdown
- * Shows FULL NAMES for user understanding
- * @returns {Array} - Array of caste category options
+ * Deprecated: Caste category options are loaded dynamically from MongoDB via getCasteCategoryOptionsFromMongo()
+ * @returns {Array} - Empty array (options must be loaded from MongoDB)
  */
 export const getCasteCategoryOptions = () => {
-    return [
-        { value: 'GENERAL (UR/UNRESERVED)', label: 'General (UR/Unreserved)' },
-        { value: 'SC (SCHEDULED CASTE)', label: 'SC (Scheduled Caste)' },
-        { value: 'ST (SCHEDULED TRIBE)', label: 'ST (Scheduled Tribe)' },
-        { value: 'OBC (OTHER BACKWARD CLASS)', label: 'OBC (Other Backward Class)' },
-        { value: 'EWS (ECONOMICALLY WEAKER SECTION)', label: 'EWS (Economically Weaker Section)' },
-        { value: 'MINORITY', label: 'Minority' }
-    ];
+    return [];
 };
 
 /**
@@ -312,11 +259,14 @@ export const shouldShowCasteCategoryField = (examData) => {
 };
 
 /**
- * Get standard caste categories (full names)
- * @returns {string[]} - Array of standard caste category full names
+ * Get standard caste categories (full names) from MongoDB
+ * @returns {Promise<string[]>} - Array of standard caste category full names
  */
-export const getStandardCategories = () => {
-    return STANDARD_CATEGORIES;
+export const getStandardCategories = async () => {
+    const cached = getCachedCasteCategories();
+    if (cached && cached.length > 0) return cached;
+    const mongoData = await loadEligibilityFieldsFromMongo();
+    return Array.isArray(mongoData?.caste_category) ? mongoData.caste_category : [];
 };
 
 export default {

@@ -1,713 +1,1133 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import {
+  Sparkles,
+  User,
+  GraduationCap,
+  Shield,
+  RotateCcw,
+  CheckCircle2,
+  ChevronDown,
+  Info,
+  Check,
+  AlertCircle
+} from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { db } from '../firebase';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { Box, TextField, Button, Typography, Alert, Paper, MenuItem, Grid, Avatar, Divider, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
-import { deleteUser } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 import {
-    getCoursesForLevel,
-    getSubjectsForCourse,
-    loadEduFinalData,
-    getStatusOptionsForCourse,
-    getActiveBacklogsOptionsForLevel,
-    getGapYearsOptionsForLevel
+  getCoursesForLevel,
+  getSubjectsForCourse,
+  loadEduFinalData,
+  getStatusOptionsForCourse,
+  getActiveBacklogsOptionsForLevel,
+  getGapYearsOptionsForLevel
 } from '../eligibility/checker/education_level';
-import { GENDER_OPTIONS, CASTE_CATEGORY_OPTIONS, PWD_STATUS_OPTIONS, NCC_WING_OPTIONS, NCC_CERTIFICATE_OPTIONS, NCC_GRADE_OPTIONS, NATIONALITY_OPTIONS, DOMICILE_OPTIONS, getMaritalStatusOptionsForGender } from '../config/field';
+import {
+  getGenderOptionsFromMongo,
+  getMaritalStatusOptionsFromMongo,
+  getNationalityOptionsFromMongo,
+  getDomicileOptionsFromMongo,
+  getCasteCategoryOptionsFromMongo,
+  getNccWingOptionsFromMongo,
+  getNccCertificateOptionsFromMongo,
+  getNccCertificateGradeOptionsFromMongo,
+  getHighestEducationQualificationOptionsFromMongo
+} from '../eligibility/examDataLoader';
+import { PWD_STATUS_OPTIONS } from '../config/field';
 
-// ============================================
-// THEME (matching eligibility page)
-// ============================================
-const theme = createTheme({
-    palette: {
-        mode: 'dark',
-        primary: { main: '#E4572E' },
-        background: { default: 'transparent', paper: '#3d2419' },
-        text: { primary: '#FBF6EE', secondary: 'rgba(232,216,195,0.7)' },
-    },
-    components: {
-        MuiTextField: {
-            styleOverrides: {
-                root: {
-                    '& .MuiInputBase-input': { color: '#FBF6EE', fontSize: '0.9rem' },
-                    '& .MuiInputLabel-root': { color: 'rgba(232,216,195,0.7)', fontSize: '0.82rem' },
-                    '& .MuiFormHelperText-root': { color: 'rgba(232,216,195,0.8)', fontSize: '0.70rem' },
-                    '& .MuiOutlinedInput-root': {
-                        '& fieldset': { borderColor: 'rgba(228,87,46,0.4)' },
-                        '&:hover fieldset': { borderColor: '#E4572E' },
-                        '&.Mui-focused fieldset': { borderColor: '#E4572E' },
-                    },
-                },
-            },
-        },
-        MuiMenuItem: { styleOverrides: { root: { fontSize: '0.82rem', color: '#FBF6EE' } } },
-        MuiPopover: { defaultProps: { disableScrollLock: true } },
-        MuiMenu: {
-            defaultProps: { disableScrollLock: true },
-            styleOverrides: {
-                paper: { maxHeight: 220 },
-                list: {
-                    maxHeight: 220, overflowY: 'auto', scrollbarWidth: 'thin',
-                    scrollbarColor: '#E4572E rgba(43,30,23,0.5)',
-                    '&::-webkit-scrollbar': { width: '4px' },
-                    '&::-webkit-scrollbar-track': { background: 'rgba(43,30,23,0.5)', borderRadius: '999px' },
-                    '&::-webkit-scrollbar-thumb': { background: '#E4572E', borderRadius: '999px' },
-                },
-            },
-        },
-    },
-});
-
-// ============================================
-// CONSTANTS (same as eligibility page)
-// ============================================
-const EDUCATION_HIERARCHY = [
-    { key: 'POST DOCTORATE', label: 'Post Doctorate', shortLabel: 'Post Doctorate' },
-    { key: 'PHD', label: 'PhD', shortLabel: 'PhD' },
-    { key: 'POST GRADUATION', label: 'Post Graduation', shortLabel: 'Post Graduation' },
-    { key: 'GRADUATION', label: 'Graduation', shortLabel: 'Graduation' },
-    { key: 'DIPLOMA / ITI (POLYTECHNIC, ITI, DPHARM, PGDCA)', label: 'Diploma / ITI', shortLabel: 'Diploma ITI' },
-    { key: '(12TH)HIGHER SECONDARY', label: '12th Higher Secondary', shortLabel: '12th Higher Secondary' },
-    { key: '(10TH)SECONDARY', label: '10th Secondary', shortLabel: '10th Secondary' },
-    { key: '(8TH)CLASS', label: '8th Class', shortLabel: '8th Class' },
-    { key: '(5TH)CLASS', label: '5th Class', shortLabel: '5th Class' },
+// Educational hierarchy matching MongoDB and eligibility matrix
+const EDUCATION_TIERS = [
+  {
+    key: 'POST DOCTORATE',
+    name: 'Post Doctorate',
+    color: '#ef4444',
+    badgeText: '#f87171'
+  },
+  {
+    key: 'PHD',
+    name: 'PhD',
+    color: '#d97706',
+    badgeText: '#fbbf24'
+  },
+  {
+    key: 'POST GRADUATION',
+    name: 'Post Graduation',
+    color: '#10b981',
+    badgeText: '#34d399'
+  },
+  {
+    key: 'GRADUATION',
+    name: 'Graduation',
+    color: '#8b5cf6',
+    badgeText: '#c4b5fd'
+  },
+  {
+    key: 'DIPLOMA / ITI (POLYTECHNIC, ITI, DPHARM, PGDCA)',
+    name: 'Diploma / ITI',
+    color: '#06b6d4',
+    badgeText: '#67e8f9'
+  },
+  {
+    key: '(12TH)HIGHER SECONDARY',
+    name: '12th Higher Secondary',
+    color: '#f59e0b',
+    badgeText: '#fde68a'
+  },
+  {
+    key: '(10TH)SECONDARY',
+    name: '10th Secondary',
+    color: '#f43f5e',
+    badgeText: '#fecdd3'
+  },
+  {
+    key: '(8TH)MIDDLE SCHOOL',
+    name: '8th Middle School',
+    color: '#14b8a6',
+    badgeText: '#99f6e4'
+  },
+  {
+    key: '(5TH)PRIMARY SCHOOL',
+    name: '5th Primary School',
+    color: '#b45309',
+    badgeText: '#fed7aa'
+  }
 ];
 
-const staticEducationOptions = [
-    { value: "POST DOCTORATE", label: "Post Doctorate" },
-    { value: "PHD", label: "PhD" },
-    { value: "POST GRADUATION", label: "Post Graduation" },
-    { value: "GRADUATION", label: "Graduation" },
-    { value: "DIPLOMA / ITI (POLYTECHNIC, ITI, DPHARM, PGDCA)", label: "Diploma / ITI" },
-    { value: "(12TH)HIGHER SECONDARY", label: "Higher Secondary (12th)" },
-    { value: "(10TH)SECONDARY", label: "Secondary (10th)" },
-    { value: "(8TH)CLASS", label: "Class 8th" },
-    { value: "(5TH)CLASS", label: "Class 5th" },
-    { value: "BELOW 10TH", label: "Below 10th" },
-    { value: "NO EDUCATION", label: "No Education" },
-];
+// Generate year options from 2026 down to 1975
+const YEAR_OPTIONS = Array.from({ length: 52 }, (_, i) => 2026 - i);
 
-const generateYearOptions = () => {
-    const currentYear = new Date().getFullYear();
-    const years = [{ value: '', label: 'Year' }];
-    for (let year = currentYear; year >= currentYear - 50; year--) {
-        years.push({ value: year.toString(), label: year.toString() });
-    }
-    return years;
-};
-const yearOptions = generateYearOptions();
+// Helper functions to safely extract value and label from strings or option objects
+const getOptionValue = (opt) => (typeof opt === 'object' && opt !== null ? opt.value : opt);
+const getOptionLabel = (opt) => (typeof opt === 'object' && opt !== null ? (opt.label ?? opt.value) : opt);
 
-const eduLevelColors = [
-    { border: '#E4572E', bg: 'rgba(228,87,46,0.08)', text: '#E4572E' },
-    { border: '#E8D8C3', bg: 'rgba(232,216,195,0.08)', text: '#E8D8C3' },
-    { border: '#5b8a72', bg: 'rgba(91,138,114,0.08)', text: '#5b8a72' },
-    { border: '#9b8ec4', bg: 'rgba(155,142,196,0.08)', text: '#9b8ec4' },
-    { border: '#4da6c9', bg: 'rgba(77,166,201,0.08)', text: '#4da6c9' },
-    { border: '#c9a84c', bg: 'rgba(201,168,76,0.08)', text: '#c9a84c' },
-    { border: '#d4726a', bg: 'rgba(212,114,106,0.08)', text: '#d4726a' },
-    { border: '#6b9e78', bg: 'rgba(107,158,120,0.08)', text: '#6b9e78' },
-    { border: '#b8860b', bg: 'rgba(184,134,11,0.08)', text: '#b8860b' },
-];
-
-const dropdownOptions = {
-    gender: GENDER_OPTIONS,
-    nationality: NATIONALITY_OPTIONS,
-    caste_category: CASTE_CATEGORY_OPTIONS,
-    pwd_status: PWD_STATUS_OPTIONS,
-    ncc_wing: NCC_WING_OPTIONS,
-    ncc_certificate: NCC_CERTIFICATE_OPTIONS,
-    ncc_certificate_grade: NCC_GRADE_OPTIONS,
-    domicile: DOMICILE_OPTIONS,
+const createInitialEducationData = () => {
+  const data = {};
+  EDUCATION_TIERS.forEach((tier) => {
+    data[tier.key] = {
+      course: '',
+      subject: '',
+      haveYouStudied: '-',
+      completionStatus: '',
+      marks: '',
+      completedYear: '',
+      activeBacklogs: '-',
+      gapYears: '-'
+    };
+  });
+  return data;
 };
 
-// ============================================
-// MAIN COMPONENT
-// ============================================
 export default function ProfilePage() {
-    const { currentUser, logout } = useAuth();
-    const navigate = useNavigate();
-    const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState('');
-    const [error, setError] = useState('');
-    const [consentInfo, setConsentInfo] = useState({
-        accepted: false,
-        acceptedAt: null,
-        version: ''
-    });
-    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const { currentUser, getUserProfile } = useAuth();
+  const navigate = useNavigate();
 
-    // Form data — EXACT same keys as eligibility page
-    const [formData, setFormData] = useState({
-        date_of_birth: "",
-        gender: "",
-        marital_status: "",
-        nationality: "",
-        caste_category: "",
-        pwd_status: "",
-        domicile: "",
-        highest_education_qualification: "",
-        eligibility_education_course: "",
-        eligibility_education_course_subject: "",
-        eligibility_course_year: "",
-        eligibility_marks: "",
-        percentage_10th_requirement: "",
-        percentage_12th_requirement: "",
-        subjects_at_10th: "",
-        subjects_at_12th: "",
-        ncc_wing: "",
-        ncc_certificate: "",
-        ncc_certificate_grade: "",
-    });
+  // Loading & Feedback
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [feedbackMessage, setFeedbackMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
-    // Date picker state
-    const [dateDay, setDateDay] = useState("");
-    const [dateMonth, setDateMonth] = useState("");
-    const [dateYear, setDateYear] = useState("");
+  // 1. Personal Information State
+  const [personalInfo, setPersonalInfo] = useState({
+    dobDay: '',
+    dobMonth: '',
+    dobYear: '',
+    gender: '',
+    maritalStatus: '',
+    nationality: 'INDIAN',
+    domicileState: '',
+    casteCategory: '',
+    pwdCandidate: 'NO'
+  });
 
-    const dayOptions = Array.from({ length: 31 }, (_, i) => ({ value: String(i + 1).padStart(2, '0'), label: String(i + 1) }));
-    const monthOptions = [
-        { value: '01', label: 'January' }, { value: '02', label: 'February' }, { value: '03', label: 'March' },
-        { value: '04', label: 'April' }, { value: '05', label: 'May' }, { value: '06', label: 'June' },
-        { value: '07', label: 'July' }, { value: '08', label: 'August' }, { value: '09', label: 'September' },
-        { value: '10', label: 'October' }, { value: '11', label: 'November' }, { value: '12', label: 'December' },
-    ];
-    const currentYear = new Date().getFullYear();
-    const birthYearOptions = Array.from({ length: 100 }, (_, i) => ({
-        value: String(currentYear - 15 - i), label: String(currentYear - 15 - i)
-    }));
+  // 2. Educational Qualification State
+  const [highestQualification, setHighestQualification] = useState('GRADUATION');
+  const [educationRows, setEducationRows] = useState(createInitialEducationData);
 
-    // Domicile control
-    const [isDomicileDisabled, setIsDomicileDisabled] = useState(true);
+  // 3. NCC Details State
+  const [nccDetails, setNccDetails] = useState({
+    wing: '',
+    certificate: '',
+    grade: ''
+  });
 
-    // Education state
-    const [visibleEducationLevels, setVisibleEducationLevels] = useState([]);
-    const [educationTableData, setEducationTableData] = useState({});
-    const [courseOptions, setCourseOptions] = useState([]);
-    const [subjectOptions, setSubjectOptions] = useState([]);
+  // Dynamic MongoDB Atlas Dropdown Options
+  const [genderOptions, setGenderOptions] = useState([]);
+  const [maritalStatusOptions, setMaritalStatusOptions] = useState([]);
+  const [nationalityOptions, setNationalityOptions] = useState([]);
+  const [domicileOptions, setDomicileOptions] = useState([]);
+  const [casteOptions, setCasteOptions] = useState([]);
+  const [highestEduOptions, setHighestEduOptions] = useState([]);
+  const [nccWingOptions, setNccWingOptions] = useState([]);
+  const [nccCertificateOptions, setNccCertificateOptions] = useState([]);
+  const [nccCertificateGradeOptions, setNccCertificateGradeOptions] = useState([]);
 
-    const [maritalStatusOptions, setMaritalStatusOptions] = useState(getMaritalStatusOptionsForGender());
+  // Per-tier dynamic course and subject options loaded from MongoDB
+  const [tierCourseOptions, setTierCourseOptions] = useState({});
+  const [tierSubjectOptions, setTierSubjectOptions] = useState({});
 
-    const parseConsentDate = (value) => {
-        if (!value) return null;
-        if (typeof value?.toDate === 'function') return value.toDate();
-        const parsed = new Date(value);
-        return Number.isNaN(parsed.getTime()) ? null : parsed;
-    };
+  // 1. Load Dropdown Options from MongoDB Atlas
+  useEffect(() => {
+    let cancelled = false;
 
-    const formatConsentDate = (date) => {
-        if (!date) return 'Not available';
-        return date.toLocaleString('en-IN', {
-            day: '2-digit',
-            month: 'short',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-        });
-    };
+    async function loadOptions() {
+      try {
+        await loadEduFinalData();
 
-    // ============================================
-    // LOAD DATA ON MOUNT
-    // ============================================
-    useEffect(() => {
-        if (!currentUser) {
-            navigate('/login');
-            return;
+        const [
+          genders,
+          maritals,
+          nationalities,
+          domiciles,
+          castes,
+          nccWings,
+          nccCerts,
+          nccGrades,
+          highestEdus
+        ] = await Promise.all([
+          getGenderOptionsFromMongo(),
+          getMaritalStatusOptionsFromMongo(),
+          getNationalityOptionsFromMongo(),
+          getDomicileOptionsFromMongo(),
+          getCasteCategoryOptionsFromMongo(),
+          getNccWingOptionsFromMongo(),
+          getNccCertificateOptionsFromMongo(),
+          getNccCertificateGradeOptionsFromMongo(),
+          getHighestEducationQualificationOptionsFromMongo()
+        ]);
+
+        if (!cancelled) {
+          setGenderOptions(genders || []);
+          setMaritalStatusOptions(maritals || []);
+          setNationalityOptions(nationalities || []);
+          setDomicileOptions(domiciles || []);
+          setCasteOptions(castes || []);
+          setNccWingOptions(nccWings || []);
+          setNccCertificateOptions(nccCerts || []);
+          setNccCertificateGradeOptions(nccGrades || []);
+          setHighestEduOptions(highestEdus || []);
+
+          // Load courses for each tier from MongoDB
+          const coursesMap = {};
+          EDUCATION_TIERS.forEach((tier) => {
+            coursesMap[tier.key] = getCoursesForLevel(tier.key) || [];
+          });
+          setTierCourseOptions(coursesMap);
         }
-        loadEduFinalData();
-        async function loadProfile() {
-            setLoading(true);
-            try {
-                const docRef = doc(db, 'users', currentUser.uid);
-                const docSnap = await getDoc(docRef);
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    const {
-                        educationTableData: savedEducationTableData,
-                        serviceNoticeConsent,
-                        noticeConsentAccepted,
-                        noticeConsentAcceptedAt,
-                        ...profileFields
-                    } = data;
-
-                    const accepted = serviceNoticeConsent?.accepted === true || noticeConsentAccepted === true;
-                    const acceptedAt = parseConsentDate(serviceNoticeConsent?.acceptedAt) || parseConsentDate(noticeConsentAcceptedAt);
-                    setConsentInfo({
-                        accepted,
-                        acceptedAt,
-                        version: serviceNoticeConsent?.version || ''
-                    });
-
-                    // Load personal data
-                    setFormData(prev => ({ ...prev, ...profileFields }));
-                    // Load date parts
-                    if (profileFields.date_of_birth) {
-                        const [y, m, d] = profileFields.date_of_birth.split('-');
-                        setDateYear(y || '');
-                        setDateMonth(m || '');
-                        setDateDay(d || '');
-                    }
-                    // Handle dynamic marital options on load
-                    if (profileFields.gender) {
-                        setMaritalStatusOptions(getMaritalStatusOptionsForGender(profileFields.gender));
-                    }
-                    // Domicile control
-                    if (profileFields.nationality) {
-                        setIsDomicileDisabled(profileFields.nationality.toUpperCase() !== 'INDIAN');
-                    }
-                    // Load education table
-                    if (profileFields.highest_education_qualification) {
-                        const levelIndex = EDUCATION_HIERARCHY.findIndex(h => h.key === profileFields.highest_education_qualification);
-                        if (levelIndex !== -1) {
-                            setVisibleEducationLevels(EDUCATION_HIERARCHY.slice(levelIndex));
-                        }
-                        const courses = getCoursesForLevel(profileFields.highest_education_qualification);
-                        setCourseOptions(courses);
-                        if (profileFields.eligibility_education_course) {
-                            const subjects = getSubjectsForCourse(profileFields.eligibility_education_course, profileFields.highest_education_qualification);
-                            setSubjectOptions(subjects);
-                        }
-                    }
-                    if (savedEducationTableData) {
-                        setEducationTableData(savedEducationTableData);
-                    }
-                }
-            } catch (err) {
-                console.error("Failed to load profile:", err);
-            }
-            setLoading(false);
-        }
-        loadProfile();
-    }, [currentUser, navigate]);
-
-    // ============================================
-    // HANDLERS
-    // ============================================
-    const handleChange = (field) => (e) => {
-        const value = e.target.value;
-        setFormData(prev => ({ ...prev, [field]: value }));
-        
-        if (field === 'gender') {
-            const newOptions = getMaritalStatusOptionsForGender(value);
-            setMaritalStatusOptions(newOptions);
-            // Auto-clear marital status if it's no longer valid
-            setFormData(prev => {
-                if (prev.marital_status && !newOptions.some(opt => opt.value === prev.marital_status)) {
-                    return { ...prev, marital_status: '' };
-                }
-                return prev;
-            });
-        }
-        
-        if (field === 'nationality') {
-            const isIndian = value && value.toUpperCase() === 'INDIAN';
-            setIsDomicileDisabled(!isIndian);
-            if (!isIndian) setFormData(prev => ({ ...prev, domicile: '' }));
-        }
-    };
-
-    const handleDateChange = (part) => (event) => {
-        const value = event.target.value;
-        if (part === 'day') setDateDay(value);
-        if (part === 'month') setDateMonth(value);
-        if (part === 'year') setDateYear(value);
-        const day = part === 'day' ? value : dateDay;
-        const month = part === 'month' ? value : dateMonth;
-        const year = part === 'year' ? value : dateYear;
-        if (day && month && year) {
-            setFormData(prev => ({ ...prev, date_of_birth: `${year}-${month}-${day}` }));
-        } else {
-            setFormData(prev => ({ ...prev, date_of_birth: '' }));
-        }
-    };
-
-    const handleEducationLevelChange = (event) => {
-        const level = event.target.value;
-        setFormData(prev => ({
-            ...prev,
-            highest_education_qualification: level,
-            eligibility_education_course: '',
-            eligibility_education_course_subject: '',
-        }));
-        const courses = getCoursesForLevel(level);
-        setCourseOptions(courses);
-        setSubjectOptions([]);
-        const levelIndex = EDUCATION_HIERARCHY.findIndex(h => h.key === level);
-        if (levelIndex !== -1) {
-            const visibleLevels = EDUCATION_HIERARCHY.slice(levelIndex);
-            setVisibleEducationLevels(visibleLevels);
-            const newTableData = {};
-            visibleLevels.forEach(lvl => {
-                newTableData[lvl.key] = educationTableData[lvl.key] || {
-                    course: '', subject: '', completionStatus: '', marks: '', completedYear: '', activeBacklogs: '', gapYears: ''
-                };
-            });
-            setEducationTableData(newTableData);
-        } else {
-            setVisibleEducationLevels([]);
-            setEducationTableData({});
-        }
-    };
-
-    const handleCourseChange = (e) => {
-        const course = e.target.value;
-        setFormData(prev => ({ ...prev, eligibility_education_course: course, eligibility_education_course_subject: '' }));
-        const subjects = getSubjectsForCourse(course, formData.highest_education_qualification);
-        setSubjectOptions(subjects);
-    };
-
-    const handleEducationTableChange = (levelKey, field, value) => {
-        setEducationTableData(prev => {
-            const updated = { ...prev, [levelKey]: { ...prev[levelKey], [field]: value } };
-            // Reset subject when course changes
-            if (field === 'course') {
-                updated[levelKey].subject = '';
-            }
-            return updated;
-        });
-    };
-
-    async function handleSubmit(e) {
-        e.preventDefault();
-        setMessage('');
-        setError('');
-        setLoading(true);
-        try {
-            const docRef = doc(db, 'users', currentUser.uid);
-            await setDoc(docRef, {
-                ...formData,
-                educationTableData: educationTableData,
-            }, { merge: true });
-            setMessage('Profile updated successfully!');
-        } catch (err) {
-            setError('Failed to update profile: ' + err.message);
-        }
-        setLoading(false);
+      } catch (err) {
+        console.error('Error fetching MongoDB eligibility fields:', err);
+      }
     }
 
-    const handleLogout = async () => {
-        try {
-            await logout();
-            navigate('/login');
-        } catch (err) {
-            setError('Failed to log out: ' + err.message);
-        }
+    loadOptions();
+    return () => {
+      cancelled = true;
     };
+  }, []);
 
-    const handleDeleteAccount = async () => {
-        try {
-            setDeleteDialogOpen(false);
-            setLoading(true);
-            await deleteUser(currentUser);
-            navigate('/login');
-        } catch (err) {
-            setError('Failed to delete account. You may need to re-authenticate first: ' + err.message);
-            setLoading(false);
-        }
-    };
-
-    // Helper to render a dropdown field
-    const renderDropdown = (key, label, options, extra = {}) => (
-        <TextField
-            select fullWidth size="small" label={label}
-            value={formData[key] || ''}
-            onChange={handleChange(key)}
-            helperText={extra.helperText}
-            disabled={extra.disabled}
-        >
-            {options.map(opt => (
-                <MenuItem key={opt.value} value={opt.value}>{opt.label}</MenuItem>
-            ))}
-        </TextField>
-    );
-
-    const highestLevelStatusOptions = getStatusOptionsForCourse(
-        formData.eligibility_education_course,
-        formData.highest_education_qualification
-    );
-
-    if (loading && !formData.date_of_birth) {
-        return <Box sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: '#2b1e17', color: '#E4572E' }}>Loading...</Box>;
+  // 2. Load Existing User Data from Firestore
+  useEffect(() => {
+    if (!currentUser) {
+      navigate('/login');
+      return;
     }
 
-    return (
-        <ThemeProvider theme={theme}>
-        <Box sx={{ minHeight: '100vh', py: 8, px: 2, bgcolor: '#2b1e17' }}>
-            <Paper elevation={3} sx={{ p: { xs: 2, md: 4 }, width: '100%', maxWidth: 1200, mx: 'auto', bgcolor: '#3d2419', color: '#FBF6EE' }}>
-                {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
-                {message && <Alert severity="success" sx={{ mb: 2 }}>{message}</Alert>}
+    let isMounted = true;
 
-                <Grid container spacing={4}>
-                    {/* ========== LEFT SIDEBAR ========== */}
-                    <Grid item xs={12} md={4} lg={3}>
-                        <Box display="flex" flexDirection="column" alignItems="center" p={3} sx={{ bgcolor: 'rgba(0,0,0,0.15)', borderRadius: 2, height: 'fit-content', position: 'sticky', top: 32, zIndex: 10 }}>
-                            <Avatar
-                                src={currentUser?.photoURL || ''}
-                                sx={{ width: 100, height: 100, mb: 2, bgcolor: '#E4572E', fontSize: '2.5rem', border: '4px solid #E8D8C3' }}
-                            >
-                                {currentUser?.displayName ? currentUser.displayName[0].toUpperCase() : (currentUser?.email ? currentUser.email[0].toUpperCase() : 'U')}
-                            </Avatar>
-                            
-                            <Typography variant="h6" fontWeight="bold" textAlign="center" gutterBottom color="#E8D8C3">
-                                {currentUser?.displayName || (currentUser?.email ? currentUser.email.split('@')[0] : 'User')}
-                            </Typography>
-                            <Typography variant="body2" color="rgba(232,216,195,0.7)" textAlign="center" sx={{ wordBreak: 'break-all' }} mb={3}>
-                                {currentUser?.email}
-                            </Typography>
-                            
-                            <Divider sx={{ width: '100%', mb: 3, borderColor: 'rgba(232,216,195,0.1)' }} />
-                            
-                            <Alert severity={consentInfo.accepted ? "success" : "warning"} sx={{ width: '100%', mb: 3, '& .MuiAlert-message': { width: '100%' } }}>
-                                <Typography variant="body2" fontWeight={600}>
-                                    Notice consent: {consentInfo.accepted ? 'Agreed' : 'Pending'}
-                                </Typography>
-                                {consentInfo.accepted && (
-                                    <Typography variant="caption" display="block" sx={{ mt: 0.5 }}>
-                                        Accepted on: {formatConsentDate(consentInfo.acceptedAt)}
-                                        {consentInfo.version ? ` | Version: ${consentInfo.version}` : ''}
-                                    </Typography>
-                                )}
-                            </Alert>
+    async function loadUserData() {
+      setLoading(true);
+      try {
+        const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
+        if (userDoc.exists() && isMounted) {
+          const data = userDoc.data();
 
-                            <Box sx={{ flexGrow: 1 }} />
+          // DOB extraction
+          let dobDay = '';
+          let dobMonth = '';
+          let dobYear = '';
+          if (data.date_of_birth) {
+            const parts = data.date_of_birth.split('-');
+            if (parts.length === 3) {
+              dobYear = parts[0];
+              dobMonth = parts[1];
+              dobDay = parts[2];
+            }
+          }
 
-                            <Button 
-                                variant="outlined" 
-                                color="error" 
-                                fullWidth 
-                                onClick={() => setDeleteDialogOpen(true)}
-                                sx={{ mt: 2 }}
-                            >
-                                Delete Account
-                            </Button>
-                        </Box>
-                    </Grid>
+          setPersonalInfo({
+            dobDay,
+            dobMonth,
+            dobYear,
+            gender: data.gender || '',
+            maritalStatus: data.marital_status || '',
+            nationality: data.nationality || 'INDIAN',
+            domicileState: data.domicile || '',
+            casteCategory: data.caste_category || '',
+            pwdCandidate: data.pwd_status || 'NO'
+          });
 
-                    {/* ========== RIGHT CONTENT ========== */}
-                    <Grid item xs={12} md={8} lg={9}>
-                        <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
-                            <Typography variant="h4" color="#E4572E">My Profile</Typography>
-                            <Button variant="outlined" onClick={handleLogout} sx={{ color: '#E4572E', borderColor: '#E4572E', '&:hover': { borderColor: '#c9421e' } }}>Log Out</Button>
-                        </Box>
-                        
-                        <Typography mb={3} sx={{ color: 'rgba(232,216,195,0.7)', fontSize: '0.9rem' }}>
-                            Fill out these fields and save. Next time you check eligibility, hit "Fill Your Saved Details" to load them instantly!
-                        </Typography>
-                        
-                        <form onSubmit={handleSubmit}>
-                    {/* ========== Section 1: Personal Information ========== */}
-                    <div className="p-3 mb-4 rounded-lg border-l-4 border-l-[#E8D8C3] bg-[#E8D8C3]/5 border border-[#E8D8C3]/15">
-                        <h2 className="text-base font-semibold text-[#E8D8C3] mb-3 text-left">
-                            Personal Information
-                        </h2>
-                        <div className="flex flex-col gap-4 max-w-md">
-                            {/* Date of Birth - Split dropdowns */}
-                            <div className="flex gap-2">
-                                <TextField select label="Day" value={dateDay} onChange={handleDateChange('day')} size="small" sx={{ flex: 1 }}>
-                                    <MenuItem value="">Day</MenuItem>
-                                    {dayOptions.map(o => <MenuItem key={o.value} value={o.value}>{o.label}</MenuItem>)}
-                                </TextField>
-                                <TextField select label="Month" value={dateMonth} onChange={handleDateChange('month')} size="small" sx={{ flex: 1.5 }}>
-                                    <MenuItem value="">Month</MenuItem>
-                                    {monthOptions.map(o => <MenuItem key={o.value} value={o.value}>{o.label}</MenuItem>)}
-                                </TextField>
-                                <TextField select label="Year" value={dateYear} onChange={handleDateChange('year')} size="small" sx={{ flex: 1 }}>
-                                    <MenuItem value="">Year</MenuItem>
-                                    {birthYearOptions.map(o => <MenuItem key={o.value} value={o.value}>{o.label}</MenuItem>)}
-                                </TextField>
-                            </div>
+          // Fetch gender-specific marital status options
+          if (data.gender) {
+            getMaritalStatusOptionsFromMongo(data.gender).then((opts) => {
+              if (isMounted) setMaritalStatusOptions(opts);
+            });
+          }
 
-                            {renderDropdown('gender', 'Gender', dropdownOptions.gender, { helperText: 'Select your gender' })}
-                            {renderDropdown('marital_status', 'Marital Status', maritalStatusOptions, { helperText: 'Select your marital status' })}
-                            {renderDropdown('nationality', 'Nationality', dropdownOptions.nationality, { helperText: 'Select your nationality' })}
-                            {renderDropdown('domicile', 'Domicile State', dropdownOptions.domicile, {
-                                helperText: isDomicileDisabled ? "Select 'INDIAN' nationality first" : 'Your domicile state',
-                                disabled: isDomicileDisabled
-                            })}
-                            {renderDropdown('caste_category', 'Caste/Category', dropdownOptions.caste_category, { helperText: 'Select your category' })}
-                            {renderDropdown('pwd_status', 'Person with Disability', dropdownOptions.pwd_status, { helperText: 'Are you a PwD candidate?' })}
-                        </div>
-                    </div>
+          if (data.highest_education_qualification) {
+            setHighestQualification(data.highest_education_qualification);
+          }
 
-                    {/* ========== Section 2: Educational Qualification ========== */}
-                    <div className="p-3 mb-4 rounded-lg border-l-4 border-l-[#5b8a72] bg-[#5b8a72]/5 border border-[#5b8a72]/15">
-                        <h2 className="text-base font-semibold text-[#5b8a72] mb-3 text-left">
-                            Educational Qualification
-                        </h2>
-                        
-                        <div className="mb-4 max-w-md">
-                            <TextField
-                                select fullWidth
-                                label="Highest Education Qualification"
-                                value={formData.highest_education_qualification}
-                                onChange={handleEducationLevelChange}
-                                helperText="Select your highest qualification level"
-                                size="small"
-                            >
-                                {staticEducationOptions.map(opt => (
-                                    <MenuItem key={opt.value} value={opt.value}>{opt.label}</MenuItem>
-                                ))}
-                            </TextField>
-                        </div>
+          // Education table rows
+          if (data.educationTableData && typeof data.educationTableData === 'object') {
+            const merged = createInitialEducationData();
+            Object.keys(data.educationTableData).forEach((key) => {
+              merged[key] = {
+                ...merged[key],
+                ...data.educationTableData[key]
+              };
+            });
+            setEducationRows(merged);
 
-                        
-                        {/* Per-level education table */}
-                        {visibleEducationLevels.length > 0 && (
-                            <div className="overflow-x-auto">
-                                {visibleEducationLevels.map((level, levelIndex) => {
-                                    const levelColor = eduLevelColors[levelIndex % eduLevelColors.length];
-                                    const levelData = educationTableData[level.key] || {};
-                                    const levelCourses = getCoursesForLevel(level.key);
-                                    const levelSubjects = levelData.course ? getSubjectsForCourse(levelData.course, level.key) : [];
-                                    const levelStatusOptions = getStatusOptionsForCourse(levelData.course, level.key);
-                                    const levelBacklogOptions = getActiveBacklogsOptionsForLevel(level.key);
-                                    const levelGapYearOptions = getGapYearsOptionsForLevel(level.key);
-                                    
-                                    return (
-                                        <div 
-                                            key={level.key}
-                                            className="flex flex-col gap-4 mb-5 p-4 rounded-lg border-l-4 max-w-md"
-                                            style={{ backgroundColor: levelColor.bg, borderLeftColor: levelColor.border, borderTop: `1px solid ${levelColor.border}25`, borderRight: `1px solid ${levelColor.border}25`, borderBottom: `1px solid ${levelColor.border}25` }}
-                                        >
-                                            <Typography variant="subtitle1" fontWeight="bold" sx={{ color: levelColor.text, mb: 1 }}>
-                                                {level.label}
-                                            </Typography>
-                                            
-                                            <TextField
-                                                select fullWidth size="small" label="Course/Stream"
-                                                value={levelData.course || ''}
-                                                onChange={(e) => handleEducationTableChange(level.key, 'course', e.target.value)}
-                                                InputLabelProps={{ shrink: true }}
-                                                sx={{ '& .MuiInputBase-root': { fontSize: '0.9rem' } }}
-                                            >
-                                                <MenuItem value="">Select</MenuItem>
-                                                {levelCourses.map(opt => (
-                                                    <MenuItem key={opt.value} value={opt.value}>{opt.label}</MenuItem>
-                                                ))}
-                                            </TextField>
-                                            
-                                            <TextField
-                                                select fullWidth size="small" label="Subject"
-                                                value={levelData.subject || ''}
-                                                onChange={(e) => handleEducationTableChange(level.key, 'subject', e.target.value)}
-                                                InputLabelProps={{ shrink: true }}
-                                                disabled={!levelData.course}
-                                                sx={{ '& .MuiInputBase-root': { fontSize: '0.9rem' } }}
-                                            >
-                                                <MenuItem value="">Select</MenuItem>
-                                                {levelSubjects.map(opt => (
-                                                    <MenuItem key={opt.value} value={opt.value}>{opt.label}</MenuItem>
-                                                ))}
-                                            </TextField>
-                                            
-                                            <TextField
-                                                select fullWidth size="small" label="Status"
-                                                value={levelData.completionStatus || ''}
-                                                onChange={(e) => handleEducationTableChange(level.key, 'completionStatus', e.target.value)}
-                                                InputLabelProps={{ shrink: true }}
-                                                sx={{ '& .MuiInputBase-root': { fontSize: '0.9rem' } }}
-                                            >
-                                                {levelStatusOptions.map(opt => (
-                                                    <MenuItem key={opt.value} value={opt.value}>{opt.label}</MenuItem>
-                                                ))}
-                                            </TextField>
-                                            
-                                            <TextField
-                                                fullWidth size="small" label="Marks" type="number"
-                                                value={levelData.marks || ''}
-                                                onChange={(e) => handleEducationTableChange(level.key, 'marks', e.target.value)}
-                                                InputLabelProps={{ shrink: true }}
-                                                inputProps={{ min: 0, max: 100 }}
-                                                sx={{ '& .MuiInputBase-root': { fontSize: '0.9rem' } }}
-                                            />
-                                            
-                                            <TextField
-                                                select fullWidth size="small" label="Year"
-                                                value={levelData.completedYear || ''}
-                                                onChange={(e) => handleEducationTableChange(level.key, 'completedYear', e.target.value)}
-                                                InputLabelProps={{ shrink: true }}
-                                                sx={{ '& .MuiInputBase-root': { fontSize: '0.9rem' } }}
-                                            >
-                                                {yearOptions.map(opt => (
-                                                    <MenuItem key={opt.value} value={opt.value}>{opt.label}</MenuItem>
-                                                ))}
-                                            </TextField>
+            // Populate subject options for rows with selected course
+            const subjectsMap = {};
+            Object.keys(merged).forEach((tierKey) => {
+              const row = merged[tierKey];
+              if (row.course) {
+                subjectsMap[tierKey] = getSubjectsForCourse(row.course, tierKey) || [];
+              }
+            });
+            setTierSubjectOptions(subjectsMap);
+          }
 
-                                            <TextField
-                                                select fullWidth size="small" label="Active Backlogs"
-                                                value={levelData.activeBacklogs || ''}
-                                                onChange={(e) => handleEducationTableChange(level.key, 'activeBacklogs', e.target.value)}
-                                                InputLabelProps={{ shrink: true }}
-                                                sx={{ '& .MuiInputBase-root': { fontSize: '0.9rem' } }}
-                                            >
-                                                {levelBacklogOptions.map((opt) => (
-                                                    <MenuItem key={opt.value} value={opt.value}>{opt.label}</MenuItem>
-                                                ))}
-                                            </TextField>
+          // NCC details
+          setNccDetails({
+            wing: data.ncc_wing || '',
+            certificate: data.ncc_certificate || '',
+            grade: data.ncc_certificate_grade || ''
+          });
+        }
+      } catch (err) {
+        console.error('Failed to load user profile from Firestore:', err);
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    }
 
-                                            <TextField
-                                                select fullWidth size="small" label="Gap Years"
-                                                value={levelData.gapYears || ''}
-                                                onChange={(e) => handleEducationTableChange(level.key, 'gapYears', e.target.value)}
-                                                InputLabelProps={{ shrink: true }}
-                                                sx={{ '& .MuiInputBase-root': { fontSize: '0.9rem' } }}
-                                            >
-                                                {levelGapYearOptions.map((opt) => (
-                                                    <MenuItem key={opt.value} value={opt.value}>{opt.label}</MenuItem>
-                                                ))}
-                                            </TextField>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        )}
-                    </div>
+    loadUserData();
+    return () => {
+      isMounted = false;
+    };
+  }, [currentUser, navigate]);
 
-                    {/* ========== Section 3: NCC Details ========== */}
-                    <div className="p-3 mb-4 rounded-lg border-l-4 border-l-[#9b8ec4] bg-[#9b8ec4]/5 border border-[#9b8ec4]/15">
-                        <h2 className="text-base font-semibold text-[#9b8ec4] mb-3 text-left">
-                            NCC Details
-                        </h2>
-                        <div className="flex flex-col gap-4 max-w-md">
-                            {renderDropdown('ncc_wing', 'NCC Wing', dropdownOptions.ncc_wing)}
-                            {renderDropdown('ncc_certificate', 'NCC Certificate', dropdownOptions.ncc_certificate)}
-                            {renderDropdown('ncc_certificate_grade', 'NCC Grade', dropdownOptions.ncc_certificate_grade)}
-                        </div>
-                    </div>
+  // Handle personal info changes
+  const handlePersonalInfoChange = (field, value) => {
+    setPersonalInfo((prev) => ({ ...prev, [field]: value }));
 
-                    <Box mt={4} display="flex" justifyContent="center">
-                        <Button disabled={loading} type="submit" variant="contained" size="large" sx={{ bgcolor: '#E4572E', '&:hover': { bgcolor: '#c9421e' }, minWidth: 200 }}>
-                            Save Profile
-                        </Button>
-                    </Box>
-                </form>
-                    </Grid>
-                </Grid>
-            </Paper>
-            
-            {/* Delete Confirmation Dialog */}
-            <Dialog 
-                open={deleteDialogOpen} 
-                onClose={() => setDeleteDialogOpen(false)}
-                PaperProps={{ sx: { bgcolor: '#3d2419', color: '#FBF6EE' } }}
+    if (field === 'gender') {
+      getMaritalStatusOptionsFromMongo(value).then((newOptions) => {
+        setMaritalStatusOptions(newOptions);
+        setPersonalInfo((prev) => {
+          if (prev.maritalStatus && !newOptions.some((opt) => opt.value === prev.maritalStatus)) {
+            return { ...prev, maritalStatus: '' };
+          }
+          return prev;
+        });
+      });
+    }
+
+    if (field === 'nationality') {
+      const isIndian = value && value.toUpperCase() === 'INDIAN';
+      if (!isIndian) {
+        setPersonalInfo((prev) => ({ ...prev, domicileState: '' }));
+      }
+    }
+  };
+
+  // Handle education row changes
+  const handleEducationRowChange = (tierKey, field, value) => {
+    setEducationRows((prev) => {
+      const updatedRow = {
+        ...prev[tierKey],
+        [field]: value
+      };
+      if (field === 'course') {
+        updatedRow.subject = '';
+        const subjects = getSubjectsForCourse(value, tierKey) || [];
+        setTierSubjectOptions((subPrev) => ({ ...subPrev, [tierKey]: subjects }));
+      }
+      return {
+        ...prev,
+        [tierKey]: updatedRow
+      };
+    });
+  };
+
+  // Handle NCC changes
+  const handleNccChange = (field, value) => {
+    setNccDetails((prev) => ({ ...prev, [field]: value }));
+  };
+
+  // Save profile to Firestore
+  const handleSaveProfile = async () => {
+    if (!currentUser) return;
+    setSaving(true);
+    setErrorMessage('');
+    setFeedbackMessage('');
+
+    try {
+      const dob =
+        personalInfo.dobYear && personalInfo.dobMonth && personalInfo.dobDay
+          ? `${personalInfo.dobYear}-${personalInfo.dobMonth}-${personalInfo.dobDay}`
+          : '';
+
+      const docRef = doc(db, 'users', currentUser.uid);
+      await setDoc(
+        docRef,
+        {
+          date_of_birth: dob,
+          gender: personalInfo.gender,
+          marital_status: personalInfo.maritalStatus,
+          nationality: personalInfo.nationality,
+          domicile: personalInfo.domicileState,
+          caste_category: personalInfo.casteCategory,
+          pwd_status: personalInfo.pwdCandidate,
+          highest_education_qualification: highestQualification,
+          educationTableData: educationRows,
+          ncc_wing: nccDetails.wing,
+          ncc_certificate: nccDetails.certificate,
+          ncc_certificate_grade: nccDetails.grade,
+          updatedAt: serverTimestamp()
+        },
+        { merge: true }
+      );
+
+      setFeedbackMessage('Profile and eligibility criteria successfully saved & synced!');
+      setTimeout(() => setFeedbackMessage(''), 5000);
+    } catch (err) {
+      console.error('Error saving profile to Firestore:', err);
+      setErrorMessage('Failed to save profile: ' + (err.message || 'Unknown error'));
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  // Reset Form
+  const handleReset = () => {
+    setPersonalInfo({
+      dobDay: '01',
+      dobMonth: '01',
+      dobYear: '2000',
+      gender: genderOptions[0]?.value || '',
+      maritalStatus: maritalStatusOptions[0]?.value || '',
+      nationality: 'INDIAN',
+      domicileState: '',
+      casteCategory: casteOptions[0]?.value || '',
+      pwdCandidate: 'NO'
+    });
+    setHighestQualification('GRADUATION');
+    setEducationRows(createInitialEducationData());
+    setNccDetails({ wing: '', certificate: '', grade: '' });
+    setFeedbackMessage('Form reset to default values.');
+    setTimeout(() => setFeedbackMessage(''), 3000);
+  };
+
+  return (
+    <div className="min-h-screen bg-[#1E140F] text-[#FBF6EE] pt-20 pb-16 px-3 sm:px-6 max-w-7xl mx-auto space-y-6">
+      
+      {/* ========================================================================= */}
+      {/* TOP HEADER & TITLE                                                        */}
+      {/* ========================================================================= */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-[#2B1E17] border border-[#E4572E]/40 rounded-2xl p-4 sm:p-6 shadow-xl">
+        <div className="flex items-center gap-3">
+          <div className="w-12 h-12 rounded-xl bg-[#E4572E]/20 border border-[#E4572E]/50 flex items-center justify-center text-[#E4572E] shadow-sm">
+            <User className="w-6 h-6" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2 flex-wrap">
+              <h1 className="text-xl sm:text-2xl font-black text-white tracking-wide">
+                Pratiyogita Yogya Details
+              </h1>
+              <span className="px-2.5 py-0.5 text-xs font-bold rounded-full bg-orange-500/20 text-[#f9734c] border border-orange-500/30 flex items-center gap-1">
+                <Sparkles className="w-3 h-3" />
+                <span>Eligibility & Profile</span>
+              </span>
+            </div>
+            <p className="text-xs sm:text-sm text-[#E8D8C3]/80 mt-0.5">
+              Personal Information, Educational Matrix & NCC Criteria synced across Pratiyogita Setu
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2.5 shrink-0">
+          <button
+            type="button"
+            onClick={handleReset}
+            className="px-3.5 py-2 bg-[#1E140F] hover:bg-[#38261e] text-[#E8D8C3] rounded-xl transition-all text-xs sm:text-sm font-semibold flex items-center gap-1.5 border border-[#E4572E]/30 cursor-pointer"
+            title="Reset Form"
+          >
+            <RotateCcw className="w-3.5 h-3.5 text-[#E4572E]" />
+            <span>Reset</span>
+          </button>
+          <button
+            type="button"
+            onClick={handleSaveProfile}
+            disabled={saving}
+            className="px-5 py-2 bg-[#E4572E] hover:bg-[#c9451e] text-white rounded-xl transition-all text-xs sm:text-sm font-bold flex items-center gap-2 shadow-md hover:shadow-orange-500/20 cursor-pointer disabled:opacity-60"
+          >
+            {saving ? (
+              <>
+                <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin"></span>
+                <span>Saving...</span>
+              </>
+            ) : (
+              <>
+                <Check className="w-4 h-4 stroke-[3]" />
+                <span>Save Profile</span>
+              </>
+            )}
+          </button>
+        </div>
+      </div>
+
+      {/* Notifications */}
+      {feedbackMessage && (
+        <div className="p-4 rounded-xl bg-emerald-950/80 border border-emerald-500/60 text-emerald-200 text-xs sm:text-sm flex items-center gap-2.5 shadow-md animate-in fade-in duration-200">
+          <CheckCircle2 className="w-5 h-5 shrink-0 text-emerald-400" />
+          <span className="font-semibold">{feedbackMessage}</span>
+        </div>
+      )}
+
+      {errorMessage && (
+        <div className="p-4 rounded-xl bg-red-950/80 border border-red-500/60 text-red-200 text-xs sm:text-sm flex items-center gap-2.5 shadow-md">
+          <AlertCircle className="w-5 h-5 shrink-0 text-red-400" />
+          <span className="font-semibold">{errorMessage}</span>
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* SECTION 1: PERSONAL INFORMATION (Sleek Dark Container)                     */}
+      {/* ========================================================================= */}
+      <div className="rounded-2xl bg-[#111827] border border-gray-800 shadow-xl p-4 sm:p-6 text-white transition-all">
+        <div className="flex items-center gap-2.5 mb-5 pb-3 border-b border-gray-800">
+          <div className="w-8 h-8 rounded-lg bg-orange-500/20 text-[#f9734c] flex items-center justify-center">
+            <User className="w-5 h-5" />
+          </div>
+          <div>
+            <h2 className="text-base sm:text-lg font-bold text-white tracking-tight">
+              Personal Information
+            </h2>
+            <p className="text-[11px] text-gray-400">Basic aspirant identity and category criteria from MongoDB Atlas</p>
+          </div>
+        </div>
+
+        <div className="space-y-4">
+          {/* Date of Birth: 3 Inline Selects */}
+          <div>
+            <label className="block text-xs font-semibold text-gray-300 mb-1.5">
+              Date of Birth
+            </label>
+            <div className="grid grid-cols-3 gap-2 sm:gap-3">
+              {/* Day */}
+              <div className="relative">
+                <select
+                  value={personalInfo.dobDay}
+                  onChange={(e) => handlePersonalInfoChange('dobDay', e.target.value)}
+                  className="w-full appearance-none bg-[#1f2937] border border-gray-700 rounded-xl px-3 py-2.5 text-xs sm:text-sm text-gray-100 focus:outline-none focus:border-[#E4572E] transition-colors pr-8 cursor-pointer"
+                >
+                  <option value="">Day</option>
+                  {Array.from({ length: 31 }, (_, i) => {
+                    const day = String(i + 1).padStart(2, '0');
+                    return (
+                      <option key={day} value={day} className="bg-[#1f2937] text-white">
+                        {day}
+                      </option>
+                    );
+                  })}
+                </select>
+                <ChevronDown className="w-4 h-4 text-gray-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+              </div>
+
+              {/* Month */}
+              <div className="relative">
+                <select
+                  value={personalInfo.dobMonth}
+                  onChange={(e) => handlePersonalInfoChange('dobMonth', e.target.value)}
+                  className="w-full appearance-none bg-[#1f2937] border border-gray-700 rounded-xl px-3 py-2.5 text-xs sm:text-sm text-gray-100 focus:outline-none focus:border-[#E4572E] transition-colors pr-8 cursor-pointer"
+                >
+                  <option value="">Month</option>
+                  {[
+                    { value: '01', label: 'January' },
+                    { value: '02', label: 'February' },
+                    { value: '03', label: 'March' },
+                    { value: '04', label: 'April' },
+                    { value: '05', label: 'May' },
+                    { value: '06', label: 'June' },
+                    { value: '07', label: 'July' },
+                    { value: '08', label: 'August' },
+                    { value: '09', label: 'September' },
+                    { value: '10', label: 'October' },
+                    { value: '11', label: 'November' },
+                    { value: '12', label: 'December' }
+                  ].map((m) => (
+                    <option key={m.value} value={m.value} className="bg-[#1f2937] text-white">
+                      {m.label}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown className="w-4 h-4 text-gray-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+              </div>
+
+              {/* Year */}
+              <div className="relative">
+                <select
+                  value={personalInfo.dobYear}
+                  onChange={(e) => handlePersonalInfoChange('dobYear', e.target.value)}
+                  className="w-full appearance-none bg-[#1f2937] border border-gray-700 rounded-xl px-3 py-2.5 text-xs sm:text-sm text-gray-100 focus:outline-none focus:border-[#E4572E] transition-colors pr-8 cursor-pointer"
+                >
+                  <option value="">Year</option>
+                  {Array.from({ length: 60 }, (_, i) => {
+                    const yr = String(new Date().getFullYear() - 14 - i);
+                    return (
+                      <option key={yr} value={yr} className="bg-[#1f2937] text-white">
+                        {yr}
+                      </option>
+                    );
+                  })}
+                </select>
+                <ChevronDown className="w-4 h-4 text-gray-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+              </div>
+            </div>
+          </div>
+
+          {/* Gender */}
+          <div>
+            <div className="relative border border-gray-700 rounded-xl bg-[#1f2937] pt-3 pb-1.5 px-3 focus-within:border-[#E4572E] transition-colors">
+              <span className="absolute -top-2.5 left-3 bg-[#1f2937] px-1.5 text-[11px] font-semibold text-gray-400 uppercase tracking-wider">
+                Gender
+              </span>
+              <select
+                value={personalInfo.gender}
+                onChange={(e) => handlePersonalInfoChange('gender', e.target.value)}
+                className="w-full bg-transparent text-sm sm:text-base text-gray-100 font-semibold focus:outline-none appearance-none pr-8 cursor-pointer"
+              >
+                <option value="" className="bg-[#1f2937] text-gray-400">Select Gender</option>
+                {genderOptions.map((opt) => (
+                  <option key={opt.value} value={opt.value} className="bg-[#1f2937] text-white">
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="w-4 h-4 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+            </div>
+            <p className="text-[11px] text-gray-400 mt-1 pl-1">Select your gender (dynamically fetched from MongoDB)</p>
+          </div>
+
+          {/* Marital Status */}
+          <div>
+            <div className="relative border border-gray-700 rounded-xl bg-[#1f2937] py-2.5 px-3 focus-within:border-[#E4572E] transition-colors">
+              <select
+                value={personalInfo.maritalStatus}
+                onChange={(e) => handlePersonalInfoChange('maritalStatus', e.target.value)}
+                className="w-full bg-transparent text-xs sm:text-sm text-gray-200 focus:outline-none appearance-none pr-8 cursor-pointer"
+              >
+                <option value="" className="bg-[#1f2937] text-gray-400">Select Marital Status</option>
+                {maritalStatusOptions.map((opt) => (
+                  <option key={opt.value} value={opt.value} className="bg-[#1f2937] text-white">
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="w-4 h-4 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+            </div>
+            <p className="text-[11px] text-gray-400 mt-1 pl-1">Select your marital status (dynamically filtered by gender)</p>
+          </div>
+
+          {/* Nationality */}
+          <div>
+            <div className="relative border border-gray-700 rounded-xl bg-[#1f2937] pt-3 pb-1.5 px-3 focus-within:border-[#E4572E] transition-colors">
+              <span className="absolute -top-2.5 left-3 bg-[#1f2937] px-1.5 text-[11px] font-semibold text-gray-400 uppercase tracking-wider">
+                Nationality
+              </span>
+              <select
+                value={personalInfo.nationality}
+                onChange={(e) => handlePersonalInfoChange('nationality', e.target.value)}
+                className="w-full bg-transparent text-sm sm:text-base text-gray-100 font-semibold focus:outline-none appearance-none pr-8 cursor-pointer"
+              >
+                <option value="" className="bg-[#1f2937] text-gray-400">Select Nationality</option>
+                {nationalityOptions.map((opt) => (
+                  <option key={opt.value} value={opt.value} className="bg-[#1f2937] text-white">
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="w-4 h-4 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+            </div>
+            <p className="text-[11px] text-gray-400 mt-1 pl-1">Select your nationality</p>
+          </div>
+
+          {/* Domicile State */}
+          <div>
+            <div className={`relative border rounded-xl bg-[#1f2937] py-2.5 px-3 transition-colors ${
+              personalInfo.nationality.toUpperCase() !== 'INDIAN'
+                ? 'border-gray-800 opacity-60'
+                : 'border-gray-700 focus-within:border-[#E4572E]'
+            }`}>
+              <select
+                value={personalInfo.domicileState}
+                onChange={(e) => handlePersonalInfoChange('domicileState', e.target.value)}
+                disabled={personalInfo.nationality.toUpperCase() !== 'INDIAN'}
+                className="w-full bg-transparent text-xs sm:text-sm text-gray-200 focus:outline-none appearance-none pr-8 cursor-pointer disabled:cursor-not-allowed"
+              >
+                <option value="" className="bg-[#1f2937] text-gray-400">Select Domicile State</option>
+                {domicileOptions.map((opt) => (
+                  <option key={opt.value} value={opt.value} className="bg-[#1f2937] text-white">
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="w-4 h-4 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+            </div>
+            <p className="text-[11px] text-gray-400 mt-1 pl-1">
+              Your domicile state (Enabled for Indian citizens only)
+            </p>
+          </div>
+
+          {/* Caste Category */}
+          <div>
+            <div className="relative border border-gray-700 rounded-xl bg-[#1f2937] py-2.5 px-3 focus-within:border-[#E4572E] transition-colors">
+              <select
+                value={personalInfo.casteCategory}
+                onChange={(e) => handlePersonalInfoChange('casteCategory', e.target.value)}
+                className="w-full bg-transparent text-xs sm:text-sm text-gray-200 focus:outline-none appearance-none pr-8 cursor-pointer"
+              >
+                <option value="" className="bg-[#1f2937] text-gray-400">Select Caste / Category</option>
+                {casteOptions.map((opt) => (
+                  <option key={opt.value} value={opt.value} className="bg-[#1f2937] text-white">
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="w-4 h-4 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+            </div>
+            <p className="text-[11px] text-gray-400 mt-1 pl-1">Select your caste category</p>
+          </div>
+
+          {/* Person with Disability (PWD) */}
+          <div>
+            <div className="relative border border-gray-700 rounded-xl bg-[#1f2937] py-2.5 px-3 focus-within:border-[#E4572E] transition-colors">
+              <select
+                value={personalInfo.pwdCandidate}
+                onChange={(e) => handlePersonalInfoChange('pwdCandidate', e.target.value)}
+                className="w-full bg-transparent text-xs sm:text-sm text-gray-200 focus:outline-none appearance-none pr-8 cursor-pointer"
+              >
+                {PWD_STATUS_OPTIONS.map((opt) => (
+                  <option key={opt.value} value={opt.value} className="bg-[#1f2937] text-white">
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="w-4 h-4 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+            </div>
+            <p className="text-[11px] text-gray-400 mt-1 pl-1">Are you a Person with Benchmark Disability (PwBD)?</p>
+          </div>
+        </div>
+      </div>
+
+      {/* ========================================================================= */}
+      {/* SECTION 2: EDUCATIONAL QUALIFICATION (Sleek Dark Container)               */}
+      {/* ========================================================================= */}
+      <div className="rounded-2xl bg-[#111827] border border-gray-800 shadow-xl p-4 sm:p-6 text-white transition-all">
+        <div className="flex items-center gap-2.5 mb-5 pb-3 border-b border-gray-800">
+          <div className="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
+            <GraduationCap className="w-5 h-5" />
+          </div>
+          <div>
+            <h2 className="text-base sm:text-lg font-bold text-white tracking-tight">
+              Educational Qualification Matrix
+            </h2>
+            <p className="text-[11px] text-gray-400">
+              Complete hierarchical qualifications (Doctorate to 5th Primary) loaded dynamically from MongoDB
+            </p>
+          </div>
+        </div>
+
+        {/* Highest Education Qualification Selector */}
+        <div className="mb-5 max-w-sm">
+          <div className="relative border border-gray-700 rounded-xl bg-[#1f2937] pt-3 pb-1.5 px-3 focus-within:border-emerald-500 transition-colors">
+            <span className="absolute -top-2.5 left-3 bg-[#1f2937] px-1.5 text-[11px] font-semibold text-emerald-400 uppercase tracking-wider">
+              Highest Education Qualification
+            </span>
+            <select
+              value={highestQualification}
+              onChange={(e) => setHighestQualification(e.target.value)}
+              className="w-full bg-transparent text-sm sm:text-base text-gray-100 font-semibold focus:outline-none appearance-none pr-8 cursor-pointer"
             >
-                <DialogTitle color="#E4572E">Delete Account?</DialogTitle>
-                <DialogContent>
-                    <Typography variant="body2">
-                        Are you sure you want to permanently delete your account? This action cannot be undone and you will lose all saved profile details and eligibility history.
-                    </Typography>
-                    <Typography variant="body2" sx={{ mt: 1, color: '#E4572E' }}>
-                        Note: For security reasons, if you haven't logged in recently, you may be asked to re-authenticate first.
-                    </Typography>
-                </DialogContent>
-                <DialogActions sx={{ p: 2, pt: 0 }}>
-                    <Button onClick={() => setDeleteDialogOpen(false)} sx={{ color: 'rgba(232,216,195,0.7)' }}>Cancel</Button>
-                    <Button onClick={handleDeleteAccount} color="error" variant="contained" disabled={loading}>
-                        Yes, Delete Account
-                    </Button>
-                </DialogActions>
-            </Dialog>
-        </Box>
-        </ThemeProvider>
-    );
+              {highestEduOptions.map((opt) => (
+                <option key={opt.value} value={opt.value} className="bg-[#1f2937] text-white">
+                  {opt.label}
+                </option>
+              ))}
+            </select>
+            <ChevronDown className="w-4 h-4 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+          </div>
+          <p className="text-[11px] text-gray-400 mt-1 pl-1">
+            Select your highest qualification level
+          </p>
+        </div>
+
+        {/* Responsive Qualification Matrix / Table */}
+        <div className="relative overflow-x-auto rounded-xl border border-gray-800 bg-[#0f141f]">
+          <table className="w-full text-left text-xs min-w-[950px]">
+            <thead className="bg-[#1f2937] text-gray-300 uppercase text-[11px] font-bold tracking-wider border-b border-gray-800">
+              <tr>
+                <th scope="col" className="py-3 px-3 w-48">Qualification Level</th>
+                <th scope="col" className="py-3 px-2 w-44">Course/Stream</th>
+                <th scope="col" className="py-3 px-2 w-40">Subject</th>
+                <th scope="col" className="py-3 px-2 text-center w-28">Have you studied</th>
+                <th scope="col" className="py-3 px-2 w-36">Completion Status</th>
+                <th scope="col" className="py-3 px-2 w-28">Marks (%)</th>
+                <th scope="col" className="py-3 px-2 w-32">Completed Year</th>
+                <th scope="col" className="py-3 px-2 text-center w-28">Active Backlogs</th>
+                <th scope="col" className="py-3 px-2 text-center w-24">Gap Years</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-800/80">
+              {EDUCATION_TIERS.map((tier) => {
+                const rowData = educationRows[tier.key] || {};
+                const courses = tierCourseOptions[tier.key] || [];
+                const subjects = tierSubjectOptions[tier.key] || [];
+                const statusOpts = getStatusOptionsForCourse(rowData.course, tier.key);
+                const backlogOpts = getActiveBacklogsOptionsForLevel(tier.key);
+                const gapOpts = getGapYearsOptionsForLevel(tier.key);
+
+                return (
+                  <tr key={tier.key} className="hover:bg-[#1f2937]/50 transition-colors group">
+                    {/* Level Label */}
+                    <td className="py-3 px-3 font-semibold text-gray-100 flex items-center gap-2">
+                      <span
+                        className="w-1.5 h-6 rounded-full shrink-0"
+                        style={{ backgroundColor: tier.color }}
+                      />
+                      <span
+                        className="text-xs font-bold truncate"
+                        style={{ color: tier.badgeText }}
+                      >
+                        {tier.name}
+                      </span>
+                    </td>
+
+                    {/* Course/Stream */}
+                    <td className="py-2 px-2">
+                      <div className="relative">
+                        <select
+                          value={rowData.course || ''}
+                          onChange={(e) => handleEducationRowChange(tier.key, 'course', e.target.value)}
+                          className="w-full appearance-none bg-[#1f2937] border border-gray-700 rounded-lg px-2.5 py-1.5 text-xs text-gray-200 focus:outline-none focus:border-emerald-500 pr-6 cursor-pointer"
+                        >
+                          <option value="">Select Course</option>
+                          {courses
+                            .filter((c) => {
+                              const val = getOptionValue(c);
+                              return val !== '' && val !== undefined && val !== null;
+                            })
+                            .map((c) => {
+                              const val = getOptionValue(c);
+                              const lbl = getOptionLabel(c);
+                              return (
+                                <option key={val} value={val} className="bg-[#1f2937] text-white">
+                                  {lbl}
+                                </option>
+                              );
+                            })}
+                        </select>
+                        <ChevronDown className="w-3.5 h-3.5 text-gray-400 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" />
+                      </div>
+                    </td>
+
+                    {/* Subject */}
+                    <td className="py-2 px-2">
+                      {subjects.length > 0 ? (
+                        <div className="relative">
+                          <select
+                            value={rowData.subject || ''}
+                            onChange={(e) => handleEducationRowChange(tier.key, 'subject', e.target.value)}
+                            className="w-full appearance-none bg-[#1f2937] border border-gray-700 rounded-lg px-2.5 py-1.5 text-xs text-gray-200 focus:outline-none focus:border-emerald-500 pr-6 cursor-pointer"
+                          >
+                            <option value="">Select Subject</option>
+                            {subjects
+                              .filter((sub) => {
+                                const val = getOptionValue(sub);
+                                return val !== '' && val !== undefined && val !== null;
+                              })
+                              .map((sub) => {
+                                const val = getOptionValue(sub);
+                                const lbl = getOptionLabel(sub);
+                                return (
+                                  <option key={val} value={val} className="bg-[#1f2937] text-white">
+                                    {lbl}
+                                  </option>
+                                );
+                              })}
+                          </select>
+                          <ChevronDown className="w-3.5 h-3.5 text-gray-400 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" />
+                        </div>
+                      ) : (
+                        <input
+                          type="text"
+                          value={rowData.subject || ''}
+                          onChange={(e) => handleEducationRowChange(tier.key, 'subject', e.target.value)}
+                          placeholder="Subject"
+                          className="w-full bg-[#1f2937] border border-gray-700 rounded-lg px-2.5 py-1.5 text-xs text-gray-200 placeholder-gray-500 focus:outline-none focus:border-emerald-500"
+                        />
+                      )}
+                    </td>
+
+                    {/* Have you studied */}
+                    <td className="py-2 px-2 text-center">
+                      <select
+                        value={rowData.haveYouStudied || '-'}
+                        onChange={(e) => handleEducationRowChange(tier.key, 'haveYouStudied', e.target.value)}
+                        className="bg-[#1f2937] border border-gray-700 rounded-lg px-2 py-1.5 text-xs text-gray-300 focus:outline-none cursor-pointer"
+                      >
+                        <option value="-">—</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                      </select>
+                    </td>
+
+                    {/* Completion Status */}
+                    <td className="py-2 px-2">
+                      <div className="relative">
+                        <select
+                          value={rowData.completionStatus || ''}
+                          onChange={(e) => handleEducationRowChange(tier.key, 'completionStatus', e.target.value)}
+                          className="w-full appearance-none bg-[#1f2937] border border-gray-700 rounded-lg px-2.5 py-1.5 text-xs text-gray-200 focus:outline-none focus:border-emerald-500 pr-5 cursor-pointer"
+                        >
+                          <option value="">Status</option>
+                          {statusOpts
+                            .filter((st) => {
+                              const val = getOptionValue(st);
+                              return val !== '' && val !== undefined && val !== null;
+                            })
+                            .map((st) => {
+                              const val = getOptionValue(st);
+                              const lbl = getOptionLabel(st);
+                              return (
+                                <option key={val} value={val} className="bg-[#1f2937] text-white">
+                                  {lbl}
+                                </option>
+                              );
+                            })}
+                        </select>
+                        <ChevronDown className="w-3.5 h-3.5 text-gray-400 absolute right-1.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                      </div>
+                    </td>
+
+                    {/* Marks (%) */}
+                    <td className="py-2 px-2">
+                      <input
+                        type="text"
+                        value={rowData.marks || ''}
+                        onChange={(e) => handleEducationRowChange(tier.key, 'marks', e.target.value)}
+                        placeholder="Marks %"
+                        className="w-full bg-[#1f2937] border border-gray-700 rounded-lg px-2.5 py-1.5 text-xs text-gray-200 placeholder-gray-500 focus:outline-none focus:border-emerald-500 text-center"
+                      />
+                    </td>
+
+                    {/* Completed Year */}
+                    <td className="py-2 px-2">
+                      <div className="relative">
+                        <select
+                          value={rowData.completedYear || ''}
+                          onChange={(e) => handleEducationRowChange(tier.key, 'completedYear', e.target.value)}
+                          className="w-full appearance-none bg-[#1f2937] border border-gray-700 rounded-lg px-2.5 py-1.5 text-xs text-gray-200 focus:outline-none focus:border-emerald-500 pr-5 cursor-pointer"
+                        >
+                          <option value="">Year</option>
+                          {YEAR_OPTIONS.map((yr) => (
+                            <option key={yr} value={String(yr)} className="bg-[#1f2937] text-white">
+                              {yr}
+                            </option>
+                          ))}
+                        </select>
+                        <ChevronDown className="w-3.5 h-3.5 text-gray-400 absolute right-1.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                      </div>
+                    </td>
+
+                    {/* Active Backlogs */}
+                    <td className="py-2 px-2 text-center">
+                      <select
+                        value={rowData.activeBacklogs || '-'}
+                        onChange={(e) => handleEducationRowChange(tier.key, 'activeBacklogs', e.target.value)}
+                        className="bg-[#1f2937] border border-gray-700 rounded-lg px-2 py-1.5 text-xs text-gray-300 focus:outline-none cursor-pointer"
+                      >
+                        <option value="-">—</option>
+                        {backlogOpts
+                          .filter((bo) => {
+                            const val = getOptionValue(bo);
+                            return val !== '' && val !== undefined && val !== null;
+                          })
+                          .map((bo) => {
+                            const val = getOptionValue(bo);
+                            const lbl = getOptionLabel(bo);
+                            return (
+                              <option key={val} value={val} className="bg-[#1f2937] text-white">
+                                {lbl}
+                              </option>
+                            );
+                          })}
+                      </select>
+                    </td>
+
+                    {/* Gap Years */}
+                    <td className="py-2 px-2 text-center">
+                      <select
+                        value={rowData.gapYears || '-'}
+                        onChange={(e) => handleEducationRowChange(tier.key, 'gapYears', e.target.value)}
+                        className="bg-[#1f2937] border border-gray-700 rounded-lg px-2 py-1.5 text-xs text-gray-300 focus:outline-none cursor-pointer"
+                      >
+                        <option value="-">—</option>
+                        {gapOpts
+                          .filter((go) => {
+                            const val = getOptionValue(go);
+                            return val !== '' && val !== undefined && val !== null;
+                          })
+                          .map((go) => {
+                            const val = getOptionValue(go);
+                            const lbl = getOptionLabel(go);
+                            return (
+                              <option key={val} value={val} className="bg-[#1f2937] text-white">
+                                {lbl}
+                              </option>
+                            );
+                          })}
+                      </select>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+        <p className="text-[11px] text-gray-400 mt-2 flex items-center gap-1">
+          <Info className="w-3.5 h-3.5 text-[#E4572E]" />
+          <span>Scroll horizontally on mobile devices to view and edit all education matrix columns.</span>
+        </p>
+      </div>
+
+      {/* ========================================================================= */}
+      {/* SECTION 3: NCC DETAILS (Sleek Dark Container)                             */}
+      {/* ========================================================================= */}
+      <div className="rounded-2xl bg-[#111827] border border-gray-800 shadow-xl p-4 sm:p-6 text-white transition-all">
+        <div className="flex items-center gap-2.5 mb-5 pb-3 border-b border-gray-800">
+          <div className="w-8 h-8 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center">
+            <Shield className="w-5 h-5" />
+          </div>
+          <div>
+            <h2 className="text-base sm:text-lg font-bold text-white tracking-tight">
+              National Cadet Corps (NCC) Details
+            </h2>
+            <p className="text-[11px] text-gray-400">Cadet wing, certificate type, and grade from MongoDB Atlas</p>
+          </div>
+        </div>
+
+        <div className="space-y-4 max-w-xl">
+          {/* NCC Wing */}
+          <div>
+            <div className="relative border border-gray-700 rounded-xl bg-[#1f2937] py-2.5 px-3 focus-within:border-purple-400 transition-colors">
+              <select
+                value={nccDetails.wing}
+                onChange={(e) => handleNccChange('wing', e.target.value)}
+                className="w-full bg-transparent text-xs sm:text-sm text-gray-200 focus:outline-none appearance-none pr-8 cursor-pointer"
+              >
+                <option value="" className="bg-[#1f2937] text-gray-400">Select NCC Wing</option>
+                {nccWingOptions.map((opt) => (
+                  <option key={opt.value} value={opt.value} className="bg-[#1f2937] text-white">
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="w-4 h-4 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+            </div>
+            <p className="text-[11px] text-gray-400 mt-1 pl-1">Select your NCC Wing</p>
+          </div>
+
+          {/* NCC Certificate */}
+          <div>
+            <div className="relative border border-gray-700 rounded-xl bg-[#1f2937] py-2.5 px-3 focus-within:border-purple-400 transition-colors">
+              <select
+                value={nccDetails.certificate}
+                onChange={(e) => handleNccChange('certificate', e.target.value)}
+                className="w-full bg-transparent text-xs sm:text-sm text-gray-200 focus:outline-none appearance-none pr-8 cursor-pointer"
+              >
+                <option value="" className="bg-[#1f2937] text-gray-400">Select NCC Certificate</option>
+                {nccCertificateOptions.map((opt) => (
+                  <option key={opt.value} value={opt.value} className="bg-[#1f2937] text-white">
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="w-4 h-4 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+            </div>
+            <p className="text-[11px] text-gray-400 mt-1 pl-1">Select your NCC Certificate</p>
+          </div>
+
+          {/* NCC Grade */}
+          <div>
+            <div className="relative border border-gray-700 rounded-xl bg-[#1f2937] py-2.5 px-3 focus-within:border-purple-400 transition-colors">
+              <select
+                value={nccDetails.grade}
+                onChange={(e) => handleNccChange('grade', e.target.value)}
+                className="w-full bg-transparent text-xs sm:text-sm text-gray-200 focus:outline-none appearance-none pr-8 cursor-pointer"
+              >
+                <option value="" className="bg-[#1f2937] text-gray-400">Select NCC Grade</option>
+                {nccCertificateGradeOptions.map((opt) => (
+                  <option key={opt.value} value={opt.value} className="bg-[#1f2937] text-white">
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="w-4 h-4 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+            </div>
+            <p className="text-[11px] text-gray-400 mt-1 pl-1">Select your NCC Grade</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom Save Action */}
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
+        <div className="flex items-center gap-2 text-xs text-gray-400">
+          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span>Unified Firestore Storage active (`users/{currentUser?.uid}`)</span>
+        </div>
+        <div className="flex items-center gap-3 w-full sm:w-auto">
+          <button
+            type="button"
+            onClick={handleReset}
+            className="flex-1 sm:flex-none px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold border border-gray-700 text-gray-300 hover:bg-gray-800 transition-colors cursor-pointer"
+          >
+            Reset Form
+          </button>
+          <button
+            type="button"
+            onClick={handleSaveProfile}
+            disabled={saving}
+            className="flex-1 sm:flex-none px-6 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-[#E4572E] hover:bg-[#c9451e] text-white shadow-lg transition-all cursor-pointer disabled:opacity-60 flex items-center justify-center gap-2"
+          >
+            {saving ? (
+              <>
+                <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin"></span>
+                <span>Saving Profile...</span>
+              </>
+            ) : (
+              <>
+                <Check className="w-4 h-4 stroke-[3]" />
+                <span>Save Profile</span>
+              </>
+            )}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }

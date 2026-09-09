@@ -1,4 +1,3 @@
-
 import "./App.css";
 import Navbar from "@/components/Navbar/navbar";
 import { HeroUIProvider } from "@heroui/react";
@@ -18,7 +17,7 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 function App() {
   return (
     <>
-      <HeroUIProvider className="w-full mx-0 px-0 overflow-x-hidden">
+      <HeroUIProvider className="w-full mx-0 px-0 overflow-x-clip">
         {/* Grainy background - matching Setu */}
         <svg className="hidden">
           <filter id="grainy">

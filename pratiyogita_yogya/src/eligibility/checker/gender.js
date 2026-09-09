@@ -247,11 +247,11 @@ export const shouldShowGenderField = (examData) => {
 
 /**
  * Get gender options to show in dropdown
- * Always returns all options since user can be any gender
- * @returns {string[]} - Array of gender options
+ * Deprecated: Gender options are loaded dynamically from MongoDB via getGenderOptionsFromMongo()
+ * @returns {string[]} - Empty array (options must be loaded from MongoDB)
  */
 export const getGenderOptions = () => {
-    return ['MALE', 'FEMALE', 'TRANSGENDER'];
+    return [];
 };
 
 export default {

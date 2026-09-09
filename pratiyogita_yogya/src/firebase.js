@@ -4,13 +4,13 @@ import { getFirestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCmsjQj0rGHp6kPCfimBCcRkynChhY7apw",
-  authDomain: "pratiyogita-yogya.firebaseapp.com",
-  projectId: "pratiyogita-yogya",
-  storageBucket: "pratiyogita-yogya.firebasestorage.app",
-  messagingSenderId: "1055617472744",
-  appId: "1:1055617472744:web:ca1db5bc62e4ed7888115d",
-  measurementId: "G-4X5QQ686VH"
+  apiKey: "AIzaSyAr58e4xF48oqB_CxQ9GZDqgIEVGN_17d0",
+  authDomain: "pratiyogita-gyan.firebaseapp.com",
+  projectId: "pratiyogita-gyan",
+  storageBucket: "pratiyogita-gyan.firebasestorage.app",
+  messagingSenderId: "593475930652",
+  appId: "1:593475930652:web:89ebb82f08fd45e2b0add9",
+  measurementId: "G-6S0RS484JY"
 };
 
 // Initialize Firebase

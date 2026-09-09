@@ -18,8 +18,7 @@
 // IMPORTS
 // ============================================
 
-// Import edu_final.json directly for Vite bundling
-import eduFinalJson from '../edu_final.json';
+import { loadEligibilityFieldsFromMongo, getCachedEducationLevels } from '../examDataLoader.js';
 
 // ============================================
 // EDUCATION HIERARCHY CONSTANTS
@@ -40,7 +39,7 @@ export const EDUCATION_HIERARCHY = {
     // With space after parenthesis
     '(12TH) HIGHER SECONDARY': 5,
     '(10TH) SECONDARY': 4,
-    // Without space after parenthesis (from staticEducationOptions)
+    // Without space after parenthesis
     '(12TH)HIGHER SECONDARY': 5,
     '(10TH)SECONDARY': 4,
     // Short forms
@@ -49,18 +48,26 @@ export const EDUCATION_HIERARCHY = {
     '12TH HIGHER SECONDARY': 5,
     '10TH SECONDARY': 4,
     // Class 8th and 5th
+    '(8TH)MIDDLE SCHOOL': 3,
+    '(8TH) MIDDLE SCHOOL': 3,
     '(8TH)CLASS': 3,
-    '(5TH)CLASS': 2,
+    '8TH': 3,
     '8TH CLASS': 3,
-    '5TH CLASS': 2,
     'CLASS VIII': 3,
+    '(5TH)PRIMARY SCHOOL': 2,
+    '(5TH) PRIMARY SCHOOL': 2,
+    '(5TH)CLASS': 2,
+    '5TH': 2,
+    '5TH CLASS': 2,
     'CLASS V': 2,
+    'BELOW 5TH': 1,
+    'BELOW 8TH': 1,
     'BELOW 10TH': 1,
     'NO EDUCATION': 0
 };
 
 /**
- * Maps education level names to their JSON keys in edu_final.json
+ * Maps education level names to their JSON keys in education_levels
  * Includes multiple variations to handle different formats from the UI
  */
 export const EDUCATION_LEVEL_KEYS = {
@@ -73,7 +80,7 @@ export const EDUCATION_LEVEL_KEYS = {
     // With space after parenthesis
     '(12TH) HIGHER SECONDARY': '12th_higher_secondary',
     '(10TH) SECONDARY': '10th_secondary',
-    // Without space after parenthesis (from staticEducationOptions)
+    // Without space after parenthesis
     '(12TH)HIGHER SECONDARY': '12th_higher_secondary',
     '(10TH)SECONDARY': '10th_secondary',
     // Short forms
@@ -84,13 +91,23 @@ export const EDUCATION_LEVEL_KEYS = {
     'HIGHER SECONDARY': '12th_higher_secondary',
     'SECONDARY': '10th_secondary',
     // Class 8th and 5th
-    '(8TH)CLASS': '8th_class',
-    '(5TH)CLASS': '5th_class',
-    '8TH CLASS': '8th_class',
-    '5TH CLASS': '5th_class',
-    'CLASS VIII': '8th_class',
-    'CLASS V': '5th_class',
-    'BELOW 10TH': 'below_10th',
+    '(8TH)MIDDLE SCHOOL': '8TH',
+    '(8TH) MIDDLE SCHOOL': '8TH',
+    '(8TH)CLASS': '8TH',
+    '8TH': '8TH',
+    '8TH_CLASS': '8TH',
+    '8TH CLASS': '8TH',
+    'CLASS VIII': '8TH',
+    '(5TH)PRIMARY SCHOOL': '5TH',
+    '(5TH) PRIMARY SCHOOL': '5TH',
+    '(5TH)CLASS': '5TH',
+    '5TH': '5TH',
+    '5TH_CLASS': '5TH',
+    '5TH CLASS': '5TH',
+    'CLASS V': '5TH',
+    'BELOW 5TH': 'below_5th',
+    'BELOW 8TH': 'below_5th',
+    'BELOW 10TH': 'below_5th',
     'NO EDUCATION': 'no_education'
 };
 
@@ -103,10 +120,13 @@ export const EDUCATION_KEY_TO_NAME = {
     'post_graduation': 'POST GRADUATION',
     'graduation': 'GRADUATION',
     'diploma': 'DIPLOMA / ITI (POLYTECHNIC, ITI, DPHARM, PGDCA)',
-    '12th_higher_secondary': '(12TH) HIGHER SECONDARY',
-    '10th_secondary': '(10TH) SECONDARY',
-    '8th_class': '(8TH)CLASS',
-    '5th_class': '(5TH)CLASS',
+    '12th_higher_secondary': '(12TH)HIGHER SECONDARY',
+    '10th_secondary': '(10TH)SECONDARY',
+    '8TH': '(8TH)MIDDLE SCHOOL',
+    '8th_class': '(8TH)MIDDLE SCHOOL',
+    '5TH': '(5TH)PRIMARY SCHOOL',
+    '5th_class': '(5TH)PRIMARY SCHOOL',
+    'below_5th': 'BELOW 5TH',
     'below_10th': 'BELOW 10TH',
     'no_education': 'NO EDUCATION'
 };
@@ -128,7 +148,9 @@ export const UNIVERSITY_LEVELS = [
 export const BOARD_LEVELS = [
     '12th_higher_secondary',
     '10th_secondary',
+    '8TH',
     '8th_class',
+    '5TH',
     '5th_class'
 ];
 
@@ -218,7 +240,9 @@ export const getRequiredEducationLevels = (highestLevel) => {
         { key: 'diploma', value: 6 },
         { key: '12th_higher_secondary', value: 5 },
         { key: '10th_secondary', value: 4 },
+        { key: '8TH', value: 3 },
         { key: '8th_class', value: 3 },
+        { key: '5TH', value: 2 },
         { key: '5th_class', value: 2 }
     ];
     
@@ -249,8 +273,8 @@ export const getUserEducationLevels = (userHighestLevel) => {
         { key: 'diploma', value: 6 },
         { key: '12th_higher_secondary', value: 5 },
         { key: '10th_secondary', value: 4 },
-        { key: '8th_class', value: 3 },
-        { key: '5th_class', value: 2 }
+        { key: '8TH', value: 3 },
+        { key: '5TH', value: 2 }
     ];
     
     for (const level of orderedLevels) {
@@ -285,7 +309,9 @@ export const getExamDefinedEducationLevels = (examEducationLevels) => {
         { key: 'diploma', value: 6 },
         { key: '12th_higher_secondary', value: 5 },
         { key: '10th_secondary', value: 4 },
+        { key: '8TH', value: 3 },
         { key: '8th_class', value: 3 },
+        { key: '5TH', value: 2 },
         { key: '5th_class', value: 2 }
     ];
     
@@ -478,12 +504,30 @@ const toSelectOptions = (values, emptyLabel = 'Select', labelMap = {}) => {
     ];
 };
 
+let cachedEduFinalData = null;
+
+const getEducationLevelsData = () => {
+    if (cachedEduFinalData?.education_levels && Object.keys(cachedEduFinalData.education_levels).length > 0) {
+        return cachedEduFinalData.education_levels;
+    }
+    const fromLoader = getCachedEducationLevels();
+    if (fromLoader && Object.keys(fromLoader).length > 0) {
+        const levels = { ...fromLoader };
+        if (levels['8TH'] && !levels['8th_class']) levels['8th_class'] = levels['8TH'];
+        if (levels['5TH'] && !levels['5th_class']) levels['5th_class'] = levels['5TH'];
+        cachedEduFinalData = { education_levels: levels };
+        return levels;
+    }
+    return {};
+};
+
 export const getStatusOptionsForCourse = (course, levelKey = null) => {
     const normalizedLevelKey = normalizeLevelKeyForOptions(levelKey);
+    const levels = getEducationLevelsData();
 
     let statusValues = [];
-    if (cachedEduFinalData && normalizedLevelKey) {
-        statusValues = getStatusOptionsFromEduFinal(cachedEduFinalData, normalizedLevelKey, course || '');
+    if (normalizedLevelKey) {
+        statusValues = getStatusOptionsFromEduFinal({ education_levels: levels }, normalizedLevelKey, course || '');
     }
 
     const values = statusValues.length > 0 ? statusValues : DEFAULT_STATUS_VALUES;
@@ -492,7 +536,8 @@ export const getStatusOptionsForCourse = (course, levelKey = null) => {
 
 export const getActiveBacklogsOptionsForLevel = (levelKey = null) => {
     const normalizedLevelKey = normalizeLevelKeyForOptions(levelKey);
-    const levelData = normalizedLevelKey ? cachedEduFinalData?.education_levels?.[normalizedLevelKey] : null;
+    const levels = getEducationLevelsData();
+    const levelData = normalizedLevelKey ? levels[normalizedLevelKey] : null;
 
     const parsedValues = normalizeRawOptionValues(levelData?.active_backlogs_allowed);
     const values = parsedValues.length > 0 ? parsedValues : DEFAULT_ACTIVE_BACKLOG_VALUES;
@@ -504,7 +549,8 @@ export const getActiveBacklogsOptionsForLevel = (levelKey = null) => {
 
 export const getGapYearsOptionsForLevel = (levelKey = null) => {
     const normalizedLevelKey = normalizeLevelKeyForOptions(levelKey);
-    const levelData = normalizedLevelKey ? cachedEduFinalData?.education_levels?.[normalizedLevelKey] : null;
+    const levels = getEducationLevelsData();
+    const levelData = normalizedLevelKey ? levels[normalizedLevelKey] : null;
 
     const parsedValues = normalizeRawOptionValues(levelData?.gap_years_allowed);
     const values = parsedValues.length > 0 ? parsedValues : DEFAULT_GAP_YEAR_VALUES;
@@ -1433,83 +1479,61 @@ export const getEducationOptions = getAllEducationLevels;
 export const getEducationHierarchy = () => EDUCATION_HIERARCHY;
 
 // ============================================
-// EDU_FINAL DATA - Cached from top-level import
+// EDU_FINAL DATA - Dynamically loaded from MongoDB
 // ============================================
 
-// Initialize cached data directly from import (eduFinalJson imported at top of file)
-let cachedEduFinalData = eduFinalJson || null;
-
 /**
- * Load and cache edu_final.json data
- * Uses direct import for reliable Vite bundling
- * @returns {Promise<Object>} edu_final.json data
+ * Load and cache education data directly from MongoDB
+ * @returns {Promise<Object>} education data with education_levels
  */
 export const loadEduFinalData = async () => {
-    if (cachedEduFinalData) {
+    if (cachedEduFinalData?.education_levels && Object.keys(cachedEduFinalData.education_levels).length > 0) {
         return cachedEduFinalData;
     }
-    
-    // Use directly imported data
-    if (eduFinalJson) {
-        cachedEduFinalData = eduFinalJson;
-        return cachedEduFinalData;
-    }
-    
-    // Fallback to fetch if import failed
     try {
-        const response = await fetch('/other files/edu_final.json');
-        if (!response.ok) {
-            console.error('Failed to load edu_final.json');
-            return null;
+        const mongoData = await loadEligibilityFieldsFromMongo();
+        if (mongoData?.education_levels) {
+            const levels = { ...mongoData.education_levels };
+            if (levels['8TH'] && !levels['8th_class']) levels['8th_class'] = levels['8TH'];
+            if (levels['5TH'] && !levels['5th_class']) levels['5th_class'] = levels['5TH'];
+            cachedEduFinalData = { education_levels: levels };
+            return cachedEduFinalData;
         }
-        cachedEduFinalData = await response.json();
-        return cachedEduFinalData;
     } catch (error) {
-        console.error('Error loading edu_final.json:', error);
-        return null;
+        console.error('Failed to load education data from MongoDB:', error);
     }
+    return cachedEduFinalData || { education_levels: {} };
 };
 
 /**
- * Synchronous getter for cached edu_final data (call loadEduFinalData first)
- * @returns {Object|null} edu_final.json data or null if not loaded
+ * Synchronous getter for cached education data
+ * @returns {Object} education data with education_levels
  */
-export const getEduFinalData = () => cachedEduFinalData;
+export const getEduFinalData = () => {
+    return cachedEduFinalData || { education_levels: getEducationLevelsData() };
+};
 
 /**
- * Set edu_final data directly (useful when loaded from elsewhere)
- * @param {Object} data - edu_final.json data
+ * Set education data directly
+ * @param {Object} data - education data
  */
 export const setEduFinalData = (data) => {
     cachedEduFinalData = data;
 };
 
 // ============================================
-// BACKWARD-COMPATIBLE FUNCTIONS (with embedded data)
-// These functions work without needing to pass edu_final data
+// DYNAMIC EDUCATION FUNCTIONS (FROM MONGODB)
 // ============================================
 
 /**
- * Get courses for a specific education level (backward compatible)
- * Uses embedded course data or cached edu_final.json
+ * Get courses for a specific education level directly from MongoDB
  * @param {string} levelKey - Education level key or name
  * @returns {Array<{value: string, label: string}>} Array of course options with value and label
  */
 export const getCoursesForLevel = (levelKey) => {
-    // Normalize level key
     const normalizedKey = getEducationLevelKey(levelKey) || levelKey?.toLowerCase()?.replace(/ /g, '_');
-    
-    let courses = [];
-    
-    // If we have cached edu_final data, use it
-    if (cachedEduFinalData) {
-        courses = getCourseOptionsFromEduFinal(cachedEduFinalData, normalizedKey);
-    } else {
-        // Fallback to embedded course data
-        courses = EMBEDDED_COURSE_DATA[normalizedKey] || [];
-    }
-    
-    // Convert string array to array of objects with value and label
+    const levels = getEducationLevelsData();
+    const courses = getCourseOptionsFromEduFinal({ education_levels: levels }, normalizedKey);
     return courses.map(course => ({
         value: course,
         label: course
@@ -1517,25 +1541,25 @@ export const getCoursesForLevel = (levelKey) => {
 };
 
 /**
- * Get subjects for a specific course (backward compatible)
- * Uses embedded subject data or cached edu_final.json
+ * Get subjects for a specific course directly from MongoDB
  * @param {string} course - Course name
  * @param {string} levelKey - Optional education level key
  * @returns {Array<{value: string, label: string}>} Array of subject options with value and label
  */
 export const getSubjectsForCourse = (course, levelKey = null) => {
+    const normalizedKey = levelKey ? (getEducationLevelKey(levelKey) || levelKey?.toLowerCase()?.replace(/ /g, '_')) : null;
+    const levels = getEducationLevelsData();
     let subjects = [];
-    
-    // If we have cached edu_final data, use it
-    if (cachedEduFinalData && levelKey) {
-        const normalizedKey = getEducationLevelKey(levelKey) || levelKey?.toLowerCase()?.replace(/ /g, '_');
-        subjects = getSubjectsFromEduFinal(cachedEduFinalData, normalizedKey, course);
+    if (normalizedKey) {
+        subjects = getSubjectsFromEduFinal({ education_levels: levels }, normalizedKey, course);
     } else {
-        // Fallback to embedded subject data
-        subjects = EMBEDDED_SUBJECT_DATA[course] || [];
+        for (const lvl of Object.values(levels)) {
+            if (lvl?.subject?.[course]) {
+                subjects = lvl.subject[course];
+                break;
+            }
+        }
     }
-    
-    // Convert string array to array of objects with value and label
     return subjects.map(subject => ({
         value: subject,
         label: subject
@@ -1543,21 +1567,32 @@ export const getSubjectsForCourse = (course, levelKey = null) => {
 };
 
 /**
- * Get all courses (backward compatible)
+ * Get all courses from MongoDB
  * @returns {string[]} Array of all course options
  */
 export const getAllCourses = () => {
-    return Object.values(EMBEDDED_COURSE_DATA).flat();
+    const levels = getEducationLevelsData();
+    const all = [];
+    for (const lvl of Object.values(levels)) {
+        if (lvl?.course?.options) {
+            all.push(...lvl.course.options);
+        } else if (lvl?.course_stream?.options) {
+            all.push(...lvl.course_stream.options);
+        }
+    }
+    return [...new Set(all)];
 };
 
 /**
- * Find which level a course belongs to (backward compatible)
+ * Find which level a course belongs to from MongoDB
  * @param {string} course - Course name
  * @returns {string|null} Level key or null
  */
 export const findCourseLevel = (course) => {
-    for (const [levelKey, courses] of Object.entries(EMBEDDED_COURSE_DATA)) {
-        if (courses.includes(course)) {
+    const levels = getEducationLevelsData();
+    for (const [levelKey, lvl] of Object.entries(levels)) {
+        const opts = lvl?.course?.options || lvl?.course_stream?.options || [];
+        if (opts.includes(course)) {
             return levelKey;
         }
     }
@@ -1565,55 +1600,60 @@ export const findCourseLevel = (course) => {
 };
 
 /**
- * Check if a course is valid for a level (backward compatible)
+ * Check if a course is valid for a level
  * @param {string} course - Course name
  * @param {string} levelKey - Education level key
  * @returns {boolean}
  */
 export const isValidCourseForLevel = (course, levelKey) => {
     const courses = getCoursesForLevel(levelKey);
-    return courses.includes(course);
+    return courses.some(c => c.value === course);
 };
 
 /**
- * Get all subjects for a level (backward compatible)
+ * Get all subjects for a level from MongoDB
  * @param {string} levelKey - Education level key
  * @returns {string[]} Array of all subject options
  */
 export const getAllSubjectsForLevel = (levelKey) => {
     const courses = getCoursesForLevel(levelKey);
     const subjects = [];
-    courses.forEach(course => {
-        const courseSubjects = getSubjectsForCourse(course, levelKey);
-        subjects.push(...courseSubjects);
+    courses.forEach(c => {
+        const courseSubjects = getSubjectsForCourse(c.value, levelKey);
+        subjects.push(...courseSubjects.map(s => s.value));
     });
-    return [...new Set(subjects)]; // Remove duplicates
+    return [...new Set(subjects)];
 };
 
 /**
- * Find which courses have a specific subject (backward compatible)
+ * Find which courses have a specific subject from MongoDB
  * @param {string} subject - Subject name
  * @returns {string[]} Array of course names
  */
 export const findSubjectCourses = (subject) => {
+    const levels = getEducationLevelsData();
     const courses = [];
-    for (const [course, subjects] of Object.entries(EMBEDDED_SUBJECT_DATA)) {
-        if (subjects.includes(subject)) {
-            courses.push(course);
+    for (const lvl of Object.values(levels)) {
+        if (lvl?.subject && typeof lvl.subject === 'object') {
+            for (const [crs, subs] of Object.entries(lvl.subject)) {
+                if (Array.isArray(subs) && subs.includes(subject)) {
+                    courses.push(crs);
+                }
+            }
         }
     }
-    return courses;
+    return [...new Set(courses)];
 };
 
 /**
- * Check if a subject is valid for a course (backward compatible)
+ * Check if a subject is valid for a course
  * @param {string} subject - Subject name
  * @param {string} course - Course name
  * @returns {boolean}
  */
 export const isValidSubjectForCourse = (subject, course) => {
     const subjects = getSubjectsForCourse(course);
-    return subjects.includes(subject);
+    return subjects.some(s => s.value === subject);
 };
 
 // ============================================
@@ -1772,57 +1812,7 @@ export const checkEligibilityEducationCourseSubject = (userSubject, examSubjects
     };
 };
 
-// ============================================
-// EMBEDDED DATA (Fallback when edu_final.json not loaded)
-// ============================================
 
-const EMBEDDED_COURSE_DATA = {
-    'post_doctorate': ['Post Doctoral Fellowship', 'OTHER'],
-    'phd': ['PhD', 'OTHER'],
-    'post_graduation': ['MTech', 'MBA', 'MSc', 'MA', 'MCom', 'MD', 'MS (Medical)', 'LLM', 'MCA', 'MPharm', 'MArch', 'OTHER'],
-    'graduation': ['BTech', 'BE', 'BSc', 'BA', 'BCom', 'MBBS', 'BDS', 'LLB', 'BCA', 'BBA', 'BPharm', 'BEd', 'BArch', 'BHM', 'OTHER'],
-    'diploma': ['Polytechnic Diploma', 'ITI', 'DPharm', 'PGDCA', 'OTHER'],
-    '12th_higher_secondary': ['Science', 'Commerce', 'Arts', 'Vocational', 'OTHER'],
-    '10th_secondary': ['(10TH) SECONDARY'],
-    '8th_class': ['CLASS VIII'],
-    '5th_class': ['CLASS V']
-};
-
-const EMBEDDED_SUBJECT_DATA = {
-    // Graduation courses
-    'BTech': ['Computer Science & Engineering', 'Information Technology', 'Mechanical Engineering', 'Civil Engineering', 'Electrical Engineering', 'Electronics & Communication', 'OTHER'],
-    'BE': ['Mechanical Engineering', 'Civil Engineering', 'Electrical Engineering', 'Computer Engineering', 'OTHER'],
-    'BSc': ['Physics', 'Chemistry', 'Mathematics', 'Computer Science', 'Biotechnology', 'OTHER'],
-    'BA': ['Economics', 'English', 'History', 'Political Science', 'Psychology', 'OTHER'],
-    'BCom': ['Accounting', 'Finance', 'Taxation', 'Banking & Insurance', 'OTHER'],
-    'MBBS': ['General Medicine', 'OTHER'],
-    'BDS': ['Dental Surgery', 'OTHER'],
-    'LLB': ['Corporate Law', 'Criminal Law', 'Civil Law', 'OTHER'],
-    'BCA': ['Computer Applications', 'Software Development', 'OTHER'],
-    'BBA': ['Finance', 'Marketing', 'Human Resource Management', 'OTHER'],
-    'BPharm': ['Pharmaceutical Chemistry', 'Pharmacology', 'OTHER'],
-    'BEd': ['Education', 'OTHER'],
-    'BArch': ['Architecture', 'OTHER'],
-    'BHM': ['Food Production', 'Housekeeping', 'OTHER'],
-    
-    // 12th courses
-    'Science': ['Physics, Chemistry, Mathematics (PCM)', 'Physics, Chemistry, Biology (PCB)', 'Physics, Chemistry, Mathematics, Biology (PCMB)', 'OTHER'],
-    'Commerce': ['Accountancy, Business Studies, Economics', 'Accountancy, Mathematics, Economics', 'OTHER'],
-    'Arts': ['History, Political Science, Geography', 'Economics, Sociology, Psychology', 'OTHER'],
-    'Vocational': ['IT & ITeS', 'Retail Management', 'Healthcare', 'OTHER'],
-    
-    // Diploma courses
-    'Polytechnic Diploma': ['Mechanical Engineering', 'Civil Engineering', 'Electrical Engineering', 'Computer Engineering', 'OTHER'],
-    'ITI': ['Fitter', 'Electrician', 'Welder', 'COPA', 'OTHER'],
-    'DPharm': ['Pharmacy', 'OTHER'],
-    'PGDCA': ['Computer Applications', 'OTHER'],
-    
-    // Default
-    'OTHER': ['OTHER'],
-    '(10TH) SECONDARY': ['Science, Mathematics, Social Science, Languages', 'OTHER'],
-    'CLASS VIII': ['Science, Mathematics, Social Science, Languages', 'OTHER'],
-    'CLASS V': ['English, Hindi, Mathematics, Environmental Studies', 'OTHER']
-};
 
 // ============================================
 // DEFAULT EXPORT

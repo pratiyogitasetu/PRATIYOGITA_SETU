@@ -77,7 +77,7 @@ const ContactModal = ({ isOpen, onClose }) => {
                 </a>
 
                 <div className="flex items-center space-x-3 p-2.5 rounded-xl bg-gray-50 border border-gray-200">
-                  <div className="w-8 h-8 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center shrink-0">
+                  <div className="w-9 h-9 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center shrink-0">
                     <Clock className="w-4 h-4" />
                   </div>
                   <div className="min-w-0">

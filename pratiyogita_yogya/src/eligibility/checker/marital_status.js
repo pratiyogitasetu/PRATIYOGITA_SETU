@@ -153,22 +153,12 @@ const checkSingleEligibility = (userMaritalStatus, maritalStatusObj, userGender)
 
 /**
  * Get marital status options based on gender (for frontend dropdown)
+ * Deprecated: Marital status options are loaded dynamically from MongoDB via getMaritalStatusOptionsFromMongo(gender)
  * @param {string} gender - User's gender (MALE, FEMALE, TRANSGENDER)
- * @returns {string[]} - Array of applicable marital status options
+ * @returns {string[]} - Empty array (options must be loaded from MongoDB)
  */
 export const getMaritalStatusOptionsByGender = (gender) => {
-    const normalizedGender = normalizeValue(gender);
-    
-    switch (normalizedGender) {
-        case 'MALE':
-            return ['UNMARRIED', 'MARRIED', 'SEPARATED', 'DIVORCED', 'WIDOWER'];
-        case 'FEMALE':
-            return ['UNMARRIED', 'MARRIED', 'SEPARATED', 'DIVORCEE', 'WIDOW'];
-        case 'TRANSGENDER':
-            return ['UNMARRIED', 'MARRIED', 'SEPARATED', 'DIVORCED', 'DIVORCEE', 'WIDOW', 'WIDOWER'];
-        default:
-            return ['UNMARRIED', 'MARRIED', 'SEPARATED', 'DIVORCED', 'DIVORCEE', 'WIDOW', 'WIDOWER'];
-    }
+    return [];
 };
 
 /**
@@ -178,8 +168,7 @@ export const getMaritalStatusOptionsByGender = (gender) => {
  * @returns {boolean} - true if valid combination
  */
 export const isValidMaritalStatusForGender = (maritalStatus, gender) => {
-    const validOptions = getMaritalStatusOptionsByGender(gender);
-    return validOptions.includes(normalizeValue(maritalStatus));
+    return Boolean(maritalStatus);
 };
 
 /**

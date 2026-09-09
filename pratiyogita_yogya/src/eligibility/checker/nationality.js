@@ -38,122 +38,30 @@
  * 3. Legacy string format is also supported for backward compatibility
  */
 
+import { getCachedNationalities, loadEligibilityFieldsFromMongo } from '../examDataLoader.js';
+
 // ============================================
-// STANDARD NATIONALITY VALUES
+// STANDARD NATIONALITY VALUES (FROM MONGODB)
 // ============================================
 
 /**
- * Standard nationality values from possiblefields.json
- * Used for validation and dropdown options
+ * Standard nationality values are dynamically loaded from MongoDB.
+ * Deprecated: Use getStandardNationalities() or getNationalityOptionsFromMongo()
  */
-export const STANDARD_NATIONALITIES = [
-    'INDIAN',
-    'CITIZEN OF NEPAL',
-    'CITIZEN OF BHUTAN',
-    'TIBETAN REFUGEE (PRE-1962)',
-    // PIO Countries
-    'PERSON OF INDIAN ORIGIN (PIO) FROM PAKISTAN',
-    'PERSON OF INDIAN ORIGIN (PIO) FROM BURMA/MYANMAR',
-    'PERSON OF INDIAN ORIGIN (PIO) FROM BANGLADESH',
-    'PERSON OF INDIAN ORIGIN (PIO) FROM SRI LANKA',
-    'PERSON OF INDIAN ORIGIN (PIO) FROM NEPAL',
-    'PERSON OF INDIAN ORIGIN (PIO) FROM BHUTAN',
-    'PERSON OF INDIAN ORIGIN (PIO) FROM AFGHANISTAN',
-    'PERSON OF INDIAN ORIGIN (PIO) FROM KENYA',
-    'PERSON OF INDIAN ORIGIN (PIO) FROM UGANDA',
-    'PERSON OF INDIAN ORIGIN (PIO) FROM TANZANIA',
-    'PERSON OF INDIAN ORIGIN (PIO) FROM ZAMBIA',
-    'PERSON OF INDIAN ORIGIN (PIO) FROM MALAWI',
-    'PERSON OF INDIAN ORIGIN (PIO) FROM ZAIRE/DR CONGO',
-    'PERSON OF INDIAN ORIGIN (PIO) FROM ETHIOPIA',
-    'PERSON OF INDIAN ORIGIN (PIO) FROM SOUTH AFRICA',
-    'PERSON OF INDIAN ORIGIN (PIO) FROM MAURITIUS',
-    'PERSON OF INDIAN ORIGIN (PIO) FROM VIETNAM',
-    'PERSON OF INDIAN ORIGIN (PIO) FROM MALAYSIA',
-    'PERSON OF INDIAN ORIGIN (PIO) FROM SINGAPORE',
-    'PERSON OF INDIAN ORIGIN (PIO) FROM INDONESIA',
-    'PERSON OF INDIAN ORIGIN (PIO) FROM THAILAND',
-    'PERSON OF INDIAN ORIGIN (PIO) FROM PHILIPPINES',
-    // OCI Countries
-    'OCI (OVERSEAS CITIZEN OF INDIA) FROM UNITED STATES',
-    'OCI (OVERSEAS CITIZEN OF INDIA) FROM UNITED KINGDOM',
-    'OCI (OVERSEAS CITIZEN OF INDIA) FROM CANADA',
-    'OCI (OVERSEAS CITIZEN OF INDIA) FROM AUSTRALIA',
-    'OCI (OVERSEAS CITIZEN OF INDIA) FROM NEW ZEALAND',
-    'OCI (OVERSEAS CITIZEN OF INDIA) FROM GERMANY',
-    'OCI (OVERSEAS CITIZEN OF INDIA) FROM FRANCE',
-    'OCI (OVERSEAS CITIZEN OF INDIA) FROM ITALY',
-    'OCI (OVERSEAS CITIZEN OF INDIA) FROM NETHERLANDS',
-    'OCI (OVERSEAS CITIZEN OF INDIA) FROM JAPAN',
-    'OCI (OVERSEAS CITIZEN OF INDIA) FROM SOUTH KOREA',
-    'OCI (OVERSEAS CITIZEN OF INDIA) FROM UAE',
-    'OCI (OVERSEAS CITIZEN OF INDIA) FROM SAUDI ARABIA',
-    'OCI (OVERSEAS CITIZEN OF INDIA) FROM QATAR',
-    'OCI (OVERSEAS CITIZEN OF INDIA) FROM KUWAIT',
-    'OCI (OVERSEAS CITIZEN OF INDIA) FROM OMAN',
-    'OCI (OVERSEAS CITIZEN OF INDIA) FROM BAHRAIN',
-    // NRI Countries
-    'NRI (NON-RESIDENT INDIAN) IN UNITED STATES',
-    'NRI (NON-RESIDENT INDIAN) IN UNITED KINGDOM',
-    'NRI (NON-RESIDENT INDIAN) IN CANADA',
-    'NRI (NON-RESIDENT INDIAN) IN AUSTRALIA',
-    'NRI (NON-RESIDENT INDIAN) IN NEW ZEALAND',
-    'NRI (NON-RESIDENT INDIAN) IN GERMANY',
-    'NRI (NON-RESIDENT INDIAN) IN FRANCE',
-    'NRI (NON-RESIDENT INDIAN) IN ITALY',
-    'NRI (NON-RESIDENT INDIAN) IN NETHERLANDS',
-    'NRI (NON-RESIDENT INDIAN) IN JAPAN',
-    'NRI (NON-RESIDENT INDIAN) IN SINGAPORE',
-    'NRI (NON-RESIDENT INDIAN) IN MALAYSIA',
-    'NRI (NON-RESIDENT INDIAN) IN UAE',
-    'NRI (NON-RESIDENT INDIAN) IN SAUDI ARABIA',
-    'NRI (NON-RESIDENT INDIAN) IN QATAR',
-    'NRI (NON-RESIDENT INDIAN) IN KUWAIT',
-    'NRI (NON-RESIDENT INDIAN) IN OMAN',
-    'NRI (NON-RESIDENT INDIAN) IN BAHRAIN',
-    'NRI (NON-RESIDENT INDIAN) IN SOUTH AFRICA',
-    'NRI (NON-RESIDENT INDIAN) IN MAURITIUS',
-    // Foreign Nationals
-    'FOREIGN NATIONAL',
-    'FOREIGN NATIONAL WITH INDIAN DEGREE',
-    'FOREIGN NATIONAL WITH INDIAN ORIGIN'
-];
-
-/**
- * Shortened versions that might appear in JSON
- * Maps short forms to full standard forms
- */
-const SHORT_TO_FULL = {
-    'OCI': 'OCI (OVERSEAS CITIZEN OF INDIA)',
-    'PIO': 'PERSON OF INDIAN ORIGIN (PIO)',
-    'PERSON OF INDIAN ORIGIN (PIO)': 'PERSON OF INDIAN ORIGIN (PIO)',
-    'TIBETAN REFUGEE': 'TIBETAN REFUGEE (PRE-1962)'
-};
+export const STANDARD_NATIONALITIES = [];
 
 // ============================================
 // HELPER FUNCTIONS
 // ============================================
 
 /**
- * Normalize nationality value - convert short forms to full standard forms
+ * Normalize nationality value
  * @param {string} value - Nationality value from JSON or form
- * @returns {string} - Normalized full form
+ * @returns {string} - Normalized uppercase trimmed value
  */
 const normalizeNationality = (value) => {
-    if (!value) return '';
-    const upperValue = value.trim().toUpperCase();
-    
-    // If it's already a full standard form, return as-is
-    if (STANDARD_NATIONALITIES.includes(upperValue)) {
-        return upperValue;
-    }
-    
-    // Check if it matches a short form
-    if (SHORT_TO_FULL[upperValue]) {
-        return SHORT_TO_FULL[upperValue];
-    }
-    
-    return upperValue;
+    if (!value || typeof value !== 'string') return '';
+    return value.trim().toUpperCase();
 };
 
 /**
@@ -377,7 +285,7 @@ export const shouldShowDomicileField = (examData) => {
  * @param {string|string[]|Object} examNationalityOrData - Exam's nationality field or division data
  * @returns {string[]} - Array of nationality options for dropdown
  */
-export const getNationalityOptions = (examNationalityOrData) => {
+export const getNationalityOptions = async (examNationalityOrData) => {
     let examNationality = null;
     
     if (typeof examNationalityOrData === 'object' && examNationalityOrData !== null && !Array.isArray(examNationalityOrData)) {
@@ -386,24 +294,17 @@ export const getNationalityOptions = (examNationalityOrData) => {
         examNationality = examNationalityOrData || '';
     }
     
-    // If no restriction or all eligible, return all standard nationalities
+    // If no restriction or all eligible, return all standard nationalities from MongoDB
     if (isAllNationalitiesEligible(examNationality)) {
-        return STANDARD_NATIONALITIES;
+        const cached = getCachedNationalities();
+        if (cached && cached.length > 0) return cached;
+        const mongoData = await loadEligibilityFieldsFromMongo();
+        return Array.isArray(mongoData?.nationality) ? mongoData.nationality : [];
     }
     
     // Parse and return only allowed nationalities (handles both array and string)
     const allowed = parseNationalityData(examNationality);
-    
-    // Return normalized values, preserving order from JSON
-    return allowed.map(n => {
-        // Return the full standard form if it matches
-        const normalized = normalizeNationality(n);
-        if (STANDARD_NATIONALITIES.includes(normalized)) {
-            return normalized;
-        }
-        // Otherwise return the original (trimmed and uppercased)
-        return n;
-    });
+    return allowed.map(n => normalizeNationality(n));
 };
 
 /**
@@ -437,11 +338,14 @@ export const shouldShowNationalityField = (examData) => {
 };
 
 /**
- * Get all standard nationality values
- * @returns {string[]} - Array of all standard nationality values
+ * Get all standard nationality values from MongoDB
+ * @returns {Promise<string[]>} - Array of all standard nationality values
  */
-export const getStandardNationalities = () => {
-    return [...STANDARD_NATIONALITIES];
+export const getStandardNationalities = async () => {
+    const cached = getCachedNationalities();
+    if (cached && cached.length > 0) return cached;
+    const mongoData = await loadEligibilityFieldsFromMongo();
+    return Array.isArray(mongoData?.nationality) ? mongoData.nationality : [];
 };
 
 // ============================================
@@ -449,14 +353,18 @@ export const getStandardNationalities = () => {
 // ============================================
 
 /**
- * Check if a nationality value is valid (exists in standard list)
+ * Check if a nationality value is valid (exists in MongoDB standard list)
  * @param {string} nationality - Nationality to validate
  * @returns {boolean} - True if valid
  */
 export const isValidNationality = (nationality) => {
     if (!nationality) return false;
     const normalized = normalizeNationality(nationality);
-    return STANDARD_NATIONALITIES.includes(normalized);
+    const cached = getCachedNationalities();
+    if (cached && cached.length > 0) {
+        return cached.includes(normalized);
+    }
+    return Boolean(normalized);
 };
 
 /**

@@ -1,0 +1,1463 @@
+{
+  "gender": [
+    "MALE",
+    "FEMALE",
+    "TRANSGENDER"
+  ],
+  "MALE": [
+    "UNMARRIED",
+    "MARRIED",
+    "SEPARATED",
+    "DIVORCED",
+    "WIDOWER"
+  ],
+  "FEMALE": [
+    "UNMARRIED",
+    "MARRIED",
+    "SEPARATED",
+    "DIVORCEE",
+    "WIDOW"
+  ],
+  "TRANSGENDER": [
+    "UNMARRIED",
+    "MARRIED",
+    "SEPARATED",
+    "DIVORCED",
+    "DIVORCEE",
+    "WIDOWER",
+    "WIDOW"
+  ],
+  "nationality": [
+    "INDIAN",
+    "CITIZEN OF NEPAL",
+    "CITIZEN OF BHUTAN",
+    "TIBETAN REFUGEE (PRE-1962)",
+    "PERSON OF INDIAN ORIGIN (PIO) FROM PAKISTAN",
+    "PERSON OF INDIAN ORIGIN (PIO) FROM BURMA/MYANMAR",
+    "PERSON OF INDIAN ORIGIN (PIO) FROM BANGLADESH",
+    "PERSON OF INDIAN ORIGIN (PIO) FROM SRI LANKA",
+    "PERSON OF INDIAN ORIGIN (PIO) FROM KENYA",
+    "PERSON OF INDIAN ORIGIN (PIO) FROM UGANDA",
+    "PERSON OF INDIAN ORIGIN (PIO) FROM TANZANIA",
+    "PERSON OF INDIAN ORIGIN (PIO) FROM ZAMBIA",
+    "PERSON OF INDIAN ORIGIN (PIO) FROM MALAWI",
+    "PERSON OF INDIAN ORIGIN (PIO) FROM ZAIRE/DR CONGO",
+    "PERSON OF INDIAN ORIGIN (PIO) FROM ETHIOPIA",
+    "PERSON OF INDIAN ORIGIN (PIO) FROM SOUTH AFRICA",
+    "PERSON OF INDIAN ORIGIN (PIO) FROM MAURITIUS",
+    "PERSON OF INDIAN ORIGIN (PIO) FROM VIETNAM",
+    "PERSON OF INDIAN ORIGIN (PIO) FROM MALAYSIA",
+    "PERSON OF INDIAN ORIGIN (PIO) FROM SINGAPORE",
+    "PERSON OF INDIAN ORIGIN (PIO) FROM INDONESIA",
+    "PERSON OF INDIAN ORIGIN (PIO) FROM THAILAND",
+    "PERSON OF INDIAN ORIGIN (PIO) FROM PHILIPPINES",
+    "PERSON OF INDIAN ORIGIN (PIO) FROM OTHER COUNTRIES",
+    "OCI (OVERSEAS CITIZEN OF INDIA) FROM UNITED STATES",
+    "OCI (OVERSEAS CITIZEN OF INDIA) FROM UNITED KINGDOM",
+    "OCI (OVERSEAS CITIZEN OF INDIA) FROM CANADA",
+    "OCI (OVERSEAS CITIZEN OF INDIA) FROM AUSTRALIA",
+    "OCI (OVERSEAS CITIZEN OF INDIA) FROM NEW ZEALAND",
+    "OCI (OVERSEAS CITIZEN OF INDIA) FROM GERMANY",
+    "OCI (OVERSEAS CITIZEN OF INDIA) FROM FRANCE",
+    "OCI (OVERSEAS CITIZEN OF INDIA) FROM ITALY",
+    "OCI (OVERSEAS CITIZEN OF INDIA) FROM NETHERLANDS",
+    "OCI (OVERSEAS CITIZEN OF INDIA) FROM JAPAN",
+    "OCI (OVERSEAS CITIZEN OF INDIA) FROM SOUTH KOREA",
+    "OCI (OVERSEAS CITIZEN OF INDIA) FROM UAE",
+    "OCI (OVERSEAS CITIZEN OF INDIA) FROM SAUDI ARABIA",
+    "OCI (OVERSEAS CITIZEN OF INDIA) FROM QATAR",
+    "OCI (OVERSEAS CITIZEN OF INDIA) FROM KUWAIT",
+    "OCI (OVERSEAS CITIZEN OF INDIA) FROM OMAN",
+    "OCI (OVERSEAS CITIZEN OF INDIA) FROM BAHRAIN",
+    "OCI (OVERSEAS CITIZEN OF INDIA) FROM SOUTH AFRICA",
+    "OCI (OVERSEAS CITIZEN OF INDIA) FROM MAURITIUS",
+    "OCI (OVERSEAS CITIZEN OF INDIA) FROM OTHER COUNTRIES",
+    "NRI (NON-RESIDENT INDIAN) IN UNITED STATES",
+    "NRI (NON-RESIDENT INDIAN) IN UNITED KINGDOM",
+    "NRI (NON-RESIDENT INDIAN) IN CANADA",
+    "NRI (NON-RESIDENT INDIAN) IN AUSTRALIA",
+    "NRI (NON-RESIDENT INDIAN) IN NEW ZEALAND",
+    "NRI (NON-RESIDENT INDIAN) IN GERMANY",
+    "NRI (NON-RESIDENT INDIAN) IN FRANCE",
+    "NRI (NON-RESIDENT INDIAN) IN ITALY",
+    "NRI (NON-RESIDENT INDIAN) IN NETHERLANDS",
+    "NRI (NON-RESIDENT INDIAN) IN JAPAN",
+    "NRI (NON-RESIDENT INDIAN) IN SINGAPORE",
+    "NRI (NON-RESIDENT INDIAN) IN MALAYSIA",
+    "NRI (NON-RESIDENT INDIAN) IN UAE",
+    "NRI (NON-RESIDENT INDIAN) IN SAUDI ARABIA",
+    "NRI (NON-RESIDENT INDIAN) IN QATAR",
+    "NRI (NON-RESIDENT INDIAN) IN KUWAIT",
+    "NRI (NON-RESIDENT INDIAN) IN OMAN",
+    "NRI (NON-RESIDENT INDIAN) IN BAHRAIN",
+    "NRI (NON-RESIDENT INDIAN) IN SOUTH AFRICA",
+    "NRI (NON-RESIDENT INDIAN) IN MAURITIUS",
+    "NRI (NON-RESIDENT INDIAN) IN OTHER COUNTRIES",
+    "FOREIGN NATIONAL",
+    "FOREIGN NATIONAL WITH INDIAN DEGREE",
+    "FOREIGN NATIONAL WITH INDIAN ORIGIN"
+  ],
+  "domicile": [
+    "ANDHRA PRADESH",
+    "ARUNACHAL PRADESH",
+    "ASSAM",
+    "BIHAR",
+    "CHHATTISGARH",
+    "GOA",
+    "GUJARAT",
+    "HARYANA",
+    "HIMACHAL PRADESH",
+    "JHARKHAND",
+    "KARNATAKA",
+    "KERALA",
+    "MADHYA PRADESH",
+    "MAHARASHTRA",
+    "MANIPUR",
+    "MEGHALAYA",
+    "MIZORAM",
+    "NAGALAND",
+    "ODISHA",
+    "PUNJAB",
+    "RAJASTHAN",
+    "SIKKIM",
+    "TAMIL NADU",
+    "TELANGANA",
+    "TRIPURA",
+    "UTTAR PRADESH",
+    "UTTARAKHAND",
+    "WEST BENGAL",
+    "ANDAMAN AND NICOBAR ISLANDS",
+    "CHANDIGARH",
+    "DADRA AND NAGAR HAVELI AND DAMAN AND DIU",
+    "DELHI",
+    "JAMMU AND KASHMIR",
+    "LADAKH",
+    "LAKSHADWEEP",
+    "PUDUCHERRY"
+  ],
+  "caste_category": [
+    "GENERAL (UR/UNRESERVED)",
+    "SC (SCHEDULED CASTE)",
+    "ST (SCHEDULED TRIBE)",
+    "OBC (OTHER BACKWARD CLASS)",
+    "EWS (ECONOMICALLY WEAKER SECTION)",
+    "MINORITY"
+  ],
+  "highest_education_qualification": [
+    "POST DOCTORATE",
+    "PHD",
+    "POST GRADUATION",
+    "GRADUATION",
+    "DIPLOMA / ITI (POLYTECHNIC, ITI, DPHARM, PGDCA)",
+    "(12TH)HIGHER SECONDARY",
+    "(10TH)SECONDARY",
+    "(8TH)MIDDLE SCHOOL",
+    "(5TH)PRIMARY SCHOOL",
+    "BELOW 5TH",
+    "NO EDUCATION"
+  ],
+  "education_levels": {
+    "post_doctorate": {
+      "course": {
+        "options": [
+          "Post Doctoral Fellowship",
+          "OTHER"
+        ]
+      },
+      "subject": {
+        "Post Doctoral Fellowship": [
+          "Engineering Research",
+          "Medical Research",
+          "Science Research",
+          "Social Science Research",
+          "Humanities Research",
+          "Management Research",
+          "Law Research",
+          "Economic Research",
+          "Scientific Research",
+          "Environmental Research",
+          "Technological Research",
+          "Others"
+        ],
+        "OTHER": [
+          "Others"
+        ]
+      },
+      "status": {
+        "Post Doctoral Fellowship": [
+          "PASSED",
+          "(4TH YEAR) APPEARING FINAL YEAR",
+          "3RD YEAR",
+          "2ND YEAR",
+          "1ST YEAR",
+          "1st Sem",
+          "2nd Sem",
+          "3rd Sem",
+          "4th Sem",
+          "5th Sem",
+          "6th Sem",
+          "7th Sem",
+          "8th Sem",
+          "9th Sem",
+          "10th Sem"
+        ],
+        "OTHER": [
+          "PASSED",
+          "(4TH YEAR) APPEARING FINAL YEAR",
+          "3RD YEAR",
+          "2ND YEAR",
+          "1ST YEAR",
+          "1st Sem",
+          "2nd Sem",
+          "3rd Sem",
+          "4th Sem",
+          "5th Sem",
+          "6th Sem",
+          "7th Sem",
+          "8th Sem",
+          "9th Sem",
+          "10th Sem"
+        ]
+      }
+    },
+    "phd": {
+      "course": {
+        "options": [
+          "PhD",
+          "OTHER"
+        ]
+      },
+      "subject": {
+        "PhD": [
+          "Engineering",
+          "Science",
+          "Medical Sciences",
+          "Management",
+          "Law",
+          "Arts & Humanities",
+          "Social Sciences",
+          "Commerce",
+          "Education",
+          "Biotechnology",
+          "Psychology",
+          "Economics",
+          "Architecture",
+          "Fine Arts",
+          "Public Policy",
+          "Environmental Studies",
+          "Others"
+        ],
+        "OTHER": [
+          "Others"
+        ]
+      },
+      "status": {
+        "PhD": [
+          "PASSED",
+          "(4TH YEAR) APPEARING FINAL YEAR",
+          "3RD YEAR",
+          "2ND YEAR",
+          "1ST YEAR",
+          "1st Sem",
+          "2nd Sem",
+          "3rd Sem",
+          "4th Sem",
+          "5th Sem",
+          "6th Sem",
+          "7th Sem",
+          "8th Sem",
+          "9th Sem",
+          "10th Sem"
+        ],
+        "OTHER": [
+          "PASSED",
+          "(4TH YEAR) APPEARING FINAL YEAR",
+          "3RD YEAR",
+          "2ND YEAR",
+          "1ST YEAR",
+          "1st Sem",
+          "2nd Sem",
+          "3rd Sem",
+          "4th Sem",
+          "5th Sem",
+          "6th Sem",
+          "7th Sem",
+          "8th Sem",
+          "9th Sem",
+          "10th Sem"
+        ]
+      }
+    },
+    "post_graduation": {
+      "course": {
+        "options": [
+          "MTech",
+          "MBA",
+          "MSc",
+          "MA",
+          "MCom",
+          "MD",
+          "MS (Medical)",
+          "LLM",
+          "MCA",
+          "MPharm",
+          "MArch",
+          "OTHER"
+        ]
+      },
+      "subject": {
+        "MTech": [
+          "Computer Science & Engineering",
+          "Information Technology",
+          "Artificial Intelligence",
+          "Machine Learning",
+          "Data Science",
+          "Cyber Security",
+          "Mechanical Engineering",
+          "Civil Engineering",
+          "Structural Engineering",
+          "Electrical Engineering",
+          "Power Systems",
+          "Electronics & Communication",
+          "VLSI Design",
+          "Embedded Systems",
+          "Thermal Engineering",
+          "Automobile Engineering",
+          "Aerospace Engineering",
+          "Biotechnology",
+          "Environmental Engineering",
+          "Nanotechnology",
+          "Robotics",
+          "Software Engineering",
+          "Others"
+        ],
+        "MBA": [
+          "Finance",
+          "Marketing",
+          "Human Resource Management",
+          "Operations Management",
+          "International Business",
+          "Business Analytics",
+          "Supply Chain Management",
+          "Hospital Management",
+          "Rural Management",
+          "Banking & Insurance",
+          "Agri Business Management",
+          "Entrepreneurship",
+          "Digital Marketing",
+          "FinTech",
+          "Sustainability Management",
+          "Event Management",
+          "Retail Management",
+          "Others"
+        ],
+        "MSc": [
+          "Physics",
+          "Chemistry",
+          "Mathematics",
+          "Statistics",
+          "Computer Science",
+          "Data Science",
+          "Biotechnology",
+          "Microbiology",
+          "Environmental Science",
+          "Zoology",
+          "Botany",
+          "Geology",
+          "Psychology",
+          "Food Science",
+          "Forensic Science",
+          "Genetics",
+          "Bioinformatics",
+          "Oceanography",
+          "Others"
+        ],
+        "MA": [
+          "Economics",
+          "English",
+          "History",
+          "Political Science",
+          "Public Administration",
+          "Geography",
+          "Psychology",
+          "Sociology",
+          "Philosophy",
+          "Hindi",
+          "International Relations",
+          "Linguistics",
+          "Fine Arts",
+          "Journalism & Mass Communication",
+          "Social Work",
+          "Archaeology",
+          "Others"
+        ],
+        "MCom": [
+          "Accounting",
+          "Finance",
+          "Taxation",
+          "Banking & Insurance",
+          "Business Economics",
+          "Auditing",
+          "Costing",
+          "Corporate Governance",
+          "International Business",
+          "Others"
+        ],
+        "MD": [
+          "General Medicine",
+          "Paediatrics",
+          "Dermatology",
+          "Radiology",
+          "Anaesthesiology",
+          "Psychiatry",
+          "Pathology",
+          "Microbiology",
+          "Forensic Medicine",
+          "Community Medicine",
+          "Pharmacology",
+          "Physiology",
+          "Biochemistry",
+          "Others"
+        ],
+        "MS (Medical)": [
+          "General Surgery",
+          "Orthopaedics",
+          "ENT",
+          "Ophthalmology",
+          "Obstetrics & Gynaecology",
+          "Otorhinolaryngology",
+          "Traumatology",
+          "Others"
+        ],
+        "LLM": [
+          "Constitutional Law",
+          "Criminal Law",
+          "Corporate Law",
+          "International Law",
+          "Intellectual Property Law",
+          "Labour Law",
+          "Taxation Law",
+          "Environmental Law",
+          "Human Rights Law",
+          "Family Law",
+          "Others"
+        ],
+        "MCA": [
+          "Computer Science",
+          "Software Engineering",
+          "Artificial Intelligence",
+          "Machine Learning",
+          "Data Analytics",
+          "Cloud Computing",
+          "Cyber Security",
+          "Mobile Applications",
+          "Others"
+        ],
+        "MPharm": [
+          "Pharmaceutics",
+          "Pharmacology",
+          "Pharmaceutical Chemistry",
+          "Pharmacognosy",
+          "Quality Assurance",
+          "Pharmacy Practice",
+          "Others"
+        ],
+        "MArch": [
+          "Urban Design",
+          "Landscape Architecture",
+          "Sustainable Architecture",
+          "Architectural Conservation",
+          "Housing",
+          "Others"
+        ],
+        "OTHER": [
+          "Others"
+        ]
+      },
+      "status": {
+        "MTech": [
+          "PASSED",
+          "(4TH YEAR) APPEARING FINAL YEAR",
+          "3RD YEAR",
+          "2ND YEAR",
+          "1ST YEAR",
+          "1st Sem",
+          "2nd Sem",
+          "3rd Sem",
+          "4th Sem",
+          "5th Sem",
+          "6th Sem",
+          "7th Sem",
+          "8th Sem",
+          "9th Sem",
+          "10th Sem"
+        ],
+        "MBA": [
+          "PASSED",
+          "(4TH YEAR) APPEARING FINAL YEAR",
+          "3RD YEAR",
+          "2ND YEAR",
+          "1ST YEAR",
+          "1st Sem",
+          "2nd Sem",
+          "3rd Sem",
+          "4th Sem",
+          "5th Sem",
+          "6th Sem",
+          "7th Sem",
+          "8th Sem",
+          "9th Sem",
+          "10th Sem"
+        ],
+        "MSc": [
+          "PASSED",
+          "(4TH YEAR) APPEARING FINAL YEAR",
+          "3RD YEAR",
+          "2ND YEAR",
+          "1ST YEAR",
+          "1st Sem",
+          "2nd Sem",
+          "3rd Sem",
+          "4th Sem",
+          "5th Sem",
+          "6th Sem",
+          "7th Sem",
+          "8th Sem",
+          "9th Sem",
+          "10th Sem"
+        ],
+        "MA": [
+          "PASSED",
+          "(4TH YEAR) APPEARING FINAL YEAR",
+          "3RD YEAR",
+          "2ND YEAR",
+          "1ST YEAR",
+          "1st Sem",
+          "2nd Sem",
+          "3rd Sem",
+          "4th Sem",
+          "5th Sem",
+          "6th Sem",
+          "7th Sem",
+          "8th Sem",
+          "9th Sem",
+          "10th Sem"
+        ],
+        "MCom": [
+          "PASSED",
+          "(4TH YEAR) APPEARING FINAL YEAR",
+          "3RD YEAR",
+          "2ND YEAR",
+          "1ST YEAR",
+          "1st Sem",
+          "2nd Sem",
+          "3rd Sem",
+          "4th Sem",
+          "5th Sem",
+          "6th Sem",
+          "7th Sem",
+          "8th Sem",
+          "9th Sem",
+          "10th Sem"
+        ],
+        "MD": [
+          "PASSED",
+          "(4TH YEAR) APPEARING FINAL YEAR",
+          "3RD YEAR",
+          "2ND YEAR",
+          "1ST YEAR",
+          "1st Sem",
+          "2nd Sem",
+          "3rd Sem",
+          "4th Sem",
+          "5th Sem",
+          "6th Sem",
+          "7th Sem",
+          "8th Sem",
+          "9th Sem",
+          "10th Sem"
+        ],
+        "MS (Medical)": [
+          "PASSED",
+          "(4TH YEAR) APPEARING FINAL YEAR",
+          "3RD YEAR",
+          "2ND YEAR",
+          "1ST YEAR",
+          "1st Sem",
+          "2nd Sem",
+          "3rd Sem",
+          "4th Sem",
+          "5th Sem",
+          "6th Sem",
+          "7th Sem",
+          "8th Sem",
+          "9th Sem",
+          "10th Sem"
+        ],
+        "LLM": [
+          "PASSED",
+          "(4TH YEAR) APPEARING FINAL YEAR",
+          "3RD YEAR",
+          "2ND YEAR",
+          "1ST YEAR",
+          "1st Sem",
+          "2nd Sem",
+          "3rd Sem",
+          "4th Sem",
+          "5th Sem",
+          "6th Sem",
+          "7th Sem",
+          "8th Sem",
+          "9th Sem",
+          "10th Sem"
+        ],
+        "MCA": [
+          "PASSED",
+          "(4TH YEAR) APPEARING FINAL YEAR",
+          "3RD YEAR",
+          "2ND YEAR",
+          "1ST YEAR",
+          "1st Sem",
+          "2nd Sem",
+          "3rd Sem",
+          "4th Sem",
+          "5th Sem",
+          "6th Sem",
+          "7th Sem",
+          "8th Sem",
+          "9th Sem",
+          "10th Sem"
+        ],
+        "MPharm": [
+          "PASSED",
+          "(4TH YEAR) APPEARING FINAL YEAR",
+          "3RD YEAR",
+          "2ND YEAR",
+          "1ST YEAR",
+          "1st Sem",
+          "2nd Sem",
+          "3rd Sem",
+          "4th Sem",
+          "5th Sem",
+          "6th Sem",
+          "7th Sem",
+          "8th Sem",
+          "9th Sem",
+          "10th Sem"
+        ],
+        "MArch": [
+          "PASSED",
+          "(4TH YEAR) APPEARING FINAL YEAR",
+          "3RD YEAR",
+          "2ND YEAR",
+          "1ST YEAR",
+          "1st Sem",
+          "2nd Sem",
+          "3rd Sem",
+          "4th Sem",
+          "5th Sem",
+          "6th Sem",
+          "7th Sem",
+          "8th Sem",
+          "9th Sem",
+          "10th Sem"
+        ],
+        "OTHER": [
+          "PASSED",
+          "(4TH YEAR) APPEARING FINAL YEAR",
+          "3RD YEAR",
+          "2ND YEAR",
+          "1ST YEAR",
+          "1st Sem",
+          "2nd Sem",
+          "3rd Sem",
+          "4th Sem",
+          "5th Sem",
+          "6th Sem",
+          "7th Sem",
+          "8th Sem",
+          "9th Sem",
+          "10th Sem"
+        ]
+      }
+    },
+    "graduation": {
+      "course": {
+        "options": [
+          "BTech",
+          "BE",
+          "BSc",
+          "BA",
+          "BCom",
+          "MBBS",
+          "BDS",
+          "LLB",
+          "BCA",
+          "BBA",
+          "BPharm",
+          "BEd",
+          "BArch",
+          "BHM",
+          "OTHER"
+        ]
+      },
+      "subject": {
+        "BTech": [
+          "Computer Science & Engineering",
+          "Information Technology",
+          "Artificial Intelligence & ML",
+          "Data Science",
+          "Cyber Security",
+          "Mechanical Engineering",
+          "Civil Engineering",
+          "Electrical Engineering",
+          "Electronics & Communication",
+          "Chemical Engineering",
+          "Automobile Engineering",
+          "Biomedical Engineering",
+          "Aerospace Engineering",
+          "Mining Engineering",
+          "Petroleum Engineering",
+          "Textile Engineering",
+          "Production Engineering",
+          "Instrumentation Engineering",
+          "Others"
+        ],
+        "BE": [
+          "Mechanical Engineering",
+          "Civil Engineering",
+          "Electrical Engineering",
+          "Electronics Engineering",
+          "Computer Engineering",
+          "Telecommunication Engineering",
+          "Industrial Engineering",
+          "Others"
+        ],
+        "BSc": [
+          "Physics",
+          "Chemistry",
+          "Mathematics",
+          "Statistics",
+          "Computer Science",
+          "Biotechnology",
+          "Microbiology",
+          "Environmental Science",
+          "Nursing",
+          "Agriculture",
+          "Horticulture",
+          "Forestry",
+          "Home Science",
+          "Animation & Multimedia",
+          "Fashion Design",
+          "Interior Design",
+          "Others"
+        ],
+        "BA": [
+          "Economics",
+          "English",
+          "History",
+          "Political Science",
+          "Geography",
+          "Psychology",
+          "Sociology",
+          "Public Administration",
+          "Philosophy",
+          "Linguistics",
+          "Fine Arts",
+          "Journalism",
+          "Music",
+          "Physical Education",
+          "Others"
+        ],
+        "BCom": [
+          "Accounting",
+          "Finance",
+          "Taxation",
+          "Banking & Insurance",
+          "Business Analytics",
+          "Auditing",
+          "E-Commerce",
+          "Cost Accounting",
+          "Corporate Secretaryship",
+          "Marketing",
+          "Others"
+        ],
+        "MBBS": [
+          "General Medicine",
+          "Anatomy",
+          "Physiology",
+          "Biochemistry",
+          "Pharmacology",
+          "Pathology",
+          "Others"
+        ],
+        "BDS": [
+          "Dental Surgery",
+          "Oral Medicine",
+          "Periodontics",
+          "Orthodontics",
+          "Others"
+        ],
+        "LLB": [
+          "Corporate Law",
+          "Criminal Law",
+          "Civil Law",
+          "Labour Law",
+          "International Law",
+          "Taxation Law",
+          "Family Law",
+          "Property Law",
+          "Others"
+        ],
+        "BCA": [
+          "Computer Applications",
+          "Software Development",
+          "Web Technologies",
+          "Data Analytics",
+          "Cloud Computing",
+          "Database Management",
+          "Networking",
+          "Others"
+        ],
+        "BBA": [
+          "Finance",
+          "Marketing",
+          "Human Resource Management",
+          "International Business",
+          "Operations Management",
+          "Entrepreneurship",
+          "Retail Management",
+          "Tourism Management",
+          "Others"
+        ],
+        "BPharm": [
+          "Pharmaceutical Chemistry",
+          "Pharmaceutics",
+          "Pharmacology",
+          "Pharmaceutical Analysis",
+          "Pharmacognosy",
+          "Biochemistry",
+          "Others"
+        ],
+        "BEd": [
+          "Education",
+          "Childhood and Growing Up",
+          "Learning and Teaching",
+          "Pedagogy of School Subject",
+          "Others"
+        ],
+        "BArch": [
+          "Architecture",
+          "Building Construction",
+          "Architectural Drawing",
+          "History of Architecture",
+          "Urban Planning",
+          "Others"
+        ],
+        "BHM": [
+          "Food Production",
+          "Front Office Operations",
+          "Housekeeping",
+          "Food & Beverage Service",
+          "Others"
+        ],
+        "OTHER": [
+          "Others"
+        ]
+      },
+      "status": {
+        "BTech": [
+          "PASSED",
+          "(4TH YEAR) APPEARING FINAL YEAR",
+          "3RD YEAR",
+          "2ND YEAR",
+          "1ST YEAR",
+          "1st Sem",
+          "2nd Sem",
+          "3rd Sem",
+          "4th Sem",
+          "5th Sem",
+          "6th Sem",
+          "7th Sem",
+          "8th Sem",
+          "9th Sem",
+          "10th Sem"
+        ],
+        "B.TECH": [
+          "PASSED",
+          "(4TH YEAR) APPEARING FINAL YEAR",
+          "3RD YEAR",
+          "2ND YEAR",
+          "1ST YEAR",
+          "1st Sem",
+          "2nd Sem",
+          "3rd Sem",
+          "4th Sem",
+          "5th Sem",
+          "6th Sem",
+          "7th Sem",
+          "8th Sem",
+          "9th Sem",
+          "10th Sem"
+        ],
+        "BE": [
+          "PASSED",
+          "(4TH YEAR) APPEARING FINAL YEAR",
+          "3RD YEAR",
+          "2ND YEAR",
+          "1ST YEAR",
+          "1st Sem",
+          "2nd Sem",
+          "3rd Sem",
+          "4th Sem",
+          "5th Sem",
+          "6th Sem",
+          "7th Sem",
+          "8th Sem",
+          "9th Sem",
+          "10th Sem"
+        ],
+        "B.E": [
+          "PASSED",
+          "(4TH YEAR) APPEARING FINAL YEAR",
+          "3RD YEAR",
+          "2ND YEAR",
+          "1ST YEAR",
+          "1st Sem",
+          "2nd Sem",
+          "3rd Sem",
+          "4th Sem",
+          "5th Sem",
+          "6th Sem",
+          "7th Sem",
+          "8th Sem",
+          "9th Sem",
+          "10th Sem"
+        ],
+        "BSc": [
+          "PASSED",
+          "(4TH YEAR) APPEARING FINAL YEAR",
+          "3RD YEAR",
+          "2ND YEAR",
+          "1ST YEAR",
+          "1st Sem",
+          "2nd Sem",
+          "3rd Sem",
+          "4th Sem",
+          "5th Sem",
+          "6th Sem",
+          "7th Sem",
+          "8th Sem",
+          "9th Sem",
+          "10th Sem"
+        ],
+        "BA": [
+          "PASSED",
+          "(4TH YEAR) APPEARING FINAL YEAR",
+          "3RD YEAR",
+          "2ND YEAR",
+          "1ST YEAR",
+          "1st Sem",
+          "2nd Sem",
+          "3rd Sem",
+          "4th Sem",
+          "5th Sem",
+          "6th Sem",
+          "7th Sem",
+          "8th Sem",
+          "9th Sem",
+          "10th Sem"
+        ],
+        "BCom": [
+          "PASSED",
+          "(4TH YEAR) APPEARING FINAL YEAR",
+          "3RD YEAR",
+          "2ND YEAR",
+          "1ST YEAR",
+          "1st Sem",
+          "2nd Sem",
+          "3rd Sem",
+          "4th Sem",
+          "5th Sem",
+          "6th Sem",
+          "7th Sem",
+          "8th Sem",
+          "9th Sem",
+          "10th Sem"
+        ],
+        "MBBS": [
+          "PASSED",
+          "(4TH YEAR) APPEARING FINAL YEAR",
+          "3RD YEAR",
+          "2ND YEAR",
+          "1ST YEAR",
+          "1st Sem",
+          "2nd Sem",
+          "3rd Sem",
+          "4th Sem",
+          "5th Sem",
+          "6th Sem",
+          "7th Sem",
+          "8th Sem",
+          "9th Sem",
+          "10th Sem"
+        ],
+        "BDS": [
+          "PASSED",
+          "(4TH YEAR) APPEARING FINAL YEAR",
+          "3RD YEAR",
+          "2ND YEAR",
+          "1ST YEAR",
+          "1st Sem",
+          "2nd Sem",
+          "3rd Sem",
+          "4th Sem",
+          "5th Sem",
+          "6th Sem",
+          "7th Sem",
+          "8th Sem",
+          "9th Sem",
+          "10th Sem"
+        ],
+        "LLB": [
+          "PASSED",
+          "(4TH YEAR) APPEARING FINAL YEAR",
+          "3RD YEAR",
+          "2ND YEAR",
+          "1ST YEAR",
+          "1st Sem",
+          "2nd Sem",
+          "3rd Sem",
+          "4th Sem",
+          "5th Sem",
+          "6th Sem",
+          "7th Sem",
+          "8th Sem",
+          "9th Sem",
+          "10th Sem"
+        ],
+        "BCA": [
+          "PASSED",
+          "(4TH YEAR) APPEARING FINAL YEAR",
+          "3RD YEAR",
+          "2ND YEAR",
+          "1ST YEAR",
+          "1st Sem",
+          "2nd Sem",
+          "3rd Sem",
+          "4th Sem",
+          "5th Sem",
+          "6th Sem",
+          "7th Sem",
+          "8th Sem",
+          "9th Sem",
+          "10th Sem"
+        ],
+        "BBA": [
+          "PASSED",
+          "(4TH YEAR) APPEARING FINAL YEAR",
+          "3RD YEAR",
+          "2ND YEAR",
+          "1ST YEAR",
+          "1st Sem",
+          "2nd Sem",
+          "3rd Sem",
+          "4th Sem",
+          "5th Sem",
+          "6th Sem",
+          "7th Sem",
+          "8th Sem",
+          "9th Sem",
+          "10th Sem"
+        ],
+        "BPharm": [
+          "PASSED",
+          "(4TH YEAR) APPEARING FINAL YEAR",
+          "3RD YEAR",
+          "2ND YEAR",
+          "1ST YEAR",
+          "1st Sem",
+          "2nd Sem",
+          "3rd Sem",
+          "4th Sem",
+          "5th Sem",
+          "6th Sem",
+          "7th Sem",
+          "8th Sem",
+          "9th Sem",
+          "10th Sem"
+        ],
+        "BEd": [
+          "PASSED",
+          "(4TH YEAR) APPEARING FINAL YEAR",
+          "3RD YEAR",
+          "2ND YEAR",
+          "1ST YEAR",
+          "1st Sem",
+          "2nd Sem",
+          "3rd Sem",
+          "4th Sem",
+          "5th Sem",
+          "6th Sem",
+          "7th Sem",
+          "8th Sem",
+          "9th Sem",
+          "10th Sem"
+        ],
+        "BArch": [
+          "PASSED",
+          "(4TH YEAR) APPEARING FINAL YEAR",
+          "3RD YEAR",
+          "2ND YEAR",
+          "1ST YEAR",
+          "1st Sem",
+          "2nd Sem",
+          "3rd Sem",
+          "4th Sem",
+          "5th Sem",
+          "6th Sem",
+          "7th Sem",
+          "8th Sem",
+          "9th Sem",
+          "10th Sem"
+        ],
+        "BHM": [
+          "PASSED",
+          "(4TH YEAR) APPEARING FINAL YEAR",
+          "3RD YEAR",
+          "2ND YEAR",
+          "1ST YEAR",
+          "1st Sem",
+          "2nd Sem",
+          "3rd Sem",
+          "4th Sem",
+          "5th Sem",
+          "6th Sem",
+          "7th Sem",
+          "8th Sem",
+          "9th Sem",
+          "10th Sem"
+        ],
+        "OTHER": [
+          "PASSED",
+          "(4TH YEAR) APPEARING FINAL YEAR",
+          "3RD YEAR",
+          "2ND YEAR",
+          "1ST YEAR",
+          "1st Sem",
+          "2nd Sem",
+          "3rd Sem",
+          "4th Sem",
+          "5th Sem",
+          "6th Sem",
+          "7th Sem",
+          "8th Sem",
+          "9th Sem",
+          "10th Sem"
+        ]
+      }
+    },
+    "diploma": {
+      "course": {
+        "options": [
+          "Polytechnic Diploma",
+          "ITI",
+          "DPharm",
+          "PGDCA",
+          "OTHER"
+        ]
+      },
+      "subject": {
+        "Polytechnic Diploma": [
+          "Mechanical Engineering",
+          "Civil Engineering",
+          "Electrical Engineering",
+          "Electronics Engineering",
+          "Computer Engineering",
+          "Automobile Engineering",
+          "Chemical Engineering",
+          "Textile Technology",
+          "Interior Decoration",
+          "Fashion Design",
+          "Others"
+        ],
+        "ITI": [
+          "Fitter",
+          "Turner",
+          "Electrician",
+          "Welder",
+          "Mechanic Diesel",
+          "Mechanic Motor Vehicle",
+          "COPA",
+          "Plumber",
+          "Refrigeration & Air Conditioning",
+          "Surveyor",
+          "Draughtsman Civil",
+          "Wireman",
+          "Machinist",
+          "Carpenter",
+          "Others"
+        ],
+        "DPharm": [
+          "Pharmacy",
+          "Pharmaceutical Chemistry",
+          "Pharmacognosy",
+          "Others"
+        ],
+        "PGDCA": [
+          "Computer Applications",
+          "Programming in C",
+          "Database Management",
+          "Others"
+        ],
+        "OTHER": [
+          "Others"
+        ]
+      },
+      "status": {
+        "Polytechnic Diploma": [
+          "PASSED",
+          "(4TH YEAR) APPEARING FINAL YEAR",
+          "3RD YEAR",
+          "2ND YEAR",
+          "1ST YEAR",
+          "1st Sem",
+          "2nd Sem",
+          "3rd Sem",
+          "4th Sem",
+          "5th Sem",
+          "6th Sem",
+          "7th Sem",
+          "8th Sem",
+          "9th Sem",
+          "10th Sem"
+        ],
+        "ITI": [
+          "PASSED",
+          "(4TH YEAR) APPEARING FINAL YEAR",
+          "3RD YEAR",
+          "2ND YEAR",
+          "1ST YEAR",
+          "1st Sem",
+          "2nd Sem",
+          "3rd Sem",
+          "4th Sem",
+          "5th Sem",
+          "6th Sem",
+          "7th Sem",
+          "8th Sem",
+          "9th Sem",
+          "10th Sem"
+        ],
+        "DPharm": [
+          "PASSED",
+          "(4TH YEAR) APPEARING FINAL YEAR",
+          "3RD YEAR",
+          "2ND YEAR",
+          "1ST YEAR",
+          "1st Sem",
+          "2nd Sem",
+          "3rd Sem",
+          "4th Sem",
+          "5th Sem",
+          "6th Sem",
+          "7th Sem",
+          "8th Sem",
+          "9th Sem",
+          "10th Sem"
+        ],
+        "PGDCA": [
+          "PASSED",
+          "(4TH YEAR) APPEARING FINAL YEAR",
+          "3RD YEAR",
+          "2ND YEAR",
+          "1ST YEAR",
+          "1st Sem",
+          "2nd Sem",
+          "3rd Sem",
+          "4th Sem",
+          "5th Sem",
+          "6th Sem",
+          "7th Sem",
+          "8th Sem",
+          "9th Sem",
+          "10th Sem"
+        ],
+        "OTHER": [
+          "PASSED",
+          "(4TH YEAR) APPEARING FINAL YEAR",
+          "3RD YEAR",
+          "2ND YEAR",
+          "1ST YEAR",
+          "1st Sem",
+          "2nd Sem",
+          "3rd Sem",
+          "4th Sem",
+          "5th Sem",
+          "6th Sem",
+          "7th Sem",
+          "8th Sem",
+          "9th Sem",
+          "10th Sem"
+        ]
+      }
+    },
+    "12th_higher_secondary": {
+      "course": {
+        "options": [
+          "Science",
+          "Commerce",
+          "Arts",
+          "Vocational",
+          "OTHER"
+        ]
+      },
+      "subject": {
+        "Science": [
+          "Physics, Chemistry, Mathematics (PCM)",
+          "Physics, Chemistry, Biology (PCB)",
+          "Physics, Chemistry, Mathematics, Biology (PCMB)",
+          "Physics, Chemistry, Mathematics, Computer Science (PCMC)",
+          "Others"
+        ],
+        "Commerce": [
+          "Accountancy, Business Studies, Economics",
+          "Accountancy, Mathematics, Economics",
+          "Accountancy, Economics, Informatics Practices",
+          "Accountancy, Business Studies, Entrepreneurship",
+          "Others"
+        ],
+        "Arts": [
+          "History, Political Science, Geography",
+          "Economics, Sociology, Psychology",
+          "History, Economics, Public Administration",
+          "Fine Arts, Music, Dance",
+          "Others"
+        ],
+        "Vocational": [
+          "IT & ITeS",
+          "Retail Management",
+          "Healthcare",
+          "Tourism",
+          "Automobile Technology",
+          "Electronics Technology",
+          "Beauty & Wellness",
+          "Agriculture",
+          "Others"
+        ],
+        "OTHER": [
+          "Others"
+        ]
+      },
+      "status": {
+        "Science": [
+          "PASSED",
+          "APPEARING",
+          "FAILED"
+        ],
+        "Commerce": [
+          "PASSED",
+          "APPEARING",
+          "FAILED"
+        ],
+        "Arts": [
+          "PASSED",
+          "APPEARING",
+          "FAILED"
+        ],
+        "Vocational": [
+          "PASSED",
+          "APPEARING",
+          "FAILED"
+        ],
+        "OTHER": [
+          "PASSED",
+          "APPEARING",
+          "FAILED"
+        ]
+      }
+    },
+    "10th_secondary": {
+      "course": {
+        "options": [
+          "(10TH) SECONDARY"
+        ]
+      },
+      "subject": {
+        "(10TH) SECONDARY": [
+          "Science, Mathematics, Social Science, Languages",
+          "Others"
+        ]
+      },
+      "status": {
+        "(10TH) SECONDARY": [
+          "PASSED",
+          "APPEARING",
+          "FAILED"
+        ]
+      }
+    },
+    "8TH": {
+      "course": {
+        "options": [
+          "(8TH) MIDDLE SCHOOL"
+        ]
+      },
+      "subject": {
+        "(8TH) MIDDLE SCHOOL": [
+          "Science, Mathematics, Social Science, Languages",
+          "Others"
+        ]
+      },
+      "status": {
+        "(8TH) MIDDLE SCHOOL": [
+          "PASSED",
+          "APPEARING",
+          "FAILED"
+        ]
+      }
+    },
+    "5TH": {
+      "course": {
+        "options": [
+          "(5TH) PRIMARY SCHOOL"
+        ]
+      },
+      "subject": {
+        "(5TH) PRIMARY SCHOOL": [
+          "Science, Mathematics, Social Science, Languages",
+          "Others"
+        ]
+      },
+      "status": {
+        "(5TH) PRIMARY SCHOOL": [
+          "PASSED",
+          "APPEARING",
+          "FAILED"
+        ]
+      }
+    },
+    "below_5th": {
+      "courses": {}
+    },
+    "no_education": {
+      "courses": {}
+    }
+  },
+  "ncc_wing": [
+    "ARMY",
+    "NAVY",
+    "AIR FORCE"
+  ],
+  "ncc_certificate": [
+    "A Certificate",
+    "B Certificate",
+    "C Certificate"
+  ],
+  "ncc_certificate_grade": [
+    "A",
+    "B",
+    "C",
+    "D"
+  ]
+}

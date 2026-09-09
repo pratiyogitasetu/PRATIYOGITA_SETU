@@ -314,15 +314,15 @@ export const getDisplayDetails = (examData) => {
 // EDUCATION CONFIGURATION HELPERS
 // ============================================
 
-// Import edu_final.json for education config
-import eduFinalJson from './edu_final.json';
+import { loadEligibilityFieldsFromMongo } from './examDataLoader.js';
 
 /**
- * Get education configuration
- * @returns {Object} - Education config object
+ * Get education configuration directly from MongoDB
+ * @returns {Promise<Object>} - Education config object
  */
-export const getEducationConfig = () => {
-    return Promise.resolve(eduFinalJson || {});
+export const getEducationConfig = async () => {
+    const data = await loadEligibilityFieldsFromMongo();
+    return data?.education_levels || {};
 };
 
 /**

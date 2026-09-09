@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import {
   X,
   User,
@@ -10,11 +10,11 @@ import {
   Mail,
   Sparkles,
   Info
-} from 'lucide-react'
-import { useAuth } from '../contexts/AuthContext'
-import { AVATAR_PRESETS, getAvatarSvgDataUrl, findAvatarById } from '../utils/avatarPresets'
-import { sendEmailVerification } from 'firebase/auth'
-import { auth } from '../config/firebase'
+} from 'lucide-react';
+import { useAuth } from '../../contexts/AuthContext';
+import { AVATAR_PRESETS, getAvatarSvgDataUrl, findAvatarById } from '../../utils/avatarPresets';
+import { sendEmailVerification } from 'firebase/auth';
+import { auth } from '../../firebase';
 
 const EditProfileModal = ({ isOpen, onClose }) => {
   const {
@@ -23,153 +23,153 @@ const EditProfileModal = ({ isOpen, onClose }) => {
     getUserProfile,
     sendResetPasswordEmail,
     deleteUserAccount
-  } = useAuth()
+  } = useAuth();
 
-  const [displayName, setDisplayName] = useState('')
-  const [bio, setBio] = useState('')
-  const [phone, setPhone] = useState('')
-  const [selectedAvatarId, setSelectedAvatarId] = useState('avatar_initials')
-  const [saving, setSaving] = useState(false)
-  const [error, setError] = useState(null)
-  const [successMsg, setSuccessMsg] = useState('')
-  const [resetSent, setResetSent] = useState(false)
-  const [sendingReset, setSendingReset] = useState(false)
-  const [verificationSent, setVerificationSent] = useState(false)
-  const [sendingVerification, setSendingVerification] = useState(false)
+  const [displayName, setDisplayName] = useState('');
+  const [bio, setBio] = useState('');
+  const [phone, setPhone] = useState('');
+  const [selectedAvatarId, setSelectedAvatarId] = useState('avatar_initials');
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState(null);
+  const [successMsg, setSuccessMsg] = useState('');
+  const [resetSent, setResetSent] = useState(false);
+  const [sendingReset, setSendingReset] = useState(false);
+  const [verificationSent, setVerificationSent] = useState(false);
+  const [sendingVerification, setSendingVerification] = useState(false);
 
   // Delete account safety confirmation state
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
-  const [deleteInput, setDeleteInput] = useState('')
-  const [deleting, setDeleting] = useState(false)
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [deleteInput, setDeleteInput] = useState('');
+  const [deleting, setDeleting] = useState(false);
 
   // Determine auth provider (Google vs Password)
-  const isGoogleUser = currentUser?.providerData?.some((p) => p.providerId === 'google.com')
-  const isEmailVerified = currentUser?.emailVerified || isGoogleUser
+  const isGoogleUser = currentUser?.providerData?.some((p) => p.providerId === 'google.com');
+  const isEmailVerified = currentUser?.emailVerified || isGoogleUser;
 
   // Load existing profile details from Firestore & Auth
   useEffect(() => {
-    let isMounted = true
+    let isMounted = true;
 
     const loadData = async () => {
-      if (!isOpen || !currentUser) return
+      if (!isOpen || !currentUser) return;
 
-      setError(null)
-      setSuccessMsg('')
-      setResetSent(false)
-      setShowDeleteConfirm(false)
-      setDeleteInput('')
+      setError(null);
+      setSuccessMsg('');
+      setResetSent(false);
+      setShowDeleteConfirm(false);
+      setDeleteInput('');
 
-      setDisplayName(currentUser.displayName || '')
+      setDisplayName(currentUser.displayName || '');
 
       try {
-        const firestoreData = await getUserProfile(currentUser.uid)
-        if (!isMounted) return
+        const firestoreData = await getUserProfile(currentUser.uid);
+        if (!isMounted) return;
 
         if (firestoreData) {
-          if (firestoreData.bio) setBio(firestoreData.bio)
-          if (firestoreData.phone) setPhone(firestoreData.phone)
+          if (firestoreData.bio) setBio(firestoreData.bio);
+          if (firestoreData.phone) setPhone(firestoreData.phone);
           if (firestoreData.avatarId) {
-            setSelectedAvatarId(firestoreData.avatarId)
+            setSelectedAvatarId(firestoreData.avatarId);
           } else if (currentUser.photoURL && currentUser.photoURL.startsWith('data:image/svg')) {
-            const matched = AVATAR_PRESETS.find((a) => getAvatarSvgDataUrl(a.svg) === currentUser.photoURL)
-            if (matched) setSelectedAvatarId(matched.id)
-            else setSelectedAvatarId('avatar_initials')
+            const matched = AVATAR_PRESETS.find((a) => getAvatarSvgDataUrl(a.svg) === currentUser.photoURL);
+            if (matched) setSelectedAvatarId(matched.id);
+            else setSelectedAvatarId('avatar_initials');
           } else {
-            setSelectedAvatarId('avatar_initials')
+            setSelectedAvatarId('avatar_initials');
           }
         }
       } catch (err) {
-        console.warn('Could not load extra user profile fields:', err)
+        console.warn('Could not load extra user profile fields:', err);
       }
-    }
+    };
 
-    loadData()
+    loadData();
     return () => {
-      isMounted = false
-    }
-  }, [isOpen, currentUser])
+      isMounted = false;
+    };
+  }, [isOpen, currentUser]);
 
-  if (!isOpen) return null
+  if (!isOpen) return null;
 
   const handleOverlayClick = (e) => {
-    if (e.target === e.currentTarget) onClose()
-  }
+    if (e.target === e.currentTarget) onClose();
+  };
 
   const getUserInitials = (name) => {
-    const target = name || currentUser?.displayName || currentUser?.email || 'PG'
-    const clean = target.replace(/[^a-zA-Z0-9 ]/g, '').trim()
-    const parts = clean.split(/\s+/)
+    const target = name || currentUser?.displayName || currentUser?.email || 'PY';
+    const clean = target.replace(/[^a-zA-Z0-9 ]/g, '').trim();
+    const parts = clean.split(/\s+/);
     if (parts.length >= 2) {
-      return `${parts[0][0]}${parts[1][0]}`.toUpperCase()
+      return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
     }
-    return clean.slice(0, 2).toUpperCase() || 'PG'
-  }
+    return clean.slice(0, 2).toUpperCase() || 'PY';
+  };
 
-  const currentPreset = findAvatarById(selectedAvatarId)
+  const currentPreset = findAvatarById(selectedAvatarId);
 
   const handlePasswordReset = async () => {
-    if (!currentUser?.email) return
-    setSendingReset(true)
-    setError(null)
+    if (!currentUser?.email) return;
+    setSendingReset(true);
+    setError(null);
     try {
       if (sendResetPasswordEmail) {
-        await sendResetPasswordEmail(currentUser.email)
+        await sendResetPasswordEmail(currentUser.email);
       }
-      setResetSent(true)
-      setTimeout(() => setResetSent(false), 8000)
+      setResetSent(true);
+      setTimeout(() => setResetSent(false), 8000);
     } catch (err) {
-      console.error('Password reset failed:', err)
-      setError(err.message || 'Failed to send password reset email.')
+      console.error('Password reset failed:', err);
+      setError(err.message || 'Failed to send password reset email.');
     } finally {
-      setSendingReset(false)
+      setSendingReset(false);
     }
-  }
+  };
 
   const handleSendVerification = async () => {
-    if (!auth.currentUser) return
-    setSendingVerification(true)
-    setError(null)
+    if (!auth.currentUser) return;
+    setSendingVerification(true);
+    setError(null);
     try {
-      await sendEmailVerification(auth.currentUser)
-      setVerificationSent(true)
-      setTimeout(() => setVerificationSent(false), 8000)
+      await sendEmailVerification(auth.currentUser);
+      setVerificationSent(true);
+      setTimeout(() => setVerificationSent(false), 8000);
     } catch (err) {
-      console.error('Email verification failed:', err)
-      setError(err.message || 'Failed to send verification email.')
+      console.error('Email verification failed:', err);
+      setError(err.message || 'Failed to send verification email.');
     } finally {
-      setSendingVerification(false)
+      setSendingVerification(false);
     }
-  }
+  };
 
   const handleDeleteAccount = async () => {
-    if (deleteInput.trim().toUpperCase() !== 'DELETE') return
-    setDeleting(true)
-    setError(null)
+    if (deleteInput.trim().toUpperCase() !== 'DELETE') return;
+    setDeleting(true);
+    setError(null);
     try {
-      await deleteUserAccount()
-      onClose()
+      await deleteUserAccount();
+      onClose();
     } catch (err) {
-      console.error('Account deletion error:', err)
-      setError(err.message || 'Failed to delete account. You may need to sign in again first.')
+      console.error('Account deletion error:', err);
+      setError(err.message || 'Failed to delete account. You may need to sign in again first.');
     } finally {
-      setDeleting(false)
+      setDeleting(false);
     }
-  }
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setSaving(true)
-    setError(null)
-    setSuccessMsg('')
+    e.preventDefault();
+    setSaving(true);
+    setError(null);
+    setSuccessMsg('');
 
     try {
-      let finalPhotoURL = ''
+      let finalPhotoURL = '';
       if (selectedAvatarId === 'avatar_initials') {
-        finalPhotoURL = ''
+        finalPhotoURL = '';
       } else {
-        const preset = findAvatarById(selectedAvatarId)
+        const preset = findAvatarById(selectedAvatarId);
         if (preset) {
-          finalPhotoURL = getAvatarSvgDataUrl(preset.svg)
+          finalPhotoURL = getAvatarSvgDataUrl(preset.svg);
         }
       }
 
@@ -179,19 +179,19 @@ const EditProfileModal = ({ isOpen, onClose }) => {
         avatarId: selectedAvatarId,
         bio: bio.trim(),
         phone: phone.trim()
-      })
+      });
 
-      setSuccessMsg('Profile updated successfully!')
+      setSuccessMsg('Profile updated successfully!');
       setTimeout(() => {
-        onClose()
-      }, 700)
+        onClose();
+      }, 700);
     } catch (err) {
-      console.error('Failed to update profile', err)
-      setError(err.message || 'Failed to update profile')
+      console.error('Failed to update profile', err);
+      setError(err.message || 'Failed to update profile');
     } finally {
-      setSaving(false)
+      setSaving(false);
     }
-  }
+  };
 
   return (
     <div
@@ -319,7 +319,7 @@ const EditProfileModal = ({ isOpen, onClose }) => {
 
                   {/* 12 Presets */}
                   {AVATAR_PRESETS.map((preset) => {
-                    const isSelected = selectedAvatarId === preset.id
+                    const isSelected = selectedAvatarId === preset.id;
                     return (
                       <button
                         key={preset.id}
@@ -351,7 +351,7 @@ const EditProfileModal = ({ isOpen, onClose }) => {
                           </div>
                         )}
                       </button>
-                    )
+                    );
                   })}
                 </div>
               </div>
@@ -500,8 +500,8 @@ const EditProfileModal = ({ isOpen, onClose }) => {
                       <button
                         type="button"
                         onClick={() => {
-                          setShowDeleteConfirm(false)
-                          setDeleteInput('')
+                          setShowDeleteConfirm(false);
+                          setDeleteInput('');
                         }}
                         className="px-2.5 py-1 bg-gray-100 text-gray-700 rounded text-[11px] font-semibold"
                       >
@@ -559,7 +559,7 @@ const EditProfileModal = ({ isOpen, onClose }) => {
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default EditProfileModal
+export default EditProfileModal;

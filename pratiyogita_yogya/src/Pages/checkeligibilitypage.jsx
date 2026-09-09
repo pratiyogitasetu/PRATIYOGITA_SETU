@@ -44,7 +44,20 @@ import {
     prepareUserInput,
     checkExamBasisEligibility
 } from "../eligibility/exambasis";
-import { ensureExamCatalogLoaded, formatCategoryName } from "../eligibility/examDataLoader";
+import {
+    ensureExamCatalogLoaded,
+    formatCategoryName,
+    getGenderOptionsFromMongo,
+    getMaritalStatusOptionsFromMongo,
+    getNationalityOptionsFromMongo,
+    getDomicileOptionsFromMongo,
+    getCasteCategoryOptionsFromMongo,
+    getNccWingOptionsFromMongo,
+    getNccCertificateOptionsFromMongo,
+    getNccCertificateGradeOptionsFromMongo,
+    getHighestEducationQualificationOptionsFromMongo,
+    formatCasteCategoryLabel
+} from "../eligibility/examDataLoader";
 
 // Import eligibility basis logic
 import {
@@ -52,16 +65,7 @@ import {
     getEligibleExamsSummary
 } from "../eligibility/eligibilitybasis";
 import {
-    GENDER_OPTIONS,
-    CASTE_CATEGORY_OPTIONS,
-    CASTE_CATEGORY_LABELS,
     PWD_STATUS_OPTIONS,
-    NCC_WING_OPTIONS,
-    NCC_CERTIFICATE_OPTIONS,
-    NCC_GRADE_OPTIONS,
-    NATIONALITY_OPTIONS,
-    DOMICILE_OPTIONS,
-    getMaritalStatusOptionsForGender,
 } from "../config/field";
 
 // Import education level functions
@@ -250,19 +254,12 @@ const thinScrollbarStyle = {
 // STATIC OPTIONS (User Input Choices)
 // ============================================
 
-const staticEducationOptions = [
-    { value: "POST DOCTORATE", label: "Post Doctorate" },
-    { value: "PHD", label: "PhD" },
-    { value: "POST GRADUATION", label: "Post Graduation" },
-    { value: "GRADUATION", label: "Graduation" },
-    { value: "DIPLOMA / ITI (POLYTECHNIC, ITI, DPHARM, PGDCA)", label: "Diploma / ITI" },
-    { value: "(12TH)HIGHER SECONDARY", label: "Higher Secondary (12th)" },
-    { value: "(10TH)SECONDARY", label: "Secondary (10th)" },
-    { value: "(8TH)CLASS", label: "Class 8th" },
-    { value: "(5TH)CLASS", label: "Class 5th" },
-    { value: "BELOW 10TH", label: "Below 10th" },
-    { value: "NO EDUCATION", label: "No Education" },
-];
+const normalizeHierarchyLevel = (level) => {
+    if (!level) return '';
+    if (level === '(8TH)CLASS' || level === '8TH CLASS' || level === '8TH') return '(8TH)MIDDLE SCHOOL';
+    if (level === '(5TH)CLASS' || level === '5TH CLASS' || level === '5TH') return '(5TH)PRIMARY SCHOOL';
+    return level;
+};
 
 const EDUCATION_HIERARCHY = [
     { key: 'POST DOCTORATE', label: 'Post Doctorate', shortLabel: 'Post Doctorate' },
@@ -272,8 +269,8 @@ const EDUCATION_HIERARCHY = [
     { key: 'DIPLOMA / ITI (POLYTECHNIC, ITI, DPHARM, PGDCA)', label: 'Diploma / ITI', shortLabel: 'Diploma ITI' },
     { key: '(12TH)HIGHER SECONDARY', label: '12th Higher Secondary', shortLabel: '12th Higher Secondary' },
     { key: '(10TH)SECONDARY', label: '10th Secondary', shortLabel: '10th Secondary' },
-    { key: '(8TH)CLASS', label: '8th Class', shortLabel: '8th Class' },
-    { key: '(5TH)CLASS', label: '5th Class', shortLabel: '5th Class' },
+    { key: '(8TH)MIDDLE SCHOOL', label: '8th Middle School', shortLabel: '8th Middle School' },
+    { key: '(5TH)PRIMARY SCHOOL', label: '5th Primary School', shortLabel: '5th Primary School' },
 ];
 
 const generateYearOptions = () => {
@@ -317,19 +314,30 @@ function CheckEligibilityPage() {
     const [hasDivisions, setHasDivisions] = useState(false);
     const [divisions, setDivisions] = useState([]);
 
-    // State for dropdown options
-    const [genderOptions, setGenderOptions] = useState(GENDER_OPTIONS);
-    const [maritalStatusOptions, setMaritalStatusOptions] = useState(getMaritalStatusOptionsForGender());
-    const [nationalityOptions, setNationalityOptions] = useState(NATIONALITY_OPTIONS);
-    const [casteOptions, setCasteOptions] = useState(CASTE_CATEGORY_OPTIONS);
+    // State for dropdown options (fetched directly from MongoDB)
+    const [genderOptions, setGenderOptions] = useState([]);
+    const [maritalStatusOptions, setMaritalStatusOptions] = useState([]);
+    const [nationalityOptions, setNationalityOptions] = useState([]);
+    const [domicileOptions, setDomicileOptions] = useState([]);
+    const [casteOptions, setCasteOptions] = useState([]);
     const [pwdOptions, setPwdOptions] = useState(PWD_STATUS_OPTIONS);
-    const [educationOptions, setEducationOptions] = useState(staticEducationOptions);
+    const [educationOptions, setEducationOptions] = useState([]);
     const [, setCourseOptions] = useState([]);
     const [, setSubjectOptions] = useState([]);
-    const [domicileOptions] = useState(DOMICILE_OPTIONS);
-    const [nccWingOptions, setNccWingOptions] = useState(NCC_WING_OPTIONS);
-    const [nccCertificateOptions, setNccCertificateOptions] = useState(NCC_CERTIFICATE_OPTIONS);
-    const [nccCertificateGradeOptions, setNccCertificateGradeOptions] = useState(NCC_GRADE_OPTIONS);
+    const [nccWingOptions, setNccWingOptions] = useState([]);
+    const [nccCertificateOptions, setNccCertificateOptions] = useState([]);
+    const [nccCertificateGradeOptions, setNccCertificateGradeOptions] = useState([]);
+    const mongoOptionsRef = useRef({
+        gender: [],
+        maritalStatus: [],
+        nationality: [],
+        domicile: [],
+        caste_category: [],
+        ncc_wing: [],
+        ncc_certificate: [],
+        ncc_certificate_grade: [],
+        highestEducation: []
+    });
 
     // State for mandatory subjects dropdown - now per level
     const [, setMandatorySubjectOptions] = useState([]);
@@ -537,6 +545,75 @@ function CheckEligibilityPage() {
     ))];
 
     useEffect(() => {
+        let cancelled = false;
+        const loadMongoEligibilityFields = async () => {
+            try {
+                const [
+                    genders,
+                    maritals,
+                    nationalities,
+                    domiciles,
+                    castes,
+                    nccWings,
+                    nccCerts,
+                    nccGrades,
+                    highestEdus
+                ] = await Promise.all([
+                    getGenderOptionsFromMongo(),
+                    getMaritalStatusOptionsFromMongo(),
+                    getNationalityOptionsFromMongo(),
+                    getDomicileOptionsFromMongo(),
+                    getCasteCategoryOptionsFromMongo(),
+                    getNccWingOptionsFromMongo(),
+                    getNccCertificateOptionsFromMongo(),
+                    getNccCertificateGradeOptionsFromMongo(),
+                    getHighestEducationQualificationOptionsFromMongo()
+                ]);
+
+                if (!cancelled) {
+                    mongoOptionsRef.current = {
+                        gender: genders,
+                        maritalStatus: maritals,
+                        nationality: nationalities,
+                        domicile: domiciles,
+                        caste_category: castes,
+                        ncc_wing: nccWings,
+                        ncc_certificate: nccCerts,
+                        ncc_certificate_grade: nccGrades,
+                        highestEducation: highestEdus
+                    };
+                    setGenderOptions(genders);
+                    setMaritalStatusOptions(maritals);
+                    setNationalityOptions(nationalities);
+                    setDomicileOptions(domiciles);
+                    setCasteOptions(castes);
+                    setNccWingOptions(nccWings);
+                    setNccCertificateOptions(nccCerts);
+                    setNccCertificateGradeOptions(nccGrades);
+                    setEducationOptions(highestEdus);
+                    console.log("✅ All eligibility options loaded directly from MongoDB:", {
+                        genderCount: genders.length,
+                        maritalCount: maritals.length,
+                        nationalityCount: nationalities.length,
+                        domicileCount: domiciles.length,
+                        casteCount: castes.length,
+                        nccWingCount: nccWings.length,
+                        nccCertCount: nccCerts.length,
+                        nccGradeCount: nccGrades.length,
+                        highestEducationCount: highestEdus.length
+                    });
+                }
+            } catch (err) {
+                console.error("Failed to load eligibility fields from MongoDB:", err);
+            }
+        };
+        loadMongoEligibilityFields();
+        return () => {
+            cancelled = true;
+        };
+    }, []);
+
+    useEffect(() => {
         const loadEducationData = async () => {
             try {
                 await loadEduFinalData();
@@ -585,14 +662,15 @@ function CheckEligibilityPage() {
             setHasDivisions(false);
             setDivisions([]);
             setDisplayDetails(null);
-            setGenderOptions(GENDER_OPTIONS);
-            setMaritalStatusOptions(getMaritalStatusOptionsForGender());
-            setNationalityOptions(NATIONALITY_OPTIONS);
-            setCasteOptions(CASTE_CATEGORY_OPTIONS);
+            setGenderOptions(mongoOptionsRef.current.gender || []);
+            setMaritalStatusOptions(mongoOptionsRef.current.maritalStatus || []);
+            setNationalityOptions(mongoOptionsRef.current.nationality || []);
+            setDomicileOptions(mongoOptionsRef.current.domicile || []);
+            setCasteOptions(mongoOptionsRef.current.caste_category || []);
             setPwdOptions(PWD_STATUS_OPTIONS);
-            setNccWingOptions(NCC_WING_OPTIONS);
-            setNccCertificateOptions(NCC_CERTIFICATE_OPTIONS);
-            setNccCertificateGradeOptions(NCC_GRADE_OPTIONS);
+            setNccWingOptions(mongoOptionsRef.current.ncc_wing || []);
+            setNccCertificateOptions(mongoOptionsRef.current.ncc_certificate || []);
+            setNccCertificateGradeOptions(mongoOptionsRef.current.ncc_certificate_grade || []);
             setMandatorySubjectOptions([]);
             setSelectedMandatorySubjects([]);
             setSubjectWiseMarks({});
@@ -614,25 +692,24 @@ function CheckEligibilityPage() {
         setHasDivisions(result.hasDivisions);
         setDivisions(result.divisions);
 
-        // Set options
-        setGenderOptions(GENDER_OPTIONS);
+        // Set options from MongoDB
+        setGenderOptions(mongoOptionsRef.current.gender || []);
         setPwdOptions(PWD_STATUS_OPTIONS);
-        setEducationOptions(staticEducationOptions);
-        setNccWingOptions(NCC_WING_OPTIONS);
-        setNccCertificateOptions(NCC_CERTIFICATE_OPTIONS);
-        setNccCertificateGradeOptions(NCC_GRADE_OPTIONS);
+        setEducationOptions(mongoOptionsRef.current.highestEducation || []);
+        setNccWingOptions(mongoOptionsRef.current.ncc_wing || []);
+        setNccCertificateOptions(mongoOptionsRef.current.ncc_certificate || []);
+        setNccCertificateGradeOptions(mongoOptionsRef.current.ncc_certificate_grade || []);
 
         // Extract caste options from exam data
         const casteValues = extractOptionsFromExamData(result.examData, 'caste_category');
         if (casteValues.length > 0) {
-            setCasteOptions(valuesToOptions(casteValues, CASTE_CATEGORY_LABELS));
+            setCasteOptions(casteValues.map(v => ({ value: v, label: formatCasteCategoryLabel(v) })));
         } else {
-            setCasteOptions(CASTE_CATEGORY_OPTIONS);
+            setCasteOptions(mongoOptionsRef.current.caste_category || []);
         }
 
-        // Nationality options - always use static options (like gender)
-        // The checker will validate against exam JSON requirements
-        setNationalityOptions(NATIONALITY_OPTIONS);
+        // Nationality options from MongoDB
+        setNationalityOptions(mongoOptionsRef.current.nationality || []);
 
         // Extract mandatory subjects from exam data
         const mandatorySubjects = extractMandatorySubjectsFromExamData(result.examData);
@@ -685,12 +762,13 @@ function CheckEligibilityPage() {
         setShowResults(false);
 
         if (field === 'gender') {
-            const newMaritalOptions = getMaritalStatusOptionsForGender(newValue);
-            setMaritalStatusOptions(newMaritalOptions);
-            const isValidMaritalStatus = newMaritalOptions.some(opt => opt.value === formData.marital_status);
-            if (!isValidMaritalStatus && formData.marital_status) {
-                setFormData(prev => ({ ...prev, marital_status: '' }));
-            }
+            getMaritalStatusOptionsFromMongo(newValue).then(newMaritalOptions => {
+                setMaritalStatusOptions(newMaritalOptions);
+                const isValidMaritalStatus = newMaritalOptions.some(opt => opt.value === formData.marital_status);
+                if (!isValidMaritalStatus && formData.marital_status) {
+                    setFormData(prev => ({ ...prev, marital_status: '' }));
+                }
+            }).catch(err => console.error("Error updating marital status from MongoDB:", err));
         }
 
         if (field === 'nationality') {
@@ -756,8 +834,7 @@ function CheckEligibilityPage() {
         }));
 
         setIsDomicileDisabled(false);
-        const newMaritalOptions = getMaritalStatusOptionsForGender('MALE');
-        setMaritalStatusOptions(newMaritalOptions);
+        getMaritalStatusOptionsFromMongo('MALE').then(opts => setMaritalStatusOptions(opts));
 
         // ========== EDUCATION TABLE SETUP ==========
         const graduationLevel = 'GRADUATION';
@@ -868,12 +945,12 @@ function CheckEligibilityPage() {
                     setIsDomicileDisabled(!isIndian);
                 }
                 if (data.gender) {
-                    setMaritalStatusOptions(getMaritalStatusOptionsForGender(data.gender));
+                    getMaritalStatusOptionsFromMongo(data.gender).then(opts => setMaritalStatusOptions(opts));
                 }
                 if (data.highest_education_qualification) {
                     const level = data.highest_education_qualification;
                     setCourseOptions(getCoursesForLevel(level));
-                    const levelIndex = EDUCATION_HIERARCHY.findIndex(h => h.key === level);
+                    const levelIndex = EDUCATION_HIERARCHY.findIndex(h => h.key === normalizeHierarchyLevel(level));
                     if (levelIndex !== -1) {
                         setVisibleEducationLevels(EDUCATION_HIERARCHY.slice(levelIndex));
                     }
@@ -907,7 +984,7 @@ function CheckEligibilityPage() {
         setCourseOptions(courses);
         setSubjectOptions([]);
 
-        const levelIndex = EDUCATION_HIERARCHY.findIndex(h => h.key === level);
+        const levelIndex = EDUCATION_HIERARCHY.findIndex(h => h.key === normalizeHierarchyLevel(level));
         if (levelIndex !== -1) {
             let visibleLevels = EDUCATION_HIERARCHY.slice(levelIndex);
 
@@ -923,8 +1000,10 @@ function CheckEligibilityPage() {
                     'diploma': 'DIPLOMA / ITI (POLYTECHNIC, ITI, DPHARM, PGDCA)',
                     '12th_higher_secondary': '(12TH)HIGHER SECONDARY',
                     '10th_secondary': '(10TH)SECONDARY',
-                    '8th_class': '(8TH)CLASS',
-                    '5th_class': '(5TH)CLASS',
+                    '8TH': '(8TH)MIDDLE SCHOOL',
+                    '8th_class': '(8TH)MIDDLE SCHOOL',
+                    '5TH': '(5TH)PRIMARY SCHOOL',
+                    '5th_class': '(5TH)PRIMARY SCHOOL',
                 };
                 const allowedHierarchyKeys = new Set(
                     examDefinedEducationKeys.map(k => JSON_KEY_TO_HIERARCHY_KEY[k]).filter(Boolean)
@@ -1424,7 +1503,7 @@ function CheckEligibilityPage() {
         const notEligibleCount = results.length - eligibleCount;
 
         return (
-            <div className="bg-white rounded-xl shadow-sm overflow-hidden h-fit border border-[#0B0A08]/8">
+            <div className="bg-white rounded-lg shadow-sm overflow-hidden h-fit border border-[#0B0A08]/8">
                 <h3 className="bg-[#F4F2EF] text-[#0B0A08] px-3 py-2.5 font-semibold text-sm border-b border-[#0B0A08]/8 flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-[#E4572E]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
                     Results Summary
@@ -1534,7 +1613,7 @@ function CheckEligibilityPage() {
         };
 
         return (
-            <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-[#0B0A08]/8">
+            <div className="bg-white rounded-lg shadow-sm overflow-hidden border border-[#0B0A08]/8">
                 <h3 className="bg-[#F4F2EF] text-[#0B0A08] px-2 py-2 font-semibold text-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-[#0B0A08]/8">
                     <span className="text-sm sm:text-base flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-[#E4572E]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
@@ -1792,7 +1871,7 @@ function CheckEligibilityPage() {
 
     return (
         <ThemeProvider theme={theme}>
-            <div className="font-[Sora] pt-22 px-2 sm:px-3 lg:px-4 pb-8 min-h-[calc(100vh-80px)] lg:min-h-screen" style={{background: 'linear-gradient(135deg, #8B4513 0%, #3D2817 100%)'}}>
+            <div className="font-[Sora] pt-[60px] px-1 sm:px-1.5 pb-2 min-h-screen" style={{background: 'linear-gradient(135deg, #8B4513 0%, #3D2817 100%)'}}>
                 {/* Important Notice Dialog */}
                 <Dialog
                     open={noticeDialogOpen}
@@ -1941,7 +2020,7 @@ function CheckEligibilityPage() {
                 </Dialog>
 
                 {/* Content (form + results) — Two column layout */}
-                <div className="pb-4 flex flex-col xl:flex-row gap-3 xl:gap-4">
+                <div className="pb-2 flex flex-col lg:flex-row gap-1 sm:gap-1.5 items-start">
                     {/* ── Left Column: Form + Results ── */}
                     <div className="flex-1 min-w-0">
                     {error && (
@@ -1952,7 +2031,7 @@ function CheckEligibilityPage() {
 
                     {/* Form Section */}
                     <div className="w-full">
-                        <div className="bg-[#F4F2EF] backdrop-blur-sm rounded-xl shadow-lg p-3 sm:p-2 border border-[#E4572E]/40">
+                        <div className="bg-[#F4F2EF] backdrop-blur-sm rounded-lg shadow-sm p-3 sm:p-2 border border-[#E4572E]/40">
                             <Box component="form" noValidate autoComplete="off">
                                 <div className="mb-2 rounded-lg border border-[#E4572E]/20 bg-[#E4572E]/8 px-2.5 py-1.5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5">
                                     <h1 className="text-[16px] sm:text-[18px] md:text-[20px] font-extrabold text-[#0B0A08] tracking-tight leading-tight text-left">
@@ -2296,14 +2375,21 @@ function CheckEligibilityPage() {
                                                         required
                                                         value={formData.gender}
                                                         onChange={handleChange("gender")}
-                                                        helperText="Select your gender"
+                                                        helperText={genderOptions.length === 0 ? "Loading gender from MongoDB..." : "Select your gender"}
                                                         size="small"
+                                                        disabled={genderOptions.length === 0}
                                                     >
-                                                        {genderOptions.map((option) => (
-                                                            <MenuItem key={option.value} value={option.value}>
-                                                                {option.label}
+                                                        {genderOptions.length === 0 ? (
+                                                            <MenuItem value="" disabled>
+                                                                Loading...
                                                             </MenuItem>
-                                                        ))}
+                                                        ) : (
+                                                            genderOptions.map((option) => (
+                                                                <MenuItem key={option.value} value={option.value}>
+                                                                    {option.label}
+                                                                </MenuItem>
+                                                            ))
+                                                        )}
                                                     </TextField>
 
                                                     <TextField
@@ -2989,7 +3075,7 @@ function CheckEligibilityPage() {
                     {showResults && results.length > 0 && searchMode === 'exam' && (
                         <div ref={resultsRef} className="mt-4 space-y-4">
                             {/* Combined Info Bar */}
-                            <div className="bg-[#F4F2EF] backdrop-blur-sm rounded-xl shadow-lg border border-[#E4572E]/40 overflow-hidden">
+                            <div className="bg-[#F4F2EF] backdrop-blur-sm rounded-lg shadow-sm border border-[#E4572E]/40 overflow-hidden">
                                 {/* Exam Date / Application Period Banner */}
                                 {(() => {
                                     const lastDateStr = examData?.last_date_to_apply;
@@ -3097,12 +3183,12 @@ function CheckEligibilityPage() {
                             </div>
 
                             {/* Two Tables Side by Side */}
-                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-start">
-                                <div className="bg-[#F4F2EF] backdrop-blur-sm rounded-xl shadow-lg p-3 border border-[#E4572E]/40">
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 items-start">
+                                <div className="bg-[#F4F2EF] backdrop-blur-sm rounded-lg shadow-sm p-3 border border-[#E4572E]/40">
                                     {renderResultsSummary()}
                                 </div>
 
-                                <div className="bg-[#F4F2EF] backdrop-blur-sm rounded-xl shadow-lg p-3 border border-[#E4572E]/40">
+                                <div className="bg-[#F4F2EF] backdrop-blur-sm rounded-lg shadow-sm p-3 border border-[#E4572E]/40">
                                     {renderDetailedResultsInline()}
                                 </div>
                             </div>
@@ -3119,7 +3205,7 @@ function CheckEligibilityPage() {
                     </div>
 
                     {/* ── Right Column: Calendar + Notices ── */}
-                    <div className="w-full xl:w-[280px] 2xl:w-[310px] shrink-0 flex flex-col gap-3 xl:sticky xl:top-20 xl:self-start">
+                    <div className="w-full lg:w-[280px] xl:w-[290px] 2xl:w-[310px] shrink-0 flex flex-col gap-1 sm:gap-1.5 lg:sticky lg:top-[60px] z-10 self-start">
                         <ExamCalendar />
                     </div>
                 </div>

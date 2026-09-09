@@ -18,6 +18,8 @@
  * - Object with wing keys containing arrays of allowed certificates
  */
 
+import { getCachedNccCertificates, loadEligibilityFieldsFromMongo } from '../examDataLoader.js';
+
 /**
  * Normalize value for comparison
  * @param {string} value - Value to normalize
@@ -253,12 +255,9 @@ export const checkNccCertificate = (userNccCertificate, examNccCertificate, user
  * @returns {string[]} - Array of allowed certificate values
  */
 export const getAllowedCertificates = (examNccCertificate, userNccWing) => {
-    if (isNoRestriction(examNccCertificate)) {
-        return ['A CERTIFICATE', 'B CERTIFICATE', 'C CERTIFICATE'];
-    }
-    
-    if (isAllAccepted(examNccCertificate)) {
-        return ['A CERTIFICATE', 'B CERTIFICATE', 'C CERTIFICATE'];
+    if (isNoRestriction(examNccCertificate) || isAllAccepted(examNccCertificate)) {
+        const cached = getCachedNccCertificates();
+        return Array.isArray(cached) ? cached : [];
     }
     
     if (isObjectFormat(examNccCertificate) && userNccWing) {

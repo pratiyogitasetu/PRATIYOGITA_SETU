@@ -277,8 +277,65 @@ const Navbar = ({ onViewChange, currentView }) => {
               </Box>
             )}
 
-            {/* Right: Attached Menu Button */}
+            {/* Right: Desktop Nav Tabs + Attached Menu Button */}
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              {/* Desktop Nav Tabs (Shifted from Dropdown for Desktop View Only) */}
+              <Box
+                sx={{
+                  display: { xs: 'none', md: 'flex' },
+                  alignItems: 'center',
+                  gap: 0.8,
+                  mr: 0.5
+                }}
+              >
+                {[
+                  { id: 'chat', label: 'Home', icon: Home },
+                  { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
+                  { id: 'practice-pyq', label: 'Practice PYQ', icon: Target },
+                  { id: 'saved-pyqs', label: 'Saved PYQs', icon: Star }
+                ].map((item) => {
+                  const Icon = item.icon
+                  const isSelected = currentView === item.id
+                  return (
+                    <Button
+                      key={item.id}
+                      onClick={() => handleNavigation(item.id)}
+                      size="small"
+                      startIcon={<Icon size={15} strokeWidth={2} />}
+                      sx={{
+                        height: 36,
+                        px: 1.5,
+                        borderRadius: 999,
+                        fontSize: '0.8rem',
+                        fontWeight: isSelected ? 700 : 500,
+                        textTransform: 'none',
+                        fontFamily: '"Sora", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif',
+                        color: isSelected
+                          ? (item.id === 'saved-pyqs' ? '#d97706' : '#E4572E')
+                          : '#4b5563',
+                        backgroundColor: isSelected
+                          ? (item.id === 'saved-pyqs' ? 'rgba(245,158,11,0.12)' : 'rgba(228,87,46,0.08)')
+                          : 'transparent',
+                        border: '1px solid',
+                        borderColor: isSelected
+                          ? (item.id === 'saved-pyqs' ? 'rgba(245,158,11,0.25)' : 'rgba(228,87,46,0.18)')
+                          : 'transparent',
+                        transition: 'all 0.2s ease',
+                        '&:hover': {
+                          color: item.id === 'saved-pyqs' ? '#d97706' : '#E4572E',
+                          backgroundColor: item.id === 'saved-pyqs' ? 'rgba(245,158,11,0.08)' : 'rgba(228,87,46,0.05)',
+                          borderColor: isSelected
+                            ? (item.id === 'saved-pyqs' ? 'rgba(245,158,11,0.3)' : 'rgba(228,87,46,0.25)')
+                            : 'rgba(0,0,0,0.06)'
+                        }
+                      }}
+                    >
+                      {item.label}
+                    </Button>
+                  )
+                })}
+              </Box>
+
               <Button
                 onClick={handleOpenMenu}
                 aria-label="Open navigation menu"
@@ -434,6 +491,7 @@ const Navbar = ({ onViewChange, currentView }) => {
             onClick={() => handleNavigate('chat')}
             selected={currentView === 'chat'}
             sx={{
+              display: { xs: 'flex', md: 'none' },
               borderRadius: 2,
               py: 0.85,
               px: 1.2,
@@ -453,6 +511,7 @@ const Navbar = ({ onViewChange, currentView }) => {
             onClick={() => handleNavigate('practice-pyq')}
             selected={currentView === 'practice-pyq'}
             sx={{
+              display: { xs: 'flex', md: 'none' },
               borderRadius: 2,
               py: 0.85,
               px: 1.2,
@@ -472,6 +531,7 @@ const Navbar = ({ onViewChange, currentView }) => {
             onClick={() => handleNavigate('saved-pyqs')}
             selected={currentView === 'saved-pyqs'}
             sx={{
+              display: { xs: 'flex', md: 'none' },
               borderRadius: 2,
               py: 0.85,
               px: 1.2,
@@ -491,6 +551,7 @@ const Navbar = ({ onViewChange, currentView }) => {
             onClick={() => handleNavigate('dashboard')}
             selected={currentView === 'dashboard'}
             sx={{
+              display: { xs: 'flex', md: 'none' },
               borderRadius: 2,
               py: 0.85,
               px: 1.2,

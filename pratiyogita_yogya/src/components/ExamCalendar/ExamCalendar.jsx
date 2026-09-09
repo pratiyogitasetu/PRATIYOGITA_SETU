@@ -248,7 +248,7 @@ export default function ExamCalendar() {
   const selectedEvents = selectedDate ? (examDates[selectedDate] || []) : [];
 
   return (
-    <div className="bg-[#F4F2EF] rounded-xl border border-[#E4572E]/40 overflow-hidden">
+    <div className="bg-[#F4F2EF] rounded-lg border border-[#E4572E]/40 overflow-hidden shadow-sm">
       {/* Header */}
       <div className="bg-[#E4572E]/10 border-b border-[#E4572E]/20 px-3 py-2 flex items-center justify-between">
         <button

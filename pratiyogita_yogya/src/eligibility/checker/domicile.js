@@ -23,62 +23,15 @@
  * 2. Division-Based: examData.academies.IMA.domicile = "ALL STATES"
  */
 
+import { getCachedDomiciles, loadEligibilityFieldsFromMongo } from '../examDataLoader.js';
+
 // ============================================
-// STANDARD DOMICILE VALUES (All Indian States & UTs)
+// STANDARD DOMICILE VALUES (FROM MONGODB)
 // ============================================
 
-/**
- * All 28 States of India
- */
-export const INDIAN_STATES = [
-    'ANDHRA PRADESH',
-    'ARUNACHAL PRADESH',
-    'ASSAM',
-    'BIHAR',
-    'CHHATTISGARH',
-    'GOA',
-    'GUJARAT',
-    'HARYANA',
-    'HIMACHAL PRADESH',
-    'JHARKHAND',
-    'KARNATAKA',
-    'KERALA',
-    'MADHYA PRADESH',
-    'MAHARASHTRA',
-    'MANIPUR',
-    'MEGHALAYA',
-    'MIZORAM',
-    'NAGALAND',
-    'ODISHA',
-    'PUNJAB',
-    'RAJASTHAN',
-    'SIKKIM',
-    'TAMIL NADU',
-    'TELANGANA',
-    'TRIPURA',
-    'UTTAR PRADESH',
-    'UTTARAKHAND',
-    'WEST BENGAL'
-];
-
-/**
- * All 8 Union Territories of India
- */
-export const UNION_TERRITORIES = [
-    'ANDAMAN AND NICOBAR ISLANDS',
-    'CHANDIGARH',
-    'DADRA AND NAGAR HAVELI AND DAMAN AND DIU',
-    'DELHI',
-    'JAMMU AND KASHMIR',
-    'LADAKH',
-    'LAKSHADWEEP',
-    'PUDUCHERRY'
-];
-
-/**
- * All Indian States and Union Territories combined
- */
-export const ALL_DOMICILES = [...INDIAN_STATES, ...UNION_TERRITORIES];
+export const INDIAN_STATES = [];
+export const UNION_TERRITORIES = [];
+export const ALL_DOMICILES = [];
 
 /**
  * Values that indicate "all domiciles allowed"
@@ -257,7 +210,7 @@ export const checkDomicile = (userDomicile, examDomicileOrData, userNationality 
  * @param {string|Object} examDomicileOrData - Exam's domicile field or division data
  * @returns {string[]} - Array of domicile options for dropdown
  */
-export const getDomicileOptions = (examDomicileOrData) => {
+export const getDomicileOptions = async (examDomicileOrData) => {
     let examDomicile = '';
     
     if (typeof examDomicileOrData === 'object' && examDomicileOrData !== null) {
@@ -266,9 +219,9 @@ export const getDomicileOptions = (examDomicileOrData) => {
         examDomicile = examDomicileOrData || '';
     }
     
-    // If no restriction or "all allowed", return all domiciles
+    // If no restriction or "all allowed", return all domiciles from MongoDB
     if (!examDomicile || examDomicile === '' || isAllDomicilesAllowed(examDomicile)) {
-        return ALL_DOMICILES;
+        return await getAllDomiciles();
     }
     
     // Parse and return only allowed domiciles
@@ -277,13 +230,10 @@ export const getDomicileOptions = (examDomicileOrData) => {
     // If single state (not comma-separated), return just that
     if (allowed.length === 0 && examDomicile) {
         const singleState = normalizeDomicile(examDomicile);
-        if (ALL_DOMICILES.includes(singleState)) {
-            return [singleState];
-        }
+        return [singleState];
     }
     
-    // Return allowed domiciles, filtering to only valid ones
-    return allowed.filter(d => ALL_DOMICILES.includes(d));
+    return allowed;
 };
 
 /**
@@ -328,27 +278,30 @@ export const isDomicileApplicable = (userNationality) => {
 };
 
 /**
- * Get all standard domicile values (states + UTs)
- * @returns {string[]} - Array of all Indian states and UTs
+ * Get all standard domicile values from MongoDB
+ * @returns {Promise<string[]>} - Array of all Indian states and UTs
  */
-export const getAllDomiciles = () => {
-    return [...ALL_DOMICILES];
+export const getAllDomiciles = async () => {
+    const cached = getCachedDomiciles();
+    if (cached && cached.length > 0) return cached;
+    const mongoData = await loadEligibilityFieldsFromMongo();
+    return Array.isArray(mongoData?.domicile) ? mongoData.domicile : [];
 };
 
 /**
- * Get only Indian states
- * @returns {string[]} - Array of 28 Indian states
+ * Get Indian states from MongoDB
+ * @returns {Promise<string[]>}
  */
-export const getIndianStates = () => {
-    return [...INDIAN_STATES];
+export const getIndianStates = async () => {
+    return await getAllDomiciles();
 };
 
 /**
- * Get only Union Territories
- * @returns {string[]} - Array of 8 Union Territories
+ * Get Union Territories from MongoDB
+ * @returns {Promise<string[]>}
  */
-export const getUnionTerritories = () => {
-    return [...UNION_TERRITORIES];
+export const getUnionTerritories = async () => {
+    return await getAllDomiciles();
 };
 
 // ============================================
@@ -356,37 +309,33 @@ export const getUnionTerritories = () => {
 // ============================================
 
 /**
- * Check if a domicile value is valid (exists in standard list)
+ * Check if a domicile value is valid (exists in MongoDB standard list)
  * @param {string} domicile - Domicile to validate
  * @returns {boolean} - True if valid
  */
 export const isValidDomicile = (domicile) => {
     if (!domicile) return false;
     const normalized = normalizeDomicile(domicile);
-    return ALL_DOMICILES.includes(normalized);
+    const cached = getCachedDomiciles();
+    if (cached && cached.length > 0) {
+        return cached.includes(normalized);
+    }
+    return Boolean(normalized);
 };
 
 /**
- * Check if domicile is a state (not UT)
+ * Check if domicile is a state
  * @param {string} domicile - Domicile to check
- * @returns {boolean} - True if it's a state
+ * @returns {boolean}
  */
-export const isState = (domicile) => {
-    if (!domicile) return false;
-    const normalized = normalizeDomicile(domicile);
-    return INDIAN_STATES.includes(normalized);
-};
+export const isState = (domicile) => isValidDomicile(domicile);
 
 /**
  * Check if domicile is a Union Territory
  * @param {string} domicile - Domicile to check
- * @returns {boolean} - True if it's a UT
+ * @returns {boolean}
  */
-export const isUnionTerritory = (domicile) => {
-    if (!domicile) return false;
-    const normalized = normalizeDomicile(domicile);
-    return UNION_TERRITORIES.includes(normalized);
-};
+export const isUnionTerritory = (domicile) => isValidDomicile(domicile);
 
 // ============================================
 // DEFAULT EXPORT

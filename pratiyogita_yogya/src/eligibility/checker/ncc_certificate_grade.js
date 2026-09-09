@@ -18,6 +18,8 @@
  * - Object with certificate keys containing arrays of allowed grades
  */
 
+import { getCachedNccCertificateGrades, loadEligibilityFieldsFromMongo } from '../examDataLoader.js';
+
 /**
  * Normalize value for comparison
  * @param {string} value - Value to normalize
@@ -260,12 +262,9 @@ export const checkNccCertificateGrade = (userNccGrade, examNccGrade, userNccCert
  * @returns {string[]} - Array of allowed grade values
  */
 export const getAllowedGrades = (examNccGrade, userNccCertificate) => {
-    if (isNoRestriction(examNccGrade)) {
-        return ['A', 'B', 'C', 'D'];
-    }
-    
-    if (isAllAccepted(examNccGrade)) {
-        return ['A', 'B', 'C', 'D'];
+    if (isNoRestriction(examNccGrade) || isAllAccepted(examNccGrade)) {
+        const cached = getCachedNccCertificateGrades();
+        return Array.isArray(cached) ? cached : [];
     }
     
     if (isObjectFormat(examNccGrade) && userNccCertificate) {
