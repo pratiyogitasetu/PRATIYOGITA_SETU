@@ -2197,12 +2197,114 @@ def search():
                 "class_filter_used": None,
                 "answer_length_mode": "normal",
                 "provider_used": "greeting_handler",
-                "is_greeting": True
-                ,"intent": intent_label,
+                "is_greeting": True,
+                "intent": intent_label,
                 "decision_path": decision_path,
                 "best_score": 0.0,
                 "request_id": request_id,
                 "elapsed_ms": int((time.time() - start_time) * 1000),
+            }), 200
+
+        # General AI mode (zero subjects selected by user)
+        # Bypass Pinecone NCERT RAG search completely for instant, direct AI generation!
+        is_general_ai = bool(
+            data.get("is_general_ai")
+            or data.get("isGeneralAi")
+            or data.get("general_ai")
+            or (isinstance(data.get("selected_subjects"), list) and len(data.get("selected_subjects")) == 0 and "selected_subjects" in data)
+            or (isinstance(data.get("subjects"), list) and len(data.get("subjects")) == 0 and "subjects" in data)
+            or data.get("subject") == ""
+            or str(data.get("subject", "")).strip().lower() in ("none", "no subject", "general", "general_ai", "general ai")
+        )
+
+        if is_general_ai:
+            decision_path.append("general_ai:direct_fast_response_bypass_ncert")
+            groq_client = search_components.get('client')
+            openai_client = search_components.get('openai_client')
+
+            system_prompt = (
+                "You are an expert educational and competitive examination learning assistant (Pratiyogita Gyan General AI). "
+                "Provide a direct, accurate, comprehensive, and student-friendly answer. "
+                "Use clean markdown formatting with bold terms, bullet points, and well-organized sections. "
+                "Never mention model or provider names (e.g., ChatGPT, OpenAI, Groq). End with a complete sentence."
+            )
+
+            rag_response = None
+            provider_used = "none"
+
+            if groq_client:
+                try:
+                    primary_model = search_components.get('groq_model', os.getenv('GROQ_MODEL_NAME', 'openai/gpt-oss-120b'))
+                    candidate_models = [primary_model] + [
+                        m for m in ['openai/gpt-oss-120b', 'llama-3.3-70b-versatile', 'openai/gpt-oss-20b', 'qwen/qwen3.8-27b']
+                        if m != primary_model
+                    ]
+                    for m in candidate_models:
+                        try:
+                            resp = groq_client.chat.completions.create(
+                                messages=[
+                                    {"role": "system", "content": system_prompt},
+                                    {"role": "user", "content": query}
+                                ],
+                                model=m,
+                                max_tokens=min(llm_max_tokens or 1000, 1400),
+                                temperature=llm_temperature,
+                                top_p=llm_top_p
+                            )
+                            rag_response = (resp.choices[0].message.content or "").strip()
+                            if rag_response:
+                                provider_used = f"groq:{m}"
+                                break
+                        except Exception as ex:
+                            app.logger.warning(f"General AI attempt with {m} failed: {ex}")
+                            continue
+                except Exception as e:
+                    app.logger.warning(f"General AI Groq call failed: {e}")
+
+            if not rag_response and openai_client:
+                try:
+                    resp = openai_client.chat.completions.create(
+                        messages=[
+                            {"role": "system", "content": system_prompt},
+                            {"role": "user", "content": query}
+                        ],
+                        model=search_components.get('openai_model', 'gpt-4o-mini'),
+                        max_tokens=min(llm_max_tokens or 1000, 1400),
+                        temperature=llm_temperature,
+                        top_p=llm_top_p,
+                        timeout=15
+                    )
+                    rag_response = (resp.choices[0].message.content or "").strip()
+                    if rag_response:
+                        provider_used = "openai"
+                except Exception as e:
+                    app.logger.warning(f"General AI OpenAI call failed: {e}")
+
+            if not rag_response:
+                rag_response = "I couldn't process your request right now. Please try again in a few moments."
+
+            elapsed_ms = int((time.time() - start_time) * 1000)
+            app.logger.info(
+                "search_decision request_id=%s intent=general_ai provider=%s elapsed_ms=%s",
+                request_id,
+                provider_used,
+                elapsed_ms
+            )
+
+            return jsonify({
+                "rag_response": rag_response,
+                "sources": [],
+                "mcq_results": [],
+                "query": query,
+                "namespace_used": "none",
+                "class_filter_used": None,
+                "answer_length_mode": resolved_answer_length,
+                "provider_used": provider_used,
+                "is_general_ai": True,
+                "decision_path": decision_path,
+                "best_score": 0.0,
+                "request_id": request_id,
+                "elapsed_ms": elapsed_ms
             }), 200
 
         # Set a timeout for the entire operation

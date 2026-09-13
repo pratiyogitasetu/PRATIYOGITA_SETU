@@ -57,6 +57,9 @@ const EmbeddedSearchBar = ({ onSendMessage, isLoading }) => {
 
   // Multi-select helpers for subjects
   const isSubjectSelected = (subject) => {
+    if (subject === 'General AI (No Subject)') {
+      return selectedSubjects.length === 0
+    }
     if (subject === 'All Subjects') {
       return selectedSubjects.includes('All Subjects')
     }
@@ -64,7 +67,11 @@ const EmbeddedSearchBar = ({ onSendMessage, isLoading }) => {
   }
 
   const handleToggleSubject = (subject) => {
-    const nonAllSubjects = availableSubjects.filter(s => s !== 'All Subjects')
+    if (subject === 'General AI (No Subject)') {
+      setSelectedSubjects([])
+      return
+    }
+    const nonAllSubjects = availableSubjects.filter(s => s !== 'All Subjects' && s !== 'General AI (No Subject)')
     if (subject === 'All Subjects') {
       if (selectedSubjects.includes('All Subjects')) {
         // Deselect all -> General AI mode (0 subjects)
@@ -132,7 +139,9 @@ const EmbeddedSearchBar = ({ onSendMessage, isLoading }) => {
       subject: subjectId,
       subjects: subjectList,
       selectedSubject: subjectId,
-      selectedSubjects: subjectList
+      selectedSubjects: subjectList,
+      is_general_ai: isZeroSubjects,
+      isGeneralAi: isZeroSubjects
     })
     setInputValue('')
     requestAnimationFrame(adjustTextareaHeight)
@@ -182,8 +191,38 @@ const EmbeddedSearchBar = ({ onSendMessage, isLoading }) => {
           </button>
 
           {showDropdown && !isLoadingSubjects && (
-            <div className="absolute bottom-full left-0 mb-1 w-48 rounded-lg shadow-lg border border-gray-200 bg-white z-[60] py-1">
+            <div className="absolute bottom-full left-0 mb-1 w-52 rounded-lg shadow-lg border border-gray-200 bg-white z-[60] py-1">
               <div className="max-h-52 overflow-y-auto">
+                {/* Dedicated General AI Option */}
+                <button
+                  type="button"
+                  onClick={() => handleToggleSubject('General AI (No Subject)')}
+                  className="w-full flex items-center space-x-2 px-3 py-1.5 text-xs hover:bg-gray-50 transition-colors text-left"
+                  style={{
+                    backgroundColor: isSubjectSelected('General AI (No Subject)') ? 'rgba(228, 87, 46, 0.08)' : 'transparent'
+                  }}
+                >
+                  <div
+                    className={`w-3.5 h-3.5 rounded flex items-center justify-center border transition-all flex-shrink-0 ${
+                      isSubjectSelected('General AI (No Subject)')
+                        ? 'bg-[#E4572E] border-[#E4572E] text-white'
+                        : 'border-gray-300 bg-white'
+                    }`}
+                  >
+                    {isSubjectSelected('General AI (No Subject)') && <Check className="w-2.5 h-2.5 stroke-[3]" />}
+                  </div>
+                  <span
+                    className="truncate text-xs font-semibold"
+                    style={{
+                      color: isSubjectSelected('General AI (No Subject)') ? '#E4572E' : '#1F2933'
+                    }}
+                  >
+                    General AI (No Subject)
+                  </span>
+                </button>
+
+                <div className="my-1 border-t border-gray-100" />
+
                 {availableSubjects.map((subject, index) => {
                   const isChecked = isSubjectSelected(subject)
                   return (

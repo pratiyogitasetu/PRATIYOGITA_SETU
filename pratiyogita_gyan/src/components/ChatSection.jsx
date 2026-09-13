@@ -1105,8 +1105,15 @@ const ChatSection = () => {
     setIsLoading(true)
 
     // Extract search options with defaults
-    const selectedSubject = searchOptions.subject || searchOptions.selectedSubject || 'all'
-    const selectedSubjects = searchOptions.subjects || searchOptions.selectedSubjects || (Array.isArray(searchOptions.subject) ? searchOptions.subject : null)
+    const isGeneralAi = Boolean(
+      searchOptions.is_general_ai ||
+      searchOptions.isGeneralAi ||
+      searchOptions.general_ai ||
+      searchOptions.subject === '' ||
+      (Array.isArray(searchOptions.subjects) && searchOptions.subjects.length === 0)
+    )
+    const selectedSubject = isGeneralAi ? '' : (searchOptions.subject ?? searchOptions.selectedSubject ?? 'all')
+    const selectedSubjects = isGeneralAi ? [] : (searchOptions.subjects ?? searchOptions.selectedSubjects ?? (Array.isArray(searchOptions.subject) ? searchOptions.subject : null))
     const selectedClass = searchOptions.selectedClass || null
     const selectedClasses = searchOptions.selectedClasses || searchOptions.classes || null
     const answerLength = searchOptions.answerLength || 'normal'
@@ -1147,7 +1154,7 @@ const ChatSection = () => {
     // Immediately track question asked for Dashboard stats
     try {
       trackInteraction('question', {
-        subject: selectedSubject || 'Others',
+        subject: selectedSubject || 'General AI',
         query: query
       })
     } catch (trackErr) {
@@ -1186,29 +1193,32 @@ const ChatSection = () => {
     currentQueryPyqsRef.current = []
 
     // ⚡ INSTANT PARALLEL PYQ SEARCH:
-    // Query Pinecone immediately in parallel so questions appear instantly without waiting for chat LLM!
-    apiService.fastMatchPyq(query, SEARCH_SETTINGS.mcqThreshold, SEARCH_SETTINGS.mcqLimit)
-      .then(fastRes => {
-        if (fastRes && Array.isArray(fastRes.mcqs) && fastRes.mcqs.length > 0) {
-          const taggedFastMcqs = fastRes.mcqs.map(q => ({
-            ...q,
-            originatingQuery: query
-          }))
-          currentQueryPyqsRef.current = taggedFastMcqs
-          window.dispatchEvent(new CustomEvent('newMcqResults', {
-            detail: {
-              mcqs: taggedFastMcqs,
-              query: query
-            }
-          }))
-        }
-      })
-      .catch(err => console.warn('Instant PYQ search notice:', err))
+    // Only query Pinecone if NOT in General AI mode
+    if (!isGeneralAi) {
+      apiService.fastMatchPyq(query, SEARCH_SETTINGS.mcqThreshold, SEARCH_SETTINGS.mcqLimit)
+        .then(fastRes => {
+          if (fastRes && Array.isArray(fastRes.mcqs) && fastRes.mcqs.length > 0) {
+            const taggedFastMcqs = fastRes.mcqs.map(q => ({
+              ...q,
+              originatingQuery: query
+            }))
+            currentQueryPyqsRef.current = taggedFastMcqs
+            window.dispatchEvent(new CustomEvent('newMcqResults', {
+              detail: {
+                mcqs: taggedFastMcqs,
+                query: query
+              }
+            }))
+          }
+        })
+        .catch(err => console.warn('Instant PYQ search notice:', err))
+    }
 
     try {
       const response = await apiService.search(query, {
         subject: selectedSubject,
         subjects: selectedSubjects,
+        is_general_ai: isGeneralAi,
         n_results: SEARCH_SETTINGS.nResults,
         namespace: '',  // Keep empty for backend to use all namespaces
         selected_class: selectedClass,

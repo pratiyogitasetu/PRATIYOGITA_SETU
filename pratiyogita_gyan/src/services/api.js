@@ -103,7 +103,8 @@ class ApiService {
       answer_length = 'normal',
       mcq_threshold,
       mcq_limit,
-      answer_settings
+      answer_settings,
+      is_general_ai
     } = options;
 
     try {
@@ -114,7 +115,8 @@ class ApiService {
           n_results,
           namespace,
           subject,
-          ...(subjects ? { subjects } : {}),
+          ...(subjects !== undefined ? { subjects } : {}),
+          ...(is_general_ai !== undefined ? { is_general_ai } : {}),
           ...(selected_class ? { selected_class } : {}),
           ...(selected_classes ? { selected_classes } : {}),
           ...(classes ? { classes } : {}),
