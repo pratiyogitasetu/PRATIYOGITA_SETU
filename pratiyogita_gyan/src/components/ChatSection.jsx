@@ -399,24 +399,6 @@ const ChatMessageBubble = memo(({
               </ReactMarkdown>
             </Box>
 
-            {/* Copy button for user message */}
-            {message.type === 'user' && (
-              <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 0.5 }}>
-                <IconButton
-                  onClick={handleCopy}
-                  size="small"
-                  title={copied ? 'Copied!' : 'Copy question'}
-                  sx={{
-                    p: 0.35,
-                    color: '#6b7280',
-                    '&:hover': { color: '#111827', backgroundColor: 'rgba(0,0,0,0.06)' }
-                  }}
-                >
-                  {copied ? <Check size={13} className="text-emerald-600" /> : <Copy size={13} />}
-                </IconButton>
-              </Box>
-            )}
-
             {/* Sources Section - Only for bot messages with sources */}
             {message.type === 'bot' && message.sources && message.sources.length > 0 && (
               <Box sx={{ mt: 1.5, pt: 1.5, borderTop: '1px solid #e0e0e0', width: '100%', minWidth: 0, boxSizing: 'border-box' }}>
@@ -605,34 +587,52 @@ const ChatMessageBubble = memo(({
                 Error processing request
               </Typography>
             )}
-
-            {/* Action Bar with Copy for Bot Response */}
-            {message.type === 'bot' && !message.isLoading && !message.error && message.content && (
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', mt: 1, pt: 0.75, borderTop: '1px solid #f0f0f0' }}>
-                <Button
-                  onClick={handleCopy}
-                  size="small"
-                  variant="text"
-                  sx={{
-                    minWidth: 0,
-                    py: 0.2,
-                    px: 0.8,
-                    fontSize: '0.68rem',
-                    color: copied ? '#059669' : '#6b7280',
-                    textTransform: 'none',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 0.5,
-                    borderRadius: 1,
-                    '&:hover': { color: '#111827', backgroundColor: 'rgba(0,0,0,0.04)' }
-                  }}
-                >
-                  {copied ? <Check size={12} className="text-emerald-600" /> : <Copy size={12} />}
-                  <span>{copied ? 'Copied' : 'Copy response'}</span>
-                </Button>
-              </Box>
-            )}
           </Paper>
+        )}
+
+        {/* Copy button underneath user question text box */}
+        {message.type === 'user' && (
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 0.35, pr: 0.5 }}>
+            <IconButton
+              onClick={handleCopy}
+              size="small"
+              title={copied ? 'Copied!' : 'Copy question'}
+              sx={{
+                p: 0.35,
+                color: copied ? '#059669' : '#9ca3af',
+                '&:hover': { color: '#374151', backgroundColor: 'rgba(0,0,0,0.04)' }
+              }}
+            >
+              {copied ? <Check size={12} className="text-emerald-600" /> : <Copy size={12} />}
+            </IconButton>
+          </Box>
+        )}
+
+        {/* Copy button underneath bot response text box */}
+        {message.type === 'bot' && !message.isLoading && !message.error && message.content && (
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', mt: 0.35, pl: 0.5 }}>
+            <Button
+              onClick={handleCopy}
+              size="small"
+              variant="text"
+              sx={{
+                minWidth: 0,
+                py: 0.15,
+                px: 0.6,
+                fontSize: '0.68rem',
+                color: copied ? '#059669' : '#6b7280',
+                textTransform: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 0.5,
+                borderRadius: 1,
+                '&:hover': { color: '#111827', backgroundColor: 'rgba(0,0,0,0.04)' }
+              }}
+            >
+              {copied ? <Check size={12} className="text-emerald-600" /> : <Copy size={12} />}
+              <span>{copied ? 'Copied' : 'Copy'}</span>
+            </Button>
+          </Box>
         )}
       </Box>
     </Box>

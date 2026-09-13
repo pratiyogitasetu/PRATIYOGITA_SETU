@@ -106,25 +106,15 @@ const ALL_15_EXAMS = [
   { title: 'Delhi Judicial Service', icon: '⚖️', bg: 'rgba(100,116,139,0.06)', border: '#cbd5e1' }
 ]
 
-const QUICK_PRACTICE_POOL = [
+const DEFAULT_PRACTICE_TOPICS = [
   'Fundamental Rights (Articles 12-35)',
   'Indian Monetary Policy & Inflation',
   'Indian Monsoon & Drainage System',
   '1857 Revolt & Freedom Struggle',
   'ISRO Space Missions & Satellites',
   'National Parks & Ramsar Sites',
-  'Preamble & Constitutional Amendments',
-  'Buddhism & Jainism Doctrines',
-  'Mughal Administration & Revenue System',
-  'Plate Tectonics & Earthquake Belts',
   'Fiscal Deficit & GST Council',
-  'Defense Exercises & Missiles (Agni/BrahMos)',
-  'Fundamental Duties & DPSP (Part IV)',
-  'Atmospheric Layers & Cyclones',
-  'Harappan Civilization & Vedic Age',
-  'Supreme Court & Judicial Review',
-  'CRPF, BSF, ITBP Border Security',
-  'Carbon Cycle & Climate Change Protocols'
+  'Plate Tectonics & Earthquake Belts'
 ]
 
 const PYQSection = () => {
@@ -160,7 +150,8 @@ const PYQSection = () => {
   const [filteredQuestions, setFilteredQuestions] = useState([])
   const [userAnswers, setUserAnswers] = useState({}) // Track user selections for each question (persistent)
   const [sessionAnswers, setSessionAnswers] = useState({}) // Track user selections in CURRENT search session (for clean top progress bar)
-  const [quickPracticeTopics, setQuickPracticeTopics] = useState(QUICK_PRACTICE_POOL.slice(0, 6))
+  const [quickPracticeTopics, setQuickPracticeTopics] = useState(DEFAULT_PRACTICE_TOPICS)
+  const [isLoadingTopics, setIsLoadingTopics] = useState(false)
   const [expandedExplanations, setExpandedExplanations] = useState({}) // Track expanded explanations
   const [previewImage, setPreviewImage] = useState(null) // Track full-screen image preview lightbox
   const [expandedQueries, setExpandedQueries] = useState({})
@@ -178,10 +169,25 @@ const PYQSection = () => {
   const isSubtopicMenuOpen = Boolean(subtopicAnchorEl)
   const isQuestionTypeMenuOpen = Boolean(questionTypeAnchorEl)
 
-  const rotateQuickPractice = () => {
-    const shuffled = [...QUICK_PRACTICE_POOL].sort(() => Math.random() - 0.5)
-    setQuickPracticeTopics(shuffled.slice(0, 6))
-  }
+  // Fetch dynamic AI-generated quick practice topics using AI API on mount
+  useEffect(() => {
+    let isMounted = true
+    const fetchAiTopics = async () => {
+      try {
+        setIsLoadingTopics(true)
+        const topics = await apiService.getQuickTopics()
+        if (isMounted && Array.isArray(topics) && topics.length > 0) {
+          setQuickPracticeTopics(topics)
+        }
+      } catch (err) {
+        console.warn('Could not fetch AI quick topics:', err)
+      } finally {
+        if (isMounted) setIsLoadingTopics(false)
+      }
+    }
+    fetchAiTopics()
+    return () => { isMounted = false }
+  }, [])
 
   const lastScrolledQueryRef = useRef('')
 
@@ -1921,30 +1927,18 @@ const PYQSection = () => {
                         </div>
                       </Box>
 
-                      {/* Quick Practice Prompts with Rotate/Shuffle button */}
+                      {/* AI-Generated Quick Practice Prompts */}
                       <Box sx={{ mb: 0.5 }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 0.75 }}>
                           <Typography variant="caption" sx={{ fontWeight: 700, color: '#4b5563', display: 'flex', alignItems: 'center', gap: 0.75, fontSize: '0.72rem' }}>
                             <Sparkles size={13} color="#fbbf24" />
-                            <span>Quick Practice (Click to Search)</span>
+                            <span>AI Practice Topics (Click to Search)</span>
                           </Typography>
-                          <Button
-                            size="small"
-                            variant="text"
-                            onClick={rotateQuickPractice}
-                            startIcon={<RefreshCw size={11} />}
-                            sx={{
-                              fontSize: '0.68rem',
-                              textTransform: 'none',
-                              py: 0.1,
-                              px: 0.6,
-                              color: '#E4572E',
-                              fontWeight: 600,
-                              '&:hover': { backgroundColor: 'rgba(228,87,46,0.08)' }
-                            }}
-                          >
-                            Rotate
-                          </Button>
+                          {isLoadingTopics && (
+                            <Typography variant="caption" sx={{ fontSize: '0.64rem', color: '#9ca3af', fontStyle: 'italic' }}>
+                              AI generating fresh topics...
+                            </Typography>
+                          )}
                         </Box>
                         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 0.75 }}>
                           {quickPracticeTopics.map((topic, idx) => (

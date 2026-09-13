@@ -4453,6 +4453,60 @@ def get_paper_questions():
         return jsonify({'status': 'error', 'questions': [], 'error': str(e)}), 500
 
 
+@app.route("/api/pyq/quick-topics", methods=["GET", "POST"])
+def get_ai_quick_topics():
+    """Dynamically generate fresh quick practice topics using Groq AI API key."""
+    fallback_topics = [
+        "Fundamental Rights & Writs",
+        "Indus Valley Civilization & Harappa",
+        "Monsoon Mechanism & Western Disturbances",
+        "Fiscal Deficit & Monetary Policy",
+        "National Parks & Ramsar Sites",
+        "Buddhism & Jainism Councils",
+        "Plate Tectonics & Earthquake Belts",
+        "ISRO Space Missions & Launch Vehicles"
+    ]
+    
+    groq_client = search_components.get('client')
+    if not groq_client:
+        return jsonify({"status": "success", "topics": fallback_topics}), 200
+
+    try:
+        model = search_components.get('groq_model', os.getenv('GROQ_MODEL_NAME', 'openai/gpt-oss-120b'))
+        prompt = (
+            "Generate exactly 8 distinct, diverse, and high-yield question practice topic prompts "
+            "for Indian competitive examinations (UPSC, CDS, NDA, SSC CGL, State PSC, CAPF, Railway).\n"
+            "Include varied subjects: Indian Polity, Modern Indian History, Physical/Indian Geography, Economy, Science & Tech, Defence, Environment.\n"
+            "Rules:\n"
+            "1. Each topic must be concise, punchy, and 2 to 5 words (e.g. 'Preamble & Basic Structure', 'Ramsar Wetlands in India').\n"
+            "2. Respond with ONLY a valid JSON array of 8 strings. Do not include markdown ticks, explanation, or code blocks.\n"
+            "Example: [\"Topic 1\", \"Topic 2\", \"Topic 3\", \"Topic 4\", \"Topic 5\", \"Topic 6\", \"Topic 7\", \"Topic 8\"]"
+        )
+        response = groq_client.chat.completions.create(
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant that outputs only valid raw JSON arrays of strings."},
+                {"role": "user", "content": prompt}
+            ],
+            model=model,
+            temperature=0.85,
+            max_tokens=220,
+        )
+        content = (response.choices[0].message.content or "").strip()
+        if content.startswith("```"):
+            content = re.sub(r"^```(?:json)?\s*", "", content)
+            content = re.sub(r"\s*```$", "", content)
+        
+        parsed = json.loads(content)
+        if isinstance(parsed, list) and len(parsed) >= 4:
+            clean_topics = [str(t).strip() for t in parsed if str(t).strip()][:8]
+            if len(clean_topics) >= 4:
+                return jsonify({"status": "success", "topics": clean_topics}), 200
+    except Exception as e:
+        app.logger.warning(f"AI quick-topics generation error: {e}")
+    
+    return jsonify({"status": "success", "topics": fallback_topics}), 200
+
+
 @app.route("/api/pyq/explain", methods=["POST"])
 @rate_limit(max_requests=40, window_seconds=60)
 def generate_pyq_explanation():

@@ -591,6 +591,19 @@ class ApiService {
       return { status: 'error', questions: [], total: 0 };
     }
   }
+
+  /**
+   * Get fresh AI-generated quick practice topics
+   */
+  async getQuickTopics() {
+    try {
+      const res = await this.request('/pyq/quick-topics');
+      return res?.topics || [];
+    } catch (error) {
+      console.warn('Failed to fetch AI quick topics:', error);
+      return [];
+    }
+  }
 }
 
 // Export a singleton instance
