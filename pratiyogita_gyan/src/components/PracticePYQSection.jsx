@@ -20,9 +20,9 @@ import {
   Eye,
   Check,
   Calendar,
-  Layers,
   ArrowLeft,
-  Search
+  Search,
+  AlertCircle
 } from 'lucide-react'
 import {
   Box,
@@ -966,13 +966,99 @@ const PracticePYQSection = () => {
                       </button>
                     </div>
 
-                    {/* Question Statement */}
-                    <div className="text-xs sm:text-sm font-semibold text-gray-900 leading-relaxed mb-3">
+                    {/* Negative Interrogative Warning Banner */}
+                    {currentQuestion.is_negative && (
+                      <div className="mb-2 px-2.5 py-1 bg-amber-50 border border-amber-200 rounded-md text-[11px] font-semibold text-amber-800 flex items-center gap-1.5 shadow-2xs">
+                        <AlertCircle className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                        <span>Attention: This question asks which statement/pair is <u>NOT</u> correct or <u>INCORRECT</u>.</span>
+                      </div>
+                    )}
+
+                    {/* Question Statement / Premise */}
+                    <div className="text-xs sm:text-sm font-semibold text-gray-900 leading-relaxed mb-2.5">
                       <span className="text-[#E4572E] font-extrabold mr-1">
                         Q{currentIndex + 1}.
                       </span>
                       {currentQuestion.question}
                     </div>
+
+                    {/* Multi-Statement Question Cards */}
+                    {Array.isArray(currentQuestion.statements) && currentQuestion.statements.length > 0 && (
+                      <div className="space-y-1.5 mb-2.5 bg-gray-50/90 p-2 sm:p-2.5 rounded-lg border border-gray-200">
+                        {currentQuestion.statements.map((stmt, sIdx) => {
+                          const matchNum = stmt.match(/^(\d+|[I|V|X]+)\.\s*(.*)/)
+                          const numLabel = matchNum ? matchNum[1] : String(sIdx + 1)
+                          const textContent = matchNum ? matchNum[2] : stmt
+
+                          return (
+                            <div key={sIdx} className="flex items-start gap-2 bg-white px-2.5 py-1.5 rounded border border-gray-200 shadow-2xs">
+                              <span className="px-1.5 py-0.5 text-[10px] font-extrabold bg-orange-100 text-[#E4572E] rounded shrink-0">
+                                {numLabel}
+                              </span>
+                              <span className="text-xs text-gray-800 leading-snug">
+                                {textContent}
+                              </span>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    )}
+
+                    {/* Match List Question Comparison Table */}
+                    {currentQuestion.match_data && (
+                      <div className="mb-3 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-2xs">
+                        <div className="grid grid-cols-2 divide-x divide-gray-200 bg-gray-50/90 text-xs font-bold text-gray-700 border-b border-gray-200">
+                          <div className="p-2 truncate">{currentQuestion.match_data.list_1_title || 'List-I'}</div>
+                          <div className="p-2 truncate">{currentQuestion.match_data.list_2_title || 'List-II'}</div>
+                        </div>
+                        <div className="grid grid-cols-2 divide-x divide-gray-200 text-xs">
+                          {/* List 1 items */}
+                          <div className="p-2 space-y-1.5">
+                            {(currentQuestion.match_data.list_1 || []).map((item, idx) => (
+                              <div key={idx} className="flex items-start gap-1.5 leading-snug text-gray-800">
+                                <span className="font-bold text-[#E4572E] shrink-0">
+                                  {item.match(/^[A-E]\./) ? '' : `${['A','B','C','D','E'][idx]}. `}
+                                </span>
+                                <span>{item}</span>
+                              </div>
+                            ))}
+                          </div>
+                          {/* List 2 items */}
+                          <div className="p-2 space-y-1.5">
+                            {(currentQuestion.match_data.list_2 || []).map((item, idx) => (
+                              <div key={idx} className="flex items-start gap-1.5 leading-snug text-gray-800">
+                                <span className="font-bold text-indigo-600 shrink-0">
+                                  {item.match(/^[1-9]\./) ? '' : `${idx + 1}. `}
+                                </span>
+                                <span>{item}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Assertion & Reason Question Cards */}
+                    {currentQuestion.assertion_reason && (
+                      <div className="space-y-1.5 mb-2.5 bg-gray-50/90 p-2 sm:p-2.5 rounded-lg border border-gray-200">
+                        <div className="bg-white p-2 rounded border border-gray-200 shadow-2xs text-xs text-gray-800">
+                          <span className="font-bold text-indigo-700 mr-1.5">Assertion (A):</span>
+                          {currentQuestion.assertion_reason.assertion}
+                        </div>
+                        <div className="bg-white p-2 rounded border border-gray-200 shadow-2xs text-xs text-gray-800">
+                          <span className="font-bold text-emerald-700 mr-1.5">Reason (R):</span>
+                          {currentQuestion.assertion_reason.reason}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Directive / Prompt (e.g. Which of the statements given above is/are correct?) */}
+                    {currentQuestion.directive && (
+                      <div className="text-[11px] sm:text-xs font-bold text-gray-700 italic mb-2.5 px-1 flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#E4572E]"></span>
+                        <span>{currentQuestion.directive}</span>
+                      </div>
+                    )}
 
                     {/* Options & Image Container: Side-by-Side Flex Layout */}
                     <div className="flex flex-row items-start gap-3 w-full mb-2.5">

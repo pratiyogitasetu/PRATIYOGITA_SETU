@@ -70,7 +70,13 @@ const buildStarredQuestionPayload = (question, questionId) => ({
   img: question?.img || question?.image_url || question?.metadata?.img || question?.metadata?.image_url || '',
   metadata: question?.metadata || {},
   source: question?.source || '',
-  score: question?.score ?? null
+  score: question?.score ?? null,
+  question_type: question?.question_type || question?.metadata?.question_type || 'single_choice',
+  directive: question?.directive || question?.metadata?.directive || '',
+  statements: question?.statements || question?.metadata?.statements || [],
+  match_data: question?.match_data || question?.metadata?.match_data || null,
+  assertion_reason: question?.assertion_reason || question?.metadata?.assertion_reason || null,
+  is_negative: question?.is_negative || question?.metadata?.is_negative || false
 })
 
 const PYQSection = () => {
@@ -1880,6 +1886,209 @@ const PYQSection = () => {
                                               )}
                                             </Stack>
                                           </Box>
+
+                                          {/* Negative Interrogative Indicator */}
+                                          {Boolean(question.is_negative || question.metadata?.is_negative) && (
+                                            <Box
+                                              sx={{
+                                                display: 'inline-flex',
+                                                alignItems: 'center',
+                                                gap: 0.5,
+                                                mb: 1,
+                                                px: 0.8,
+                                                py: 0.3,
+                                                borderRadius: 1,
+                                                backgroundColor: 'rgba(239, 68, 68, 0.12)',
+                                                border: '1px solid rgba(239, 68, 68, 0.3)',
+                                                color: '#dc2626',
+                                                fontSize: '0.62rem',
+                                                fontWeight: 800,
+                                                letterSpacing: '0.03em',
+                                                textTransform: 'uppercase'
+                                              }}
+                                            >
+                                              ⚠️ Negative Question (Look for NOT / INCORRECT)
+                                            </Box>
+                                          )}
+
+                                          {/* Multi-Statement Question Cards */}
+                                          {(() => {
+                                            const stmts = question.statements || question.metadata?.statements;
+                                            if (!Array.isArray(stmts) || stmts.length === 0) return null;
+
+                                            return (
+                                              <Box sx={{ mb: 1.25, p: 0.85, borderRadius: 1.5, backgroundColor: isDarkMode ? '#1e293b' : '#f8fafc', border: '1px solid', borderColor: isDarkMode ? '#334155' : '#e2e8f0' }}>
+                                                <Stack spacing={0.65}>
+                                                  {stmts.map((stmt, sIdx) => {
+                                                    const matchNum = typeof stmt === 'string' ? stmt.match(/^(\d+|[I|V|X]+)\.\s*(.*)/) : null;
+                                                    const numLabel = matchNum ? matchNum[1] : String(sIdx + 1);
+                                                    const textContent = matchNum ? matchNum[2] : stmt;
+
+                                                    return (
+                                                      <Box
+                                                        key={sIdx}
+                                                        sx={{
+                                                          display: 'flex',
+                                                          alignItems: 'flex-start',
+                                                          gap: 0.85,
+                                                          p: 0.7,
+                                                          borderRadius: 1,
+                                                          backgroundColor: isDarkMode ? '#0f172a' : '#ffffff',
+                                                          border: '1px solid',
+                                                          borderColor: isDarkMode ? '#334155' : '#e5e7eb'
+                                                        }}
+                                                      >
+                                                        <Box
+                                                          sx={{
+                                                            px: 0.7,
+                                                            py: 0.2,
+                                                            fontSize: '0.65rem',
+                                                            fontWeight: 800,
+                                                            borderRadius: 0.75,
+                                                            backgroundColor: 'rgba(228, 87, 46, 0.15)',
+                                                            color: '#E4572E',
+                                                            flexShrink: 0
+                                                          }}
+                                                        >
+                                                          {numLabel}
+                                                        </Box>
+                                                        <Typography variant="body2" sx={{ fontSize: '0.72rem', color: isDarkMode ? '#d1d5db' : '#374151', lineHeight: 1.4 }}>
+                                                          {textContent}
+                                                        </Typography>
+                                                      </Box>
+                                                    );
+                                                  })}
+                                                </Stack>
+                                              </Box>
+                                            );
+                                          })()}
+
+                                          {/* Match List Question Comparison Table */}
+                                          {(() => {
+                                            const matchData = question.match_data || question.metadata?.match_data;
+                                            if (!matchData || (!matchData.list_1 && !matchData.list_2)) return null;
+
+                                            return (
+                                              <Box
+                                                sx={{
+                                                  mb: 1.25,
+                                                  borderRadius: 1.5,
+                                                  overflow: 'hidden',
+                                                  border: '1px solid',
+                                                  borderColor: isDarkMode ? '#334155' : '#e2e8f0',
+                                                  backgroundColor: isDarkMode ? '#0f172a' : '#ffffff'
+                                                }}
+                                              >
+                                                <Box
+                                                  sx={{
+                                                    display: 'grid',
+                                                    gridTemplateColumns: '1fr 1fr',
+                                                    backgroundColor: isDarkMode ? '#1e293b' : '#f8fafc',
+                                                    borderBottom: '1px solid',
+                                                    borderColor: isDarkMode ? '#334155' : '#e2e8f0',
+                                                    py: 0.6,
+                                                    px: 1,
+                                                    fontWeight: 700,
+                                                    fontSize: '0.68rem',
+                                                    color: isDarkMode ? '#94a3b8' : '#475569'
+                                                  }}
+                                                >
+                                                  <Box sx={{ pr: 1, borderRight: '1px solid', borderColor: isDarkMode ? '#334155' : '#e2e8f0', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                                    {matchData.list_1_title || 'List-I'}
+                                                  </Box>
+                                                  <Box sx={{ pl: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                                    {matchData.list_2_title || 'List-II'}
+                                                  </Box>
+                                                </Box>
+
+                                                <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
+                                                  {/* List 1 items */}
+                                                  <Box sx={{ p: 1, pr: 1, borderRight: '1px solid', borderColor: isDarkMode ? '#334155' : '#e2e8f0' }}>
+                                                    <Stack spacing={0.6}>
+                                                      {(matchData.list_1 || []).map((item, idx) => (
+                                                        <Box key={idx} sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.6 }}>
+                                                          <Typography component="span" sx={{ fontWeight: 700, color: '#E4572E', fontSize: '0.68rem', flexShrink: 0 }}>
+                                                            {item.match(/^[A-E]\./) ? '' : `${['A','B','C','D','E'][idx]}. `}
+                                                          </Typography>
+                                                          <Typography variant="body2" sx={{ fontSize: '0.7rem', color: isDarkMode ? '#d1d5db' : '#374151', lineHeight: 1.35 }}>
+                                                            {item}
+                                                          </Typography>
+                                                        </Box>
+                                                      ))}
+                                                    </Stack>
+                                                  </Box>
+
+                                                  {/* List 2 items */}
+                                                  <Box sx={{ p: 1, pl: 1 }}>
+                                                    <Stack spacing={0.6}>
+                                                      {(matchData.list_2 || []).map((item, idx) => (
+                                                        <Box key={idx} sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.6 }}>
+                                                          <Typography component="span" sx={{ fontWeight: 700, color: '#6366f1', fontSize: '0.68rem', flexShrink: 0 }}>
+                                                            {item.match(/^[1-9]\./) ? '' : `${idx + 1}. `}
+                                                          </Typography>
+                                                          <Typography variant="body2" sx={{ fontSize: '0.7rem', color: isDarkMode ? '#d1d5db' : '#374151', lineHeight: 1.35 }}>
+                                                            {item}
+                                                          </Typography>
+                                                        </Box>
+                                                      ))}
+                                                    </Stack>
+                                                  </Box>
+                                                </Box>
+                                              </Box>
+                                            );
+                                          })()}
+
+                                          {/* Assertion & Reason Question Cards */}
+                                          {(() => {
+                                            const arData = question.assertion_reason || question.metadata?.assertion_reason;
+                                            if (!arData || (!arData.assertion && !arData.reason)) return null;
+
+                                            return (
+                                              <Box sx={{ mb: 1.25, p: 0.75, borderRadius: 1.5, backgroundColor: isDarkMode ? '#1e293b' : '#f8fafc', border: '1px solid', borderColor: isDarkMode ? '#334155' : '#e2e8f0' }}>
+                                                <Stack spacing={0.5}>
+                                                  <Box sx={{ p: 0.75, borderRadius: 1, backgroundColor: isDarkMode ? '#0f172a' : '#ffffff', border: '1px solid', borderColor: isDarkMode ? '#334155' : '#e5e7eb' }}>
+                                                    <Typography component="span" sx={{ fontWeight: 700, color: '#6366f1', mr: 0.5, fontSize: '0.68rem' }}>
+                                                      Assertion (A):
+                                                    </Typography>
+                                                    <Typography component="span" sx={{ fontSize: '0.7rem', color: isDarkMode ? '#d1d5db' : '#374151' }}>
+                                                      {arData.assertion}
+                                                    </Typography>
+                                                  </Box>
+                                                  <Box sx={{ p: 0.75, borderRadius: 1, backgroundColor: isDarkMode ? '#0f172a' : '#ffffff', border: '1px solid', borderColor: isDarkMode ? '#334155' : '#e5e7eb' }}>
+                                                    <Typography component="span" sx={{ fontWeight: 700, color: '#10b981', mr: 0.5, fontSize: '0.68rem' }}>
+                                                      Reason (R):
+                                                    </Typography>
+                                                    <Typography component="span" sx={{ fontSize: '0.7rem', color: isDarkMode ? '#d1d5db' : '#374151' }}>
+                                                      {arData.reason}
+                                                    </Typography>
+                                                  </Box>
+                                                </Stack>
+                                              </Box>
+                                            );
+                                          })()}
+
+                                          {/* Directive / Prompt (e.g. Which of the statements given above is/are correct?) */}
+                                          {(() => {
+                                            const directive = question.directive || question.metadata?.directive;
+                                            if (!directive) return null;
+
+                                            return (
+                                              <Box
+                                                sx={{
+                                                  mb: 1,
+                                                  px: 1,
+                                                  py: 0.5,
+                                                  borderRadius: 1,
+                                                  backgroundColor: isDarkMode ? 'rgba(245, 158, 11, 0.1)' : 'rgba(245, 158, 11, 0.08)',
+                                                  borderLeft: '3px solid #f59e0b'
+                                                }}
+                                              >
+                                                <Typography variant="body2" sx={{ fontSize: '0.68rem', fontStyle: 'italic', fontWeight: 600, color: isDarkMode ? '#fbbf24' : '#b45309' }}>
+                                                  {directive}
+                                                </Typography>
+                                              </Box>
+                                            );
+                                          })()}
 
                                           {/* Options and Image Layout (Options on Left, Image on Right) */}
                                           {(() => {

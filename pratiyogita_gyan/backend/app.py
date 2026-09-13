@@ -3368,6 +3368,13 @@ def query_mcq(mcq_index, mcq_model, query_text, similarity_threshold=0.2, top_k=
                 },
                 'explanation': explanation,
                 'topic': full_question_data.get('topic', metadata.get('topic', '')),
+                'question_type': full_question_data.get('question_type', metadata.get('question_type', 'single_choice')),
+                'directive': full_question_data.get('directive', metadata.get('directive', '')),
+                'statements': full_question_data.get('statements', []),
+                'match_data': full_question_data.get('match_data'),
+                'assertion_reason': full_question_data.get('assertion_reason'),
+                'is_negative': full_question_data.get('is_negative', metadata.get('is_negative', False)),
+                'passage': full_question_data.get('passage', ''),
                 'similarity': round(result['score'], 3)
             })
         
@@ -3777,7 +3784,36 @@ def _fetch_pyq_questions(query='', exam_filter=None, subject_filter=None, year_f
                     'namespace': namespace,
                     'img': img_val,
                     'image_url': img_val,
-                    'score': match.get('score', 0)
+                    'score': match.get('score', 0),
+                    'question_type': full_data.get('question_type', metadata.get('question_type', 'single_choice')),
+                    'directive': full_data.get('directive', metadata.get('directive', '')),
+                    'statements': full_data.get('statements', []),
+                    'match_data': full_data.get('match_data'),
+                    'assertion_reason': full_data.get('assertion_reason'),
+                    'is_negative': full_data.get('is_negative', metadata.get('is_negative', False)),
+                    'passage': full_data.get('passage', ''),
+                    'subtopic': full_data.get('subtopic', ''),
+                    'difficulty': full_data.get('difficulty', 'medium'),
+                    'keywords': full_data.get('keywords', []),
+                    'sector': full_data.get('sector', ''),
+                    'source_url': full_data.get('source_url', ''),
+                    'metadata': {
+                        'exam_name': exam_name,
+                        'exam_term': exam_term,
+                        'exam_year': exam_year,
+                        'subject': subject,
+                        'exam': exam_name,
+                        'term': exam_term,
+                        'year': exam_year,
+                        'img': img_val,
+                        'image_url': img_val,
+                        'question_type': full_data.get('question_type', metadata.get('question_type', 'single_choice')),
+                        'directive': full_data.get('directive', metadata.get('directive', '')),
+                        'statements': full_data.get('statements', []),
+                        'match_data': full_data.get('match_data'),
+                        'assertion_reason': full_data.get('assertion_reason'),
+                        'is_negative': full_data.get('is_negative', metadata.get('is_negative', False))
+                    }
                 }
                 all_questions.append(question_obj)
                 
@@ -4137,44 +4173,6 @@ def get_available_pyq_papers():
             }
         ]
 
-        # Dynamically scan DATA/pyq/*.json so any newly added exam/year automatically appears in catalog
-        try:
-            pyq_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'DATA', 'pyq')
-            if not os.path.exists(pyq_dir):
-                pyq_dir = os.path.join(os.getcwd(), 'DATA', 'pyq')
-            if os.path.exists(pyq_dir):
-                existing_exam_ids = {ex['exam_id'] for ex in default_paper_catalog}
-                for fpath in glob.glob(os.path.join(pyq_dir, '*.json')):
-                    with open(fpath, 'r', encoding='utf-8') as fp:
-                        cat_data = json.load(fp)
-                    for cat_k, exams_dict in cat_data.items():
-                        if not isinstance(exams_dict, dict):
-                            continue
-                        for exam_k, years_dict in exams_dict.items():
-                            if exam_k in existing_exam_ids or not isinstance(years_dict, dict):
-                                continue
-                            years_list = []
-                            total_q = 0
-                            for yr_k, q_list in sorted(years_dict.items(), reverse=True):
-                                if isinstance(q_list, list):
-                                    count = len(q_list)
-                                    total_q += count
-                                    label_str = yr_k.replace('_', ' (Paper ') + ')' if '_' in yr_k else yr_k
-                                    years_list.append({
-                                        'year_id': yr_k,
-                                        'label': label_str,
-                                        'question_count': count
-                                    })
-                            default_paper_catalog.append({
-                                'category': cat_k,
-                                'exam_id': exam_k,
-                                'total_questions': total_q,
-                                'years': years_list
-                            })
-                            existing_exam_ids.add(exam_k)
-        except Exception as scan_err:
-            app.logger.warning(f"Error scanning local PYQ json for catalog: {scan_err}")
-
         default_paper_catalog.sort(key=lambda x: x['category'])
 
         return jsonify({
@@ -4185,6 +4183,13 @@ def get_available_pyq_papers():
         app.logger.error(f"Error listing papers: {e}")
         return jsonify({'status': 'error', 'exams': [], 'error': str(e)}), 500
 
+
+INDEX_NAMESPACE_MAP = {
+    "pyq1": ["DEFENCE_EXAMS", "CIVIL_SERVICES_EXAMS", "POLICE_EXAMS"],
+    "pyq2": ["SSC_EXAMS", "RAILWAY_EXAMS", "BANKING_EXAMS"],
+    "pyq3": ["MBA_EXAMS", "CUET_AND_UG_ENTRANCE_EXAMS", "PG_EXAMS"],
+    "pyq4": ["ENGINEERING_RECRUITING_EXAMS", "TEACHING_EXAMS", "JUDICIARY_EXAMS"]
+}
 
 ROMAN_NUMS_LIST = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X']
 
@@ -4202,7 +4207,7 @@ def _get_pyq_term_val(term_str):
 
 @app.route("/api/pyq/paper-questions", methods=["POST"])
 def get_paper_questions():
-    """Loads all questions for a specific exam and year from Pinecone (with local fallback)."""
+    """Loads all questions for a specific exam and year directly from Pinecone vector database."""
     try:
         data = request.get_json(silent=True) or {}
         cat = data.get('category', '').strip()
@@ -4230,35 +4235,43 @@ def get_paper_questions():
         if not cat and exam_id in exam_to_cat:
             cat = exam_to_cat[exam_id]
 
-        # Find target Pinecone index name (pyq1, pyq2, pyq3, pyq4)
-        target_idx_name = None
+        # Determine target Pinecone index name (pyq1, pyq2, pyq3, pyq4)
+        target_idx_name = 'pyq1'
         for idx_k, ns_list in INDEX_NAMESPACE_MAP.items():
             if cat in ns_list:
                 target_idx_name = idx_k
                 break
 
-        mcq_indexes = search_components.get('mcq_indexes', {})
         target_idx = None
-        if target_idx_name and target_idx_name in mcq_indexes:
-            target_idx = mcq_indexes[target_idx_name]
-        elif 'mcq_index' in search_components:
-            target_idx = search_components['mcq_index']
-        elif os.getenv('PINECONE_API_KEY'):
+        pinecone_key = os.getenv('PINECONE_API_KEY')
+        if pinecone_key:
             try:
-                pc_lazy = Pinecone(api_key=os.getenv('PINECONE_API_KEY'))
-                target_idx = pc_lazy.Index(target_idx_name or 'pyq1')
-            except Exception as e:
-                app.logger.warning(f"Lazy Pinecone init failed: {e}")
+                pc = Pinecone(api_key=pinecone_key)
+                target_idx = pc.Index(target_idx_name)
+            except Exception as pe:
+                app.logger.error(f"Failed to connect to Pinecone index {target_idx_name}: {pe}")
 
         raw_questions = []
-
-        # 1. Primary: Fetch directly from Pinecone vector database
         if target_idx and cat:
             try:
-                # Build Pinecone filter based on exam_name and year format
                 filter_dict = {}
                 if exam_id:
-                    filter_dict['exam_name'] = exam_id
+                    exam_alias_map = {
+                        'UPSC': ['UPSC', 'UPSC CSE'],
+                        'UPSI': ['UPSI', 'UP Police SI'],
+                        'SSC_CGL': ['SSC_CGL', 'SSC CGL'],
+                        'RRB_NTPC': ['RRB_NTPC', 'RRB NTPC'],
+                        'SBI_PO': ['SBI_PO', 'SBI PO'],
+                        'CUET_UG': ['CUET_UG', 'CUET UG'],
+                        'CUET_PG': ['CUET_PG', 'CUET PG'],
+                        'DJS': ['DJS', 'Delhi Judicial Service']
+                    }
+                    aliases = exam_alias_map.get(exam_id, [exam_id])
+                    if len(aliases) == 1:
+                        filter_dict['exam_name'] = aliases[0]
+                    else:
+                        filter_dict['exam_name'] = {'$in': aliases}
+
                 if '_' in year:
                     parts = year.split('_')
                     yr_val = parts[0]
@@ -4269,10 +4282,9 @@ def get_paper_questions():
                 elif year:
                     filter_dict['exam_year'] = year
 
-                # Query Pinecone namespace using zero-vector of dimension 768
-                dim = 768
+                # Query Pinecone namespace using zero vector of dimension 768
                 pc_res = target_idx.query(
-                    vector=[0.0] * dim,
+                    vector=[0.0] * 768,
                     top_k=500,
                     namespace=cat,
                     filter=filter_dict if filter_dict else None,
@@ -4281,13 +4293,18 @@ def get_paper_questions():
 
                 matches = pc_res.get('matches', [])
                 if matches:
-                    # Sort matches by numeric ID suffix to preserve original sequence
-                    def get_id_num(m):
-                        try:
-                            return int(m['id'].split('_')[-1])
-                        except Exception:
-                            return 0
-                    matches.sort(key=get_id_num)
+                    def get_sort_key(m):
+                        mid = m.get('metadata', {}).get('id', '')
+                        match = re.search(r'_Q(\d+)', mid)
+                        if match:
+                            return int(match.group(1))
+                        vid = m.get('id', '')
+                        match_v = re.search(r'_(\d+)$', vid)
+                        if match_v:
+                            return int(match_v.group(1))
+                        return 0
+
+                    matches.sort(key=get_sort_key)
 
                     for m in matches:
                         md = m.get('metadata', {})
@@ -4305,7 +4322,15 @@ def get_paper_questions():
                                 except Exception:
                                     opts_val = {}
                             q_obj = {
+                                'id': md.get('id', m.get('id', '')),
+                                'question_type': md.get('question_type', 'single_choice'),
+                                'is_negative': md.get('is_negative', False),
                                 'question': md.get('question', ''),
+                                'directive': md.get('directive', ''),
+                                'passage': md.get('passage', ''),
+                                'statements': md.get('statements', []),
+                                'match_data': md.get('match_data', None),
+                                'assertion_reason': md.get('assertion_reason', None),
                                 'options': opts_val,
                                 'correct_option': md.get('correct_option', ''),
                                 'correct_answer': md.get('correct_answer', ''),
@@ -4315,49 +4340,17 @@ def get_paper_questions():
                                 'exam_term': md.get('exam_term', ''),
                                 'subject': md.get('subject', ''),
                                 'topic': md.get('topic', ''),
-                                'img': md.get('img', '')
+                                'subtopic': md.get('subtopic', ''),
+                                'difficulty': md.get('difficulty', 'medium'),
+                                'image_url': md.get('image_url') or md.get('img', ''),
+                                'keywords': md.get('keywords', []),
+                                'sector': md.get('sector', ''),
+                                'source_url': md.get('source_url', '')
                             }
                         raw_questions.append(q_obj)
             except Exception as pe:
-                app.logger.warning(f"Pinecone paper query failed, trying local fallback: {pe}")
+                app.logger.warning(f"Pinecone paper query failed: {pe}")
 
-        # 2. Local fallback if Pinecone returned nothing or had an error
-        if not raw_questions:
-            pyq_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'DATA', 'pyq')
-            if not os.path.exists(pyq_dir):
-                pyq_dir = os.path.join(os.getcwd(), 'DATA', 'pyq')
-
-            target_file = None
-            if cat:
-                possible = os.path.join(pyq_dir, f"{cat}.json")
-                if os.path.exists(possible):
-                    target_file = possible
-
-            if not target_file and os.path.exists(pyq_dir):
-                for f in glob.glob(os.path.join(pyq_dir, '*.json')):
-                    try:
-                        with open(f, 'r', encoding='utf-8') as fp:
-                            d = json.load(fp)
-                            for c_k, ex_d in d.items():
-                                if exam_id in ex_d:
-                                    target_file = f
-                                    cat = c_k
-                                    break
-                    except Exception:
-                        pass
-                    if target_file:
-                        break
-
-            if target_file and os.path.exists(target_file):
-                with open(target_file, 'r', encoding='utf-8') as fp:
-                    d = json.load(fp)
-                    ex_data = d.get(cat, {}).get(exam_id, {})
-                    if year in ex_data:
-                        raw_questions = ex_data[year]
-                    elif not year and ex_data:
-                        first_yr = list(ex_data.keys())[0]
-                        raw_questions = ex_data[first_yr]
-                        year = first_yr
 
         standardized = []
         for idx, q in enumerate(raw_questions):
@@ -4386,10 +4379,17 @@ def get_paper_questions():
                             break
 
             img_val = q.get('img') or q.get('image_url') or ''
-            q_id = f"{exam_id}_{year}_{idx}"
+            q_id = q.get('id') or f"{exam_id}_{year}_{idx}"
             standardized.append({
                 'id': q_id,
+                'question_type': q.get('question_type', 'single_choice'),
+                'is_negative': q.get('is_negative', False),
                 'question': q.get('question', ''),
+                'directive': q.get('directive', ''),
+                'passage': q.get('passage', ''),
+                'statements': q.get('statements', []),
+                'match_data': q.get('match_data', None),
+                'assertion_reason': q.get('assertion_reason', None),
                 'options': options_list,
                 'correct_answer': correct_idx,
                 'correct_option': correct_opt.upper(),
@@ -4399,8 +4399,13 @@ def get_paper_questions():
                 'term': q.get('exam_term', ''),
                 'subject': q.get('subject', ''),
                 'topic': q.get('topic', ''),
+                'subtopic': q.get('subtopic', ''),
+                'difficulty': q.get('difficulty', 'medium'),
                 'img': img_val,
-                'image_url': img_val
+                'image_url': img_val,
+                'keywords': q.get('keywords', []),
+                'sector': q.get('sector', ''),
+                'source_url': q.get('source_url', '')
             })
 
         return jsonify({
