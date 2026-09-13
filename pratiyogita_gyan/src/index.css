@@ -384,3 +384,50 @@ canvas {
   box-shadow: 0 6px 20px rgba(228, 87, 46, 0.45), inset 0 1px 0 rgba(255,255,255,0.25) !important;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
+/* Continuous Marquee Ticker */
+@keyframes marqueeScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-container {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  mask-image: linear-gradient(to right, transparent, black 3%, black 97%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 3%, black 97%, transparent);
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  gap: 8px;
+  animation: marqueeScroll 38s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* Shimmer Loading Skeleton */
+@keyframes shimmerSkeleton {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer-skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e2e8f0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmerSkeleton 1.5s infinite;
+  border-radius: 6px;
+}
+

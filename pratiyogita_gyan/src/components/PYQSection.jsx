@@ -79,6 +79,54 @@ const buildStarredQuestionPayload = (question, questionId) => ({
   is_negative: question?.is_negative || question?.metadata?.is_negative || false
 })
 
+const QUESTION_TYPE_OPTIONS = [
+  { id: 'all', name: 'All Types' },
+  { id: 'multi_statement', name: 'Multi-Statement' },
+  { id: 'match_list', name: 'Match List' },
+  { id: 'single_choice', name: 'Single Choice' },
+  { id: 'assertion_reason', name: 'Assertion & Reason' },
+  { id: 'passage', name: 'Passage Based' }
+]
+
+const ALL_15_EXAMS = [
+  { title: 'UPSC CSE', icon: '🏛️', bg: 'rgba(59,130,246,0.06)', border: '#bfdbfe' },
+  { title: 'CDS / NDA', icon: '⚔️', bg: 'rgba(16,185,129,0.06)', border: '#bbf7d0' },
+  { title: 'CAPF', icon: '🛡️', bg: 'rgba(239,68,68,0.06)', border: '#fecaca' },
+  { title: 'AFCAT', icon: '✈️', bg: 'rgba(14,165,233,0.06)', border: '#bae6fd' },
+  { title: 'SSC CGL', icon: '📊', bg: 'rgba(139,92,246,0.06)', border: '#ddd6fe' },
+  { title: 'RRB NTPC', icon: '🚆', bg: 'rgba(245,158,11,0.06)', border: '#fde68a' },
+  { title: 'SBI PO', icon: '🏦', bg: 'rgba(16,185,129,0.06)', border: '#a7f3d0' },
+  { title: 'UP Police SI', icon: '🚔', bg: 'rgba(220,38,38,0.06)', border: '#fca5a5' },
+  { title: 'State PCS', icon: '🎓', bg: 'rgba(234,88,12,0.06)', border: '#fed7aa' },
+  { title: 'CAT', icon: '📈', bg: 'rgba(99,102,241,0.06)', border: '#c7d2fe' },
+  { title: 'CUET UG', icon: '📖', bg: 'rgba(168,85,247,0.06)', border: '#e9d5ff' },
+  { title: 'CUET PG', icon: '📚', bg: 'rgba(236,72,153,0.06)', border: '#fbcfe8' },
+  { title: 'GATE', icon: '⚙️', bg: 'rgba(20,184,166,0.06)', border: '#99f6e4' },
+  { title: 'CTET', icon: '👨‍🏫', bg: 'rgba(34,197,94,0.06)', border: '#bbf7d0' },
+  { title: 'Delhi Judicial Service', icon: '⚖️', bg: 'rgba(100,116,139,0.06)', border: '#cbd5e1' }
+]
+
+const QUICK_PRACTICE_POOL = [
+  'Fundamental Rights (Articles 12-35)',
+  'Indian Monetary Policy & Inflation',
+  'Indian Monsoon & Drainage System',
+  '1857 Revolt & Freedom Struggle',
+  'ISRO Space Missions & Satellites',
+  'National Parks & Ramsar Sites',
+  'Preamble & Constitutional Amendments',
+  'Buddhism & Jainism Doctrines',
+  'Mughal Administration & Revenue System',
+  'Plate Tectonics & Earthquake Belts',
+  'Fiscal Deficit & GST Council',
+  'Defense Exercises & Missiles (Agni/BrahMos)',
+  'Fundamental Duties & DPSP (Part IV)',
+  'Atmospheric Layers & Cyclones',
+  'Harappan Civilization & Vedic Age',
+  'Supreme Court & Judicial Review',
+  'CRPF, BSF, ITBP Border Security',
+  'Carbon Cycle & Climate Change Protocols'
+]
+
 const PYQSection = () => {
   const { pyqVisible, togglePyq, isMobile, contentOffsetLeft, mobileActiveTab } = useLayout()
   const { trackInteraction } = useDashboard()
@@ -103,10 +151,16 @@ const PYQSection = () => {
   const [subjectAnchorEl, setSubjectAnchorEl] = useState(null)
   const [dateAnchorEl, setDateAnchorEl] = useState(null)
   const [topicAnchorEl, setTopicAnchorEl] = useState(null)
+  const [subtopicAnchorEl, setSubtopicAnchorEl] = useState(null)
+  const [questionTypeAnchorEl, setQuestionTypeAnchorEl] = useState(null)
   const [selectedDate, setSelectedDate] = useState('all')
   const [selectedTopic, setSelectedTopic] = useState('all')
+  const [selectedSubtopic, setSelectedSubtopic] = useState('all')
+  const [selectedQuestionType, setSelectedQuestionType] = useState('all')
   const [filteredQuestions, setFilteredQuestions] = useState([])
-  const [userAnswers, setUserAnswers] = useState({}) // Track user selections for each question
+  const [userAnswers, setUserAnswers] = useState({}) // Track user selections for each question (persistent)
+  const [sessionAnswers, setSessionAnswers] = useState({}) // Track user selections in CURRENT search session (for clean top progress bar)
+  const [quickPracticeTopics, setQuickPracticeTopics] = useState(QUICK_PRACTICE_POOL.slice(0, 6))
   const [expandedExplanations, setExpandedExplanations] = useState({}) // Track expanded explanations
   const [previewImage, setPreviewImage] = useState(null) // Track full-screen image preview lightbox
   const [expandedQueries, setExpandedQueries] = useState({})
@@ -121,6 +175,13 @@ const PYQSection = () => {
   const isSubjectMenuOpen = Boolean(subjectAnchorEl)
   const isDateMenuOpen = Boolean(dateAnchorEl)
   const isTopicMenuOpen = Boolean(topicAnchorEl)
+  const isSubtopicMenuOpen = Boolean(subtopicAnchorEl)
+  const isQuestionTypeMenuOpen = Boolean(questionTypeAnchorEl)
+
+  const rotateQuickPractice = () => {
+    const shuffled = [...QUICK_PRACTICE_POOL].sort(() => Math.random() - 0.5)
+    setQuickPracticeTopics(shuffled.slice(0, 6))
+  }
 
   const lastScrolledQueryRef = useRef('')
 
@@ -255,9 +316,10 @@ const PYQSection = () => {
   const [availableSubjects, setAvailableSubjects] = useState([])
   const [availableDates, setAvailableDates] = useState([])
   const [availableTopics, setAvailableTopics] = useState([])
+  const [availableSubtopics, setAvailableSubtopics] = useState([])
   const [loadingFilters, setLoadingFilters] = useState(false)
 
-  // Dynamic exam, subject, date, and topic lists from search results only
+  // Dynamic exam, subject, date, topic, and subtopic lists from search results only
   const exams = [
     { id: 'all', name: 'All Exams' },
     ...availableExams.map(exam => ({ id: exam.toLowerCase(), name: exam }))
@@ -269,7 +331,7 @@ const PYQSection = () => {
   ]
 
   const dates = [
-    { id: 'all', name: 'All Dates' },
+    { id: 'all', name: 'All Years' },
     ...availableDates.map(date => ({ id: String(date).toLowerCase(), name: String(date) }))
   ]
 
@@ -278,12 +340,18 @@ const PYQSection = () => {
     ...availableTopics.map(topic => ({ id: topic.toLowerCase(), name: topic }))
   ]
 
-  // Extract unique exams, subjects, dates, and topics from search results
+  const subtopics = [
+    { id: 'all', name: 'All Subtopics' },
+    ...availableSubtopics.map(subtopic => ({ id: subtopic.toLowerCase(), name: subtopic }))
+  ]
+
+  // Extract unique exams, subjects, dates, topics, and subtopics from search results
   const extractFiltersFromResults = (questions) => {
     const uniqueExams = new Set()
     const uniqueSubjects = new Set()
     const uniqueDates = new Set()
     const uniqueTopics = new Set()
+    const uniqueSubtopics = new Set()
 
     const isPlaceholderExam = (name) => {
       const value = String(name || '').toLowerCase()
@@ -314,13 +382,20 @@ const PYQSection = () => {
       if (topic && topic.trim()) {
         uniqueTopics.add(topic.trim())
       }
+
+      // Extract subtopic
+      const subtopic = question.subtopic || question.metadata?.subtopic || ''
+      if (subtopic && subtopic.trim()) {
+        uniqueSubtopics.add(subtopic.trim())
+      }
     })
 
     return {
       exams: Array.from(uniqueExams).sort(),
       subjects: Array.from(uniqueSubjects).sort(),
       dates: Array.from(uniqueDates).sort(),
-      topics: Array.from(uniqueTopics).sort()
+      topics: Array.from(uniqueTopics).sort(),
+      subtopics: Array.from(uniqueSubtopics).sort()
     }
   }
 
@@ -659,6 +734,20 @@ const PYQSection = () => {
       })
     }
 
+    if (selectedSubtopic !== 'all') {
+      filtered = filtered.filter(q => {
+        const subtopic = q.subtopic || q.metadata?.subtopic || ''
+        return subtopic.toLowerCase() === selectedSubtopic.toLowerCase()
+      })
+    }
+
+    if (selectedQuestionType !== 'all') {
+      filtered = filtered.filter(q => {
+        const qType = q.question_type || q.metadata?.question_type || 'single_choice'
+        return qType.toLowerCase() === selectedQuestionType.toLowerCase()
+      })
+    }
+
     if (showImportantOnly) {
       filtered = filtered.filter(q => {
         const questionId = getStableQuestionId(q, searchResults.indexOf(q))
@@ -704,17 +793,19 @@ const PYQSection = () => {
     const targetQuestions = openPanelsQuestions.length > 0 ? openPanelsQuestions : searchResults
     if (targetQuestions.length > 0) {
       setLoadingFilters(true)
-      const { exams, subjects, dates, topics } = extractFiltersFromResults(targetQuestions)
+      const { exams, subjects, dates, topics, subtopics } = extractFiltersFromResults(targetQuestions)
       setAvailableExams(exams)
       setAvailableSubjects(subjects)
       setAvailableDates(dates)
       setAvailableTopics(topics)
+      setAvailableSubtopics(subtopics)
       setLoadingFilters(false)
     } else {
       setAvailableExams([])
       setAvailableSubjects([])
       setAvailableDates([])
       setAvailableTopics([])
+      setAvailableSubtopics([])
       setLoadingFilters(false)
     }
   }, [openPanelsQuestions, searchResults])
@@ -724,7 +815,7 @@ const PYQSection = () => {
     const targetQuestions = openPanelsQuestions.length > 0 ? openPanelsQuestions : searchResults
     const filtered = applyFiltersToQuestions(targetQuestions)
     setFilteredQuestions(filtered)
-  }, [openPanelsQuestions, searchResults, selectedExam, selectedSubject, selectedDate, selectedTopic, showImportantOnly, importantQuestions])
+  }, [openPanelsQuestions, searchResults, selectedExam, selectedSubject, selectedDate, selectedTopic, selectedSubtopic, selectedQuestionType, showImportantOnly, importantQuestions])
 
   // Function to refresh questions
   const refreshQuestions = () => {
@@ -753,9 +844,16 @@ const PYQSection = () => {
     const rawId = (question?.id || question?._id) ? String(question.id || question._id) : null
 
     // If already answered this question, do not count again
-    if (userAnswers[questionId] !== undefined || (safeKey && userAnswers[safeKey] !== undefined) || (rawId && userAnswers[rawId] !== undefined)) return
+    if (sessionAnswers[questionId] !== undefined || userAnswers[questionId] !== undefined || (safeKey && userAnswers[safeKey] !== undefined) || (rawId && userAnswers[rawId] !== undefined)) return
 
     // Immediately update in-memory state with all lookup keys
+    setSessionAnswers(prev => ({
+      ...prev,
+      [questionId]: optionIndex,
+      ...(safeKey ? { [safeKey]: optionIndex } : {}),
+      ...(rawId ? { [rawId]: optionIndex } : {})
+    }))
+
     setUserAnswers(prev => ({
       ...prev,
       [questionId]: optionIndex,
@@ -1059,17 +1157,17 @@ const PYQSection = () => {
       const rawId = (q?.id || q?._id) ? String(q.id || q._id) : null
       const safeRawId = rawId ? makeSafeFirestoreKey(rawId) : null
 
-      const userAnswer = userAnswers[questionId] !== undefined
-        ? userAnswers[questionId]
-        : (userAnswers[safeKey] !== undefined
-            ? userAnswers[safeKey]
-            : (rawId && userAnswers[rawId] !== undefined
-                ? userAnswers[rawId]
-                : (safeRawId && userAnswers[safeRawId] !== undefined
-                    ? userAnswers[safeRawId]
-                    : (q.selectedOption !== undefined ? q.selectedOption : q.userAnswer))))
+      const sessionAnswer = sessionAnswers[questionId] !== undefined
+        ? sessionAnswers[questionId]
+        : (sessionAnswers[safeKey] !== undefined
+            ? sessionAnswers[safeKey]
+            : (rawId && sessionAnswers[rawId] !== undefined
+                ? sessionAnswers[rawId]
+                : (safeRawId && sessionAnswers[safeRawId] !== undefined
+                    ? sessionAnswers[safeRawId]
+                    : undefined)))
 
-      const hasAnswered = userAnswer !== undefined && userAnswer !== null
+      const hasAnswered = sessionAnswer !== undefined && sessionAnswer !== null
       if (hasAnswered) {
         answered++
         const hasValidCorrectAnswer =
@@ -1079,7 +1177,7 @@ const PYQSection = () => {
           q.correct_answer < (q.options?.length || 0)
 
         if (hasValidCorrectAnswer) {
-          if (userAnswer === q.correct_answer) {
+          if (sessionAnswer === q.correct_answer) {
             correct++
           } else {
             wrong++
@@ -1093,7 +1191,7 @@ const PYQSection = () => {
       wrong,
       answered
     }
-  }, [currentQuestions, userAnswers])
+  }, [currentQuestions, sessionAnswers])
 
   const leftMarginPx = contentOffsetLeft
   const rightMarginPx = pyqVisible ? 408 : 50
@@ -1312,7 +1410,7 @@ const PYQSection = () => {
                           '&:hover': { backgroundColor: 'primary.dark', boxShadow: 'none' }
                         }}
                       >
-                        {dates.find(d => d.id === selectedDate)?.name || 'Select Date'}
+                        {dates.find(d => d.id === selectedDate)?.name || 'All Years'}
                       </Button>
                       <Menu
                         anchorEl={dateAnchorEl}
@@ -1374,7 +1472,7 @@ const PYQSection = () => {
                           '&:hover': { backgroundColor: 'primary.dark', boxShadow: 'none' }
                         }}
                       >
-                        {topics.find(t => t.id === selectedTopic)?.name || 'Select Topic'}
+                        {topics.find(t => t.id === selectedTopic)?.name || 'All Topics'}
                       </Button>
                       <Menu
                         anchorEl={topicAnchorEl}
@@ -1411,6 +1509,126 @@ const PYQSection = () => {
                       </Menu>
                     </>
                   )}
+
+                  {/* 5. Select Subtopic Filter */}
+                  {availableSubtopics.length > 0 && (
+                    <>
+                      <Button
+                        size="small"
+                        variant="contained"
+                        onClick={(event) => setSubtopicAnchorEl(event.currentTarget)}
+                        endIcon={<ChevronDown className="w-3 h-3 text-white" />}
+                        sx={{
+                          backgroundColor: 'primary.main',
+                          color: 'primary.contrastText',
+                          fontSize: '0.68rem',
+                          fontWeight: 600,
+                          px: 1.1,
+                          py: 0.25,
+                          minHeight: 22,
+                          height: 22,
+                          borderRadius: 999,
+                          textTransform: 'none',
+                          flexShrink: 0,
+                          boxShadow: 'none',
+                          '&:hover': { backgroundColor: 'primary.dark', boxShadow: 'none' }
+                        }}
+                      >
+                        {subtopics.find(s => s.id === selectedSubtopic)?.name || 'All Subtopics'}
+                      </Button>
+                      <Menu
+                        anchorEl={subtopicAnchorEl}
+                        open={isSubtopicMenuOpen}
+                        onClose={() => setSubtopicAnchorEl(null)}
+                        MenuListProps={{ dense: true }}
+                        PaperProps={{
+                          sx: {
+                            backgroundColor: '#ffffff',
+                            color: '#111827',
+                            border: '1px solid #e5e7eb',
+                            borderRadius: 2.5,
+                            boxShadow: '0 8px 24px rgba(0,0,0,0.1)'
+                          }
+                        }}
+                      >
+                        {subtopics.map((sub) => (
+                          <MenuItem
+                            key={sub.id}
+                            selected={selectedSubtopic === sub.id}
+                            onClick={() => {
+                              setSelectedSubtopic(sub.id)
+                              setSubtopicAnchorEl(null)
+                            }}
+                            sx={{
+                              fontSize: '0.72rem',
+                              '&:hover': { backgroundColor: '#f3f4f6' },
+                              '&.Mui-selected': { backgroundColor: 'rgba(228,87,46,0.12)', color: '#E4572E', fontWeight: 700 }
+                            }}
+                          >
+                            {sub.name}
+                          </MenuItem>
+                        ))}
+                      </Menu>
+                    </>
+                  )}
+
+                  {/* 6. Question Type Filter */}
+                  <Button
+                    size="small"
+                    variant="contained"
+                    onClick={(event) => setQuestionTypeAnchorEl(event.currentTarget)}
+                    endIcon={<ChevronDown className="w-3 h-3 text-white" />}
+                    sx={{
+                      backgroundColor: 'primary.main',
+                      color: 'primary.contrastText',
+                      fontSize: '0.68rem',
+                      fontWeight: 600,
+                      px: 1.1,
+                      py: 0.25,
+                      minHeight: 22,
+                      height: 22,
+                      borderRadius: 999,
+                      textTransform: 'none',
+                      flexShrink: 0,
+                      boxShadow: 'none',
+                      '&:hover': { backgroundColor: 'primary.dark', boxShadow: 'none' }
+                    }}
+                  >
+                    {QUESTION_TYPE_OPTIONS.find(t => t.id === selectedQuestionType)?.name || 'Question Type'}
+                  </Button>
+                  <Menu
+                    anchorEl={questionTypeAnchorEl}
+                    open={isQuestionTypeMenuOpen}
+                    onClose={() => setQuestionTypeAnchorEl(null)}
+                    MenuListProps={{ dense: true }}
+                    PaperProps={{
+                      sx: {
+                        backgroundColor: '#ffffff',
+                        color: '#111827',
+                        border: '1px solid #e5e7eb',
+                        borderRadius: 2.5,
+                        boxShadow: '0 8px 24px rgba(0,0,0,0.1)'
+                      }
+                    }}
+                  >
+                    {QUESTION_TYPE_OPTIONS.map((opt) => (
+                      <MenuItem
+                        key={opt.id}
+                        selected={selectedQuestionType === opt.id}
+                        onClick={() => {
+                          setSelectedQuestionType(opt.id)
+                          setQuestionTypeAnchorEl(null)
+                        }}
+                        sx={{
+                          fontSize: '0.72rem',
+                          '&:hover': { backgroundColor: '#f3f4f6' },
+                          '&.Mui-selected': { backgroundColor: 'rgba(228,87,46,0.12)', color: '#E4572E', fontWeight: 700 }
+                        }}
+                      >
+                        {opt.name}
+                      </MenuItem>
+                    ))}
+                  </Menu>
 
                   {/* 5. Starred / Important Filter Chip - only show if current view questions have starred items */}
                   {currentStarredCount > 0 && (
@@ -1484,8 +1702,8 @@ const PYQSection = () => {
 
             {/* Content Area */}
             <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', m: 0, minHeight: 0, backgroundColor: '#ffffff' }}>
-              {/* Sticky Header - Only rendered if progress stats exist */}
-              {filteredQuestions.length > 0 && Object.keys(userAnswers).length > 0 && (
+              {/* Sticky Header - Always rendered when questions exist */}
+              {filteredQuestions.length > 0 && (
                 <Box
                   sx={{
                     position: 'sticky',
@@ -1525,43 +1743,74 @@ const PYQSection = () => {
                 {/* Questions */}
                 <Stack spacing={1}>
                   {isChatLoading && currentQuestions.length === 0 ? (
-                    <Box 
-                      className="pyq-fade-slide"
-                      sx={{ 
-                        display: 'flex', 
-                        flexDirection: 'column', 
-                        alignItems: 'center', 
-                        justifyContent: 'center', 
-                        py: 8,
-                        px: 2,
-                        textAlign: 'center'
-                      }}
-                    >
-                      <Box sx={{ width: 96, height: 96, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <ThinkingOrb state="connecting" size={64} speed={1.80} style={{ transform: 'scale(1.5)', transformOrigin: 'center' }} />
+                    <Box sx={{ py: 2, px: { xs: 1, sm: 2 }, maxWidth: 860, mx: 'auto', width: '100%' }}>
+                      <Box 
+                        className="pyq-fade-slide"
+                        sx={{ 
+                          display: 'flex', 
+                          flexDirection: 'column', 
+                          alignItems: 'center', 
+                          justifyContent: 'center', 
+                          py: 2.5,
+                          textAlign: 'center'
+                        }}
+                      >
+                        <Box sx={{ width: 64, height: 64, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <ThinkingOrb state="connecting" size={64} speed={1.80} style={{ transform: 'scale(1.0)', transformOrigin: 'center' }} />
+                        </Box>
+                        <Typography 
+                          variant="body2" 
+                          sx={{ 
+                            mt: 1.5, 
+                            fontWeight: 700, 
+                            color: '#111827',
+                            fontSize: '0.88rem',
+                            letterSpacing: '0.01em'
+                          }}
+                        >
+                          {lastSearchQuery ? `Finding PYQs for "${lastSearchQuery}"...` : 'Finding relevant previous year questions...'}
+                        </Typography>
+                        <Typography 
+                          variant="caption" 
+                          sx={{ 
+                            mt: 0.5, 
+                            color: '#6b7280', 
+                            fontSize: '0.75rem',
+                            mb: 2.5
+                          }}
+                        >
+                          Searching 4,200+ questions across UPSC, CDS, SSC & State PSC in Pinecone
+                        </Typography>
                       </Box>
-                      <Typography 
-                        variant="body2" 
-                        sx={{ 
-                          mt: 3, 
-                          fontWeight: 700, 
-                          color: '#111827',
-                          fontSize: '0.88rem',
-                          letterSpacing: '0.01em'
-                        }}
-                      >
-                        {lastSearchQuery ? `Finding PYQs for "${lastSearchQuery}"...` : 'Finding relevant previous year questions...'}
-                      </Typography>
-                      <Typography 
-                        variant="caption" 
-                        sx={{ 
-                          mt: 0.5, 
-                          color: '#6b7280', 
-                          fontSize: '0.75rem'
-                        }}
-                      >
-                        Searching questions across UPSC, CDS, SSC & State PSC
-                      </Typography>
+
+                      {/* Shimmer Skeleton Question Cards */}
+                      <Stack spacing={1.5}>
+                        {[1, 2, 3].map((item) => (
+                          <Paper
+                            key={item}
+                            elevation={0}
+                            sx={{
+                              p: 2,
+                              borderRadius: 2,
+                              border: '1px solid #e5e7eb',
+                              backgroundColor: '#ffffff'
+                            }}
+                          >
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5 }}>
+                              <Box className="shimmer-skeleton" sx={{ width: 80, height: 20, borderRadius: 1 }} />
+                              <Box className="shimmer-skeleton" sx={{ width: 60, height: 20, borderRadius: 1 }} />
+                              <Box className="shimmer-skeleton" sx={{ width: 70, height: 20, borderRadius: 1, ml: 'auto' }} />
+                            </Box>
+                            <Box className="shimmer-skeleton" sx={{ width: '92%', height: 16, borderRadius: 1, mb: 1 }} />
+                            <Box className="shimmer-skeleton" sx={{ width: '70%', height: 16, borderRadius: 1, mb: 2 }} />
+                            <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 1 }}>
+                              {[1, 2, 3, 4].map((opt) => (
+                                <Box key={opt} className="shimmer-skeleton" sx={{ height: 36, borderRadius: 1.5 }} />
+                              ))}
+                            </Box>
+                          </Paper>
+                        ))}
+                      </Stack>
                     </Box>
                   ) : !lastSearchQuery && currentQuestions.length === 0 ? (
                     <Box sx={{ py: 1.5, px: { xs: 1, sm: 2 }, maxWidth: 760, mx: 'auto', width: '100%' }}>
@@ -1631,67 +1880,81 @@ const PYQSection = () => {
                         </Box>
                       </Paper>
 
-                      {/* Compact 4-Badge Category Row */}
-                      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: 'repeat(2, 1fr)', sm: 'repeat(4, 1fr)' }, gap: 1, mb: 1.25 }}>
-                        {[
-                          { title: 'UPSC CSE', icon: '🏛️', bg: 'rgba(59,130,246,0.06)', border: '#bfdbfe' },
-                          { title: 'CDS / NDA', icon: '⚔️', bg: 'rgba(16,185,129,0.06)', border: '#bbf7d0' },
-                          { title: 'SSC CGL', icon: '📊', bg: 'rgba(139,92,246,0.06)', border: '#ddd6fe' },
-                          { title: 'State PCS', icon: '🎓', bg: 'rgba(245,158,11,0.06)', border: '#fde68a' },
-                        ].map((cat, idx) => (
-                          <Box
-                            key={idx}
-                            className="pyq-badge-enter"
-                            style={{ animationDelay: `${idx * 0.05}s` }}
-                            sx={{
-                              py: 0.7,
-                              px: 1,
-                              borderRadius: 2,
-                              border: '1px solid',
-                              borderColor: cat.border,
-                              backgroundColor: cat.bg,
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              gap: 0.75,
-                              userSelect: 'none',
-                              transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-                              '&:hover': {
-                                transform: 'translateY(-1px)',
-                                boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
-                              }
-                            }}
-                          >
-                            <span style={{ fontSize: '0.95rem' }}>{cat.icon}</span>
-                            <Typography variant="caption" sx={{ fontWeight: 700, color: '#1f2937', fontSize: '0.75rem', whiteSpace: 'nowrap' }}>
-                              {cat.title}
-                            </Typography>
-                          </Box>
-                        ))}
+                      {/* Continuous Marquee Ticker with 15 Exams */}
+                      <Box sx={{ mb: 1.5, overflow: 'hidden' }}>
+                        <div className="marquee-container py-0.5">
+                          <div className="marquee-track">
+                            {[...ALL_15_EXAMS, ...ALL_15_EXAMS].map((cat, idx) => (
+                              <Box
+                                key={idx}
+                                onClick={() => {
+                                  setSelectedExam(cat.title.toLowerCase())
+                                }}
+                                sx={{
+                                  py: 0.55,
+                                  px: 1.1,
+                                  borderRadius: 2,
+                                  border: '1px solid',
+                                  borderColor: cat.border,
+                                  backgroundColor: cat.bg,
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  gap: 0.7,
+                                  userSelect: 'none',
+                                  cursor: 'pointer',
+                                  flexShrink: 0,
+                                  transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                                  '&:hover': {
+                                    transform: 'scale(1.04)',
+                                    boxShadow: '0 2px 8px rgba(0,0,0,0.06)'
+                                  }
+                                }}
+                              >
+                                <span style={{ fontSize: '0.9rem' }}>{cat.icon}</span>
+                                <Typography variant="caption" sx={{ fontWeight: 700, color: '#1f2937', fontSize: '0.73rem', whiteSpace: 'nowrap' }}>
+                                  {cat.title}
+                                </Typography>
+                              </Box>
+                            ))}
+                          </div>
+                        </div>
                       </Box>
 
-                      {/* Quick Practice Prompts (Compact 2-Column Grid) */}
+                      {/* Quick Practice Prompts with Rotate/Shuffle button */}
                       <Box sx={{ mb: 0.5 }}>
-                        <Typography variant="caption" sx={{ fontWeight: 700, color: '#4b5563', mb: 0.75, display: 'flex', alignItems: 'center', gap: 0.75, fontSize: '0.72rem' }}>
-                          <Sparkles size={13} color="#fbbf24" />
-                          <span>Quick Practice (Click to Search)</span>
-                        </Typography>
+                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 0.75 }}>
+                          <Typography variant="caption" sx={{ fontWeight: 700, color: '#4b5563', display: 'flex', alignItems: 'center', gap: 0.75, fontSize: '0.72rem' }}>
+                            <Sparkles size={13} color="#fbbf24" />
+                            <span>Quick Practice (Click to Search)</span>
+                          </Typography>
+                          <Button
+                            size="small"
+                            variant="text"
+                            onClick={rotateQuickPractice}
+                            startIcon={<RefreshCw size={11} />}
+                            sx={{
+                              fontSize: '0.68rem',
+                              textTransform: 'none',
+                              py: 0.1,
+                              px: 0.6,
+                              color: '#E4572E',
+                              fontWeight: 600,
+                              '&:hover': { backgroundColor: 'rgba(228,87,46,0.08)' }
+                            }}
+                          >
+                            Rotate
+                          </Button>
+                        </Box>
                         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 0.75 }}>
-                          {[
-                            'Fundamental Rights (Articles 12-35)',
-                            'Indian Monetary Policy & Inflation',
-                            'Indian Monsoon & Drainage System',
-                            '1857 Revolt & Freedom Struggle',
-                            'ISRO Space Missions & Satellites',
-                            'National Parks & Ramsar Sites'
-                          ].map((topic, idx) => (
+                          {quickPracticeTopics.map((topic, idx) => (
                             <Button
                               key={idx}
                               onClick={() => handleSendMessage(topic, { exam: 'all', subject: 'all' })}
                               variant="outlined"
                               size="small"
                               className="pyq-fade-slide"
-                              style={{ animationDelay: `${0.1 + idx * 0.03}s` }}
+                              style={{ animationDelay: `${0.04 + idx * 0.02}s` }}
                               sx={{
                                 justifyContent: 'flex-start',
                                 textAlign: 'left',
@@ -1707,7 +1970,7 @@ const PYQSection = () => {
                                 transition: 'all 0.15s ease',
                                 '&:hover': {
                                   borderColor: '#E4572E',
-                                  backgroundColor: 'rgba(228,87,46,0.06)',
+                                  backgroundColor: 'rgba(228, 87, 46, 0.06)',
                                   color: '#E4572E',
                                   transform: 'translateY(-1px)'
                                 }
@@ -1821,15 +2084,21 @@ const PYQSection = () => {
                                     const rawId = (question?.id || question?._id) ? String(question.id || question._id) : null
                                     const safeRawId = rawId ? makeSafeFirestoreKey(rawId) : null
 
-                                    const userAnswer = userAnswers[questionId] !== undefined
-                                      ? userAnswers[questionId]
-                                      : (userAnswers[safeKey] !== undefined
-                                          ? userAnswers[safeKey]
-                                          : (rawId && userAnswers[rawId] !== undefined
-                                              ? userAnswers[rawId]
-                                              : (safeRawId && userAnswers[safeRawId] !== undefined
-                                                  ? userAnswers[safeRawId]
-                                                  : (question.selectedOption !== undefined ? question.selectedOption : question.userAnswer))))
+                                    const userAnswer = sessionAnswers[questionId] !== undefined
+                                      ? sessionAnswers[questionId]
+                                      : (sessionAnswers[safeKey] !== undefined
+                                          ? sessionAnswers[safeKey]
+                                          : (rawId && sessionAnswers[rawId] !== undefined
+                                              ? sessionAnswers[rawId]
+                                              : (userAnswers[questionId] !== undefined
+                                                  ? userAnswers[questionId]
+                                                  : (userAnswers[safeKey] !== undefined
+                                                      ? userAnswers[safeKey]
+                                                      : (rawId && userAnswers[rawId] !== undefined
+                                                          ? userAnswers[rawId]
+                                                          : (safeRawId && userAnswers[safeRawId] !== undefined
+                                                              ? userAnswers[safeRawId]
+                                                              : (question.selectedOption !== undefined ? question.selectedOption : question.userAnswer)))))))
 
                                     const isCorrect = userAnswer === question.correct_answer
                                     const hasAnswered = userAnswer !== undefined && userAnswer !== null

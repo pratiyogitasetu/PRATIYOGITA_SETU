@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useMemo, useCallback, useLayoutEffect, memo } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { User, ChevronUp, FileText, Hash, ChevronLeft, ChevronRight, MessageSquare, Sparkles, TrendingUp, Book, BookOpen, ChevronFirst } from 'lucide-react'
+import { User, ChevronUp, FileText, Hash, ChevronLeft, ChevronRight, MessageSquare, Sparkles, TrendingUp, Book, BookOpen, ChevronFirst, Copy, Check } from 'lucide-react'
 import { Box, Paper, Stack, Typography, Alert, Chip, Divider, Avatar, IconButton, Button } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 import PropTypes from 'prop-types'
@@ -18,8 +18,8 @@ import { validateSearchQuery } from '../utils/validation'
 
 const EMPTY_EXPANDED_SOURCES = new Set()
 const PENDING_CHAT_LOAD_STORAGE_KEY = 'pendingChatToLoad'
-const MAX_CHAT_TITLE_LENGTH = 32
-const MAX_CHAT_TITLE_WORDS = 4
+const MAX_CHAT_TITLE_LENGTH = 45
+const MAX_CHAT_TITLE_WORDS = 8
 const CHAT_FONT_SIZES = {
   body: { xs: '0.7rem', md: '0.775rem' },
   h1: { xs: '0.9rem', md: '1.0rem' },
@@ -27,13 +27,6 @@ const CHAT_FONT_SIZES = {
   h3: { xs: '0.75rem', md: '0.825rem' },
   code: { xs: '0.68rem', md: '0.775rem' }
 }
-const STOP_WORDS = new Set([
-  'the', 'a', 'an', 'of', 'in', 'on', 'for', 'to', 'and', 'or', 'with', 'without',
-  'about', 'regarding', 'please', 'explain', 'describe', 'detail', 'details',
-  'what', 'why', 'how', 'is', 'are', 'was', 'were', 'can', 'could', 'should',
-  'would', 'tell', 'me', 'give', 'show', 'list', 'define', 'meaning', 'meaningful',
-  'this', 'that', 'these', 'those', 'topic', 'concept', 'question', 'answer'
-])
 
 const isPlaceholderTitle = (title) => {
   if (!title) return true
@@ -43,33 +36,18 @@ const isPlaceholderTitle = (title) => {
 const buildConciseTitle = (input) => {
   if (!input) return 'New Chat'
 
-  const rawTokens = input
+  const clean = String(input)
     .replace(/[\n\r]+/g, ' ')
-    .replace(/[^\p{L}\p{N}\s-]/gu, ' ')
-    .split(/\s+/)
-    .filter(Boolean)
+    .replace(/\s+/g, ' ')
+    .trim()
 
-  if (rawTokens.length === 0) return 'New Chat'
+  if (!clean) return 'New Chat'
 
-  const capitalizedTokens = []
-  const otherTokens = []
-
-  rawTokens.forEach((token) => {
-    const lowered = token.toLowerCase()
-    if (STOP_WORDS.has(lowered)) return
-    if (token[0] && token[0] === token[0].toUpperCase()) {
-      capitalizedTokens.push(token)
-    } else {
-      otherTokens.push(token)
-    }
-  })
-
-  const meaningful = [...capitalizedTokens, ...otherTokens]
-  const fallbackTokens = meaningful.length > 0 ? meaningful : rawTokens
-  const selectedTokens = fallbackTokens.slice(0, MAX_CHAT_TITLE_WORDS)
-
-  let title = selectedTokens.join(' ').trim()
-  if (!title) title = rawTokens.slice(0, MAX_CHAT_TITLE_WORDS).join(' ').trim()
+  const words = clean.split(' ')
+  let title = clean
+  if (words.length > MAX_CHAT_TITLE_WORDS) {
+    title = words.slice(0, MAX_CHAT_TITLE_WORDS).join(' ')
+  }
 
   if (title.length > MAX_CHAT_TITLE_LENGTH) {
     title = `${title.slice(0, MAX_CHAT_TITLE_LENGTH - 3).trim()}...`
@@ -77,6 +55,7 @@ const buildConciseTitle = (input) => {
 
   return title || 'New Chat'
 }
+
 
 const ensureUniqueTitle = (baseTitle, existingTitles) => {
   const normalizedBase = baseTitle.trim()
@@ -308,6 +287,14 @@ const ChatMessageBubble = memo(({
   onToggleSource,
   onRegisterUserRef
 }) => {
+  const [copied, setCopied] = useState(false)
+  const handleCopy = useCallback(() => {
+    if (!message?.content) return
+    navigator.clipboard.writeText(message.content)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }, [message?.content])
+
   const userRef = useMemo(() => {
     if (message.type !== 'user') return null
     return onRegisterUserRef(message.id)
@@ -411,6 +398,24 @@ const ChatMessageBubble = memo(({
                 {message.content}
               </ReactMarkdown>
             </Box>
+
+            {/* Copy button for user message */}
+            {message.type === 'user' && (
+              <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 0.5 }}>
+                <IconButton
+                  onClick={handleCopy}
+                  size="small"
+                  title={copied ? 'Copied!' : 'Copy question'}
+                  sx={{
+                    p: 0.35,
+                    color: '#6b7280',
+                    '&:hover': { color: '#111827', backgroundColor: 'rgba(0,0,0,0.06)' }
+                  }}
+                >
+                  {copied ? <Check size={13} className="text-emerald-600" /> : <Copy size={13} />}
+                </IconButton>
+              </Box>
+            )}
 
             {/* Sources Section - Only for bot messages with sources */}
             {message.type === 'bot' && message.sources && message.sources.length > 0 && (
@@ -599,6 +604,33 @@ const ChatMessageBubble = memo(({
               <Typography variant="caption" sx={{ mt: 1, display: 'block', color: '#ef4444' }}>
                 Error processing request
               </Typography>
+            )}
+
+            {/* Action Bar with Copy for Bot Response */}
+            {message.type === 'bot' && !message.isLoading && !message.error && message.content && (
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', mt: 1, pt: 0.75, borderTop: '1px solid #f0f0f0' }}>
+                <Button
+                  onClick={handleCopy}
+                  size="small"
+                  variant="text"
+                  sx={{
+                    minWidth: 0,
+                    py: 0.2,
+                    px: 0.8,
+                    fontSize: '0.68rem',
+                    color: copied ? '#059669' : '#6b7280',
+                    textTransform: 'none',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 0.5,
+                    borderRadius: 1,
+                    '&:hover': { color: '#111827', backgroundColor: 'rgba(0,0,0,0.04)' }
+                  }}
+                >
+                  {copied ? <Check size={12} className="text-emerald-600" /> : <Copy size={12} />}
+                  <span>{copied ? 'Copied' : 'Copy response'}</span>
+                </Button>
+              </Box>
             )}
           </Paper>
         )}
@@ -1115,7 +1147,7 @@ const ChatSection = () => {
     setMessages(prev => {
       const newMessages = [...prev, userMessage]
       if (!currentUser && prev.length === 0) {
-        setTimeout(() => handleGuestChatSave(newMessages), 100)
+        setTimeout(() => handleGuestChatSave(newMessages, query), 100)
       }
       return newMessages
     })
@@ -1264,7 +1296,7 @@ const ChatSection = () => {
             await saveMessage(activeChatId, botMessage)
 
             if (isPlaceholderTitle(currentChatTitle)) {
-              const baseTitle = buildConciseTitle(botMessage.content)
+              const baseTitle = buildConciseTitle(query)
               let uniqueTitle = baseTitle
               try {
                 const existingChats = await getChatHistory()
@@ -1286,7 +1318,7 @@ const ChatSection = () => {
           }
         }, 100)
       } else {
-        const titleSource = botMessage.content
+        const titleSource = query
         handleGuestChatSave(updatedMessages, titleSource)
       }
 

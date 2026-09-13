@@ -479,10 +479,6 @@ const YogyaDetailsSection = ({ onClose }) => {
                   <h1 className="text-xl sm:text-2xl font-bold text-gray-900 leading-tight truncate">
                     Pratiyogita Yogya Details
                   </h1>
-                  <span className="px-2 py-0.5 text-xs font-bold rounded-full bg-orange-100 text-[#E4572E] border border-orange-200 flex items-center gap-1">
-                    <Sparkles className="w-3 h-3 text-[#E4572E]" />
-                    <span>Live MongoDB & Firebase Sync</span>
-                  </span>
                 </div>
                 <p className="text-gray-600 mt-0.5 text-xs sm:text-sm truncate">
                   Personal Information, Educational Matrix & NCC Criteria synced with Pratiyogita Setu
@@ -531,13 +527,6 @@ const YogyaDetailsSection = ({ onClose }) => {
             </div>
           )}
 
-          {/* Quick Notice Info */}
-          <div className="flex items-start gap-2.5 p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-900 shadow-xs">
-            <Info className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-            <p className="leading-relaxed">
-              Saare dropdown options MongoDB Atlas se dynamically load ho rahe hain, aur aapka data directly Firebase Firestore (<span className="font-mono font-bold">users/{currentUser?.uid || 'guest'}</span>) me sync hota hai.
-            </p>
-          </div>
 
           {/* ========================================================================= */}
           {/* SECTION 1: PERSONAL INFORMATION                                           */}
@@ -551,7 +540,7 @@ const YogyaDetailsSection = ({ onClose }) => {
                 <h2 className="text-base sm:text-lg font-bold text-white tracking-tight">
                   Personal Information
                 </h2>
-                <p className="text-[11px] text-gray-400">Basic aspirant identity and category criteria (MongoDB Atlas)</p>
+                <p className="text-[11px] text-gray-400">Basic aspirant identity and category criteria</p>
               </div>
             </div>
 

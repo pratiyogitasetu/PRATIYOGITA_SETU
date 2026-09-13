@@ -274,10 +274,9 @@ const EditProfileModal = ({ isOpen, onClose }) => {
                   <p className="text-[11px] text-gray-500 font-mono truncate mt-0.5">
                     {currentUser?.email || 'No email'}
                   </p>
-                  <p className="text-[10px] text-emerald-700 font-semibold mt-0.5 flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block animate-pulse"></span>
-                    Firebase Cloud Synced
-                  </p>
+                  <div className="mt-1 flex items-center gap-1.5" title="Online & Connected">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-pulse"></span>
+                  </div>
                 </div>
               </div>
 

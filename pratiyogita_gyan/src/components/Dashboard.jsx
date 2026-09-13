@@ -151,11 +151,31 @@ const Dashboard = ({ onClose }) => {
           transition: 'margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
         }}
       >
-        <div className="max-w-none mx-0 md:max-w-7xl md:mx-auto">
-          <div className="flex items-center justify-center h-64">
-            <div className="flex items-center space-x-2">
-              <RefreshCw className="w-6 h-6 animate-spin text-blue-600" />
-              <span className="text-gray-600">Loading dashboard data...</span>
+        <div className="max-w-none mx-0 md:max-w-full md:mx-auto space-y-4">
+          {/* Header Skeleton */}
+          <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-xs">
+            <div className="h-6 w-48 shimmer-skeleton mb-2" />
+            <div className="h-4 w-72 shimmer-skeleton" />
+          </div>
+
+          {/* 4 Stat Cards Skeleton */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+            {[1, 2, 3, 4].map((n) => (
+              <div key={n} className="bg-white rounded-xl border border-gray-200 p-4 space-y-2.5">
+                <div className="h-3 w-20 shimmer-skeleton" />
+                <div className="h-8 w-24 shimmer-skeleton" />
+                <div className="h-2.5 w-32 shimmer-skeleton" />
+              </div>
+            ))}
+          </div>
+
+          {/* Breakdown Section Skeleton */}
+          <div className="bg-white rounded-xl border border-gray-200 p-4 space-y-3">
+            <div className="h-5 w-44 shimmer-skeleton mb-4" />
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+              {[1, 2, 3, 4, 5, 6].map((n) => (
+                <div key={n} className="h-24 shimmer-skeleton rounded-lg" />
+              ))}
             </div>
           </div>
         </div>

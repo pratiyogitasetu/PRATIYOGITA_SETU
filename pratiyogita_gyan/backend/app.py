@@ -3676,7 +3676,7 @@ def check_achievements():
     except Exception as e:
         app.logger.error(f"Error checking achievements: {str(e)}")
 
-def _fetch_pyq_questions(query='', exam_filter=None, subject_filter=None, year_filter=None, limit=50):
+def _fetch_pyq_questions(query='', exam_filter=None, subject_filter=None, year_filter=None, subtopic_filter=None, question_type_filter=None, limit=50):
     """Core helper to search/retrieve PYQ questions from Pinecone."""
     mcq_index = search_components.get('mcq_index')
     mcq_model = search_components.get('mcq_model')
@@ -3767,6 +3767,17 @@ def _fetch_pyq_questions(query='', exam_filter=None, subject_filter=None, year_f
                 
                 if year_filter and year_filter != 'all':
                     if str(year_filter) != str(exam_year):
+                        continue
+                
+                if subtopic_filter and subtopic_filter != 'all':
+                    clean_sub_filter = subtopic_filter.lower().replace('_', '').replace(' ', '').replace('/', '')
+                    clean_sub = str(full_data.get('subtopic', '') or metadata.get('subtopic', '')).lower().replace('_', '').replace(' ', '').replace('/', '')
+                    if clean_sub_filter not in clean_sub and clean_sub not in clean_sub_filter:
+                        continue
+
+                if question_type_filter and question_type_filter != 'all':
+                    q_type = str(full_data.get('question_type', metadata.get('question_type', 'single_choice'))).lower().strip()
+                    if question_type_filter.lower().strip() != q_type:
                         continue
                 
                 img_val = full_data.get('img') or metadata.get('img') or full_data.get('image_url') or metadata.get('image_url') or ''
@@ -3880,6 +3891,8 @@ def search_pyq_questions():
         exam_filter = data.get('exam', None)
         subject_filter = data.get('subject', None)
         year_filter = data.get('year', None)
+        subtopic_filter = data.get('subtopic', None)
+        question_type_filter = data.get('question_type', None)
         limit = data.get('limit', 50)
         
         filtered_questions = _fetch_pyq_questions(
@@ -3887,6 +3900,8 @@ def search_pyq_questions():
             exam_filter=exam_filter,
             subject_filter=subject_filter,
             year_filter=year_filter,
+            subtopic_filter=subtopic_filter,
+            question_type_filter=question_type_filter,
             limit=limit
         )
         
@@ -3931,6 +3946,7 @@ def get_pyq_filters():
         exams_set = set()
         subjects_set = set()
         years_set = set()
+        subtopics_set = set()
 
         def _is_placeholder_exam(name: str) -> bool:
             value = str(name or "").strip().lower()
@@ -3964,6 +3980,7 @@ def get_pyq_filters():
                     exam_name = full_data.get('exam_name', metadata.get('exam_name', ''))
                     exam_year = str(full_data.get('exam_year', metadata.get('exam_year', '')))
                     subject = full_data.get('subject', metadata.get('subject', ''))
+                    subtopic = full_data.get('subtopic', metadata.get('subtopic', ''))
                     
                     if exam_name and not _is_placeholder_exam(exam_name):
                         exams_set.add(exam_name)
@@ -3971,15 +3988,28 @@ def get_pyq_filters():
                         years_set.add(exam_year)
                     if subject:
                         subjects_set.add(subject)
+                    if subtopic and len(subtopic.strip()) > 1:
+                        subtopics_set.add(subtopic.strip())
                         
             except Exception as e:
                 app.logger.error(f"Error sampling namespace {namespace}: {str(e)}")
                 continue
         
+        question_types = [
+            {"value": "all", "label": "All Question Types"},
+            {"value": "multi_statement", "label": "Multi-Statement"},
+            {"value": "match_list", "label": "Match List"},
+            {"value": "single_choice", "label": "Single Choice"},
+            {"value": "assertion_reason", "label": "Assertion & Reason"},
+            {"value": "passage", "label": "Passage Based"}
+        ]
+
         return jsonify({
             'exams': sorted(list(exams_set)),
             'subjects': sorted(list(subjects_set)),
             'years': sorted(list(years_set), reverse=True),
+            'subtopics': sorted(list(subtopics_set)),
+            'question_types': question_types,
             'status': 'success'
         }), 200
         
