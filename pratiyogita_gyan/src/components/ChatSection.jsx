@@ -350,23 +350,23 @@ const ChatMessageBubble = memo(({
           )}
         </Box>
 
-        {/* Message content */}
-        {message.type === 'bot' && message.isLoading ? (
-          <Box sx={{ p: 0, minWidth: 0, width: '100%' }}>
-            <SearchProgressIndicator currentStepIndex={currentStepIndex} />
-          </Box>
-        ) : (
-          <Paper
-            elevation={0}
-            sx={{
-              p: message.type === 'user' ? '7px 12px' : 1.1,
-              width: '100%',
-              minWidth: 0,
-              maxWidth: '100%',
-              flex: '1 1 0%',
-              boxSizing: 'border-box',
-              borderRadius: message.type === 'user' ? '14px 14px 4px 14px' : 2,
-              backgroundColor: message.type === 'user' ? '#f3f4f6' : '#ffffff',
+        {/* Message Bubble + Underneath Actions Column Container */}
+        <Box sx={{ display: 'flex', flexDirection: 'column', flex: '1 1 0%', minWidth: 0, maxWidth: '100%' }}>
+          {message.type === 'bot' && message.isLoading ? (
+            <Box sx={{ p: 0, minWidth: 0, width: '100%' }}>
+              <SearchProgressIndicator currentStepIndex={currentStepIndex} />
+            </Box>
+          ) : (
+            <Paper
+              elevation={0}
+              sx={{
+                p: message.type === 'user' ? '7px 12px' : 1.1,
+                width: '100%',
+                minWidth: 0,
+                maxWidth: '100%',
+                boxSizing: 'border-box',
+                borderRadius: message.type === 'user' ? '14px 14px 4px 14px' : 2,
+                backgroundColor: message.type === 'user' ? '#f3f4f6' : '#ffffff',
               color: message.type === 'user' ? '#111827' : '#1f2937',
               border: '1px solid #e5e7eb',
               boxShadow: message.type === 'user' ? '0 1px 3px rgba(0,0,0,0.04)' : 'none',
@@ -590,17 +590,17 @@ const ChatMessageBubble = memo(({
           </Paper>
         )}
 
-        {/* Copy button underneath user question text box */}
+        {/* Copy icon button underneath user question text box (Right Side) */}
         {message.type === 'user' && (
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 0.35, pr: 0.5 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', width: '100%', mt: 0.15, pr: 0.25 }}>
             <IconButton
               onClick={handleCopy}
               size="small"
-              title={copied ? 'Copied!' : 'Copy question'}
+              title={copied ? 'Copied!' : 'Copy'}
               sx={{
-                p: 0.35,
+                p: '2px',
                 color: copied ? '#059669' : '#9ca3af',
-                '&:hover': { color: '#374151', backgroundColor: 'rgba(0,0,0,0.04)' }
+                '&:hover': { color: '#374151', backgroundColor: 'rgba(0,0,0,0.05)' }
               }}
             >
               {copied ? <Check size={12} className="text-emerald-600" /> : <Copy size={12} />}
@@ -608,34 +608,26 @@ const ChatMessageBubble = memo(({
           </Box>
         )}
 
-        {/* Copy button underneath bot response text box */}
+        {/* Copy icon button underneath bot response text box (Right Side) */}
         {message.type === 'bot' && !message.isLoading && !message.error && message.content && (
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', mt: 0.35, pl: 0.5 }}>
-            <Button
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', width: '100%', mt: 0.15, pr: 0.25 }}>
+            <IconButton
               onClick={handleCopy}
               size="small"
-              variant="text"
+              title={copied ? 'Copied!' : 'Copy'}
               sx={{
-                minWidth: 0,
-                py: 0.15,
-                px: 0.6,
-                fontSize: '0.68rem',
-                color: copied ? '#059669' : '#6b7280',
-                textTransform: 'none',
-                display: 'flex',
-                alignItems: 'center',
-                gap: 0.5,
-                borderRadius: 1,
-                '&:hover': { color: '#111827', backgroundColor: 'rgba(0,0,0,0.04)' }
+                p: '2px',
+                color: copied ? '#059669' : '#9ca3af',
+                '&:hover': { color: '#111827', backgroundColor: 'rgba(0,0,0,0.05)' }
               }}
             >
               {copied ? <Check size={12} className="text-emerald-600" /> : <Copy size={12} />}
-              <span>{copied ? 'Copied' : 'Copy'}</span>
-            </Button>
+            </IconButton>
           </Box>
         )}
       </Box>
     </Box>
+  </Box>
   )
 })
 
@@ -1588,7 +1580,7 @@ const ChatSection = () => {
             {/* Chat Messages */}
             <Box
               ref={scrollContainerRef}
-              className="flex-grow overflow-y-auto overflow-x-hidden space-y-3 text-xs"
+              className="flex-grow overflow-y-auto overflow-x-hidden space-y-1.5 text-xs"
               sx={{
                 p: { xs: 1.5, sm: 2 },
                 pr: { xs: 1.25, sm: 1.5 },
