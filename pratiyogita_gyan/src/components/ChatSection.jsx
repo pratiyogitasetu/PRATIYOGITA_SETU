@@ -1193,26 +1193,24 @@ const ChatSection = () => {
     currentQueryPyqsRef.current = []
 
     // ⚡ INSTANT PARALLEL PYQ SEARCH:
-    // Only query Pinecone if NOT in General AI mode
-    if (!isGeneralAi) {
-      apiService.fastMatchPyq(query, SEARCH_SETTINGS.mcqThreshold, SEARCH_SETTINGS.mcqLimit)
-        .then(fastRes => {
-          if (fastRes && Array.isArray(fastRes.mcqs) && fastRes.mcqs.length > 0) {
-            const taggedFastMcqs = fastRes.mcqs.map(q => ({
-              ...q,
-              originatingQuery: query
-            }))
-            currentQueryPyqsRef.current = taggedFastMcqs
-            window.dispatchEvent(new CustomEvent('newMcqResults', {
-              detail: {
-                mcqs: taggedFastMcqs,
-                query: query
-              }
-            }))
-          }
-        })
-        .catch(err => console.warn('Instant PYQ search notice:', err))
-    }
+    // Always search and dispatch relevant PYQs for the user's query
+    apiService.fastMatchPyq(query, SEARCH_SETTINGS.mcqThreshold, SEARCH_SETTINGS.mcqLimit)
+      .then(fastRes => {
+        if (fastRes && Array.isArray(fastRes.mcqs) && fastRes.mcqs.length > 0) {
+          const taggedFastMcqs = fastRes.mcqs.map(q => ({
+            ...q,
+            originatingQuery: query
+          }))
+          currentQueryPyqsRef.current = taggedFastMcqs
+          window.dispatchEvent(new CustomEvent('newMcqResults', {
+            detail: {
+              mcqs: taggedFastMcqs,
+              query: query
+            }
+          }))
+        }
+      })
+      .catch(err => console.warn('Instant PYQ search notice:', err))
 
     try {
       const response = await apiService.search(query, {

@@ -2283,18 +2283,26 @@ def search():
             if not rag_response:
                 rag_response = "I couldn't process your request right now. Please try again in a few moments."
 
+            # Retrieve competitive exam PYQs for PYQ section practice
+            mcq_results = []
+            try:
+                mcq_results = _fetch_pyq_questions(query=query, limit=mcq_limit or 50)
+            except Exception as ex:
+                app.logger.warning(f"General AI PYQ search notice: {ex}")
+
             elapsed_ms = int((time.time() - start_time) * 1000)
             app.logger.info(
-                "search_decision request_id=%s intent=general_ai provider=%s elapsed_ms=%s",
+                "search_decision request_id=%s intent=general_ai provider=%s pyqs=%s elapsed_ms=%s",
                 request_id,
                 provider_used,
+                len(mcq_results),
                 elapsed_ms
             )
 
             return jsonify({
                 "rag_response": rag_response,
                 "sources": [],
-                "mcq_results": [],
+                "mcq_results": mcq_results,
                 "query": query,
                 "namespace_used": "none",
                 "class_filter_used": None,
